@@ -1,0 +1,20 @@
+{
+  "name": "dictation-home",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx @tailwindcss/cli -i ./src/input.css -o ./src/style.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "sweetalert2": "^11.26.24",
+    "swiper": "^12.1.4",
+    "tailwindcss": "^4.3.0"
+  }
+}
