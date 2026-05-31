@@ -1,1 +1,75 @@
-@import 'tailwindcss';
+/* ─────────────────────────────────────────
+   diktekhone/src/app.css
+   Tailwind v4 — Liquid Glass Theme
+───────────────────────────────────────── */
+
+@import "tailwindcss";
+
+@theme {
+  /* ── Background ───────────────────── */
+  --color-bg: #f6f4ff;
+  --color-bg-secondary: #ede9ff;
+
+  /* Breakpoints */
+
+  --breakpoint-xs: 29.75rem; /* 476px */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 96rem; /* 1536px */
+
+  /* ── Glass Surfaces ───────────────── */
+  --color-surface: rgba(255, 255, 255, 0.6);
+  --color-surface-strong: rgba(255, 255, 255, 0.78);
+  --color-surface-soft: rgba(255, 255, 255, 0.4);
+
+  /* ── Brand ────────────────────────── */
+  --color-primary: #8b5cf6;
+  --color-primary-light: #a78bfa;
+
+  --color-secondary: #fb7185;
+  --color-accent: #fbbf24;
+
+  /* ── Typography ───────────────────── */
+  --color-text: #221c42;
+  --color-muted: #6b7280;
+
+  --font-sans: "Vazirmatn", sans-serif;
+
+  /* ── Dark Mode ────────────────────── */
+  --color-bg-dark: #09090f;
+
+  --color-surface-dark: rgba(25, 25, 35, 0.55);
+  --color-surface-dark-strong: rgba(35, 35, 50, 0.75);
+
+  --color-text-dark: #ffffff;
+  --color-muted-dark: #a1a1aa;
+
+  /* ── Radius ───────────────────────── */
+  --radius-sm: 16px;
+  --radius-md: 24px;
+  --radius-lg: 32px;
+  --radius-xl: 40px;
+
+  /* ── Shadows ──────────────────────── */
+  --shadow-card:
+    0 10px 30px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  --shadow-btn: 0 8px 24px rgba(139, 92, 246, 0.18);
+
+  --shadow-floating: 0 20px 60px rgba(15, 23, 42, 0.12);
+
+  --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.15);
+
+  /* ── Blur ─────────────────────────── */
+  --blur-sm: 10px;
+  --blur-md: 20px;
+  --blur-lg: 40px;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@utility page-container {
+  @apply mx-auto max-w-7xl px-4 xs:px-5 sm:px-6 lg:px-8;
+}
