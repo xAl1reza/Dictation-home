@@ -8,6 +8,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
+
+    @font-face {
+  font-family: "Shabnam-medium";
+  src: url("./fonts/shabnam/Shabnam-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shabnam-bold";
+  src: url("./fonts/shabnam/Shabnam-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn-regular";
+  src: url("./fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn-medium";
+  src: url("./fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn-bold";
+  src: url("./fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -89,6 +130,14 @@
       width: 400px; height: 400px;
       background: radial-gradient(circle, #fb7185, #fbbf24);
       bottom: -100px; left: -100px;
+    }
+
+    h1{
+      font-family: "Shabnam-bold";
+    }
+
+      h2 , h3 , h4 , h5 , h6{
+      font-family: "Shabnam-medium";
     }
 
     /* ── Layout ── */
@@ -342,7 +391,7 @@
           <div>
             <div style="font-size:13px;font-weight:700;">text</div>
             <div style="font-size:11px;color:var(--color-muted);">#221c42</div>
-            <code>text-text</code>
+            <code>text-textColorColor</code>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:14px;">
@@ -350,7 +399,7 @@
           <div>
             <div style="font-size:13px;font-weight:700;">muted</div>
             <div style="font-size:11px;color:var(--color-muted);">#6b7280</div>
-            <code>text-muted</code>
+            <code>text-mutedColor</code>
           </div>
         </div>
       </div>
@@ -363,11 +412,36 @@
     <h2 class="section-heading">Typography</h2>
 
     <div class="card">
-      <span class="card-label">فونت — Vazirmatn</span>
-      <div style="margin-bottom:12px;font-size:13px;color:var(--color-muted);">
-        تنها فونت پروژه. از Google Fonts لود میشه. <code>font-sans</code> یا <code>font-sans</code> در تیلویند (بعد از تعریف در theme).
-      </div>
-      <pre><code>--font-sans: "Vazirmatn", sans-serif;</code></pre>
+     <span class="card-label">Font System</span>
+
+<div style="margin-bottom:12px;font-size:13px;color:var(--color-muted);">
+  دیکته‌خونه از دو فونت اصلی استفاده می‌کند.
+
+  <br><br>
+
+  <strong>Shabnam</strong>
+  برای Headingها، Titleها، Buttonها و عناصر مهم رابط کاربری.
+
+  <br>
+
+  <strong>Vazirmatn</strong>
+  برای متن‌های اصلی، توضیحات، مقالات و محتوای آموزشی.
+
+  <br><br>
+
+  برای بهینه‌سازی Performance فقط وزن‌های مورد استفاده در پروژه لود می‌شوند.
+</div>
+
+<pre><code>
+
+  --font-shabnam-medium: "Shabnam-medium", sans-serif;
+  --font-shabnam-bold: "Shabnam-bold", sans-serif;
+
+  --font-vazirmatn-regular: "Vazirmatn-regular", sans-serif;
+  --font-vazirmatn-medium: "Vazirmatn-medium", sans-serif;
+  --font-vazirmatn-bold: "Vazirmatn-bold", sans-serif;
+
+</code></pre>
     </div>
 
     <div class="card">
@@ -375,124 +449,175 @@
 
       <div class="col" style="gap:20px;">
 
-        <!-- h1 -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <h1 style="font-size:clamp(32px,4vw,48px);font-weight:800;color:var(--color-text);line-height:1.15;margin-bottom:8px;">عنوان اصلی صفحه</h1>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">h1</span>
-            <code>text-[clamp(32px,4vw,48px)]</code>
-            <code>font-extrabold</code>
-            <code>text-text</code>
-            <code>leading-tight</code>
-          </div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">font-size: clamp(32px, 4vw, 48px) · weight: 800 · line-height: 1.15</div>
-        </div>
+  <!-- h1 -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <h1 style="font-size:clamp(32px,4vw,48px);font-weight:900;color:var(--color-text);line-height:1.15;margin-bottom:8px;">عنوان اصلی صفحه</h1>
 
-        <!-- h2 -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <h2 style="font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--color-text);line-height:1.25;margin-bottom:8px;">عنوان بخش</h2>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">h2</span>
-            <code>text-[clamp(24px,3vw,32px)]</code>
-            <code>font-bold</code>
-            <code>text-text</code>
-            <code>leading-snug</code>
-          </div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">font-size: clamp(24px, 3vw, 32px) · weight: 700</div>
-        </div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">h1</span>
+      <code>text-[clamp(32px,4vw,48px)]</code>
+      <code>font-shabnam-medium</code>
+      <code>text-textColor</code>
+      <code>leading-tight</code>
+    </div>
 
-        <!-- h3 -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <h3 style="font-size:clamp(20px,2.5vw,24px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان کارت یا ماژول</h3>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">h3</span>
-            <code>text-[clamp(20px,2.5vw,24px)]</code>
-            <code>font-bold</code>
-            <code>text-text</code>
-          </div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">font-size: clamp(20px, 2.5vw, 24px) · weight: 700</div>
-        </div>
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: clamp(32px, 4vw, 48px) · Shabnam Bold (700) · line-height: 1.15
+    </div>
+  </div>
 
-        <!-- h4 -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <h4 style="font-size:clamp(17px,2vw,20px);font-weight:600;color:var(--color-text);margin-bottom:8px;">عنوان فرعی</h4>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">h4</span>
-            <code>text-[clamp(17px,2vw,20px)]</code>
-            <code>font-semibold</code>
-            <code>text-text</code>
-          </div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">font-size: clamp(17px, 2vw, 20px) · weight: 600</div>
-        </div>
+  <!-- h2 -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <h2 style="font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--color-text);line-height:1.25;margin-bottom:8px;">عنوان بخش</h2>
 
-        <!-- h5 -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <h5 style="font-size:16px;font-weight:600;color:var(--color-text);margin-bottom:8px;">عنوان سطح پنجم</h5>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">h5</span>
-            <code>text-[16px]</code>
-            <code>font-semibold</code>
-            <code>text-text</code>
-          </div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">font-size: 16px · weight: 600 — ثابته، clamp نمیخواد</div>
-        </div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">h2</span>
+      <code>text-[clamp(24px,3vw,32px)]</code>
+      <code>font-shabnam-medium</code>
+      <code>text-textColor</code>
+      <code>leading-snug</code>
+    </div>
 
-        <!-- h6 -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <h6 style="font-size:14px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">SECTION LABEL</h6>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">h6 / eyebrow</span>
-            <code>text-sm</code>
-            <code>font-semibold</code>
-            <code>text-muted</code>
-            <code>uppercase</code>
-            <code>tracking-widest</code>
-          </div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">font-size: 14px · weight: 600 · uppercase · letter-spacing: 0.12em</div>
-        </div>
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: clamp(24px, 3vw, 32px) · Shabnam medium (500)
+    </div>
+  </div>
 
-        <!-- p -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <p style="font-size:15px;color:var(--color-text);line-height:1.75;margin-bottom:8px;">این یه پاراگراف معمولیه. متن اصلی بدنه صفحه که باید خوانایی بالایی داشته باشه و لاین‌هایتش کافی باشه.</p>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">p</span>
-            <code>text-[15px]</code>
-            <code>font-normal</code>
-            <code>text-text</code>
-            <code>leading-relaxed</code>
-          </div>
-        </div>
+  <!-- h3 -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <h3 style="font-size:clamp(20px,2.5vw,24px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان کارت یا ماژول</h3>
 
-        <!-- small / p muted -->
-        <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-          <p style="font-size:13px;color:var(--color-muted);line-height:1.6;margin-bottom:8px;">متن فرعی، توضیحات کوچک، تاریخ و اطلاعات ثانویه.</p>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">small / muted</span>
-            <code>text-sm</code>
-            <code>text-muted</code>
-            <code>leading-relaxed</code>
-          </div>
-        </div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">h3</span>
+      <code>text-[clamp(20px,2.5vw,24px)]</code>
+      <code>font-shabnam-medium</code>
+      <code>text-textColor</code>
+    </div>
 
-        <!-- span inline -->
-        <div>
-          <p style="font-size:15px;color:var(--color-text);margin-bottom:8px;">
-            این یه جمله‌ست که توش
-            <span style="color:var(--color-primary);font-weight:600;">هایلایت رنگی</span>
-            داریم و همچنین
-            <span style="color:var(--color-secondary);font-weight:600;">رنگ ثانویه</span>
-            و
-            <span style="background:linear-gradient(90deg,var(--color-primary),var(--color-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">گرادیانت برند</span>.
-          </p>
-          <div class="row" style="gap:8px;flex-wrap:wrap;">
-            <span class="badge">span</span>
-            <code>text-primary font-semibold</code>
-            <code>text-secondary font-semibold</code>
-            <code>bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent</code>
-          </div>
-        </div>
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: clamp(20px, 2.5vw, 24px) · Shabnam medium (500)
+    </div>
+  </div>
 
-      </div>
+  <!-- h4 -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <h4 style="font-size:clamp(17px,2vw,20px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان فرعی</h4>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">h4</span>
+      <code>text-[clamp(17px,2vw,20px)]</code>
+      <code>font-shabnam-medium</code>
+      <code>text-textColor</code>
+    </div>
+
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: clamp(17px, 2vw, 20px) · Shabnam medium (500)
+    </div>
+  </div>
+
+  <!-- h5 -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <h5 style="font-size:16px;font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان سطح پنجم</h5>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">h5</span>
+      <code>text-base</code>
+      <code>font-shabnam-medium</code>
+      <code>text-textColor</code>
+    </div>
+
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: 16px · Shabnam medium (500) — ثابته، clamp نمیخواد
+    </div>
+  </div>
+
+  <!-- h6 -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <h6 style="font-size:14px;font-weight:700;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">SECTION LABEL</h6>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">h6 / eyebrow</span>
+      <code>text-sm</code>
+      <code>font-shabnam-medium</code>
+      <code>text-mutedColor</code>
+      <code>uppercase</code>
+      <code>tracking-widest</code>
+    </div>
+
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: 14px · Shabnam medium (500)· uppercase · letter-spacing: 0.12em
+    </div>
+  </div>
+
+  <!-- Lead -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <p style="font-size:18px;font-weight:500;color:var(--color-text);line-height:1.8;margin-bottom:8px;">
+      این متن برای توضیحات مهم، معرفی بخش‌ها و لید پاراگراف‌ها استفاده می‌شود.
+    </p>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">lead</span>
+      <code>text-lg</code>
+      <code>font-vazirmatn-medium</code>
+      <code>text-textColor</code>
+      <code>leading-relaxed</code>
+    </div>
+
+    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+      font-size: 18px · Vazirmatn Medium (500) · line-height: 1.8
+    </div>
+  </div>
+
+  <!-- p -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <p style="font-size:15px;color:var(--color-text);line-height:1.75;margin-bottom:8px;">
+      این یه پاراگراف معمولیه. متن اصلی بدنه صفحه که باید خوانایی بالایی داشته باشه و لاین‌هایتش کافی باشه.
+    </p>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">p</span>
+      <code>text-body</code>
+      <code>font-vazirmatn-regular</code>
+      <code>text-textColor</code>
+      <code>leading-relaxed</code>
+    </div>
+  </div>
+
+  <!-- small -->
+  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+    <p style="font-size:13px;color:var(--color-muted);line-height:1.6;margin-bottom:8px;">
+      متن فرعی، توضیحات کوچک، تاریخ و اطلاعات ثانویه.
+    </p>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">small / muted</span>
+      <code>text-sm</code>
+      <code>font-vazirmatn-regular</code>
+      <code>text-mutedColor</code>
+      <code>leading-relaxed</code>
+    </div>
+  </div>
+
+  <!-- span -->
+  <div>
+    <p style="font-size:15px;color:var(--color-text);margin-bottom:8px;">
+      این یه جمله‌ست که توش
+      <span style="color:var(--color-primary);font-weight:700;">هایلایت رنگی</span>
+      داریم و همچنین
+      <span style="color:var(--color-secondary);font-weight:700;">رنگ ثانویه</span>
+      و
+      <span style="background:linear-gradient(90deg,var(--color-primary),var(--color-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">گرادیانت برند</span>.
+    </p>
+
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <span class="badge">span</span>
+      <code>text-primary font-vazirmatn-bold</code>
+      <code>text-secondary font-vazirmatn-bold</code>
+      <code>bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent</code>
+    </div>
+  </div>
+
+</div>
     </div>
   </section>
 
@@ -719,9 +844,200 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
     </div>
   </section>
 
+  <section class="section" id="layout">
+  <p class="section-title">07 — Layout</p>
+  <h2 class="section-heading">Container & Breakpoints</h2>
+
+  <div class="card">
+    <span class="card-label">Page Container — استاندارد تمام صفحات</span>
+
+    <div
+      style="
+        background:var(--color-surface);
+        border:1px solid rgba(255,255,255,.65);
+        border-radius:var(--radius-lg);
+        box-shadow:var(--shadow-card);
+        padding:22px;
+      "
+    >
+      <div
+        style="
+          border:2px dashed rgba(139,92,246,.25);
+          border-radius:var(--radius-md);
+          padding:20px;
+          text-align:center;
+        "
+      >
+        <div
+          style="
+            font-size:16px;
+            font-weight:700;
+            color:var(--color-text);
+            margin-bottom:8px;
+          "
+        >
+          page-container
+        </div>
+
+        <div
+          style="
+            font-size:13px;
+            color:var(--color-muted);
+          "
+        >
+          حداکثر عرض محتوا + پدینگ ریسپانسیو + مرکزچین شدن صفحه
+        </div>
+      </div>
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:flex-start;
+          flex-wrap:wrap;
+          gap:16px;
+          margin-top:18px;
+        "
+      >
+        <div>
+          <div
+            style="
+              font-size:12px;
+              color:var(--color-muted);
+              margin-bottom:8px;
+            "
+          >
+            موارد استفاده
+          </div>
+
+          <div style="font-size:14px;color:var(--color-text);line-height:2;">
+            تمامی صفحات<br />
+            تمامی Sectionها<br />
+            Header و Footer<br />
+            محتواهای اصلی سایت
+          </div>
+        </div>
+
+        <div
+          style="
+            font-size:12px;
+            text-align:left;
+            direction:ltr;
+            line-height:2;
+          "
+        >
+          <code>page-container</code><br />
+          <code>max-w-7xl</code><br />
+          <code>mx-auto</code><br />
+          <code>responsive padding</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="card-label">Container Recipe</span>
+
+<pre><code>@utility page-container {
+  @apply mx-auto max-w-7xl
+         px-4
+         xs:px-5
+         sm:px-6
+         lg:px-8;
+}</code></pre>
+
+  </div>
+
+  <div class="card">
+    <span class="card-label">Breakpoints</span>
+
+    <div
+      style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+        gap:12px;
+      "
+    >
+
+      <div class="glass-card">
+        <div class="badge">xs</div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+          476px
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+          موبایل کوچک
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="badge">sm</div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+          640px
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+          موبایل
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="badge">md</div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+          768px
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+          تبلت
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="badge">lg</div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+          1024px
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+          لپ‌تاپ
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="badge">xl</div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+          1280px
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+          دسکتاپ
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="badge">2xl</div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+          1536px
+        </div>
+        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+          نمایشگرهای بزرگ
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="card-label">Breakpoint Tokens</span>
+
+<pre><code>--breakpoint-xs: 29.75rem; /* 476px */
+--breakpoint-sm: 40rem;    /* 640px */
+--breakpoint-md: 48rem;    /* 768px */
+--breakpoint-lg: 64rem;    /* 1024px */
+--breakpoint-xl: 80rem;    /* 1280px */
+--breakpoint-2xl: 96rem;   /* 1536px */</code></pre>
+
+  </div>
+</section>
+
   <!-- ═══════════ 7. BUTTONS ═══════════ -->
   <section class="section" id="buttons">
-    <p class="section-title">07 — Actions</p>
+    <p class="section-title">08 — Actions</p>
     <h2 class="section-heading">Buttons</h2>
 
     <div class="card">
@@ -770,7 +1086,7 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 
   <!-- ═══════════ 8. DARK MODE ═══════════ -->
   <section class="section" id="darkmode">
-    <p class="section-title">08 — Dark Mode</p>
+    <p class="section-title">09 — Dark Mode</p>
     <h2 class="section-heading">Dark Mode Tokens</h2>
 
     <div class="card">
@@ -801,7 +1117,7 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
       <pre><code>&lt;!-- Dark mode card pattern --&gt;
 &lt;div class="dark:bg-surface-dark
             dark:border-white/10
-            dark:text-text-dark
+            dark:text-textColor-dark
             backdrop-blur-md
             border rounded-lg p-6"&gt;</code></pre>
     </div>
@@ -809,7 +1125,7 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 
   <!-- ═══════════ 9. SPACING ═══════════ -->
   <section class="section" id="spacing">
-    <p class="section-title">09 — Spacing</p>
+    <p class="section-title">10 — Spacing</p>
     <h2 class="section-heading">Spacing Cheatsheet</h2>
 
     <div class="card">
@@ -870,7 +1186,7 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 
   <!-- ═══════════ 10. USAGE ═══════════ -->
   <section class="section" id="usage">
-    <p class="section-title">10 — Usage</p>
+    <p class="section-title">11 — Usage</p>
     <h2 class="section-heading">نحوه استفاده از توکن‌ها در Tailwind v4</h2>
 
     <div class="card">
@@ -883,8 +1199,8 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 &lt;div class="bg-bg"&gt;...&lt;/div&gt;
 
 &lt;!-- رنگ متن --&gt;
-&lt;p class="text-text"&gt;...&lt;/p&gt;
-&lt;p class="text-muted"&gt;...&lt;/p&gt;
+&lt;p class="text-textColorColor"&gt;...&lt;/p&gt;
+&lt;p class="text-mutedColor"&gt;...&lt;/p&gt;
 
 &lt;!-- border radius --&gt;
 &lt;div class="rounded-md"&gt;...&lt;/div&gt;
@@ -907,11 +1223,11 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
             shadow-card
             p-6 space-y-3"&gt;
 
-  &lt;h3 class="text-2xl font-bold text-text"&gt;
+  &lt;h3 class="text-2xl font-bold text-textColorColor"&gt;
     عنوان کارت
   &lt;/h3&gt;
 
-  &lt;p class="text-sm text-muted leading-relaxed"&gt;
+  &lt;p class="text-sm text-mutedColor leading-relaxed"&gt;
     توضیحات کارت اینجاست
   &lt;/p&gt;
 

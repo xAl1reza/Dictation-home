@@ -5,6 +5,46 @@
 
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Shabnam-medium";
+  src: url("../fonts/shabnam/Shabnam-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shabnam-bold";
+  src: url("../fonts/shabnam/Shabnam-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn-regular";
+  src: url("../fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn-medium";
+  src: url("../fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn-bold";
+  src: url("../fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* ── Background ───────────────────── */
   --color-bg: #f6f4ff;
@@ -32,10 +72,17 @@
   --color-accent: #fbbf24;
 
   /* ── Typography ───────────────────── */
-  --color-text: #221c42;
-  --color-muted: #6b7280;
+  --color-textColor: #221c42;
+  --color-mutedColor: #6b7280;
 
-  --font-sans: "Vazirmatn", sans-serif;
+  --font-shabnam-medium: "Shabnam-medium", sans-serif;
+  --font-shabnam-bold: "Shabnam-bold", sans-serif;
+
+  --font-vazirmatn-regular: "Vazirmatn-regular", sans-serif;
+  --font-vazirmatn-medium: "Vazirmatn-medium", sans-serif;
+  --font-vazirmatn-bold: "Vazirmatn-bold", sans-serif;
+
+   --text-body: 15px;
 
   /* ── Dark Mode ────────────────────── */
   --color-bg-dark: #09090f;
@@ -43,8 +90,8 @@
   --color-surface-dark: rgba(25, 25, 35, 0.55);
   --color-surface-dark-strong: rgba(35, 35, 50, 0.75);
 
-  --color-text-dark: #ffffff;
-  --color-muted-dark: #a1a1aa;
+  --color-textColor-dark: #ffffff;
+  --color-mutedColor-dark: #a1a1aa;
 
   /* ── Radius ───────────────────────── */
   --radius-sm: 16px;
