@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/library/swiper.css" />
     <link rel="stylesheet" href="./styles/style.css" />
     <title>Dictation Home</title>
   </head>
@@ -26,6 +27,26 @@
       >
         <path
           d="M25.941406 2C25.464844 2.027344 25.074219 2.386719 25.007813 2.859375C24.941406 3.332031 25.21875 3.785156 25.671875 3.945313C32.292969 6.261719 37 12.566406 37 20C37 29.402344 29.402344 37 20 37C12.566406 37 6.261719 32.292969 3.945313 25.671875C3.78125 25.203125 3.296875 24.925781 2.8125 25.015625C2.324219 25.109375 1.980469 25.546875 2 26.042969C2.515625 38.28125 12.640625 48 25 48C37.691406 48 48 37.691406 48 25C48 12.640625 38.28125 2.515625 26.042969 2C26.007813 2 25.972656 2 25.941406 2 Z M 31.84375 5.203125C40.074219 8.039063 46 15.78125 46 25C46 36.609375 36.609375 46 25 46C15.78125 46 8.039063 40.074219 5.203125 31.84375C8.691406 36.183594 14 39 20 39C30.480469 39 39 30.480469 39 20C39 14 36.183594 8.691406 31.84375 5.203125Z"
+        />
+      </symbol>
+      <symbol
+        id="icon-star"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12,17.877L18.831,22l-1.813-7.77l6.035-5.228l-7.947-0.674L12,1L8.894,8.328L0.947,9.002l6.035,5.228L5.169,22L12,17.877z"
+          fill="#FBBF24"
+        />
+      </symbol>
+      <symbol
+        id="icon-chevron"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 50 50"
+      >
+        <path
+          d="M32.136719 3.0625C31.875 3.0625 31.628906 3.167969 31.441406 3.351563L10.359375 24.265625C9.964844 24.65625 9.960938 25.289063 10.351563 25.679688L31.265625 46.765625C31.65625 47.15625 32.289063 47.160156 32.679688 46.769531L38.703125 40.796875C39.097656 40.40625 39.101563 39.773438 38.710938 39.378906L24.476563 25.03125L38.828125 10.796875C39.21875 10.40625 39.222656 9.773438 38.832031 9.382813L32.859375 3.359375C32.667969 3.164063 32.40625 3.058594 32.136719 3.0625 Z M 32.140625 5.476563L36.707031 10.078125L22.359375 24.3125C21.964844 24.703125 21.960938 25.335938 22.351563 25.730469L36.585938 40.078125L31.980469 44.644531L12.476563 24.980469Z"
+          fill="currentColor"
         />
       </symbol>
     </svg>
@@ -408,57 +429,220 @@
     </section>
 
     <!-- ═══════════ TESTIMONIALS SECTION ═══════════ -->
-    <section>
+    <section class="py-10 md:py-16">
       <div class="text-center mb-12">
         <span
           class="font-shabnam-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
         >
-          ویدیوهای آموزشی
+          نظرات والدین
         </span>
+
         <h2
-          class="font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColorColor leading-snug mb-4"
+          class="font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColor dark:text-textColor-dark leading-snug mb-4"
         >
-          آموزش‌های حرفه‌ای و تعاملی
+          تجربه خانواده‌ها از دیکته‌خونه
         </h2>
+
         <p
-          class="font-vazirmatn-regular text-body text-mutedColor leading-relaxed max-w-lg mx-auto"
+          class="font-vazirmatn-regular text-body text-mutedColor dark:text-mutedColor-dark leading-relaxed max-w-lg mx-auto"
         >
-          ویدیوهای آموزشی دیکته‌خونه با طراحی مدرن و هدفمند برای یادگیری بهتر
-          دانش‌آموزان.
+          نظرات واقعی والدین درباره پیشرفت فرزندانشان در دیکته و نگارش.
         </p>
       </div>
 
       <div class="page-container">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="bg-surface-soft dark:bg-surface-dark">
-            <div class="flex items-center gap-3 mb-12">
-              <div class="size-8 rounded-full bg-primary">
-                <h4>مریم احمدی</h4>
-                <span>مادر دانش آموز پایه اول</span>
+        <div class="relative">
+          <!-- Prev -->
+          <button
+            class="cursor-pointer testimonial-prev absolute top-1/2 -translate-y-1/2 -right-10 z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary"
+          >
+            <svg class="size-5 rotate-180">
+              <use href="#icon-chevron" />
+            </svg>
+          </button>
+
+          <!-- Next -->
+          <button
+            class="cursor-pointer testimonial-next absolute top-1/2 -translate-y-1/2 -left-10 z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary"
+          >
+            <svg class="size-5">
+              <use href="#icon-chevron" />
+            </svg>
+          </button>
+
+          <div class="swiper testimonialSwiper overflow-hidden">
+            <div class="swiper-wrapper">
+              <!-- Slide 1 -->
+              <div class="swiper-slide">
+                <div
+                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                >
+                  <div class="flex items-center gap-3 mb-6">
+                    <div class="size-12 rounded-full bg-primary"></div>
+
+                    <div class="flex flex-col gap-1">
+                      <h4>مریم احمدی</h4>
+                      <small>مادر دانش آموز پایه اول</small>
+                    </div>
+                  </div>
+
+                  <span class="text-textColor dark:text-textColor-dark">
+                    پیشرفت فرزندم در دیکته نویسی بی نظیر بود.
+                  </span>
+
+                  <div class="flex gap-1 text-accent mt-4 text-lg">
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 2 -->
+              <div class="swiper-slide">
+                <div
+                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                >
+                  <div class="flex items-center gap-3 mb-6">
+                    <div class="size-12 rounded-full bg-primary"></div>
+
+                    <div class="flex flex-col gap-1">
+                      <h4>علی محمدی</h4>
+                      <small>پدر دانش آموز پایه دوم</small>
+                    </div>
+                  </div>
+
+                  <span class="text-textColor dark:text-textColor-dark">
+                    روش آموزش بسیار حرفه‌ای و جذاب بود.
+                  </span>
+
+                  <div class="flex gap-1 text-accent mt-4 text-lg">
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 3 -->
+              <div class="swiper-slide">
+                <div
+                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                >
+                  <div class="flex items-center gap-3 mb-6">
+                    <div class="size-12 rounded-full bg-primary"></div>
+
+                    <div class="flex flex-col gap-1">
+                      <h4>زهرا کریمی</h4>
+                      <small>مادر دانش آموز پایه سوم</small>
+                    </div>
+                  </div>
+
+                  <span class="text-textColor dark:text-textColor-dark">
+                    اعتماد به نفس فرزندم در نوشتن چند برابر شده.
+                  </span>
+
+                  <div class="flex gap-1 text-accent mt-4 text-lg">
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 4 -->
+              <div class="swiper-slide">
+                <div
+                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                >
+                  <div class="flex items-center gap-3 mb-6">
+                    <div class="size-12 rounded-full bg-primary"></div>
+
+                    <div class="flex flex-col gap-1">
+                      <h4>سارا رضایی</h4>
+                      <small>مادر دانش آموز پایه چهارم</small>
+                    </div>
+                  </div>
+
+                  <span class="text-textColor dark:text-textColor-dark">
+                    تمرین‌ها هدفمند و نتیجه‌بخش بودند.
+                  </span>
+                  <div class="flex gap-1 text-accent mt-4 text-lg">
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+
+                    <svg class="size-4">
+                      <use href="#icon-star" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <small>پیشرفت فرزندم در دیکته نویسی بی نظیر بود</small>
-          </div>
-          <div class="bg-surface-soft dark:bg-surface-dark">
-            <div class="flex items-center gap-3 mb-12">
-              <div class="size-8 rounded-full bg-primary">
-                <h4>مریم احمدی</h4>
-                <span>مادر دانش آموز پایه اول</span>
-              </div>
-            </div>
-
-            <small>پیشرفت فرزندم در دیکته نویسی بی نظیر بود</small>
-          </div>
-          <div class="bg-surface-soft dark:bg-surface-dark">
-            <div class="flex items-center gap-3 mb-12">
-              <div class="size-8 rounded-full bg-primary">
-                <h4>مریم احمدی</h4>
-                <span>مادر دانش آموز پایه اول</span>
-              </div>
-            </div>
-
-            <small>پیشرفت فرزندم در دیکته نویسی بی نظیر بود</small>
+            <div
+              class="testimonial-pagination flex items-center justify-center mt-8"
+            ></div>
           </div>
         </div>
       </div>
@@ -467,5 +651,7 @@
     <script src="./js/header.js"></script>
     <script src="./js/themetoggle.js"></script>
     <script src="./js/videoplayer.js"></script>
+    <script src="./js/library/swiper.js"></script>
+    <script src="./js/slider.js"></script>
   </body>
 </html>
