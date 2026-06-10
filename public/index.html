@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/library/aos.css" />
     <link rel="stylesheet" href="./styles/library/swiper.css" />
     <link rel="stylesheet" href="./styles/style.css" />
     <title>Dictation Home</title>
@@ -94,18 +95,23 @@
           <div class="flex items-center gap-5">
             <svg
               id="sunIcon"
-              class="fill-mutedColor-dark size-8 hidden cursor-pointer"
+              class="fill-mutedColor-dark size-8 hidden cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95"
             >
               <use href="#icon-sun" />
             </svg>
-            <svg id="moonIcon" class="size-8 fill-mutedColor cursor-pointer">
+
+            <svg
+              id="moonIcon"
+              class="size-8 fill-mutedColor cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95"
+            >
               <use href="#icon-moon" />
             </svg>
-            <button
-              class="bg-primary cursor-pointer text-white font-shabnam-medium text-sm rounded-full px-7 py-3 shadow-btn hover:opacity-90 transition-opacity"
+            <a
+              href="#"
+              class="inline-flex items-center justify-center bg-primary text-white font-shabnam-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:shadow-lg active:scale-95"
             >
               شروع یادگیری
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -120,45 +126,60 @@
           <span class="font-shabnam-bold text-primary dark:text-primary-light">
             دیکته خونه
           </span>
-          <button
-            id="menu-btn"
-            class="text-textColor dark:text-white p-1.5 rounded-lg hover:bg-surface dark:hover:bg-surface-dark transition-colors"
-            aria-label="منو"
-          >
+          <div class="flex items-center gap-3">
             <svg
-              id="icon-open"
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
+              id="sunIcon--mobile"
+              class="fill-mutedColor-dark size-6 hidden cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <use href="#icon-sun" />
             </svg>
+
             <svg
-              id="icon-close"
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              class="hidden"
+              id="moonIcon--mobile"
+              class="size-6 fill-mutedColor cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <use href="#icon-moon" />
             </svg>
-          </button>
+            <button
+              id="menu-btn"
+              class="text-textColor dark:text-white p-1.5 rounded-lg hover:bg-surface dark:hover:bg-surface-dark transition-colors"
+              aria-label="منو"
+            >
+              <svg
+                id="icon-open"
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                id="icon-close"
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                class="hidden"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <!-- درپ‌داون منو -->
@@ -197,11 +218,13 @@
             <div
               class="border-t border-white/20 dark:border-white/10 mt-4 pt-4"
             >
-              <button
-                class="w-full bg-primary text-white font-shabnam-medium text-sm rounded-full px-7 py-3 shadow-btn hover:opacity-90 transition-opacity"
-              >
-                شروع یادگیری
-              </button>
+              <a href="#">
+                <button
+                  class="w-full bg-primary text-white font-shabnam-medium text-sm rounded-full px-7 py-3 shadow-btn hover:opacity-90 transition-opacity"
+                >
+                  شروع یادگیری
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -215,12 +238,23 @@
         >
           <!-- ستون راست: متن — در موبایل دوم (زیر عکس) -->
           <div class="flex flex-col gap-6 w-full mb-12">
-            <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-              <span class="text-primary">پلتفرم مدرن آموزش دیکته</span>
+            <div data-aos="fade-down" class="flex items-center gap-2">
+              <span
+                class="relative inline-flex items-center justify-center w-3 h-3"
+              >
+                <span
+                  class="absolute inline-flex w-full h-full rounded-full bg-primary opacity-75 animate-ping"
+                ></span>
+                <span
+                  class="relative w-1.5 h-1.5 rounded-full bg-primary"
+                ></span>
+              </span>
+              <span class="text-primary py-3 px-5 bg-primary/5 rounded-full"
+                >پلتفرم مدرن آموزش دیکته</span
+              >
             </div>
 
-            <h1 class="w-full">
+            <h1 data-aos="fade-up" data-aos-delay="100" class="w-full">
               یادگیری دیکته
               <br />
               به روشی
@@ -233,35 +267,77 @@
               جذاب
             </h1>
 
-            <p>
+            <p data-aos="fade-up" data-aos-delay="200">
               دیکته خونه محیطی مدرن و آموزشی برای تقویت مهارت‌های نوشتاری،
               دیکته، ریاضی و تمرین‌های درسی کودکان است.
             </p>
 
-            <div class="flex flex-wrap items-center gap-4">
-              <button
-                class="bg-primary text-white rounded-full px-7 py-3 shadow-btn hover:opacity-90 transition-opacity"
+            <div
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              class="flex flex-wrap items-center gap-4"
+            >
+              <a
+                href="#"
+                data-aos="zoom-in"
+                data-aos-delay="300"
+                class="inline-block"
               >
-                شروع یادگیری
-              </button>
-              <button
-                class="text-textColor dark:text-white border border-white/65 dark:border-white/10 bg-surface-soft dark:bg-surface-dark backdrop-blur-sm rounded-full px-7 py-3 hover:opacity-80 transition-opacity"
+                <button
+                  class="cursor-pointer bg-primary text-white rounded-full px-7 py-3 shadow-btn border border-primary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:shadow-lg hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                >
+                  شروع یادگیری
+                </button>
+              </a>
+              <a
+                href="#"
+                data-aos="zoom-in"
+                data-aos-delay="300"
+                class="inline-block"
               >
-                مشاهده ویدیو
-              </button>
+                <button
+                  class="cursor-pointer text-textColor dark:text-white border border-white/60 dark:border-white/10 bg-surface-soft dark:bg-surface-dark backdrop-blur-sm rounded-full px-7 py-3 transition-all duration-300 ease-in-out hover:border-primary/40 hover:text-primary dark:hover:text-primary hover:bg-transparent hover:-translate-y-1 hover:shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                >
+                  مشاهده ویدیو
+                </button>
+              </a>
             </div>
-
-            <div class="flex items-center gap-8 pt-2">
+            <div
+              data-aos="fade-up"
+              data-aos-delay="400"
+              class="flex items-center gap-8 pt-2"
+            >
               <div class="flex flex-col gap-1">
-                <h3 class="text-primary dark:text-primary-light">۶ پایه</h3>
+                <h3
+                  class="counter text-primary dark:text-primary-light"
+                  data-target="6"
+                  data-suffix=""
+                >
+                  0
+                </h3>
                 <small>پایه تحصیلی</small>
               </div>
+
               <div class="flex flex-col gap-1">
-                <h3 class="text-primary dark:text-primary-light">۵۰۰+</h3>
+                <h3
+                  class="counter text-primary dark:text-primary-light"
+                  data-target="500"
+                  data-suffix="+"
+                >
+                  0
+                </h3>
                 <small>تمرین آموزشی</small>
               </div>
+
               <div class="flex flex-col gap-1">
-                <h3 class="text-primary dark:text-primary-light">۲K+</h3>
+                <h3
+                  class="counter text-primary dark:text-primary-light"
+                  data-target="2000"
+                  data-suffix="+"
+                  data-format="k"
+                >
+                  0
+                </h3>
                 <small>دانش آموز فعال</small>
               </div>
             </div>
@@ -270,11 +346,13 @@
           <!-- ستون چپ: کارت — در موبایل اول (بالای متن) -->
           <!-- ستون چپ: ویژوال — در موبایل اول -->
           <div
+            data-aos="zoom-in"
+            data-aos-duration="1000"
             class="relative w-full flex items-center justify-center min-h-[420px]"
           >
             <!-- بلاب پس‌زمینه -->
             <div
-              class="absolute w-72 h-72 rounded-full opacity-30 blur-3xl"
+              class="blob-1 absolute w-72 h-72 rounded-full opacity-30 blur-3xl"
               style="
                 background: radial-gradient(circle, #a78bfa, #8b5cf6);
                 top: -40px;
@@ -282,7 +360,7 @@
               "
             ></div>
             <div
-              class="absolute w-48 h-48 rounded-full opacity-20 blur-2xl"
+              class="blob-2 absolute w-48 h-48 rounded-full opacity-20 blur-2xl"
               style="
                 background: radial-gradient(circle, #fb7185, #fbbf24);
                 bottom: 0px;
@@ -302,8 +380,8 @@
               <div
                 class="flex flex-col items-center gap-1 mt-4 px-4 text-center"
               >
-                <h4>سازنده دیکته خونه</h4>
-                <small>مدرس و طراح محتوای آموزشی</small>
+                <h4>مهدی احمدی</h4>
+                <small>سازنده دیکته خونه</small>
               </div>
             </div>
           </div>
@@ -313,18 +391,23 @@
 
     <section class="py-10 md:py-16">
       <div class="page-container">
-        <div class="text-center mb-12">
+        <div data-aos="fade-up" class="text-center mb-12">
           <span
+            data-aos="fade-down"
             class="font-shabnam-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
           >
             ویدیوهای آموزشی
           </span>
           <h2
+            data-aos="fade-up"
+            data-aos-delay="100"
             class="font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColorColor leading-snug mb-4"
           >
             آموزش‌های حرفه‌ای و تعاملی
           </h2>
           <p
+            data-aos="fade-up"
+            data-aos-delay="200"
             class="font-vazirmatn-regular text-body text-mutedColor leading-relaxed max-w-lg mx-auto"
           >
             ویدیوهای آموزشی دیکته‌خونه با طراحی مدرن و هدفمند برای یادگیری بهتر
@@ -333,95 +416,109 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div
-            class="bg-surface backdrop-blur-md border border-white/65 rounded-lg shadow-card overflow-hidden dark:bg-surface-dark dark:border-white/10 hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
-          >
+          <div data-aos="fade-up" data-aos-delay="100">
             <div
-              class="video-card relative w-full aspect-video overflow-hidden"
+              class="video-box bg-surface backdrop-blur-md border border-white/65 rounded-lg shadow-card overflow-hidden dark:bg-surface-dark dark:border-white/10 hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
             >
-              <video
-                class="video-player w-full h-full object-cover"
-                src="./videos/1.mp4"
-                playsinline
-              ></video>
+              <div
+                class="video-card relative w-full aspect-video overflow-hidden"
+              >
+                <video
+                  poster="./images/video-banner.jpg"
+                  class="video-player w-full h-full object-cover"
+                  src="./videos/1.mp4"
+                  playsinline
+                ></video>
 
-              <!-- Overlay -->
-              <div class="video-overlay absolute inset-0"></div>
+                <!-- Overlay -->
+                <div class="video-overlay absolute inset-0"></div>
 
-              <!-- Play Button -->
-              <button class="play-btn">
-                <span class="play-ring"></span>
+                <!-- Play Button -->
+                <button class="play-btn">
+                  <span class="play-ring"></span>
 
-                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+                  <svg
+                    class="play-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
 
-                <svg
-                  class="pause-icon hidden"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+                  <svg
+                    class="pause-icon hidden"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M7 5h4v14H7zm6 0h4v14h-4z" />
+                  </svg>
+                </button>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="font-shabnam-medium text-[clamp(20px,2.5vw,24px)] text-textColorColor mb-2"
                 >
-                  <path d="M7 5h4v14H7zm6 0h4v14h-4z" />
-                </svg>
-              </button>
-            </div>
-            <div class="p-6">
-              <h3
-                class="font-shabnam-medium text-[clamp(20px,2.5vw,24px)] text-textColorColor mb-2"
-              >
-                تمرین‌های تعاملی
-              </h3>
-              <p
-                class="font-vazirmatn-regular text-sm text-mutedColor leading-relaxed"
-              >
-                تمرین‌های هدفمند برای تقویت سرعت و دقت در نوشتار کودکان.
-              </p>
+                  تمرین‌های تعاملی
+                </h3>
+                <p
+                  class="font-vazirmatn-regular text-sm text-mutedColor leading-relaxed"
+                >
+                  تمرین‌های هدفمند برای تقویت سرعت و دقت در نوشتار کودکان.
+                </p>
+              </div>
             </div>
           </div>
 
-          <div
-            class="bg-surface backdrop-blur-md border border-white/65 rounded-lg shadow-card overflow-hidden dark:bg-surface-dark dark:border-white/10 hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
-          >
+          <div data-aos="fade-up" data-aos-delay="250">
             <div
-              class="video-card relative w-full aspect-video overflow-hidden"
+              class="video-box bg-surface backdrop-blur-md border border-white/65 rounded-lg shadow-card overflow-hidden dark:bg-surface-dark dark:border-white/10 hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
             >
-              <video
-                class="video-player w-full h-full object-cover"
-                src="./videos/1.mp4"
-                playsinline
-              ></video>
+              <div
+                class="video-card relative w-full aspect-video overflow-hidden"
+              >
+                <video
+                  poster="./images/video-banner.jpg"
+                  class="video-player w-full h-full object-cover"
+                  src="./videos/1.mp4"
+                  playsinline
+                ></video>
 
-              <!-- Overlay -->
-              <div class="video-overlay absolute inset-0"></div>
+                <!-- Overlay -->
+                <div class="video-overlay absolute inset-0"></div>
 
-              <!-- Play Button -->
-              <button class="play-btn">
-                <span class="play-ring"></span>
+                <!-- Play Button -->
+                <button class="play-btn">
+                  <span class="play-ring"></span>
 
-                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+                  <svg
+                    class="play-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
 
-                <svg
-                  class="pause-icon hidden"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+                  <svg
+                    class="pause-icon hidden"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M7 5h4v14H7zm6 0h4v14h-4z" />
+                  </svg>
+                </button>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="font-shabnam-medium text-[clamp(20px,2.5vw,24px)] text-textColorColor mb-2"
                 >
-                  <path d="M7 5h4v14H7zm6 0h4v14h-4z" />
-                </svg>
-              </button>
-            </div>
-            <div class="p-6">
-              <h3
-                class="font-shabnam-medium text-[clamp(20px,2.5vw,24px)] text-textColorColor mb-2"
-              >
-                آموزش دیکته پایه اول
-              </h3>
-              <p
-                class="font-vazirmatn-regular text-sm text-mutedColor leading-relaxed"
-              >
-                آموزش کامل و اصولی برای تقویت مهارت دیکته نویسی دانش‌آموزان.
-              </p>
+                  آموزش دیکته پایه اول
+                </h3>
+                <p
+                  class="font-vazirmatn-regular text-sm text-mutedColor leading-relaxed"
+                >
+                  آموزش کامل و اصولی برای تقویت مهارت دیکته نویسی دانش‌آموزان.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -430,52 +527,64 @@
 
     <!-- ═══════════ TESTIMONIALS SECTION ═══════════ -->
     <section class="py-10 md:py-16">
-      <div class="text-center mb-12">
-        <span
-          class="font-shabnam-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
-        >
-          نظرات والدین
-        </span>
-
-        <h2
-          class="font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColor dark:text-textColor-dark leading-snug mb-4"
-        >
-          تجربه خانواده‌ها از دیکته‌خونه
-        </h2>
-
-        <p
-          class="font-vazirmatn-regular text-body text-mutedColor dark:text-mutedColor-dark leading-relaxed max-w-lg mx-auto"
-        >
-          نظرات واقعی والدین درباره پیشرفت فرزندانشان در دیکته و نگارش.
-        </p>
-      </div>
-
       <div class="page-container">
+        <div data-aos="fade-up" class="text-center mb-12">
+          <span
+            data-aos="fade-down"
+            class="font-shabnam-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
+          >
+            نظرات والدین
+          </span>
+
+          <h2
+            data-aos="fade-up"
+            data-aos-delay="100"
+            class="font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColor dark:text-textColor-dark leading-snug mb-4"
+          >
+            تجربه خانواده‌ها از دیکته‌خونه
+          </h2>
+
+          <p
+            data-aos="fade-up"
+            data-aos-delay="200"
+            class="font-vazirmatn-regular text-body text-mutedColor dark:text-mutedColor-dark leading-relaxed max-w-lg mx-auto"
+          >
+            نظرات واقعی والدین درباره پیشرفت فرزندانشان در دیکته و نگارش.
+          </p>
+        </div>
+
         <div class="relative">
           <!-- Prev -->
-          <button
-            class="cursor-pointer testimonial-prev absolute top-1/2 -translate-y-1/2 -right-10 z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary"
-          >
-            <svg class="size-5 rotate-180">
-              <use href="#icon-chevron" />
-            </svg>
-          </button>
+          <div class="flex items-center gap-3 mb-6 justify-end">
+            <!-- Prev -->
+            <button
+              class="cursor-pointer testimonial-prev z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              <svg class="size-5 rotate-180">
+                <use href="#icon-chevron" />
+              </svg>
+            </button>
 
-          <!-- Next -->
-          <button
-            class="cursor-pointer testimonial-next absolute top-1/2 -translate-y-1/2 -left-10 z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary"
-          >
-            <svg class="size-5">
-              <use href="#icon-chevron" />
-            </svg>
-          </button>
+            <!-- Next -->
+            <button
+              class="cursor-pointer testimonial-next z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              <svg class="size-5">
+                <use href="#icon-chevron" />
+              </svg>
+            </button>
+          </div>
 
-          <div class="swiper testimonialSwiper overflow-hidden">
-            <div class="swiper-wrapper">
+          <div
+            data-aos="fade-up"
+            data-aos-delay="350"
+            class="swiper testimonialSwiper overflow-hidden"
+          >
+            <div class="swiper-wrapper py-3 px-0">
               <!-- Slide 1 -->
-              <div class="swiper-slide">
+              <div class="swiper-slide px-2">
                 <div
-                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                  class="bg-surface-soft dark:bg-surface-dark shadow-sm shadow-black/15 dark:shadow-white/30 backdrop-blur-md p-6 rounded-md h-full"
                 >
                   <div class="flex items-center gap-3 mb-6">
                     <div class="size-12 rounded-full bg-primary"></div>
@@ -486,7 +595,9 @@
                     </div>
                   </div>
 
-                  <span class="text-textColor dark:text-textColor-dark">
+                  <span
+                    class="text-textColor dark:text-textColor-dark h-12 inline-block"
+                  >
                     پیشرفت فرزندم در دیکته نویسی بی نظیر بود.
                   </span>
 
@@ -515,9 +626,9 @@
               </div>
 
               <!-- Slide 2 -->
-              <div class="swiper-slide">
+              <div class="swiper-slide px-2">
                 <div
-                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                  class="bg-surface-soft dark:bg-surface-dark shadow-sm shadow-black/15 dark:shadow-white/30 backdrop-blur-md p-6 rounded-md h-full"
                 >
                   <div class="flex items-center gap-3 mb-6">
                     <div class="size-12 rounded-full bg-primary"></div>
@@ -528,7 +639,9 @@
                     </div>
                   </div>
 
-                  <span class="text-textColor dark:text-textColor-dark">
+                  <span
+                    class="text-textColor dark:text-textColor-dark h-12 inline-block"
+                  >
                     روش آموزش بسیار حرفه‌ای و جذاب بود.
                   </span>
 
@@ -557,9 +670,9 @@
               </div>
 
               <!-- Slide 3 -->
-              <div class="swiper-slide">
+              <div class="swiper-slide px-2">
                 <div
-                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                  class="bg-surface-soft dark:bg-surface-dark shadow-sm shadow-black/15 dark:shadow-white/30 backdrop-blur-md p-6 rounded-md h-full"
                 >
                   <div class="flex items-center gap-3 mb-6">
                     <div class="size-12 rounded-full bg-primary"></div>
@@ -570,7 +683,9 @@
                     </div>
                   </div>
 
-                  <span class="text-textColor dark:text-textColor-dark">
+                  <span
+                    class="text-textColor dark:text-textColor-dark h-12 inline-block"
+                  >
                     اعتماد به نفس فرزندم در نوشتن چند برابر شده.
                   </span>
 
@@ -599,9 +714,9 @@
               </div>
 
               <!-- Slide 4 -->
-              <div class="swiper-slide">
+              <div class="swiper-slide px-2">
                 <div
-                  class="bg-surface-soft dark:bg-surface-dark shadow-card backdrop-blur-md p-6 rounded-md h-full"
+                  class="bg-surface-soft dark:bg-surface-dark shadow-sm shadow-black/15 dark:shadow-white/30 backdrop-blur-md p-6 rounded-md h-full"
                 >
                   <div class="flex items-center gap-3 mb-6">
                     <div class="size-12 rounded-full bg-primary"></div>
@@ -612,7 +727,9 @@
                     </div>
                   </div>
 
-                  <span class="text-textColor dark:text-textColor-dark">
+                  <span
+                    class="text-textColor dark:text-textColor-dark h-12 inline-block"
+                  >
                     تمرین‌ها هدفمند و نتیجه‌بخش بودند.
                   </span>
                   <div class="flex gap-1 text-accent mt-4 text-lg">
@@ -648,10 +765,146 @@
       </div>
     </section>
 
+    <section class="py-10 md:py-16">
+      <div class="page-container">
+        <div data-aos="fade-up" class="text-center mb-12">
+          <span
+            data-aos="fade-down"
+            class="font-shabnam-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
+          >
+            امکانات دگیر
+          </span>
+
+          <h2
+            data-aos="fade-up"
+            data-aos-delay="100"
+            class="font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColor dark:text-textColor-dark leading-snug mb-4"
+          >
+            امکانات دیکته خونه
+          </h2>
+
+          <p
+            data-aos="fade-up"
+            data-aos-delay="200"
+            class="font-vazirmatn-regular text-body text-mutedColor dark:text-mutedColor-dark leading-relaxed max-w-lg mx-auto"
+          >
+            دیکته‌خونه فقط برای تمرین دیکته نیست؛ اینجا می‌تونی درس‌ها و
+            مهارت‌های دیگه رو هم تمرین کنی و یادگیریت رو تقویت کنی.
+          </p>
+        </div>
+
+        <div
+          data-aos="fade-up"
+          data-aos-delay="100"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
+          <!-- علوم -->
+          <div data-aos="fade-up" data-aos-delay="100">
+            <div
+              class="flex items-center justify-center flex-col gap-7 p-6 bg-surface-soft dark:bg-surface-dark shadow-glass rounded-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-card"
+            >
+              <h4>علوم</h4>
+              <small>
+                یادگیری مفاهیم علمی با آزمایش‌ها، تصاویر آموزشی و تمرین‌های
+                جذاب.
+              </small>
+              <a
+                href="#"
+                class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-shabnam-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+              >
+                مشاهده درس
+              </a>
+            </div>
+          </div>
+
+          <!-- ریاضی -->
+          <div data-aos="fade-up" data-aos-delay="200">
+            <div
+              class="flex items-center justify-center flex-col gap-7 p-6 bg-surface-soft dark:bg-surface-dark shadow-glass rounded-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-card"
+            >
+              <h4>ریاضی</h4>
+              <small>
+                تقویت مهارت حل مسئله و یادگیری مفاهیم ریاضی با تمرین‌های هدفمند.
+              </small>
+              <a
+                href="#"
+                class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-shabnam-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+              >
+                مشاهده درس
+              </a>
+            </div>
+          </div>
+
+          <!-- ادبیات -->
+          <div data-aos="fade-up" data-aos-delay="300">
+            <div
+              class="flex items-center justify-center flex-col gap-7 p-6 bg-surface-soft dark:bg-surface-dark shadow-glass rounded-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-card"
+            >
+              <h4>ادبیات فارسی</h4>
+              <small>
+                تقویت مهارت خواندن، نوشتن و درک متون فارسی با آموزش‌های کاربردی.
+              </small>
+              <a
+                href="#"
+                class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-shabnam-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+              >
+                مشاهده درس
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-10 md:py-16">
+      <div class="page-container">
+        <div
+          data-aos="fade-up"
+          data-aos-delay="200"
+          class="flex flex-col justify-center items-center p-8 text-center bg-[linear-gradient(135deg,#7c3aed_0%,#a855f7_35%,#d946ef_65%,#fb7185_100%)] rounded-lg"
+        >
+          <h2 class="text-textColor-dark mb-12">
+            آماده ای یادگیری را شروع کنی؟
+          </h2>
+          <p class="text-textColor-dark mb-8">
+            همین حالا تمرین های آموزشی را شروع کن
+          </p>
+          <a
+            href="#"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+            class="inline-block"
+          >
+            <button
+              class="cursor-pointer text-textColor border border-white bg-white backdrop-blur-sm rounded-full px-7 py-3 transition-all duration-300 ease-in-out hover:border-white hover:text-white hover:bg-transparent hover:-translate-y-1 hover:shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              مشاهده ویدیو
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      class="text-sm text-mutedColor dark:text-mutedColor-dark text-center pb-6"
+    >
+      <span>
+        © <span id="year"></span> • تمامی حقوق برای دیکته خونه محفوظ است
+      </span>
+    </footer>
+
+    <script src="./js/library/aos.js"></script>
     <script src="./js/header.js"></script>
     <script src="./js/themetoggle.js"></script>
     <script src="./js/videoplayer.js"></script>
     <script src="./js/library/swiper.js"></script>
+    <script src="./js/counter.js"></script>
     <script src="./js/slider.js"></script>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear()
+    </script>
+    <script>
+      AOS.init()
+    </script>
   </body>
 </html>

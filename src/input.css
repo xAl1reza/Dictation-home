@@ -123,32 +123,45 @@
 
 body {
   direction: rtl;
-  transition: all 300ms ease-in;
+  transition: background 300ms ease-in;
 
   background:
-    radial-gradient(at 15% 20%, rgba(167, 139, 250, 0.18) 0px, transparent 45%),
-    radial-gradient(at 85% 15%, rgba(251, 113, 133, 0.15) 0px, transparent 40%),
-    radial-gradient(at 50% 85%, rgba(251, 191, 36, 0.12) 0px, transparent 35%),
+    radial-gradient(
+      circle 45rem at 15% 20%,
+      rgba(167, 139, 250, 0.13),
+      transparent 70%
+    ),
+    radial-gradient(
+      circle 40rem at 85% 15%,
+      rgba(251, 113, 133, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      circle 35rem at 50% 85%,
+      rgba(251, 191, 36, 0.08),
+      transparent 70%
+    ),
     #f8f7ff;
 }
 
 .dark body {
-  transition: all 300ms ease-in;
+  transition: background 300ms ease-in;
+
   background:
     radial-gradient(
-      circle at top right,
+      circle 50rem at top right,
       rgba(139, 92, 246, 0.18),
-      transparent 30%
+      transparent 70%
     ),
     radial-gradient(
-      circle at bottom left,
-      rgba(251, 113, 133, 0.12),
-      transparent 35%
+      circle 45rem at bottom left,
+      rgba(251, 113, 133, 0.14),
+      transparent 70%
     ),
     radial-gradient(
-      circle at center,
-      rgba(251, 191, 36, 0.06),
-      transparent 40%
+      circle 40rem at center,
+      rgba(251, 191, 36, 0.08),
+      transparent 75%
     ),
     linear-gradient(180deg, #09090f 0%, #0f1020 50%, #121225 100%);
 }
@@ -333,4 +346,39 @@ body {
 
 .testimonial-pagination {
   @apply h-3;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.blob-1 {
+  animation: float 6s ease-in-out infinite;
+}
+
+.blob-2 {
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.testimonialSwiper .swiper-slide > div {
+  transition: all 0.3s ease;
+}
+
+.testimonialSwiper .swiper-slide:hover > div {
+  transform: translateY(-6px);
+}
+
+.subject-card {
+  transition: all 250ms ease-in;
+}
+
+.video-box {
+  transition: all 250ms ease-in;
 }

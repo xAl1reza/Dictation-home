@@ -1,8 +1,8 @@
 new Swiper('.testimonialSwiper', {
   slidesPerView: 1,
-  spaceBetween: 16,
+  spaceBetween: 12,
   loop: true,
-
+  rtl: true,
   speed: 1200,
 
   autoplay: {
@@ -22,7 +22,7 @@ new Swiper('.testimonialSwiper', {
   },
 
   breakpoints: {
-    768: {
+    576: {
       slidesPerView: 2,
     },
 
