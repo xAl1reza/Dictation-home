@@ -85,13 +85,27 @@
   --text-body: 15px;
 
   /* ── Dark Mode ────────────────────── */
-  --color-bg-dark: #09090f;
+  /*
+    Dark hierarchy:
+    canvas → soft glass → default glass → strong/floating glass
 
-  --color-surface-dark: rgba(25, 25, 35, 0.55);
-  --color-surface-dark-strong: rgba(35, 35, 50, 0.75);
+    Dark surfaces intentionally use translucent white overlays instead of
+    near-black fills. This keeps the ambient background visible through the
+    glass while creating a clear visual separation between elevation levels.
+  */
+  --color-bg-dark: #09090f;
+  --color-bg-dark-secondary: #111326;
+
+  --color-surface-dark-soft: rgba(255, 255, 255, 0.055);
+  --color-surface-dark: rgba(255, 255, 255, 0.09);
+  --color-surface-dark-strong: rgba(255, 255, 255, 0.14);
+
+  --color-border-dark-soft: rgba(255, 255, 255, 0.1);
+  --color-border-dark: rgba(255, 255, 255, 0.14);
+  --color-border-dark-strong: rgba(255, 255, 255, 0.2);
 
   --color-textColor-dark: #ffffff;
-  --color-mutedColor-dark: #a1a1aa;
+  --color-mutedColor-dark: #b4b4c0;
 
   /* ── Radius ───────────────────────── */
   --radius-sm: 16px;
@@ -108,6 +122,16 @@
   --shadow-floating: 0 20px 60px rgba(15, 23, 42, 0.12);
 
   --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.15);
+
+  /* ── Dark Shadows ─────────────────── */
+  --shadow-card-dark:
+    0 14px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  --shadow-glass-dark:
+    0 10px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --shadow-floating-dark:
+    0 24px 64px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   /* ── Blur ─────────────────────────── */
   --blur-sm: 10px;
@@ -146,24 +170,30 @@ body {
 
 .dark body {
   transition: background 300ms ease-in;
+  color-scheme: dark;
 
   background:
     radial-gradient(
-      circle 50rem at top right,
-      rgba(139, 92, 246, 0.18),
+      circle 52rem at 88% 8%,
+      rgba(139, 92, 246, 0.16),
+      transparent 68%
+    ),
+    radial-gradient(
+      circle 46rem at 8% 82%,
+      rgba(251, 113, 133, 0.1),
       transparent 70%
     ),
     radial-gradient(
-      circle 45rem at bottom left,
-      rgba(251, 113, 133, 0.14),
-      transparent 70%
+      circle 38rem at 55% 58%,
+      rgba(251, 191, 36, 0.045),
+      transparent 74%
     ),
-    radial-gradient(
-      circle 40rem at center,
-      rgba(251, 191, 36, 0.08),
-      transparent 75%
-    ),
-    linear-gradient(180deg, #09090f 0%, #0f1020 50%, #121225 100%);
+    linear-gradient(
+      180deg,
+      var(--color-bg-dark) 0%,
+      #0e0f1d 48%,
+      var(--color-bg-dark-secondary) 100%
+    );
 }
 
 @layer base {
@@ -381,4 +411,99 @@ body {
 
 .video-box {
   transition: all 250ms ease-in;
+}
+
+.subject-flip {
+  perspective: 1200px;
+}
+
+.subject-flip__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  transform-style: preserve-3d;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.subject-flip:hover .subject-flip__inner {
+  transform: rotateY(180deg);
+}
+
+.subject-flip__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.subject-flip__back {
+  transform: rotateY(180deg);
+}
+
+.subject-card-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(34, 28, 66, 0.08) 0%,
+      rgba(34, 28, 66, 0.28) 38%,
+      rgba(34, 28, 66, 0.82) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.14),
+      rgba(139, 92, 246, 0.22),
+      rgba(236, 72, 153, 0.16)
+    );
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.dark .subject-card-overlay {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 9, 15, 0.08) 0%,
+      rgba(9, 9, 15, 0.34) 42%,
+      rgba(9, 9, 15, 0.88) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.12),
+      rgba(139, 92, 246, 0.18),
+      rgba(236, 72, 153, 0.14)
+    );
+}
+
+.subject-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+.subject-card-image--1 {
+  object-position: right;
+}
+
+.subject-flip:hover .subject-card-image {
+  transform: scale(1.05);
+}
+
+.subject-card-chip {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.subject-flip:focus .subject-flip__inner,
+.subject-flip:focus-within .subject-flip__inner {
+  transform: rotateY(180deg);
+}
+
+.subject-flip:focus {
+  outline: none;
 }

@@ -75,6 +75,33 @@
       --blur-sm: 10px;
       --blur-md: 20px;
       --blur-lg: 40px;
+
+      /* ── Dark Mode ── */
+      --color-bg-dark: #09090f;
+      --color-bg-dark-secondary: #111326;
+
+      --color-surface-dark-soft: rgba(255,255,255,0.055);
+      --color-surface-dark: rgba(255,255,255,0.09);
+      --color-surface-dark-strong: rgba(255,255,255,0.14);
+
+      --color-border-dark-soft: rgba(255,255,255,0.10);
+      --color-border-dark: rgba(255,255,255,0.14);
+      --color-border-dark-strong: rgba(255,255,255,0.20);
+
+      --color-text-dark: #ffffff;
+      --color-muted-dark: #b4b4c0;
+
+      --shadow-card-dark:
+        0 14px 40px rgba(0,0,0,0.32),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+
+      --shadow-glass-dark:
+        0 10px 32px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+
+      --shadow-floating-dark:
+        0 24px 64px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.10);
     }
 
     .page-container {
@@ -1088,36 +1115,124 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
     <h2 class="section-heading">Dark Mode Tokens</h2>
 
     <div class="card">
-      <span class="card-label">توکن‌های تاریک</span>
-      <div class="grid-2" style="margin-bottom:20px;">
-        <div style="background:#09090f;border-radius:var(--radius-md);padding:20px;">
-          <div style="font-size:12px;font-weight:600;color:#a1a1aa;margin-bottom:8px;">bg-dark</div>
-          <div style="font-size:18px;font-weight:700;color:white;">#09090f</div>
-          <code style="background:rgba(255,255,255,0.08);color:#a78bfa;margin-top:8px;">bg-bg-dark</code>
-        </div>
-        <div style="background:rgba(25,25,35,0.55);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:var(--radius-md);padding:20px;">
-          <div style="font-size:12px;font-weight:600;color:#a1a1aa;margin-bottom:8px;">surface-dark</div>
-          <div style="font-size:13px;font-weight:700;color:white;">rgba(25,25,35, 0.55)</div>
-          <code style="background:rgba(255,255,255,0.08);color:#a78bfa;margin-top:8px;">bg-surface-dark</code>
-        </div>
-        <div style="background:rgba(35,35,50,0.75);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:var(--radius-md);padding:20px;">
-          <div style="font-size:12px;font-weight:600;color:#a1a1aa;margin-bottom:8px;">surface-dark-strong</div>
-          <div style="font-size:13px;font-weight:700;color:white;">rgba(35,35,50, 0.75)</div>
-          <code style="background:rgba(255,255,255,0.08);color:#a78bfa;margin-top:8px;">bg-surface-dark-strong</code>
-        </div>
-        <div style="background:rgba(25,25,35,0.55);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);padding:20px;">
-          <div style="font-size:12px;font-weight:600;color:#a1a1aa;margin-bottom:16px;">Typography dark</div>
-          <div style="color:#ffffff;font-size:15px;font-weight:600;margin-bottom:6px;">text-dark → #ffffff</div>
-          <div style="color:#a1a1aa;font-size:14px;">muted-dark → #a1a1aa</div>
+      <span class="card-label">Dark Canvas & Surface Hierarchy</span>
+
+      <div
+        style="
+          background:
+            radial-gradient(circle 30rem at 90% 10%, rgba(139,92,246,.16), transparent 68%),
+            radial-gradient(circle 25rem at 10% 90%, rgba(251,113,133,.10), transparent 70%),
+            linear-gradient(180deg,#09090f 0%,#0e0f1d 48%,#111326 100%);
+          border-radius:var(--radius-lg);
+          padding:24px;
+        "
+      >
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- soft -->
+          <div
+            style="
+              background:var(--color-surface-dark-soft);
+              backdrop-filter:blur(var(--blur-sm));
+              -webkit-backdrop-filter:blur(var(--blur-sm));
+              border:1px solid var(--color-border-dark-soft);
+              border-radius:var(--radius-lg);
+              box-shadow:var(--shadow-glass-dark);
+              padding:22px;
+            "
+          >
+            <div style="color:#fff;font-size:16px;font-weight:700;">surface-dark-soft</div>
+            <div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">Header، کارت‌های سبک، Testimonial و Surfaceهای کم‌ارتفاع</div>
+            <div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
+              <code>dark:bg-surface-dark-soft</code><br/>
+              <code>dark:border-border-dark-soft</code><br/>
+              <code>dark:shadow-glass-dark</code>
+            </div>
+          </div>
+
+          <!-- default -->
+          <div
+            style="
+              background:var(--color-surface-dark);
+              backdrop-filter:blur(var(--blur-md));
+              -webkit-backdrop-filter:blur(var(--blur-md));
+              border:1px solid var(--color-border-dark);
+              border-radius:var(--radius-lg);
+              box-shadow:var(--shadow-card-dark);
+              padding:22px;
+            "
+          >
+            <div style="color:#fff;font-size:16px;font-weight:700;">surface-dark</div>
+            <div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">کارت‌های اصلی، Video Card و Content Card</div>
+            <div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
+              <code>dark:bg-surface-dark</code><br/>
+              <code>dark:border-border-dark</code><br/>
+              <code>dark:shadow-card-dark</code>
+            </div>
+          </div>
+
+          <!-- strong -->
+          <div
+            style="
+              background:var(--color-surface-dark-strong);
+              backdrop-filter:blur(var(--blur-md));
+              -webkit-backdrop-filter:blur(var(--blur-md));
+              border:1px solid var(--color-border-dark-strong);
+              border-radius:var(--radius-lg);
+              box-shadow:var(--shadow-floating-dark);
+              padding:22px;
+            "
+          >
+            <div style="color:#fff;font-size:16px;font-weight:700;">surface-dark-strong</div>
+            <div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">Dropdown، Modal، Drawer و Floating Surface</div>
+            <div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
+              <code>dark:bg-surface-dark-strong</code><br/>
+              <code>dark:border-border-dark-strong</code><br/>
+              <code>dark:shadow-floating-dark</code>
+            </div>
+          </div>
+
         </div>
       </div>
+    </div>
 
-      <pre><code>&lt;!-- Dark mode card pattern --&gt;
+    <div class="card">
+      <span class="card-label">Dark Surface Recipes</span>
+
+      <pre><code>&lt;!-- Soft Surface --&gt;
+&lt;div class="dark:bg-surface-dark-soft
+            dark:border-border-dark-soft
+            dark:shadow-glass-dark"&gt;
+
+&lt;!-- Default Card --&gt;
 &lt;div class="dark:bg-surface-dark
-            dark:border-white/10
-            dark:text-textColor-dark
-            backdrop-blur-md
-            border rounded-lg p-6"&gt;</code></pre>
+            dark:border-border-dark
+            dark:shadow-card-dark"&gt;
+
+&lt;!-- Floating / Strong --&gt;
+&lt;div class="dark:bg-surface-dark-strong
+            dark:border-border-dark-strong
+            dark:shadow-floating-dark"&gt;</code></pre>
+    </div>
+
+    <div class="card">
+      <span class="card-label">Dark Mode Rules</span>
+      <div style="font-size:13px;color:var(--color-muted);line-height:2;">
+        <strong style="color:var(--color-text);">Soft:</strong>
+        Header، کارت‌های کم‌ارتفاع و سطوح سبک.
+        <br/>
+
+        <strong style="color:var(--color-text);">Default:</strong>
+        کارت‌های اصلی محتوا و Video Card.
+        <br/>
+
+        <strong style="color:var(--color-text);">Strong:</strong>
+        Dropdown، Modal، Drawer و Floating UI.
+        <br/><br/>
+
+        در Dark Mode از shadowهای Light برای ایجاد Depth استفاده نمی‌شود.
+        هر سطح باید Border و Shadow متناظر خودش را داشته باشد.
+      </div>
     </div>
   </section>
 
