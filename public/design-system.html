@@ -7,41 +7,41 @@
 
   <style>
 
-    @font-face {
-  font-family: "Shabnam-medium";
-  src: url("./fonts/shabnam/Shabnam-Medium.woff2") format("woff2");
+   @font-face {
+  font-family: 'Peyda-medium';
+  src: url('../fonts/Peyda/PeydaWeb-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Shabnam-bold";
-  src: url("./fonts/shabnam/Shabnam-Bold.woff2") format("woff2");
+  font-family: 'Peyda-bold';
+  src: url('../fonts/Peyda/PeydaWeb-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Vazirmatn-regular";
-  src: url("./fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+  font-family: 'Dana-regular';
+  src: url('../fonts/Dana/Dana-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Vazirmatn-medium";
-  src: url("./fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+  font-family: 'Dana-medium';
+  src: url('../fonts/Dana/Dana-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Vazirmatn-bold";
-  src: url("./fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+  font-family: 'Dana-bold';
+  src: url('../fonts/Dana/Dana-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -63,7 +63,7 @@
       --color-accent: #fbbf24;
       --color-text: #221c42;
       --color-muted: #6b7280;
-      --font-sans: "Vazirmatn", sans-serif;
+      --font-sans: "Dana", sans-serif;
       --radius-sm: 16px;
       --radius-md: 24px;
       --radius-lg: 32px;
@@ -158,11 +158,11 @@
     }
 
     h1{
-      font-family: "Shabnam-bold";
+      font-family: "Peyda-bold";
     }
 
       h2 , h3 , h4 , h5 , h6{
-      font-family: "Shabnam-medium";
+      font-family: "Peyda-medium";
     }
 
     /* ── Layout ── */
@@ -444,12 +444,12 @@
 
   <br><br>
 
-  <strong>Shabnam</strong>
+  <strong>Peyda</strong>
   برای Headingها، Titleها، Buttonها و عناصر مهم رابط کاربری.
 
   <br>
 
-  <strong>Vazirmatn</strong>
+  <strong>Dana</strong>
   برای متن‌های اصلی، توضیحات، مقالات و محتوای آموزشی.
 
   <br><br>
@@ -459,12 +459,12 @@
 
 <pre><code>
 
-  --font-shabnam-medium: "Shabnam-medium", sans-serif;
-  --font-shabnam-bold: "Shabnam-bold", sans-serif;
+  --font-Peyda-medium: "Peyda-medium", sans-serif;
+  --font-Peyda-bold: "Peyda-bold", sans-serif;
 
-  --font-vazirmatn-regular: "Vazirmatn-regular", sans-serif;
-  --font-vazirmatn-medium: "Vazirmatn-medium", sans-serif;
-  --font-vazirmatn-bold: "Vazirmatn-bold", sans-serif;
+  --font-Dana-regular: "Dana-regular", sans-serif;
+  --font-Dana-medium: "Dana-medium", sans-serif;
+  --font-Dana-bold: "Dana-bold", sans-serif;
 
 </code></pre>
     </div>
@@ -481,13 +481,13 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">h1</span>
       <code>text-[clamp(32px,4vw,48px)]</code>
-      <code>font-shabnam-medium</code>
+      <code>font-Peyda-medium</code>
       <code>text-textColor</code>
       <code>leading-tight</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: clamp(32px, 4vw, 48px) · Shabnam Bold (700) · line-height: 1.15
+      font-size: clamp(32px, 4vw, 48px) · Peyda Bold (700) · line-height: 1.15
     </div>
   </div>
 
@@ -498,13 +498,13 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">h2</span>
       <code>text-[clamp(24px,3vw,32px)]</code>
-      <code>font-shabnam-medium</code>
+      <code>font-Peyda-medium</code>
       <code>text-textColor</code>
       <code>leading-snug</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: clamp(24px, 3vw, 32px) · Shabnam medium (500)
+      font-size: clamp(24px, 3vw, 32px) · Peyda medium (500)
     </div>
   </div>
 
@@ -515,12 +515,12 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">h3</span>
       <code>text-[clamp(20px,2.5vw,24px)]</code>
-      <code>font-shabnam-medium</code>
+      <code>font-Peyda-medium</code>
       <code>text-textColor</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: clamp(20px, 2.5vw, 24px) · Shabnam medium (500)
+      font-size: clamp(20px, 2.5vw, 24px) · Peyda medium (500)
     </div>
   </div>
 
@@ -531,12 +531,12 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">h4</span>
       <code>text-[clamp(17px,2vw,20px)]</code>
-      <code>font-shabnam-medium</code>
+      <code>font-Peyda-medium</code>
       <code>text-textColor</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: clamp(17px, 2vw, 20px) · Shabnam medium (500)
+      font-size: clamp(17px, 2vw, 20px) · Peyda medium (500)
     </div>
   </div>
 
@@ -547,12 +547,12 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">h5</span>
       <code>text-base</code>
-      <code>font-shabnam-medium</code>
+      <code>font-Peyda-medium</code>
       <code>text-textColor</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: 16px · Shabnam medium (500) — ثابته، clamp نمیخواد
+      font-size: 16px · Peyda medium (500) — ثابته، clamp نمیخواد
     </div>
   </div>
 
@@ -563,14 +563,14 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">h6 / eyebrow</span>
       <code>text-sm</code>
-      <code>font-shabnam-medium</code>
+      <code>font-Peyda-medium</code>
       <code>text-mutedColor</code>
       <code>uppercase</code>
       <code>tracking-widest</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: 14px · Shabnam medium (500)· uppercase · letter-spacing: 0.12em
+      font-size: 14px · Peyda medium (500)· uppercase · letter-spacing: 0.12em
     </div>
   </div>
 
@@ -583,13 +583,13 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">lead</span>
       <code>text-lg</code>
-      <code>font-vazirmatn-medium</code>
+      <code>font-Dana-medium</code>
       <code>text-textColor</code>
       <code>leading-relaxed</code>
     </div>
 
     <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
-      font-size: 18px · Vazirmatn Medium (500) · line-height: 1.8
+      font-size: 18px · Dana Medium (500) · line-height: 1.8
     </div>
   </div>
 
@@ -602,7 +602,7 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">p</span>
       <code>text-body</code>
-      <code>font-vazirmatn-regular</code>
+      <code>font-Dana-regular</code>
       <code>text-textColor</code>
       <code>leading-relaxed</code>
     </div>
@@ -617,7 +617,7 @@
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">small / muted</span>
       <code>text-sm</code>
-      <code>font-vazirmatn-regular</code>
+      <code>font-Dana-regular</code>
       <code>text-mutedColor</code>
       <code>leading-relaxed</code>
     </div>
@@ -636,8 +636,8 @@
 
     <div class="row" style="gap:8px;flex-wrap:wrap;">
       <span class="badge">span</span>
-      <code>text-primary font-vazirmatn-bold</code>
-      <code>text-secondary font-vazirmatn-bold</code>
+      <code>text-primary font-Dana-bold</code>
+      <code>text-secondary font-Dana-bold</code>
       <code>bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent</code>
     </div>
   </div>
@@ -1360,7 +1360,7 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 
   <!-- footer -->
   <footer style="text-align:center;padding:32px 0;color:var(--color-muted);font-size:12px;border-top:1px solid rgba(139,92,246,0.1);">
-    <span style="color:var(--color-primary-light);font-weight:700;">دیکته‌خونه</span> · Design System · Liquid Glass · Tailwind v4 · Vazirmatn
+    <span style="color:var(--color-primary-light);font-weight:700;">دیکته‌خونه</span> · Design System · Liquid Glass · Tailwind v4 · Dana
   </footer>
 
 </div>

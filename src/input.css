@@ -6,40 +6,40 @@
 @import 'tailwindcss';
 
 @font-face {
-  font-family: 'Shabnam-medium';
-  src: url('../fonts/shabnam/Shabnam-Medium.woff2') format('woff2');
+  font-family: 'Peyda-medium';
+  src: url('../fonts/Peyda/PeydaWeb-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Shabnam-bold';
-  src: url('../fonts/shabnam/Shabnam-Bold.woff2') format('woff2');
+  font-family: 'Peyda-bold';
+  src: url('../fonts/Peyda/PeydaWeb-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Vazirmatn-regular';
-  src: url('../fonts/vazirmatn/Vazirmatn-Regular.woff2') format('woff2');
+  font-family: 'Dana-regular';
+  src: url('../fonts/Dana/Dana-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Vazirmatn-medium';
-  src: url('../fonts/vazirmatn/Vazirmatn-Medium.woff2') format('woff2');
+  font-family: 'Dana-medium';
+  src: url('../fonts/Dana/Dana-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Vazirmatn-bold';
-  src: url('../fonts/vazirmatn/Vazirmatn-Bold.woff2') format('woff2');
+  font-family: 'Dana-bold';
+  src: url('../fonts/Dana/Dana-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -75,12 +75,12 @@
   --color-textColor: #221c42;
   --color-mutedColor: #6b7280;
 
-  --font-shabnam-medium: 'Shabnam-medium', sans-serif;
-  --font-shabnam-bold: 'Shabnam-bold', sans-serif;
+  --font-Peyda-medium: 'Peyda-medium', sans-serif;
+  --font-Peyda-bold: 'Peyda-bold', sans-serif;
 
-  --font-vazirmatn-regular: 'Vazirmatn-regular', sans-serif;
-  --font-vazirmatn-medium: 'Vazirmatn-medium', sans-serif;
-  --font-vazirmatn-bold: 'Vazirmatn-bold', sans-serif;
+  --font-Dana-regular: 'Dana-regular', sans-serif;
+  --font-Dana-medium: 'Dana-medium', sans-serif;
+  --font-Dana-bold: 'Dana-bold', sans-serif;
 
   --text-body: 15px;
 
@@ -198,43 +198,43 @@ body {
 
 @layer base {
   h1 {
-    @apply font-shabnam-bold text-[clamp(32px,4vw,48px)] text-textColor dark:text-white leading-tight;
+    @apply font-Peyda-bold text-[clamp(32px,4vw,48px)] text-textColor dark:text-white leading-tight;
   }
 
   h2 {
-    @apply font-shabnam-medium text-[clamp(24px,3vw,32px)] text-textColor dark:text-white leading-snug;
+    @apply font-Peyda-medium text-[clamp(24px,3vw,32px)] text-textColor dark:text-white leading-snug;
   }
 
   h3 {
-    @apply font-shabnam-medium text-[clamp(20px,2.5vw,24px)] text-textColor dark:text-white;
+    @apply font-Peyda-medium text-[clamp(20px,2.5vw,24px)] text-textColor dark:text-white;
   }
 
   h4 {
-    @apply font-shabnam-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-white;
+    @apply font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-white;
   }
 
   h5 {
-    @apply font-shabnam-medium text-base text-textColor dark:text-white;
+    @apply font-Peyda-medium text-base text-textColor dark:text-white;
   }
 
   h6 {
-    @apply font-shabnam-medium text-sm text-mutedColor dark:text-mutedColor-dark uppercase tracking-widest;
+    @apply font-Peyda-medium text-sm text-mutedColor dark:text-mutedColor-dark uppercase tracking-widest;
   }
 
   p {
-    @apply font-vazirmatn-regular text-body text-textColor dark:text-white leading-relaxed;
+    @apply font-Dana-regular text-body text-textColor dark:text-white leading-relaxed;
   }
 
   small {
-    @apply font-vazirmatn-regular text-sm text-mutedColor dark:text-mutedColor-dark leading-relaxed;
+    @apply font-Dana-regular text-sm text-mutedColor dark:text-mutedColor-dark leading-relaxed;
   }
 
   span {
-    @apply font-vazirmatn-regular text-sm text-mutedColor dark:text-mutedColor-dark;
+    @apply font-Dana-regular text-sm text-mutedColor dark:text-mutedColor-dark;
   }
 
   button {
-    @apply font-shabnam-medium;
+    @apply font-Peyda-medium;
   }
 }
 
@@ -506,4 +506,59 @@ body {
 
 .subject-flip:focus {
   outline: none;
+}
+
+/* =========================================
+   Hero floating signals
+   Prevent horizontal overflow on mobile
+========================================= */
+
+@media (max-width: 639px) {
+  .hero-signal-card[data-aos='fade-left'],
+  .hero-signal-card[data-aos='fade-right'] {
+    transform: translate3d(0, 18px, 0) !important;
+  }
+
+  .hero-signal-card[data-aos='fade-left'].aos-animate,
+  .hero-signal-card[data-aos='fade-right'].aos-animate {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .hero-signal-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.footer-link {
+  @apply inline-flex
+    items-center
+    w-fit
+    rounded-sm
+    px-3
+    py-2
+    font-Dana-medium
+    text-sm
+    text-mutedColor
+    dark:text-mutedColor-dark
+    transition-all
+    duration-300
+    ease-out;
+}
+
+.footer-link:hover {
+  @apply text-primary
+    dark:text-primary-light
+    bg-primary/5
+    dark:bg-primary/10
+    translate-x-[-2px];
+}
+
+.footer-link:focus-visible {
+  @apply outline-none
+    ring-2
+    ring-primary/30;
 }
