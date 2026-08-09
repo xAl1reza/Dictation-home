@@ -137,6 +137,56 @@
   --blur-sm: 10px;
   --blur-md: 20px;
   --blur-lg: 40px;
+
+  /* ── About Page Motion ─────────────── */
+  --animate-about-float: about-float 6s ease-in-out infinite;
+  --animate-about-glow: about-glow 5s ease-in-out infinite;
+  --animate-about-orbit: about-orbit 16s linear infinite;
+  --animate-about-wave: about-wave 1.15s ease-in-out infinite;
+
+  @keyframes about-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes about-glow {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(0.96);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes about-orbit {
+    from {
+      transform: rotate(0deg) translateX(var(--about-orbit-radius)) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(var(--about-orbit-radius))
+        rotate(-360deg);
+    }
+  }
+
+  @keyframes about-wave {
+    0%,
+    100% {
+      transform: scaleY(0.45);
+      opacity: 0.55;
+    }
+    50% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -561,4 +611,82 @@ body {
   @apply outline-none
     ring-2
     ring-primary/30;
+}
+
+/* =========================================
+   About page visual system
+========================================= */
+
+.about-orbit-stage {
+  --about-orbit-radius: 92px;
+}
+
+@media (min-width: 40rem) {
+  .about-orbit-stage {
+    --about-orbit-radius: 122px;
+  }
+}
+
+.about-orbit-chip {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  animation: var(--animate-about-orbit);
+  transform-origin: 0 0;
+}
+
+.about-orbit-chip--2 {
+  animation-delay: -4s;
+}
+
+.about-orbit-chip--3 {
+  animation-delay: -8s;
+}
+
+.about-orbit-chip--4 {
+  animation-delay: -12s;
+}
+
+.about-wave-bar {
+  transform-origin: center;
+  animation: var(--animate-about-wave);
+}
+
+.about-wave-bar:nth-child(2) {
+  animation-delay: -0.15s;
+}
+
+.about-wave-bar:nth-child(3) {
+  animation-delay: -0.3s;
+}
+
+.about-wave-bar:nth-child(4) {
+  animation-delay: -0.45s;
+}
+
+.about-wave-bar:nth-child(5) {
+  animation-delay: -0.6s;
+}
+
+.about-path-line {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-path-line.is-visible {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-orbit-chip,
+  .about-wave-bar,
+  .animate-about-float,
+  .animate-about-glow {
+    animation: none !important;
+  }
+
+  .about-path-line {
+    transform: scaleX(1);
+    transition: none;
+  }
 }
