@@ -690,3 +690,62 @@ body {
     transition: none;
   }
 }
+
+/* =========================
+   Form components
+========================= */
+
+@layer components {
+  .form-group {
+    @apply flex flex-col gap-2;
+  }
+
+  .form-label {
+    @apply font-Peyda-medium text-sm
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .form-required {
+    @apply text-secondary;
+  }
+
+  /* Shared field styles */
+  .form-control,
+  .form-textarea,
+  .form-select {
+    @apply w-full
+           rounded-md
+           border border-textColor/10 dark:border-border-dark
+           bg-white/55 dark:bg-surface-dark-soft
+           px-4 py-3.5
+           font-Dana-regular text-sm
+           text-textColor dark:text-textColor-dark
+           placeholder:text-mutedColor/60
+           dark:placeholder:text-mutedColor-dark/50
+           outline-none
+           backdrop-blur-sm
+           transition-all duration-300
+           hover:border-primary/25
+           dark:hover:border-primary-light/20
+           focus:border-primary/50
+           dark:focus:border-primary-light/40
+           focus:ring-4 focus:ring-primary/10;
+  }
+
+  .form-textarea {
+    @apply min-h-[150px] resize-y leading-7;
+  }
+
+  .form-select {
+    @apply cursor-pointer;
+  }
+
+  .form-help {
+    @apply font-Dana-regular text-xs
+           text-mutedColor dark:text-mutedColor-dark;
+  }
+
+  .form-error {
+    @apply font-Dana-regular text-xs text-secondary;
+  }
+}
