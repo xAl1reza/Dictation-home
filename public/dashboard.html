@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>داشبورد | دیکته خونه</title>
+
+    <meta
+      name="description"
+      content="داشبورد دیکته خونه برای مدیریت کلمات، پوشه‌ها و مسابقه‌های آموزشی."
+    />
+
+    <meta name="robots" content="noindex, nofollow" />
+
+    <meta
+      name="theme-color"
+      content="#f6f4ff"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <meta
+      name="theme-color"
+      content="#09090f"
+      media="(prefers-color-scheme: dark)"
+    />
+
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+
+  <body class="min-h-screen overflow-x-hidden bg-bg dark:bg-bg-dark">
+    <!-- Skip link -->
+    <a
+      href="#dashboard-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:font-Peyda-medium focus:text-white"
+    >
+      پرش به محتوای داشبورد
+    </a>
+
+    <!-- SVG sprite -->
+    <svg class="hidden" aria-hidden="true" focusable="false">
+      <!-- Sun -->
+      <symbol id="icon-sun" viewBox="0 0 24 24">
+        <circle
+          cx="12"
+          cy="12"
+          r="4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        ></circle>
+
+        <path
+          d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        ></path>
+      </symbol>
+
+      <!-- Moon -->
+      <symbol id="icon-moon" viewBox="0 0 24 24">
+        <path
+          d="M20.5 14.4A8.5 8.5 0 0 1 9.6 3.5 8.5 8.5 0 1 0 20.5 14.4Z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+    </svg>
+
+    <div class="min-h-screen lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+      <!-- ==================================================
+           Desktop Sidebar
+      =================================================== -->
+      <aside
+        class="hidden lg:block border-l border-white/60 dark:border-border-dark-soft"
+      >
+        <div class="sticky top-0 flex h-dvh min-h-0 flex-col p-5">
+          <div
+            class="flex h-full min-h-0 flex-col overflow-hidden rounded-lg border border-white/70 dark:border-border-dark bg-surface dark:bg-surface-dark shadow-card dark:shadow-card-dark backdrop-blur-md"
+          >
+            <!-- Brand -->
+            <div class="px-5 pt-6">
+              <a
+                href="./index.html"
+                class="font-Peyda-bold text-lg text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light"
+              >
+                دیکته خونه
+              </a>
+            </div>
+
+            <!-- User -->
+            <div
+              class="mx-4 mt-6 rounded-md border border-white/60 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft p-4"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  id="dashboard-avatar"
+                  class="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 dark:bg-primary/15 font-Peyda-bold text-sm text-primary dark:text-primary-light"
+                  aria-hidden="true"
+                >
+                  د
+                </div>
+
+                <div class="min-w-0">
+                  <span
+                    class="mb-0.5 block font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+                  >
+                    خوش اومدی
+                  </span>
+
+                  <strong
+                    id="dashboard-user-name"
+                    class="block truncate font-Peyda-medium text-sm text-textColor dark:text-textColor-dark"
+                  >
+                    ...
+                  </strong>
+                </div>
+              </div>
+
+              <div
+                class="mt-4 flex items-center justify-between border-t border-textColor/5 dark:border-border-dark-soft pt-3"
+              >
+                <span
+                  class="font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                >
+                  امتیاز من
+                </span>
+
+                <div class="flex items-center gap-1.5">
+                  <svg
+                    viewBox="0 0 24 24"
+                    class="size-4 fill-accent text-accent"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m12 2.8 2.8 5.68 6.27.91-4.54 4.42 1.07 6.24L12 17.1l-5.6 2.95 1.07-6.24L2.93 9.4l6.27-.91L12 2.8Z"
+                    ></path>
+                  </svg>
+
+                  <strong
+                    id="dashboard-user-score"
+                    class="font-Dana-bold text-sm text-textColor dark:text-textColor-dark"
+                  >
+                    ۰
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav
+              class="mt-5 min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pb-2"
+              aria-label="منوی داشبورد"
+            >
+              <ul class="space-y-1">
+                <!-- Folders -->
+                <li>
+                  <a
+                    href="./dashboard.html?view=folders"
+                    data-dashboard-link="folders"
+                    class="dashboard-nav-link flex items-center gap-3 rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      class="size-5 shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linejoin="round"
+                        d="M3.5 6.5A2.5 2.5 0 0 1 6 4h4l2 2h6A2.5 2.5 0 0 1 20.5 8.5v8A2.5 2.5 0 0 1 18 19H6a2.5 2.5 0 0 1-2.5-2.5v-10Z"
+                      ></path>
+                    </svg>
+
+                    <span>نمایش پوشه‌ها</span>
+                  </a>
+                </li>
+
+                <!-- Add word -->
+                <li>
+                  <a
+                    href="./dashboard.html?view=add-word"
+                    data-dashboard-link="add-word"
+                    class="dashboard-nav-link flex items-center gap-3 rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      class="size-5 shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" d="M12 5v14M5 12h14"></path>
+                    </svg>
+
+                    <span>افزودن کلمه</span>
+                  </a>
+                </li>
+
+                <!-- Games -->
+                <li class="pt-3">
+                  <span
+                    class="mb-2 block px-4 font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                  >
+                    شروع مسابقه
+                  </span>
+
+                  <ul class="space-y-1">
+                    <li>
+                      <a
+                        href="./game.html?type=math"
+                        class="flex items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                      >
+                        <span
+                          class="flex size-7 items-center justify-center rounded-full bg-primary/8 dark:bg-primary/12 font-Dana-bold text-xs text-primary dark:text-primary-light"
+                        >
+                          +
+                        </span>
+
+                        <span>ریاضی</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        href="./game.html?type=science"
+                        class="flex items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                      >
+                        <span
+                          class="flex size-7 items-center justify-center rounded-full bg-secondary/10 font-Dana-bold text-xs text-secondary"
+                        >
+                          ●
+                        </span>
+
+                        <span>علوم</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        href="./game.html?type=dictation"
+                        class="flex items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                      >
+                        <span
+                          class="flex size-7 items-center justify-center rounded-full bg-accent/15 font-Peyda-bold text-xs text-textColor"
+                        >
+                          ا
+                        </span>
+
+                        <span>دیکته</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+
+            <!-- Theme -->
+            <div
+              class="m-4 mt-3 shrink-0 border-t border-textColor/5 dark:border-border-dark-soft pt-4"
+            >
+              <div class="flex items-center justify-between">
+                <span
+                  class="font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                >
+                  حالت نمایش
+                </span>
+
+                <div
+                  class="flex size-10 items-center justify-center rounded-full border border-white/70 dark:border-border-dark bg-surface-strong dark:bg-surface-dark-strong"
+                >
+                  <svg
+                    id="sunIcon"
+                    class="hidden size-5 cursor-pointer text-textColor-dark"
+                    aria-label="حالت روشن"
+                  >
+                    <use href="#icon-sun"></use>
+                  </svg>
+
+                  <svg
+                    id="moonIcon"
+                    class="size-5 cursor-pointer text-textColor"
+                    aria-label="حالت تاریک"
+                  >
+                    <use href="#icon-moon"></use>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ==================================================
+           Main
+      =================================================== -->
+      <div class="min-w-0">
+        <!-- Mobile header -->
+        <header class="sticky top-3 z-40 px-4 pt-3 lg:hidden">
+          <div
+            class="flex items-center justify-between rounded-md border border-white/70 dark:border-border-dark bg-surface dark:bg-surface-dark px-4 py-3 shadow-card dark:shadow-card-dark backdrop-blur-md"
+          >
+            <button
+              id="dashboard-menu-button"
+              type="button"
+              aria-label="باز کردن منوی داشبورد"
+              aria-controls="dashboard-mobile-menu"
+              aria-expanded="false"
+              class="flex size-10 items-center justify-center rounded-full border border-white/70 dark:border-border-dark bg-surface-strong dark:bg-surface-dark-strong text-textColor dark:text-textColor-dark"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                class="size-5"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+              </svg>
+            </button>
+
+            <a
+              href="./index.html"
+              class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark"
+            >
+              دیکته خونه
+            </a>
+
+            <div
+              class="flex size-10 items-center justify-center rounded-full border border-white/70 dark:border-border-dark bg-surface-strong dark:bg-surface-dark-strong"
+            >
+              <svg
+                id="sunIcon--mobile"
+                class="hidden size-5 cursor-pointer text-textColor-dark"
+              >
+                <use href="#icon-sun"></use>
+              </svg>
+
+              <svg
+                id="moonIcon--mobile"
+                class="size-5 cursor-pointer text-textColor"
+              >
+                <use href="#icon-moon"></use>
+              </svg>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main content -->
+        <main id="dashboard-content" class="page-container py-7 md:py-10">
+          <!-- Stage 2 placeholder -->
+          <section
+            class="relative overflow-hidden rounded-lg border border-white/70 dark:border-border-dark bg-surface dark:bg-surface-dark p-6 sm:p-8 shadow-card dark:shadow-card-dark backdrop-blur-md"
+          >
+            <div
+              aria-hidden="true"
+              class="pointer-events-none absolute -top-20 -left-20 size-52 rounded-full bg-primary/8 blur-[80px]"
+            ></div>
+
+            <div class="relative z-10 max-w-2xl">
+              <span
+                class="mb-3 inline-flex items-center rounded-full bg-primary/10 dark:bg-primary/15 px-4 py-2 font-Dana-medium text-xs text-primary dark:text-primary-light"
+              >
+                داشبورد من
+              </span>
+
+              <h1
+                id="dashboard-welcome-title"
+                class="mb-4 !text-[clamp(26px,3vw,38px)]"
+              >
+                خوش اومدی
+              </h1>
+
+              <p
+                class="max-w-xl text-sm sm:text-base leading-8 text-mutedColor dark:text-mutedColor-dark"
+              >
+                از اینجا می‌تونی کلماتت رو مدیریت کنی و برای مسابقه‌های آموزشی
+                آماده بشی.
+              </p>
+            </div>
+          </section>
+
+          <!-- Dynamic dashboard view -->
+          <div id="dashboard-view" class="mt-7"></div>
+        </main>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         Mobile Drawer
+    =================================================== -->
+    <div
+      id="dashboard-mobile-menu"
+      class="fixed inset-0 z-[80] hidden lg:hidden"
+      aria-hidden="true"
+    >
+      <!-- Backdrop -->
+      <button
+        type="button"
+        data-dashboard-menu-close
+        aria-label="بستن منو"
+        class="absolute inset-0 bg-bg-dark/45 backdrop-blur-sm"
+      ></button>
+
+      <!-- Drawer -->
+      <aside
+        class="absolute inset-y-0 right-0 flex w-[min(86vw,320px)] flex-col border-l border-white/70 dark:border-border-dark bg-bg/95 dark:bg-bg-dark/95 p-4 shadow-floating dark:shadow-floating-dark"
+      >
+        <div class="flex items-center justify-between px-2 py-2">
+          <strong
+            class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark"
+          >
+            دیکته خونه
+          </strong>
+
+          <button
+            type="button"
+            data-dashboard-menu-close
+            aria-label="بستن منو"
+            class="flex size-9 items-center justify-center rounded-full bg-surface dark:bg-surface-dark text-textColor dark:text-textColor-dark"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              class="size-5"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile user -->
+        <div class="mt-4 rounded-md bg-surface dark:bg-surface-dark p-4">
+          <span
+            id="dashboard-mobile-user-name"
+            class="block font-Peyda-medium text-sm text-textColor dark:text-textColor-dark"
+          >
+            ...
+          </span>
+
+          <span
+            class="mt-1 block font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+          >
+            امتیاز:
+            <strong
+              id="dashboard-mobile-score"
+              class="text-primary dark:text-primary-light"
+            >
+              ۰
+            </strong>
+          </span>
+        </div>
+
+        <!-- Mobile navigation -->
+        <nav class="mt-5" aria-label="منوی موبایل داشبورد">
+          <ul class="space-y-1">
+            <li>
+              <a
+                href="./dashboard.html?view=folders"
+                class="flex rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10"
+              >
+                نمایش پوشه‌ها
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="./dashboard.html?view=add-word"
+                class="flex rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10"
+              >
+                افزودن کلمه
+              </a>
+            </li>
+
+            <li class="pt-4">
+              <span
+                class="mb-2 block px-4 font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+              >
+                شروع مسابقه
+              </span>
+
+              <a
+                href="./game.html?type=math"
+                class="flex rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark hover:text-primary"
+              >
+                ریاضی
+              </a>
+
+              <a
+                href="./game.html?type=science"
+                class="flex rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark hover:text-primary"
+              >
+                علوم
+              </a>
+
+              <a
+                href="./game.html?type=dictation"
+                class="flex rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark hover:text-primary"
+              >
+                دیکته
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
+
+    <!-- Core -->
+    <script src="./js/core/themetoggle.js"></script>
+
+    <!-- Data -->
+    <!-- Data -->
+    <script src="./js/services/data-provider.js"></script>
+    <script src="./js/services/user-service.js"></script>
+    <script src="./js/services/folder-service.js"></script>
+
+    <!-- Dashboard -->
+    <script src="./js/pages/dashboard.js"></script>
+  </body>
+</html>
