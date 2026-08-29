@@ -407,13 +407,13 @@
             </div>
 
             <h2
-              class="mb-3 !text-[clamp(24px,4vw,32px)]"
+              class="mb-3"
             >
               هنوز کلمه‌ کافی برای بازی نداری
             </h2>
 
             <p
-              class="mx-auto max-w-md !text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+              class="mx-auto max-w-md text-mutedColor dark:text-mutedColor-dark"
             >
               برای شروع دیکته، یک پوشه با حداقل
               ${shell.toPersianNumber(MIN_DICTATION_WORDS)}
@@ -422,7 +422,7 @@
 
             <a
               href="./dashboard.html?view=add-word"
-              class="mt-7 inline-flex cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-7 py-3 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              class="btn-primary mt-7"
             >
               افزودن کلمه
             </a>
@@ -442,19 +442,19 @@
             class="mb-7 text-center"
           >
             <span
-              class="mb-3 inline-flex rounded-full bg-accent/15 px-4 py-2 font-Dana-medium text-xs text-textColor dark:bg-accent/10 dark:text-textColor-dark"
+              class="ui-badge mb-3 bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark"
             >
               تنظیم مسابقه
             </span>
 
             <h2
-              class="mb-2 !text-[clamp(25px,4vw,34px)]"
+              class="mb-2"
             >
               هم‌بازی‌ات کیه؟
             </h2>
 
             <p
-              class="!text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+              class="text-mutedColor dark:text-mutedColor-dark"
             >
               اسم بازیکن دوم و پوشه کلمات این مسابقه را انتخاب کن.
             </p>
@@ -528,7 +528,7 @@
                   aria-haspopup="listbox"
                   aria-expanded="false"
                   aria-controls="dictation-folder-menu"
-                  class="form-control flex cursor-pointer items-center justify-between gap-4 text-right focus:outline-none focus:ring-4 focus:ring-primary/10"
+                  class="form-control form-select-trigger"
                 >
                   <span
                     id="dictation-folder-value"
@@ -559,7 +559,7 @@
                   role="listbox"
                   aria-labelledby="dictation-folder-label"
                   tabindex="-1"
-                  class="absolute top-full right-0 left-0 z-40 mt-2 hidden max-h-64 overflow-y-auto rounded-md border border-white/80 bg-white/95 p-2 shadow-floating backdrop-blur-xl dark:border-border-dark dark:bg-bg-dark-secondary/95 dark:shadow-floating-dark"
+                  class="form-dropdown-menu hidden"
                 >
                   ${folders
                     .map((folder) => {
@@ -571,7 +571,7 @@
                           role="option"
                           aria-selected="false"
                           data-value="${shell.escapeGameHtml(folder.id)}"
-                          class="dictation-folder-option flex w-full cursor-pointer items-center justify-between gap-3 rounded-sm px-4 py-3 text-right font-Dana-medium text-sm text-textColor transition-colors hover:bg-primary/10 hover:text-primary dark:text-textColor-dark dark:hover:bg-primary/15 dark:hover:text-primary-light"
+                          class="dictation-folder-option form-option"
                         >
                           <span
                             class="min-w-0"
@@ -583,7 +583,7 @@
                             </span>
 
                             <span
-                              class="mt-1 block font-Dana-regular text-[11px] text-mutedColor dark:text-mutedColor-dark"
+                              class="ui-meta mt-1 block"
                             >
                               ${shell.toPersianNumber(folder.wordCount)}
                               کلمه
@@ -622,11 +622,11 @@
               class="rounded-md border border-primary/10 bg-primary/5 px-4 py-3.5 dark:border-primary/15 dark:bg-primary/5"
             >
               <p
-                class="!text-xs !leading-6 text-mutedColor dark:text-mutedColor-dark"
+                class="text-mutedColor dark:text-mutedColor-dark"
               >
                 بازیکن اول
                 <strong
-                  class="font-Dana-bold text-textColor dark:text-textColor-dark"
+                  class="text-textColor dark:text-textColor-dark"
                 >
                   ${shell.escapeGameHtml(runtime.user?.name || "بازیکن")}
                 </strong>
@@ -636,7 +636,7 @@
 
             <button
               type="submit"
-              class="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-7 py-3.5 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              class="btn-primary w-full"
             >
               آماده شروع مسابقه
             </button>
@@ -853,13 +853,13 @@
           class="mx-auto max-w-2xl text-center"
         >
           <span
-            class="mb-4 inline-flex rounded-full bg-accent/15 px-4 py-2 font-Dana-medium text-xs text-textColor dark:bg-accent/10 dark:text-textColor-dark"
+            class="ui-badge mb-4 bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark"
           >
             دور ${shell.toPersianNumber(engine.getSnapshot().round)}
           </span>
 
           <p
-            class="mb-2 !text-sm text-mutedColor dark:text-mutedColor-dark"
+            class="mb-2 text-mutedColor dark:text-mutedColor-dark"
           >
             ${shell.escapeGameHtml(reader.name)} کلمه را برای
             ${shell.escapeGameHtml(writer.name)}
@@ -867,7 +867,7 @@
           </p>
 
           <h2
-            class="mb-7 !text-[clamp(25px,4vw,34px)]"
+            class="mb-7"
           >
             فقط ${shell.escapeGameHtml(reader.name)} به صفحه نگاه کند
           </h2>
@@ -876,20 +876,20 @@
             class="mx-auto max-w-xl rounded-lg border border-accent/20 bg-accent/5 px-5 py-8 shadow-card dark:border-accent/15 dark:bg-accent/5 dark:shadow-card-dark sm:px-8 sm:py-10"
           >
             <span
-              class="mb-3 block font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+              class="ui-label mb-3 block"
             >
               کلمه این دور
             </span>
 
             <strong
-              class="block font-Peyda-bold text-[clamp(32px,7vw,52px)] leading-tight text-textColor dark:text-textColor-dark"
+              class="game-word-value block"
             >
               ${shell.escapeGameHtml(runtime.currentWord.value)}
             </strong>
           </div>
 
           <p
-            class="mx-auto mt-5 max-w-lg !text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+            class="mx-auto mt-5 max-w-lg text-mutedColor dark:text-mutedColor-dark"
           >
             کلمه را با صدای واضح برای
             ${shell.escapeGameHtml(writer.name)}
@@ -899,7 +899,7 @@
           <button
             type="button"
             id="dictation-word-read"
-            class="mt-7 inline-flex cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-8 py-3.5 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            class="btn-primary mt-7"
           >
             کلمه را خواندم
           </button>
@@ -954,13 +954,13 @@
           </div>
 
           <span
-            class="mb-3 inline-flex rounded-full bg-primary/10 px-4 py-2 font-Dana-medium text-xs text-primary dark:bg-primary/15 dark:text-primary-light"
+            class="ui-badge mb-3 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
           >
             حالا نوبت نوشتنه
           </span>
 
           <h2
-            class="mb-3 !text-[clamp(26px,4vw,36px)]"
+            class="mb-3"
           >
             گوشی را به
             ${shell.escapeGameHtml(writer.name)}
@@ -968,7 +968,7 @@
           </h2>
 
           <p
-            class="mx-auto max-w-md !text-sm !leading-8 text-mutedColor dark:text-mutedColor-dark"
+            class="mx-auto max-w-md text-mutedColor dark:text-mutedColor-dark"
           >
             ${shell.escapeGameHtml(
               writer.name,
@@ -978,7 +978,7 @@
           <button
             type="button"
             id="dictation-written"
-            class="mt-8 inline-flex cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-8 py-3.5 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            class="btn-primary mt-8"
           >
             نوشتم، بررسی کنیم
           </button>
@@ -1014,13 +1014,13 @@
           class="mx-auto max-w-2xl text-center"
         >
           <span
-            class="mb-4 inline-flex rounded-full bg-secondary/10 px-4 py-2 font-Dana-medium text-xs text-secondary dark:bg-secondary/15"
+            class="ui-badge mb-4 bg-secondary/10 text-secondary dark:bg-secondary/15"
           >
             بررسی پاسخ
           </span>
 
           <h2
-            class="mb-2 !text-[clamp(25px,4vw,34px)]"
+            class="mb-2"
           >
             نوشته
             ${shell.escapeGameHtml(writer.name)}
@@ -1028,7 +1028,7 @@
           </h2>
 
           <p
-            class="mb-6 !text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+            class="mb-6 text-mutedColor dark:text-mutedColor-dark"
           >
             کلمه درست این دور:
           </p>
@@ -1037,14 +1037,14 @@
             class="mx-auto max-w-xl rounded-lg border border-primary/15 bg-primary/5 px-5 py-7 dark:border-primary/15 dark:bg-primary/5 sm:px-8"
           >
             <strong
-              class="block font-Peyda-bold text-[clamp(30px,6vw,46px)] text-textColor dark:text-textColor-dark"
+              class="game-word-value block"
             >
               ${shell.escapeGameHtml(runtime.currentWord.value)}
             </strong>
           </div>
 
           <p
-            class="mx-auto mt-5 max-w-lg !text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+            class="mx-auto mt-5 max-w-lg text-mutedColor dark:text-mutedColor-dark"
           >
             اگر کلمه دقیق و درست نوشته شده «درست» را بزن؛ در غیر این صورت «غلط» را انتخاب کن.
           </p>
@@ -1055,7 +1055,7 @@
             <button
               type="button"
               data-dictation-outcome="correct"
-              class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-primary bg-primary px-7 py-3.5 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              class="btn-primary gap-2"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -1077,7 +1077,7 @@
             <button
               type="button"
               data-dictation-outcome="wrong"
-              class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-secondary bg-secondary px-7 py-3.5 font-Peyda-medium text-sm text-white transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-secondary active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+              class="btn-secondary gap-2 focus:ring-secondary/30"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -1173,9 +1173,7 @@
           class="mx-auto max-w-xl text-center"
         >
           <div
-            class="mx-auto mb-6 flex size-16 items-center justify-center rounded-lg ${
-              isCorrect
-                ? "bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
+            class="mx-auto mb-6 flex size-16 items-center justify-center rounded-lg ${ isCorrect ?"bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
                 : "bg-secondary/10 text-secondary dark:bg-secondary/15"
             }"
             aria-hidden="true"
@@ -1207,33 +1205,31 @@
           </div>
 
           <span
-            class="mb-3 inline-flex rounded-full ${
-              isCorrect
-                ? "bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
+            class="mb-3 inline-flex rounded-full ${ isCorrect ?"bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
                 : "bg-secondary/10 text-secondary dark:bg-secondary/15"
-            } px-4 py-2 font-Dana-medium text-xs"
+            } ui-badge"
           >
             امتیاز ثبت شد
           </span>
 
           <h2
-            class="mb-3 !text-[clamp(26px,4vw,36px)]"
+            class="mb-3"
           >
             حالا نقش‌ها عوض می‌شود
           </h2>
 
           <p
-            class="mx-auto max-w-md !text-sm !leading-8 text-mutedColor dark:text-mutedColor-dark"
+            class="mx-auto max-w-md text-mutedColor dark:text-mutedColor-dark"
           >
             در دور بعد،
             <strong
-              class="font-Dana-bold text-textColor dark:text-textColor-dark"
+              class="text-textColor dark:text-textColor-dark"
             >
               ${shell.escapeGameHtml(reader.name)}
             </strong>
             کلمه را می‌خواند و
             <strong
-              class="font-Dana-bold text-textColor dark:text-textColor-dark"
+              class="text-textColor dark:text-textColor-dark"
             >
               ${shell.escapeGameHtml(writer.name)}
             </strong>
@@ -1243,7 +1239,7 @@
           <button
             type="button"
             id="dictation-next-round"
-            class="mt-8 inline-flex cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-8 py-3.5 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            class="btn-primary mt-8"
           >
             آماده‌ایم، دور بعد
           </button>
@@ -1251,7 +1247,7 @@
           <button
             type="button"
             id="dictation-finish"
-            class="mt-3 inline-flex cursor-pointer items-center justify-center rounded-full border border-textColor/10 bg-transparent px-6 py-3 font-Peyda-medium text-xs text-mutedColor transition-all duration-300 hover:border-secondary/30 hover:text-secondary active:scale-95 dark:border-border-dark dark:text-mutedColor-dark"
+            class="btn-ghost-secondary btn-compact mt-3 text-mutedColor dark:text-mutedColor-dark"
           >
             پایان مسابقه
           </button>
@@ -1313,13 +1309,13 @@
           class="mx-auto max-w-2xl text-center"
         >
           <span
-            class="mb-4 inline-flex rounded-full bg-primary/10 px-4 py-2 font-Dana-medium text-xs text-primary dark:bg-primary/15 dark:text-primary-light"
+            class="ui-badge mb-4 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
           >
             مسابقه تمام شد
           </span>
 
           <h2
-            class="mb-2 !text-[clamp(28px,5vw,40px)]"
+            class="mb-2"
           >
             ${
               winner
@@ -1329,7 +1325,7 @@
           </h2>
 
           <p
-            class="mx-auto mb-7 max-w-lg !text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+            class="mx-auto mb-7 max-w-lg text-mutedColor dark:text-mutedColor-dark"
           >
             ${shell.toPersianNumber(result.rounds)}
             دور بازی کردید. ذخیره نتیجه دائمی در مرحله نتیجه‌ها اضافه می‌شود.
@@ -1345,25 +1341,25 @@
                     class="rounded-md border border-white/70 bg-surface-soft px-5 py-5 text-center dark:border-border-dark-soft dark:bg-surface-dark-soft"
                   >
                     <span
-                      class="mb-1 block font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+                      class="ui-meta mb-1 block"
                     >
                       ${participant.isGuest ? "بازیکن مهمان" : "بازیکن"}
                     </span>
 
                     <strong
-                      class="block truncate font-Peyda-medium text-base text-textColor dark:text-textColor-dark"
+                      class="game-result-name block truncate"
                     >
                       ${shell.escapeGameHtml(participant.name)}
                     </strong>
 
                     <strong
-                      class="mt-3 block font-Dana-bold text-2xl text-primary dark:text-primary-light"
+                      class="game-result-value mt-3 block text-primary dark:text-primary-light"
                     >
                       ${shell.toPersianNumber(participant.score)}
                     </strong>
 
                     <span
-                      class="mt-1 block font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+                      class="ui-meta mt-1 block"
                     >
                       امتیاز
                     </span>
@@ -1379,14 +1375,14 @@
             <button
               type="button"
               id="dictation-play-again"
-              class="inline-flex cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-7 py-3 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              class="btn-primary"
             >
               بازی دوباره
             </button>
 
             <a
               href="./dashboard.html"
-              class="inline-flex cursor-pointer items-center justify-center rounded-full border border-textColor/10 bg-transparent px-7 py-3 font-Peyda-medium text-sm text-textColor transition-all duration-300 hover:border-primary/30 hover:text-primary active:scale-95 dark:border-border-dark dark:text-textColor-dark dark:hover:text-primary-light"
+              class="btn-ghost"
             >
               بازگشت به داشبورد
             </a>

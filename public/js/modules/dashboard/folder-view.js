@@ -21,39 +21,19 @@
       return `
       <article
         aria-disabled="true"
-        class="relative overflow-hidden
-               rounded-lg
-               border border-white/60
-               dark:border-border-dark-soft
-               bg-surface-soft
-               dark:bg-surface-dark-soft
-               p-5
-               opacity-70"
+        class="relative overflow-hidden rounded-lg border border-white/60 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft p-5 opacity-70"
       >
         <div
           aria-hidden="true"
-          class="pointer-events-none
-                 absolute -top-10 -left-10
-                 size-28
-                 rounded-full
-                 bg-primary/8
-                 blur-[50px]"
+          class="pointer-events-none absolute -top-10 -left-10 size-28 rounded-full bg-primary/8 blur-[50px]"
         ></div>
 
         <div class="relative z-10">
           <div
-            class="mb-7
-                   flex items-start
-                   justify-between gap-4"
+            class="mb-7 flex items-start justify-between gap-4"
           >
             <div
-              class="flex size-12
-                     items-center justify-center
-                     rounded-md
-                     bg-primary/10
-                     dark:bg-primary/15
-                     text-primary
-                     dark:text-primary-light"
+              class="flex size-12 items-center justify-center rounded-md bg-primary/10 dark:bg-primary/15 text-primary dark:text-primary-light"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -71,14 +51,7 @@
             </div>
 
             <span
-              class="inline-flex items-center gap-1.5
-                     rounded-full
-                     bg-textColor/5
-                     dark:bg-white/5
-                     px-3 py-1.5
-                     font-Dana-medium text-[11px]
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="ui-badge items-center gap-1.5 bg-textColor/5 dark:bg-white/5"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -107,29 +80,22 @@
           </div>
 
           <h3
-            class="mb-2
-                   !text-lg
-                   !leading-7"
+            class="mb-2"
           >
             ${title}
           </h3>
 
           <div
-            class="flex items-center
-                   justify-between gap-3"
+            class="flex items-center justify-between gap-3"
           >
             <span
-              class="font-Dana-regular text-xs
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="ui-meta"
             >
               ${wordCount} کلمه
             </span>
 
             <span
-              class="font-Dana-regular text-[11px]
-                     text-mutedColor/70
-                     dark:text-mutedColor-dark/70"
+              class="ui-meta text-mutedColor/70 dark:text-mutedColor-dark/70"
             >
               قابل ویرایش نیست
             </span>
@@ -145,52 +111,19 @@
       data-manage-folder
       data-folder-id="${escapeDashboardHtml(folder.id)}"
       aria-label="مدیریت پوشه ${title}"
-      class="group
-             relative overflow-hidden
-             cursor-pointer
-             rounded-lg
-             border border-white/70
-             dark:border-border-dark
-             bg-surface
-             dark:bg-surface-dark
-             p-5
-             text-right
-             shadow-card
-             dark:shadow-card-dark
-             transition-all duration-300
-             hover:-translate-y-1
-             hover:border-secondary/25
-             hover:shadow-floating
-             dark:hover:border-secondary/25
-             dark:hover:shadow-floating-dark
-             focus:outline-none
-             focus:ring-2
-             focus:ring-primary/20"
+      class="group relative overflow-hidden cursor-pointer rounded-lg border border-white/70 dark:border-border-dark bg-surface dark:bg-surface-dark p-5 text-right shadow-card dark:shadow-card-dark transition-all duration-300 hover:-translate-y-1 hover:border-secondary/25 hover:shadow-floating dark:hover:border-secondary/25 dark:hover:shadow-floating-dark focus:outline-none focus:ring-2 focus:ring-primary/20"
     >
       <div
         aria-hidden="true"
-        class="pointer-events-none
-               absolute -top-10 -left-10
-               size-28
-               rounded-full
-               bg-secondary/8
-               blur-[50px]"
+        class="pointer-events-none absolute -top-10 -left-10 size-28 rounded-full bg-secondary/8 blur-[50px]"
       ></div>
 
       <div class="relative z-10">
         <div
-          class="mb-7
-                 flex items-start
-                 justify-between gap-4"
+          class="mb-7 flex items-start justify-between gap-4"
         >
           <div
-            class="flex size-12
-                   items-center justify-center
-                   rounded-md
-                   bg-secondary/10
-                   text-secondary
-                   transition-transform duration-300
-                   group-hover:scale-105"
+            class="flex size-12 items-center justify-center rounded-md bg-secondary/10 text-secondary transition-transform duration-300 group-hover:scale-105"
           >
             <svg
               viewBox="0 0 24 24"
@@ -208,12 +141,7 @@
           </div>
 
           <span
-            class="inline-flex items-center
-                   rounded-full
-                   bg-secondary/10
-                   px-3 py-1.5
-                   font-Dana-medium text-[11px]
-                   text-secondary"
+            class="ui-badge items-center bg-secondary/10 text-secondary"
           >
             مدیریت
           </span>
@@ -221,9 +149,7 @@
 
         <h3
           data-folder-card-title
-          class="mb-2
-                 !text-lg
-                 !leading-7"
+          class="mb-2"
         >
           ${title}
         </h3>
@@ -231,9 +157,7 @@
         <div class="flex items-center">
           <span
             data-folder-word-count
-            class="font-Dana-regular text-xs
-                   text-mutedColor
-                   dark:text-mutedColor-dark"
+            class="ui-meta"
           >
             ${wordCount} کلمه
           </span>
@@ -247,55 +171,35 @@
     return `
     <div
       id="add-folder-modal"
-      class="fixed inset-0 z-[100]
-             hidden
-             items-center justify-center
-             p-4 sm:p-6"
+      class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6"
       aria-hidden="true"
     >
       <button
         type="button"
         data-folder-modal-close
         aria-label="بستن پنجره افزودن پوشه"
-        class="absolute inset-0
-               
-               bg-bg-dark/50
-               backdrop-blur-sm"
+        class="absolute inset-0 cursor-pointer bg-bg-dark/50 backdrop-blur-sm"
       ></button>
 
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="add-folder-title"
-        class="relative z-10
-               w-full max-w-md
-               rounded-lg
-               border border-white/70
-               dark:border-border-dark
-               bg-bg
-               dark:bg-bg-dark-secondary
-               p-5 sm:p-6
-               shadow-floating
-               dark:shadow-floating-dark"
+        class="relative z-10 w-full max-w-md rounded-lg border border-white/75 bg-surface-strong p-5 sm:p-6 shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
       >
         <div
-          class="mb-6
-                 flex items-start
-                 justify-between gap-4"
+          class="mb-6 flex items-start justify-between gap-4"
         >
           <div>
             <span
-              class="mb-2 block
-                     font-Dana-medium text-xs
-                     text-primary
-                     dark:text-primary-light"
+              class="ui-eyebrow mb-2 block"
             >
               پوشه جدید
             </span>
 
             <h2
               id="add-folder-title"
-              class="!text-xl"
+             
             >
               یک پوشه برای کلماتت بساز
             </h2>
@@ -305,17 +209,7 @@
             type="button"
             data-folder-modal-close
             aria-label="بستن"
-            class="flex size-9 shrink-0
-                   items-center justify-center
-                   cursor-pointer
-                   rounded-full
-                   bg-surface
-                   dark:bg-surface-dark
-                   text-textColor
-                   dark:text-textColor-dark
-                   transition-colors
-                   hover:text-primary
-                   dark:hover:text-primary-light"
+            class="flex size-9 shrink-0 items-center justify-center cursor-pointer rounded-full bg-surface dark:bg-surface-dark text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light"
           >
             <svg
               viewBox="0 0 24 24"
@@ -378,29 +272,12 @@
           </div>
 
           <div
-            class="mt-7
-                   flex flex-col-reverse gap-3
-                   sm:flex-row
-                   sm:justify-end"
+            class="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"
           >
             <button
               type="button"
               data-folder-modal-close
-              class="inline-flex
-                     cursor-pointer
-                     items-center justify-center
-                     rounded-full
-                     border border-textColor/10
-                     dark:border-border-dark
-                     bg-transparent
-                     px-6 py-3
-                     font-Peyda-medium text-sm
-                     text-textColor
-                     dark:text-textColor-dark
-                     transition-all duration-300
-                     hover:border-primary/30
-                     hover:text-primary
-                     dark:hover:text-primary-light"
+              class="btn-ghost"
             >
               انصراف
             </button>
@@ -408,26 +285,7 @@
             <button
               id="add-folder-submit"
               type="submit"
-              class="inline-flex
-                     cursor-pointer
-                     items-center justify-center
-                     rounded-full
-                     border border-primary
-                     bg-primary
-                     px-7 py-3
-                     font-Peyda-medium text-sm
-                     text-white
-                     shadow-btn
-                     transition-all duration-300
-                     ease-in-out
-                     hover:-translate-y-1
-                     hover:bg-transparent
-                     hover:text-primary
-                     hover:shadow-lg
-                     active:scale-95
-                     focus:outline-none
-                     focus:ring-2
-                     focus:ring-primary/30"
+              class="btn-primary"
             >
               ساخت پوشه
             </button>
@@ -448,9 +306,7 @@
       class="py-10 text-center"
     >
       <span
-        class="font-Dana-regular text-sm
-               text-mutedColor
-               dark:text-mutedColor-dark"
+       
       >
         در حال دریافت پوشه‌ها...
       </span>
@@ -474,28 +330,19 @@
       >
         <!-- Header -->
         <div
-          class="mb-6
-                 flex flex-col gap-4
-                 sm:flex-row
-                 sm:items-end
-                 sm:justify-between"
+          class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
         >
           <div>
             <div
-              class="mb-2
-                     flex items-center gap-2"
+              class="mb-2 flex items-center gap-2"
             >
               <span
                 aria-hidden="true"
-                class="size-1.5
-                       rounded-full
-                       bg-primary"
+                class="size-1.5 rounded-full bg-primary"
               ></span>
 
               <span
-                class="font-Dana-medium text-xs
-                       text-primary
-                       dark:text-primary-light"
+                class="ui-eyebrow"
               >
                 کلمات من
               </span>
@@ -509,10 +356,7 @@
             </h2>
 
             <p
-              class="max-w-xl
-                     text-sm leading-7
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="max-w-xl text-mutedColor dark:text-mutedColor-dark"
             >
               کلماتت را در پوشه‌های مختلف مرتب کن تا بعداً برای مسابقه دیکته از آن‌ها استفاده کنی.
             </p>
@@ -521,29 +365,7 @@
           <button
             type="button"
             data-add-folder
-            class="inline-flex
-                   cursor-pointer
-                   shrink-0
-                   items-center justify-center gap-2
-                   self-start
-                   rounded-full
-                   border border-primary
-                   bg-primary
-                   px-6 py-3
-                   font-Peyda-medium text-sm
-                   text-white
-                   shadow-btn
-                   transition-all duration-300
-                   ease-in-out
-                   hover:-translate-y-1
-                   hover:bg-transparent
-                   hover:text-primary
-                   hover:shadow-lg
-                   active:scale-95
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-primary/30
-                   sm:self-auto"
+            class="btn-primary shrink-0 gap-2 self-start sm:self-auto"
           >
             <svg
               viewBox="0 0 24 24"
@@ -566,56 +388,33 @@
         <!-- User folders -->
         <div class="mb-9">
           <div
-            class="mb-4
-                   flex items-center
-                   justify-between gap-4"
+            class="mb-4 flex items-center justify-between gap-4"
           >
             <h3
-              class="!font-Peyda-medium
-                     !text-base"
+             
             >
               پوشه‌های من
             </h3>
 
             <span
-              class="font-Dana-regular text-xs
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="ui-meta"
             >
               ${toPersianNumber(userFolders.length)} پوشه
             </span>
           </div>
 
           <div
-            class="grid grid-cols-1
-                   gap-4
-                   sm:grid-cols-2
-                   xl:grid-cols-3"
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
           >
             ${
               userFolders.length
                 ? userFolders.map(createFolderCard).join('')
                 : `
                   <div
-                    class="sm:col-span-2
-                           xl:col-span-3
-                           rounded-lg
-                           border border-dashed
-                           border-primary/20
-                           bg-primary/[0.03]
-                           dark:bg-primary/[0.05]
-                           px-6 py-10
-                           text-center"
+                    class="sm:col-span-2 xl:col-span-3 rounded-lg border border-dashed border-primary/20 bg-primary/[0.03] dark:bg-primary/[0.05] px-6 py-10 text-center"
                   >
                     <div
-                      class="mx-auto mb-4
-                             flex size-12
-                             items-center justify-center
-                             rounded-full
-                             bg-primary/10
-                             text-primary
-                             dark:bg-primary/15
-                             dark:text-primary-light"
+                      class="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -633,17 +432,13 @@
                     </div>
 
                     <h3
-                      class="mb-2
-                             !text-base"
+                      class="mb-2"
                     >
                       هنوز پوشه‌ای نساختی
                     </h3>
 
                     <p
-                      class="mb-5
-                             text-sm
-                             text-mutedColor
-                             dark:text-mutedColor-dark"
+                      class="mb-5 text-mutedColor dark:text-mutedColor-dark"
                     >
                       اولین پوشه‌ات را برای نگهداری کلمات بساز.
                     </p>
@@ -651,10 +446,7 @@
                     <button
                       type="button"
                       data-add-folder
-                      class="cursor-pointer
-                             font-Peyda-medium text-sm
-                             text-primary
-                             dark:text-primary-light"
+                      class="btn-link"
                     >
                       + ساخت اولین پوشه
                     </button>
@@ -669,36 +461,10 @@
                   <button
                     type="button"
                     data-add-folder
-                    class="group
-                           cursor-pointer
-                           min-h-[190px]
-                           rounded-lg
-                           border border-dashed
-                           border-primary/25
-                           bg-primary/[0.025]
-                           dark:bg-primary/[0.04]
-                           p-5
-                           text-right
-                           transition-all duration-300
-                           hover:-translate-y-1
-                           hover:border-primary/45
-                           hover:bg-primary/[0.045]
-                           dark:hover:bg-primary/[0.07]
-                           focus:outline-none
-                           focus:ring-2
-                           focus:ring-primary/20"
+                    class="group cursor-pointer min-h-[190px] rounded-lg border border-dashed border-primary/25 bg-primary/[0.025] dark:bg-primary/[0.04] p-5 text-right transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:bg-primary/[0.045] dark:hover:bg-primary/[0.07] focus:outline-none focus:ring-2 focus:ring-primary/20"
                   >
                     <div
-                      class="mb-7
-                             flex size-12
-                             items-center justify-center
-                             rounded-md
-                             bg-primary/10
-                             text-primary
-                             transition-transform duration-300
-                             group-hover:scale-105
-                             dark:bg-primary/15
-                             dark:text-primary-light"
+                      class="mb-7 flex size-12 items-center justify-center rounded-md bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-105 dark:bg-primary/15 dark:text-primary-light"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -715,19 +481,14 @@
                       </svg>
                     </div>
 
-                    <strong
-                      class="mb-1.5 block
-                             font-Peyda-medium text-base
-                             text-textColor
-                             dark:text-textColor-dark"
+                    <h5
+                      class="mb-1.5"
                     >
                       افزودن پوشه
-                    </strong>
+                    </h5>
 
                     <span
-                      class="font-Dana-regular text-xs
-                             text-mutedColor
-                             dark:text-mutedColor-dark"
+                      class="ui-meta"
                     >
                       یک دسته جدید برای کلماتت بساز
                     </span>
@@ -744,42 +505,31 @@
             ? `
               <div>
                 <div
-                  class="mb-4
-                         flex items-center
-                         justify-between gap-4"
+                  class="mb-4 flex items-center justify-between gap-4"
                 >
                   <div>
                     <h3
-                      class="mb-1
-                             !font-Peyda-medium
-                             !text-base"
+                      class="mb-1"
                     >
                       پوشه‌های دیکته خونه
                     </h3>
 
                     <span
-                      class="font-Dana-regular text-xs
-                             text-mutedColor
-                             dark:text-mutedColor-dark"
+                      class="ui-meta"
                     >
                       پوشه‌های آماده و پیش‌فرض
                     </span>
                   </div>
 
                   <span
-                    class="font-Dana-regular text-xs
-                           text-mutedColor
-                           dark:text-mutedColor-dark"
+                    class="ui-meta"
                   >
                     ${toPersianNumber(systemFolders.length)} پوشه
                   </span>
                 </div>
 
                 <div
-                  class="grid grid-cols-1
-                         gap-4
-                         sm:grid-cols-2
-                         xl:grid-cols-3"
+                  class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
                 >
                   ${systemFolders.map(createFolderCard).join('')}
                 </div>
@@ -800,22 +550,16 @@
 
       container.innerHTML = `
       <div
-        class="rounded-lg
-               border border-secondary/15
-               bg-secondary/5
-               px-6 py-10
-               text-center"
+        class="rounded-lg border border-secondary/15 bg-secondary/5 px-6 py-10 text-center"
       >
         <h2
-          class="mb-2 !text-lg"
+          class="mb-2"
         >
           دریافت پوشه‌ها انجام نشد
         </h2>
 
         <p
-          class="text-sm
-                 text-mutedColor
-                 dark:text-mutedColor-dark"
+          class="text-mutedColor dark:text-mutedColor-dark"
         >
           لطفاً صفحه را دوباره بارگذاری کن.
         </p>

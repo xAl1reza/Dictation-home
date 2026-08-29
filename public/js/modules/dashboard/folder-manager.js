@@ -12,60 +12,36 @@
     return `
     <div
       id="folder-manager-modal"
-      class="fixed inset-0 z-[100]
-             hidden
-             items-center justify-center
-             p-3 sm:p-6"
+      class="fixed inset-0 z-[100] hidden items-center justify-center p-3 sm:p-6"
       aria-hidden="true"
     >
       <button
         type="button"
         data-folder-manager-close
         aria-label="بستن مدیریت پوشه"
-        class="absolute inset-0
-               cursor-pointer
-               bg-bg-dark/55
-               backdrop-blur-sm"
+        class="absolute inset-0 cursor-pointer bg-bg-dark/55 backdrop-blur-sm"
       ></button>
 
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="folder-manager-heading"
-        class="relative z-10
-               flex max-h-[88vh]
-               w-full max-w-3xl
-               flex-col overflow-hidden
-               rounded-lg
-               border border-white/70
-               dark:border-border-dark
-               bg-bg
-               dark:bg-bg-dark-secondary
-               shadow-floating
-               dark:shadow-floating-dark"
+        class="relative z-10 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-white/75 bg-surface-strong shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
       >
         <!-- Header -->
         <div
-          class="flex shrink-0
-                 items-start
-                 gap-4
-                 border-b border-textColor/5
-                 dark:border-border-dark-soft
-                 px-5 py-5 sm:px-6"
+          class="flex shrink-0 items-start gap-4 border-b border-textColor/5 dark:border-border-dark-soft px-5 py-5 sm:px-6"
         >
           <div class="min-w-0">
             <span
-              class="mb-1.5 block
-                     font-Dana-medium text-xs
-                     text-primary
-                     dark:text-primary-light"
+              class="ui-eyebrow mb-1.5 block"
             >
               مدیریت پوشه
             </span>
 
             <h2
               id="folder-manager-heading"
-              class="truncate !text-xl sm:!text-2xl"
+              class="truncate"
             >
               پوشه
             </h2>
@@ -75,19 +51,11 @@
 
         <!-- Scrollable content -->
         <div
-          class="min-h-0 flex-1
-                 overflow-y-auto
-                 overscroll-contain
-                 px-5 py-5 sm:px-6 sm:py-6"
+          class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-6 sm:py-6"
         >
           <!-- Folder title -->
           <section
-            class="rounded-md
-                   border border-white/70
-                   dark:border-border-dark-soft
-                   bg-surface-soft
-                   dark:bg-surface-dark-soft
-                   p-4 sm:p-5"
+            class="rounded-md border border-white/70 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft p-4 sm:p-5"
             aria-labelledby="folder-manager-title-label"
           >
             <form
@@ -104,9 +72,7 @@
                 </label>
 
                 <div
-                  class="flex flex-col gap-3
-                         sm:flex-row
-                         sm:items-start"
+                  class="flex flex-col gap-3 sm:flex-row sm:items-start"
                 >
                   <div class="min-w-0 flex-1">
                     <input
@@ -129,25 +95,7 @@
                   <button
                     id="folder-manager-title-submit"
                     type="submit"
-                    class="inline-flex
-                           cursor-pointer
-                           items-center justify-center
-                           gap-2
-                           rounded-full
-                           border border-primary
-                           bg-primary
-                           px-6 py-3.5
-                           font-Peyda-medium text-sm
-                           text-white
-                           shadow-btn
-                           transition-all duration-300
-                           hover:-translate-y-0.5
-                           hover:bg-transparent
-                           hover:text-primary
-                           active:scale-95
-                           focus:outline-none
-                           focus:ring-2
-                           focus:ring-primary/30"
+                    class="btn-primary gap-2"
                   >
                     ذخیره نام
                   </button>
@@ -162,22 +110,18 @@
             aria-labelledby="folder-manager-words-title"
           >
             <div
-              class="mb-4
-                     flex items-center
-                     justify-between gap-4"
+              class="mb-4 flex items-center justify-between gap-4"
             >
               <div>
                 <h3
                   id="folder-manager-words-title"
-                  class="mb-1 !text-base"
+                  class="mb-1"
                 >
                   کلمات پوشه
                 </h3>
 
                 <span
-                  class="font-Dana-regular text-xs
-                         text-mutedColor
-                         dark:text-mutedColor-dark"
+                  class="ui-meta"
                 >
                   از اینجا می‌تونی کلمات رو ویرایش یا حذف کنی.
                 </span>
@@ -185,14 +129,7 @@
 
               <span
                 id="folder-manager-word-count"
-                class="shrink-0
-                       rounded-full
-                       bg-primary/10
-                       dark:bg-primary/15
-                       px-3 py-1.5
-                       font-Dana-medium text-xs
-                       text-primary
-                       dark:text-primary-light"
+                class="ui-eyebrow shrink-0 rounded-full bg-primary/10 dark:bg-primary/15 px-3 py-1.5"
               >
                 ۰ کلمه
               </span>
@@ -207,21 +144,10 @@
 
         <!-- Footer -->
         <div
-          class="flex shrink-0
-                 flex-col gap-3
-                 border-t border-textColor/5
-                 dark:border-border-dark-soft
-                 bg-surface-soft
-                 dark:bg-surface-dark-soft
-                 px-5 py-4 sm:px-6
-                 sm:flex-row
-                 sm:items-center
-                 sm:justify-between"
+          class="flex shrink-0 flex-col gap-3 border-t border-textColor/5 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft px-5 py-4 sm:px-6 sm:flex-row sm:items-center sm:justify-between"
         >
           <span
-            class="font-Dana-regular text-xs
-                   text-mutedColor
-                   dark:text-mutedColor-dark"
+            class="ui-meta"
           >
             حذف پوشه، همه کلمات داخل آن را هم حذف می‌کند.
           </span>
@@ -229,24 +155,7 @@
           <button
             id="folder-manager-delete-folder"
             type="button"
-            class="inline-flex
-                   cursor-pointer
-                   items-center justify-center
-                   rounded-full
-                   border border-secondary/30
-                   bg-secondary/10
-                   px-5 py-2.5
-                   font-Peyda-medium text-sm
-                   text-secondary
-                   transition-all duration-300
-                   hover:-translate-y-0.5
-                   hover:border-secondary
-                   hover:bg-secondary
-                   hover:text-white
-                   active:scale-95
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-secondary/20"
+            class="btn-danger-soft"
           >
             حذف پوشه
           </button>
@@ -256,20 +165,14 @@
       <!-- Delete folder confirmation -->
       <div
         id="delete-folder-confirm"
-        class="absolute inset-0 z-20
-               hidden
-               items-center justify-center
-               p-4"
+        class="absolute inset-0 z-20 hidden items-center justify-center p-4"
         aria-hidden="true"
       >
         <button
           type="button"
           data-delete-folder-cancel
           aria-label="انصراف از حذف پوشه"
-          class="absolute inset-0
-                 cursor-pointer
-                 bg-bg-dark/45
-                 backdrop-blur-[2px]"
+          class="absolute inset-0 cursor-pointer bg-bg-dark/45 backdrop-blur-sm"
         ></button>
 
         <div
@@ -277,24 +180,10 @@
           aria-modal="true"
           aria-labelledby="delete-folder-confirm-title"
           aria-describedby="delete-folder-confirm-description"
-          class="relative z-10
-                 w-full max-w-md
-                 rounded-lg
-                 border border-white/70
-                 dark:border-border-dark
-                 bg-bg
-                 dark:bg-bg-dark-secondary
-                 p-5 sm:p-6
-                 shadow-floating
-                 dark:shadow-floating-dark"
+          class="relative z-10 w-full max-w-md rounded-lg border border-white/75 bg-surface-strong p-5 sm:p-6 shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
         >
           <div
-            class="mb-5
-                   flex size-12
-                   items-center justify-center
-                   rounded-md
-                   bg-secondary/10
-                   text-secondary"
+            class="mb-5 flex size-12 items-center justify-center rounded-md bg-secondary/10 text-secondary"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -311,43 +200,25 @@
 
           <h3
             id="delete-folder-confirm-title"
-            class="mb-2 !text-lg"
+            class="mb-2"
           >
             مطمئنی می‌خوای این پوشه حذف بشه؟
           </h3>
 
           <p
             id="delete-folder-confirm-description"
-            class="text-sm leading-7
-                   text-mutedColor
-                   dark:text-mutedColor-dark"
+            class="text-mutedColor dark:text-mutedColor-dark"
           >
             این عملیات قابل بازگشت نیست.
           </p>
 
           <div
-            class="mt-6
-                   flex flex-col-reverse gap-3
-                   sm:flex-row
-                   sm:justify-end"
+            class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"
           >
             <button
               type="button"
               data-delete-folder-cancel
-              class="inline-flex
-                     cursor-pointer
-                     items-center justify-center
-                     rounded-full
-                     border border-textColor/10
-                     dark:border-border-dark
-                     px-5 py-2.5
-                     font-Peyda-medium text-sm
-                     text-textColor
-                     dark:text-textColor-dark
-                     transition-colors
-                     hover:border-primary/30
-                     hover:text-primary
-                     dark:hover:text-primary-light"
+              class="btn-ghost"
             >
               انصراف
             </button>
@@ -355,24 +226,7 @@
             <button
               id="delete-folder-confirm-submit"
               type="button"
-              class="inline-flex
-                     cursor-pointer
-                     items-center justify-center
-                     gap-2
-                     rounded-full
-                     border border-secondary
-                     bg-secondary
-                     px-5 py-2.5
-                     font-Peyda-medium text-sm
-                     text-white
-                     transition-all duration-300
-                     hover:-translate-y-0.5
-                     hover:bg-transparent
-                     hover:text-secondary
-                     active:scale-95
-                     focus:outline-none
-                     focus:ring-2
-                     focus:ring-secondary/20"
+              class="btn-secondary gap-2"
             >
               حذف پوشه
             </button>
@@ -387,18 +241,10 @@
     if (!words.length) {
       return `
       <div
-        class="rounded-md
-               border border-dashed
-               border-primary/20
-               bg-primary/[0.03]
-               dark:bg-primary/[0.05]
-               px-5 py-8
-               text-center"
+        class="rounded-md border border-dashed border-primary/20 bg-primary/[0.03] dark:bg-primary/[0.05] px-5 py-8 text-center"
       >
         <span
-          class="font-Dana-regular text-sm
-                 text-mutedColor
-                 dark:text-mutedColor-dark"
+         
         >
           هنوز کلمه‌ای داخل این پوشه نیست.
         </span>
@@ -412,52 +258,27 @@
         <article
           data-word-row
           data-word-id="${escapeDashboardHtml(word.id)}"
-          class="rounded-md
-                 border border-white/70
-                 dark:border-border-dark-soft
-                 bg-surface
-                 dark:bg-surface-dark
-                 p-3.5 sm:p-4"
+          class="rounded-md border border-white/70 dark:border-border-dark-soft bg-surface dark:bg-surface-dark p-3.5 sm:p-4"
         >
           <div
             data-word-display
-            class="flex items-center
-                   justify-between gap-3"
+            class="flex items-center justify-between gap-3"
           >
-            <p
+            <span
               data-word-text
-              class="min-w-0 flex-1
-                     break-words
-                     font-Dana-medium text-sm
-                     text-textColor
-                     dark:text-textColor-dark"
+              class="word-list-value min-w-0 flex-1 break-words"
             >
               ${escapeDashboardHtml(word.value)}
-            </ح>
+            </span>
 
             <div
-              class="flex shrink-0
-                     items-center gap-1.5"
+              class="flex shrink-0 items-center gap-1.5"
             >
               <button
                 type="button"
                 data-edit-word
                 aria-label="ویرایش کلمه ${escapeDashboardHtml(word.value)}"
-                class="flex size-9
-                       cursor-pointer
-                       items-center justify-center
-                       rounded-full
-                       bg-primary/10
-                       text-primary
-                       dark:bg-primary/15
-                       dark:text-primary-light
-                       transition-all duration-200
-                       hover:bg-primary/15
-                       dark:hover:bg-primary/20
-                       hover:scale-105
-                       focus:outline-none
-                       focus:ring-2
-                       focus:ring-primary/20"
+                class="btn-link flex size-9 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/15 transition-all duration-200 hover:bg-primary/15 dark:hover:bg-primary/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/20"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -476,20 +297,7 @@
                 type="button"
                 data-delete-word
                 aria-label="حذف کلمه ${escapeDashboardHtml(word.value)}"
-                class="flex size-9
-                       cursor-pointer
-                       items-center justify-center
-                       rounded-full
-                       bg-secondary/10
-                       text-secondary
-                       dark:bg-secondary/15
-                       transition-all duration-200
-                       hover:bg-secondary/20
-                       dark:hover:bg-secondary/20
-                       hover:scale-105
-                       focus:outline-none
-                       focus:ring-2
-                       focus:ring-secondary/20"
+                class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-secondary/10 text-secondary dark:bg-secondary/15 transition-all duration-200 hover:bg-secondary/20 dark:hover:bg-secondary/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secondary/20"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -512,9 +320,7 @@
             novalidate
           >
             <div
-              class="flex flex-col gap-3
-                     sm:flex-row
-                     sm:items-start"
+              class="flex flex-col gap-3 sm:flex-row sm:items-start"
             >
               <div class="min-w-0 flex-1">
                 <input
@@ -538,18 +344,7 @@
               >
                 <button
                   type="submit"
-                  class="inline-flex
-                         cursor-pointer
-                         items-center justify-center
-                         rounded-full
-                         border border-primary
-                         bg-primary
-                         px-4 py-2.5
-                         font-Peyda-medium text-xs
-                         text-white
-                         transition-all duration-200
-                         hover:bg-transparent
-                         hover:text-primary"
+                  class="btn-primary btn-compact"
                 >
                   ذخیره
                 </button>
@@ -557,19 +352,7 @@
                 <button
                   type="button"
                   data-cancel-word-edit
-                  class="inline-flex
-                         cursor-pointer
-                         items-center justify-center
-                         rounded-full
-                         border border-textColor/10
-                         dark:border-border-dark
-                         px-4 py-2.5
-                         font-Peyda-medium text-xs
-                         text-textColor
-                         dark:text-textColor-dark
-                         transition-colors
-                         hover:text-primary
-                         dark:hover:text-primary-light"
+                  class="btn-ghost btn-compact"
                 >
                   انصراف
                 </button>

@@ -381,9 +381,7 @@
     container.innerHTML = `
     <div class="py-10 text-center">
       <span
-        class="font-Dana-regular text-sm
-               text-mutedColor
-               dark:text-mutedColor-dark"
+       
       >
         در حال دریافت پوشه‌ها...
       </span>
@@ -401,32 +399,14 @@
         role="option"
         aria-selected="false"
         data-value="${escapeDashboardHtml(folder.id)}"
-        class="word-folder-option
-               flex w-full
-               cursor-pointer
-               items-center justify-between
-               gap-3
-               rounded-sm
-               px-4 py-3
-               text-right
-               font-Dana-medium text-sm
-               text-textColor
-               dark:text-textColor-dark
-               transition-colors
-               hover:bg-primary/10
-               hover:text-primary
-               dark:hover:bg-primary/15
-               dark:hover:text-primary-light"
+        class="word-folder-option form-option"
       >
         <span class="word-folder-option-label">
           ${escapeDashboardHtml(folder.title)}
         </span>
 
         <span
-          class="word-folder-check
-                 hidden
-                 text-primary
-                 dark:text-primary-light"
+          class="word-folder-check hidden text-primary dark:text-primary-light"
           aria-hidden="true"
         >
           ✓
@@ -439,20 +419,11 @@
       container.innerHTML = `
       <section
         aria-labelledby="add-word-title"
-        class="grid grid-cols-1 gap-6
-               xl:grid-cols-[minmax(0,1fr)_360px]"
+        class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]"
       >
         <!-- Main form -->
         <div
-          class="rounded-lg
-                 border border-white/70
-                 dark:border-border-dark
-                 bg-surface
-                 dark:bg-surface-dark
-                 p-6 sm:p-8
-                 shadow-card
-                 dark:shadow-card-dark
-                 backdrop-blur-md"
+          class="rounded-lg border border-white/70 dark:border-border-dark bg-surface dark:bg-surface-dark p-6 sm:p-8 shadow-card dark:shadow-card-dark backdrop-blur-md"
         >
           <div class="mb-7">
             <div
@@ -464,9 +435,7 @@
               ></span>
 
               <span
-                class="font-Dana-medium text-xs
-                       text-primary
-                       dark:text-primary-light"
+                class="ui-eyebrow"
               >
                 مدیریت کلمات
               </span>
@@ -480,10 +449,7 @@
             </h2>
 
             <p
-              class="max-w-xl
-                     text-sm leading-7
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="max-w-xl text-mutedColor dark:text-mutedColor-dark"
             >
               ابتدا پوشه موردنظر را انتخاب کن و بعد کلمه جدید را به آن اضافه کن.
             </p>
@@ -531,20 +497,11 @@
     aria-haspopup="listbox"
     aria-expanded="false"
     aria-controls="word-folder-menu"
-    class="form-control
-           flex
-           cursor-pointer
-           items-center justify-between
-           gap-4
-           text-right
-           focus:outline-none
-           focus:ring-4
-           focus:ring-primary/10"
+    class="form-control form-select-trigger"
   >
     <span
       id="word-folder-value"
-      class="text-mutedColor/60
-             dark:text-mutedColor-dark/50"
+      class="text-mutedColor/60 dark:text-mutedColor-dark/50"
     >
       یک پوشه انتخاب کن
     </span>
@@ -555,12 +512,7 @@
       fill="none"
       stroke="currentColor"
       stroke-width="1.8"
-      class="size-4
-             shrink-0
-             text-mutedColor
-             dark:text-mutedColor-dark
-             transition-transform
-             duration-300"
+      class="size-4 shrink-0 text-mutedColor dark:text-mutedColor-dark transition-transform duration-300"
       aria-hidden="true"
     >
       <path
@@ -576,22 +528,7 @@
     role="listbox"
     aria-labelledby="word-folder-label"
     tabindex="-1"
-    class="absolute
-           top-full right-0 left-0
-           z-40
-           mt-2
-           hidden
-           max-h-64
-           overflow-y-auto
-           rounded-md
-           border border-white/80
-           dark:border-border-dark
-           bg-white/95
-           dark:bg-bg-dark-secondary/95
-           p-2
-           shadow-floating
-           dark:shadow-floating-dark
-           backdrop-blur-xl"
+    class="form-dropdown-menu"
   >
     ${folderOptions}
   </div>
@@ -647,37 +584,12 @@
 
                   <!-- Actions -->
                   <div
-                    class="flex flex-col gap-3
-                           border-t border-textColor/5
-                           dark:border-border-dark-soft
-                           pt-6
-                           sm:flex-row
-                           sm:items-center
-                           sm:justify-end"
+                    class="flex flex-col gap-3 border-t border-textColor/5 dark:border-border-dark-soft pt-6 sm:flex-row sm:items-center sm:justify-end"
                   >
                     <button
                       id="add-word-submit"
                       type="submit"
-                      class="inline-flex
-                             cursor-pointer
-                             items-center justify-center gap-2
-                             rounded-full
-                             border border-primary
-                             bg-primary
-                             px-7 py-3
-                             font-Peyda-medium text-sm
-                             text-white
-                             shadow-btn
-                             transition-all duration-300
-                             ease-in-out
-                             hover:-translate-y-1
-                             hover:bg-transparent
-                             hover:text-primary
-                             hover:shadow-lg
-                             active:scale-95
-                             focus:outline-none
-                             focus:ring-2
-                             focus:ring-primary/30"
+                      class="btn-primary gap-2"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -700,22 +612,10 @@
               `
               : `
                 <div
-                  class="rounded-lg
-                         border border-dashed border-primary/20
-                         bg-primary/[0.03]
-                         dark:bg-primary/[0.05]
-                         px-6 py-10
-                         text-center"
+                  class="rounded-lg border border-dashed border-primary/20 bg-primary/[0.03] dark:bg-primary/[0.05] px-6 py-10 text-center"
                 >
                   <div
-                    class="mx-auto mb-4
-                           flex size-12
-                           items-center justify-center
-                           rounded-full
-                           bg-primary/10
-                           text-primary
-                           dark:bg-primary/15
-                           dark:text-primary-light"
+                    class="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -732,14 +632,12 @@
                     </svg>
                   </div>
 
-                  <h3 class="mb-2 !text-base">
+                  <h3 class="mb-2">
                     هنوز پوشه قابل ویرایشی نداری
                   </h3>
 
                   <p
-                    class="mb-5 text-sm
-                           text-mutedColor
-                           dark:text-mutedColor-dark"
+                    class="mb-5 text-mutedColor dark:text-mutedColor-dark"
                   >
                     برای افزودن کلمه، اول یک پوشه شخصی بساز.
                   </p>
@@ -747,18 +645,7 @@
                   <a
                     href="./dashboard.html?view=folders"
                     data-dashboard-link="folders"
-                    class="inline-flex
-                           cursor-pointer
-                           items-center justify-center
-                           rounded-full
-                           border border-primary
-                           bg-primary
-                           px-6 py-3
-                           font-Peyda-medium text-sm
-                           text-white
-                           transition-all duration-300
-                           hover:bg-transparent
-                           hover:text-primary"
+                    class="btn-primary"
                   >
                     رفتن به پوشه‌ها
                   </a>
@@ -769,20 +656,10 @@
 
         <!-- Help -->
         <aside
-          class="rounded-lg
-                 border border-white/60
-                 dark:border-border-dark-soft
-                 bg-surface-soft
-                 dark:bg-surface-dark-soft
-                 p-6"
+          class="rounded-lg border border-white/60 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft p-6"
         >
           <div
-            class="mb-5
-                   flex size-11
-                   items-center justify-center
-                   rounded-md
-                   bg-accent/15
-                   text-accent"
+            class="mb-5 flex size-11 items-center justify-center rounded-md bg-accent/15 text-accent"
           >
             <svg
               viewBox="0 0 24 24"
@@ -807,40 +684,28 @@
           </div>
 
           <h3
-            class="mb-3
-                   !text-base"
+            class="mb-3"
           >
             کلمه‌ها کجا استفاده می‌شن؟
           </h3>
 
           <p
-            class="text-sm leading-7
-                   text-mutedColor
-                   dark:text-mutedColor-dark"
+            class="text-mutedColor dark:text-mutedColor-dark"
           >
             کلمه‌هایی که اینجا اضافه می‌کنی، بعداً در مسابقه دیکته از پوشه انتخاب‌شده خوانده می‌شن.
           </p>
 
           <div
-            class="mt-6
-                   border-t border-textColor/5
-                   dark:border-border-dark-soft
-                   pt-5"
+            class="mt-6 border-t border-textColor/5 dark:border-border-dark-soft pt-5"
           >
             <span
-              class="block
-                     font-Dana-medium text-xs
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="ui-label block"
             >
               نکته
             </span>
 
             <p
-              class="mt-2
-                     text-xs leading-6
-                     text-mutedColor
-                     dark:text-mutedColor-dark"
+              class="mt-2 text-mutedColor dark:text-mutedColor-dark"
             >
               پوشه‌های پیش‌فرض دیکته خونه قابل ویرایش نیستن؛ فقط پوشه‌هایی که خودت ساختی اینجا نمایش داده می‌شن.
             </p>
@@ -856,20 +721,14 @@
 
       container.innerHTML = `
       <div
-        class="rounded-lg
-               border border-secondary/15
-               bg-secondary/5
-               px-6 py-10
-               text-center"
+        class="rounded-lg border border-secondary/15 bg-secondary/5 px-6 py-10 text-center"
       >
-        <h2 class="mb-2 !text-lg">
+        <h2 class="mb-2">
           دریافت پوشه‌ها انجام نشد
         </h2>
 
         <p
-          class="text-sm
-                 text-mutedColor
-                 dark:text-mutedColor-dark"
+          class="text-mutedColor dark:text-mutedColor-dark"
         >
           لطفاً صفحه را دوباره بارگذاری کن.
         </p>

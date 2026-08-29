@@ -59,13 +59,13 @@
         class="min-w-0 px-3 py-4 text-center sm:px-5"
       >
         <span
-          class="mb-1 block font-Dana-regular text-[11px] text-mutedColor dark:text-mutedColor-dark sm:text-xs"
+          class="game-score-label mb-1 block"
         >
           بازیکن
         </span>
 
         <strong
-          class="block truncate font-Peyda-medium text-sm text-textColor dark:text-textColor-dark sm:text-base"
+          class="game-player-name block truncate"
         >
           ${escapeGameHtml(participant?.name || "بازیکن")}
         </strong>
@@ -75,13 +75,13 @@
         class="border-x border-textColor/5 px-3 py-4 text-center dark:border-border-dark-soft sm:px-5"
       >
         <span
-          class="mb-1 block font-Dana-regular text-[11px] text-mutedColor dark:text-mutedColor-dark sm:text-xs"
+          class="game-score-label mb-1 block"
         >
           دور
         </span>
 
         <strong
-          class="font-Dana-bold text-base text-textColor dark:text-textColor-dark sm:text-lg"
+          class="game-score-value text-textColor dark:text-textColor-dark"
         >
           ${toPersianNumber(round)}
         </strong>
@@ -91,13 +91,13 @@
         class="px-3 py-4 text-center sm:px-5"
       >
         <span
-          class="mb-1 block font-Dana-regular text-[11px] text-mutedColor dark:text-mutedColor-dark sm:text-xs"
+          class="game-score-label mb-1 block"
         >
           امتیاز بازی
         </span>
 
         <strong
-          class="font-Dana-bold text-base text-primary dark:text-primary-light sm:text-lg"
+          class="game-score-value text-primary dark:text-primary-light"
         >
           ${toPersianNumber(participant?.score || 0)}
         </strong>
@@ -116,7 +116,7 @@
           class="min-w-0 px-3 py-4 text-center sm:px-5"
         >
           <span
-            class="mb-1 flex items-center justify-center gap-1.5 font-Dana-regular text-[11px] text-mutedColor dark:text-mutedColor-dark sm:text-xs"
+            class="game-score-label mb-1 flex items-center justify-center gap-1.5"
           >
             ${
               isCurrent
@@ -133,15 +133,13 @@
           </span>
 
           <strong
-            class="block truncate font-Peyda-medium text-sm text-textColor dark:text-textColor-dark sm:text-base"
+            class="game-player-name block truncate"
           >
             ${escapeGameHtml(participant?.name || "بازیکن")}
           </strong>
 
           <span
-            class="mt-1 block font-Dana-bold text-sm ${
-              isCurrent
-                ? "text-primary dark:text-primary-light"
+            class="game-score-value mt-1 block ${ isCurrent ?"text-primary dark:text-primary-light"
                 : "text-textColor dark:text-textColor-dark"
             }"
           >
@@ -158,13 +156,13 @@
         class="border-x border-textColor/5 px-3 py-4 text-center dark:border-border-dark-soft sm:px-5"
       >
         <span
-          class="mb-1 block font-Dana-regular text-[11px] text-mutedColor dark:text-mutedColor-dark sm:text-xs"
+          class="game-score-label mb-1 block"
         >
           دور
         </span>
 
         <strong
-          class="font-Dana-bold text-base text-textColor dark:text-textColor-dark sm:text-lg"
+          class="game-score-value text-textColor dark:text-textColor-dark"
         >
           ${toPersianNumber(round)}
         </strong>
@@ -209,20 +207,20 @@
     if (snapshot.status === window.GameEngine.STATUS.PLAYING) {
       status.textContent = "در حال اجرا";
       status.className =
-        "inline-flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-3.5 py-2 font-Dana-medium text-xs text-primary dark:bg-primary/15 dark:text-primary-light";
+        "ui-badge shrink-0 gap-2 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light";
       return;
     }
 
     if (snapshot.status === window.GameEngine.STATUS.FINISHED) {
       status.textContent = "پایان یافته";
       status.className =
-        "inline-flex shrink-0 items-center gap-2 rounded-full bg-secondary/10 px-3.5 py-2 font-Dana-medium text-xs text-secondary dark:bg-secondary/15";
+        "ui-badge shrink-0 gap-2 bg-secondary/10 text-secondary dark:bg-secondary/15";
       return;
     }
 
     status.textContent = "آماده";
     status.className =
-      "inline-flex shrink-0 items-center gap-2 rounded-full bg-accent/15 px-3.5 py-2 font-Dana-medium text-xs text-textColor dark:bg-accent/10 dark:text-textColor-dark";
+      "ui-badge shrink-0 gap-2 bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark";
   };
 
   const setGameIcon = (config) => {
@@ -271,19 +269,19 @@
           </svg>
         </div>
 
-        <h1 class="mb-3 !text-[clamp(24px,4vw,34px)]">
+        <h1 class="mb-3">
           بازی پیدا نشد
         </h1>
 
         <p
-          class="mx-auto mb-7 max-w-md text-sm leading-7 text-mutedColor dark:text-mutedColor-dark"
+          class="mx-auto mb-7 max-w-md text-mutedColor dark:text-mutedColor-dark"
         >
           نوع مسابقه مشخص نیست. از داشبورد یکی از بازی‌ها را انتخاب کن.
         </p>
 
         <a
           href="./dashboard.html"
-          class="inline-flex cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-7 py-3 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+          class="btn-primary"
         >
           بازگشت به داشبورد
         </a>
@@ -349,7 +347,7 @@
     stage.innerHTML = `
       <div class="mx-auto max-w-2xl text-center">
         <span
-          class="mb-5 inline-flex items-center rounded-full px-4 py-2 font-Dana-medium text-xs ${config.badgeClass}"
+          class="ui-badge mb-5 items-center ${config.badgeClass}"
         >
           آماده شروع
         </span>
@@ -363,12 +361,12 @@
           </svg>
         </div>
 
-        <h2 class="mb-3 !text-[clamp(26px,4vw,38px)]">
+        <h2 class="mb-3">
           برای شروع آماده‌ای؟
         </h2>
 
         <p
-          class="mx-auto max-w-xl text-sm leading-8 text-mutedColor dark:text-mutedColor-dark sm:text-base"
+          class="mx-auto max-w-xl text-mutedColor dark:text-mutedColor-dark"
         >
           ${escapeGameHtml(config.description)}
         </p>
@@ -376,7 +374,7 @@
         <button
           type="button"
           data-game-start
-          class="mt-8 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-primary bg-primary px-8 py-3.5 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-transparent hover:text-primary hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+          class="btn-primary mt-8 gap-2"
         >
           شروع مسابقه
 
@@ -427,17 +425,17 @@
         </div>
 
         <span
-          class="mb-4 inline-flex rounded-full bg-primary/10 px-4 py-2 font-Dana-medium text-xs text-primary dark:bg-primary/15 dark:text-primary-light"
+          class="ui-badge mb-4 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
         >
           موتور بازی فعال است
         </span>
 
-        <h2 class="mb-3 !text-[clamp(24px,4vw,34px)]">
+        <h2 class="mb-3">
           محیط ${escapeGameHtml(config.title)} آماده شد
         </h2>
 
         <p
-          class="mx-auto max-w-xl text-sm leading-8 text-mutedColor dark:text-mutedColor-dark"
+          class="mx-auto max-w-xl text-mutedColor dark:text-mutedColor-dark"
         >
           پوسته و چرخه بازی فعال شده. محتوای اختصاصی هر مسابقه در مرحله بعد داخل همین بخش قرار می‌گیرد.
         </p>
@@ -445,7 +443,7 @@
         <button
           type="button"
           data-game-shell-reset
-          class="mt-7 inline-flex cursor-pointer items-center justify-center rounded-full border border-textColor/10 bg-transparent px-6 py-3 font-Peyda-medium text-sm text-textColor transition-all duration-300 hover:border-primary/30 hover:text-primary active:scale-95 dark:border-border-dark dark:text-textColor-dark dark:hover:text-primary-light"
+          class="btn-ghost mt-7"
         >
           بازگشت به حالت آماده
         </button>
@@ -560,13 +558,13 @@
             class="flex items-start gap-3 rounded-md border border-white/70 bg-surface-soft px-4 py-3.5 dark:border-border-dark-soft dark:bg-surface-dark-soft"
           >
             <span
-              class="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 font-Dana-bold text-xs text-primary dark:bg-primary/15 dark:text-primary-light"
+              class="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 ui-step-index text-primary dark:bg-primary/15 dark:text-primary-light"
             >
               ${toPersianNumber(index + 1)}
             </span>
 
             <p
-              class="!text-sm !leading-7 text-mutedColor dark:text-mutedColor-dark"
+              class="text-mutedColor dark:text-mutedColor-dark"
             >
               ${escapeGameHtml(step)}
             </p>

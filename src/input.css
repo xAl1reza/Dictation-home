@@ -286,6 +286,10 @@ body {
   button {
     @apply font-Peyda-medium;
   }
+
+  strong {
+    @apply font-Dana-bold;
+  }
 }
 
 .video-overlay {
@@ -749,3 +753,345 @@ body {
     @apply font-Dana-regular text-xs text-secondary;
   }
 }
+
+/* =========================
+   Shared app UI components
+   Built on top of the Design System tokens
+========================= */
+
+@layer components {
+  .ui-meta {
+    @apply font-Dana-regular text-xs
+           text-mutedColor dark:text-mutedColor-dark;
+  }
+
+  .ui-label {
+    @apply font-Dana-medium text-xs
+           text-mutedColor dark:text-mutedColor-dark;
+  }
+
+  .ui-eyebrow {
+    @apply font-Dana-medium text-xs
+           text-primary dark:text-primary-light;
+  }
+
+  .ui-badge {
+    @apply inline-flex items-center
+           rounded-full
+           px-4 py-2
+           font-Dana-medium text-xs;
+  }
+
+  .ui-step-index {
+    @apply font-Dana-bold text-xs;
+  }
+
+  .btn-primary {
+    @apply inline-flex
+           cursor-pointer
+           items-center justify-center
+           rounded-full
+           border border-primary
+           bg-primary
+           px-7 py-3
+           font-Peyda-medium text-sm
+           text-white
+           shadow-btn
+           transition-all duration-300 ease-in-out
+           hover:-translate-y-1
+           hover:bg-transparent
+           hover:text-primary
+           active:scale-95
+           focus:outline-none
+           focus:ring-2
+           focus:ring-primary/30;
+  }
+
+  .btn-secondary {
+    @apply inline-flex
+           cursor-pointer
+           items-center justify-center
+           rounded-full
+           border border-secondary
+           bg-secondary
+           px-7 py-3
+           font-Peyda-medium text-sm
+           text-white
+           transition-all duration-300 ease-in-out
+           hover:-translate-y-1
+           hover:bg-transparent
+           hover:text-secondary
+           active:scale-95
+           focus:outline-none
+           focus:ring-2
+           focus:ring-secondary/20;
+  }
+
+  .btn-ghost {
+    @apply inline-flex
+           cursor-pointer
+           items-center justify-center
+           rounded-full
+           border border-textColor/10
+           bg-transparent
+           px-6 py-3
+           font-Peyda-medium text-sm
+           text-textColor
+           transition-all duration-300
+           hover:border-primary/30
+           hover:text-primary
+           active:scale-95
+           focus:outline-none
+           focus:ring-2
+           focus:ring-primary/20
+           dark:border-border-dark
+           dark:text-textColor-dark
+           dark:hover:text-primary-light;
+  }
+
+  .btn-ghost-secondary {
+    @apply inline-flex
+           cursor-pointer
+           items-center justify-center
+           rounded-full
+           border border-textColor/10
+           bg-transparent
+           px-6 py-3
+           font-Peyda-medium text-sm
+           text-textColor
+           transition-all duration-300
+           hover:border-secondary/30
+           hover:text-secondary
+           active:scale-95
+           focus:outline-none
+           focus:ring-2
+           focus:ring-secondary/20
+           dark:border-border-dark
+           dark:text-textColor-dark;
+  }
+
+  .btn-danger-soft {
+    @apply inline-flex
+           cursor-pointer
+           items-center justify-center
+           rounded-full
+           border border-secondary/30
+           bg-secondary/10
+           px-5 py-2.5
+           font-Peyda-medium text-sm
+           text-secondary
+           transition-all duration-300
+           hover:-translate-y-0.5
+           hover:border-secondary
+           hover:bg-secondary
+           hover:text-white
+           active:scale-95
+           focus:outline-none
+           focus:ring-2
+           focus:ring-secondary/20;
+  }
+
+  .btn-link {
+    @apply cursor-pointer
+           font-Peyda-medium text-sm
+           text-primary
+           transition-colors
+           dark:text-primary-light;
+  }
+
+  .btn-compact {
+    @apply px-4 py-2.5 text-xs;
+  }
+
+  .skip-link {
+    @apply sr-only
+           cursor-pointer
+           focus:not-sr-only
+           focus:fixed
+           focus:top-4 focus:right-4
+           focus:z-[100]
+           focus:rounded-full
+           focus:bg-primary
+           focus:px-5 focus:py-3
+           focus:font-Peyda-medium
+           focus:text-white;
+  }
+
+  .app-brand {
+    @apply cursor-pointer
+           font-Peyda-bold
+           text-base sm:text-lg
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .dashboard-avatar-initial {
+    @apply font-Peyda-bold text-sm
+           text-primary dark:text-primary-light;
+  }
+
+  .dashboard-user-name {
+    @apply font-Peyda-medium text-sm
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .dashboard-user-score {
+    @apply text-sm
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .dashboard-nav-link {
+    @apply flex cursor-pointer
+           items-center gap-3
+           rounded-sm
+           px-4 py-3
+           font-Dana-medium text-sm
+           text-textColor
+           transition-all duration-300
+           hover:bg-primary/5
+           hover:text-primary
+           dark:text-textColor-dark
+           dark:hover:bg-primary/10
+           dark:hover:text-primary-light;
+  }
+
+  .dashboard-game-link {
+    @apply flex cursor-pointer
+           items-center gap-3
+           rounded-sm
+           px-4 py-2.5
+           font-Dana-medium text-sm
+           text-mutedColor
+           transition-all duration-300
+           hover:bg-primary/5
+           hover:text-primary
+           dark:text-mutedColor-dark
+           dark:hover:bg-primary/10
+           dark:hover:text-primary-light;
+  }
+
+  .form-select-trigger {
+    @apply flex cursor-pointer
+           items-center justify-between
+           gap-4 text-right;
+  }
+
+  .form-dropdown-menu {
+    @apply absolute
+           top-full right-0 left-0
+           z-40 mt-2
+           max-h-64 overflow-y-auto
+           rounded-md
+           border border-white/75
+           bg-surface-strong
+           p-2
+           shadow-floating
+           backdrop-blur-md
+           dark:border-border-dark-strong
+           dark:bg-surface-dark-strong
+           dark:shadow-floating-dark;
+  }
+
+  .form-option {
+    @apply flex w-full
+           cursor-pointer
+           items-center justify-between
+           gap-3
+           rounded-sm
+           px-4 py-3
+           text-right
+           font-Dana-medium text-sm
+           text-textColor
+           transition-colors
+           hover:bg-primary/10
+           hover:text-primary
+           dark:text-textColor-dark
+           dark:hover:bg-primary/15
+           dark:hover:text-primary-light;
+  }
+
+  .game-stage {
+    @apply relative
+           min-h-[600px]
+           overflow-hidden
+           rounded-lg
+           border border-white/65
+           bg-surface
+           px-5 py-8
+           shadow-card
+           backdrop-blur-md
+           dark:border-border-dark
+           dark:bg-surface-dark
+           dark:shadow-card-dark
+           sm:min-h-[630px]
+           sm:px-8 sm:py-10
+           lg:min-h-[650px]
+           lg:px-12;
+  }
+
+  .game-stage-inner {
+    @apply relative z-10
+           flex
+           min-h-[536px]
+           items-center justify-center
+           sm:min-h-[550px]
+           lg:min-h-[570px];
+  }
+
+  .game-stage-content {
+    @apply w-full py-2;
+  }
+
+  .game-score-label {
+    @apply font-Dana-regular text-xs
+           text-mutedColor dark:text-mutedColor-dark;
+  }
+
+  .game-player-name {
+    @apply font-Peyda-medium text-sm
+           text-textColor dark:text-textColor-dark
+           sm:text-base;
+  }
+
+  .game-score-value {
+    @apply font-Dana-bold text-base
+           sm:text-lg;
+  }
+
+  .game-number-value {
+    @apply font-Dana-bold
+           text-4xl sm:text-5xl
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .game-operator-value {
+    @apply font-Dana-bold
+           text-3xl leading-none
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .game-word-value {
+    @apply font-Peyda-bold
+           text-4xl sm:text-5xl
+           leading-tight
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .game-feedback-value {
+    @apply font-Dana-bold text-xl;
+  }
+
+  .game-result-name {
+    @apply font-Peyda-medium text-base
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .game-result-value {
+    @apply font-Dana-bold text-2xl;
+  }
+
+  .word-list-value {
+    @apply font-Dana-medium text-body
+           text-textColor dark:text-textColor-dark;
+  }
+}
+

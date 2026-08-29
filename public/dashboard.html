@@ -33,7 +33,7 @@
     <!-- Skip link -->
     <a
       href="#dashboard-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:font-Peyda-medium focus:text-white"
+      class="skip-link"
     >
       پرش به محتوای داشبورد
     </a>
@@ -133,7 +133,7 @@
             <div class="px-5 pt-6">
               <a
                 href="./index.html"
-                class="font-Peyda-bold text-lg text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light"
+                class="app-brand transition-colors hover:text-primary dark:hover:text-primary-light"
               >
                 دیکته خونه
               </a>
@@ -146,7 +146,7 @@
               <div class="flex items-center gap-3">
                 <div
                   id="dashboard-avatar"
-                  class="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 dark:bg-primary/15 font-Peyda-bold text-sm text-primary dark:text-primary-light"
+                  class="dashboard-avatar-initial flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 dark:bg-primary/15"
                   aria-hidden="true"
                 >
                   د
@@ -154,14 +154,14 @@
 
                 <div class="min-w-0">
                   <span
-                    class="mb-0.5 block font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+                    class="ui-meta mb-0.5 block"
                   >
                     خوش اومدی
                   </span>
 
                   <strong
                     id="dashboard-user-name"
-                    class="block truncate font-Peyda-medium text-sm text-textColor dark:text-textColor-dark"
+                    class="dashboard-user-name block truncate"
                   >
                     ...
                   </strong>
@@ -172,7 +172,7 @@
                 class="mt-4 flex items-center justify-between border-t border-textColor/5 dark:border-border-dark-soft pt-3"
               >
                 <span
-                  class="font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                  class="ui-label"
                 >
                   امتیاز من
                 </span>
@@ -190,7 +190,7 @@
 
                   <strong
                     id="dashboard-user-score"
-                    class="font-Dana-bold text-sm text-textColor dark:text-textColor-dark"
+                    class="dashboard-user-score"
                   >
                     ۰
                   </strong>
@@ -209,7 +209,7 @@
                   <a
                     href="./dashboard.html?view=folders"
                     data-dashboard-link="folders"
-                    class="dashboard-nav-link flex items-center gap-3 rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                    class="dashboard-nav-link"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -234,7 +234,7 @@
                   <a
                     href="./dashboard.html?view=add-word"
                     data-dashboard-link="add-word"
-                    class="dashboard-nav-link flex items-center gap-3 rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                    class="dashboard-nav-link"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -254,7 +254,7 @@
                 <!-- Games -->
                 <li class="pt-3">
                   <span
-                    class="mb-2 block px-4 font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                    class="ui-label mb-2 block px-4"
                   >
                     شروع مسابقه
                   </span>
@@ -263,7 +263,7 @@
                     <li>
                       <a
                         href="./game.html?type=math"
-                        class="flex cursor-pointer items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                        class="dashboard-game-link"
                       >
                         <span
                           class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
@@ -281,7 +281,7 @@
                     <li>
                       <a
                         href="./game.html?type=science"
-                        class="flex cursor-pointer items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                        class="dashboard-game-link"
                       >
                         <span
                           class="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary/10 text-secondary dark:bg-secondary/15"
@@ -299,7 +299,7 @@
                     <li>
                       <a
                         href="./game.html?type=dictation"
-                        class="flex cursor-pointer items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor dark:text-mutedColor-dark transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                        class="dashboard-game-link"
                       >
                         <span
                           class="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent dark:bg-accent/10"
@@ -324,7 +324,7 @@
             >
               <div class="flex items-center justify-between">
                 <span
-                  class="font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                  class="ui-label"
                 >
                   حالت نمایش
                 </span>
@@ -369,7 +369,7 @@
               aria-label="باز کردن منوی داشبورد"
               aria-controls="dashboard-mobile-menu"
               aria-expanded="false"
-              class="flex size-10 items-center justify-center rounded-full border border-white/70 dark:border-border-dark bg-surface-strong dark:bg-surface-dark-strong text-textColor dark:text-textColor-dark"
+              class="flex size-10 cursor-pointer items-center justify-center rounded-full border border-white/70 dark:border-border-dark bg-surface-strong dark:bg-surface-dark-strong text-textColor dark:text-textColor-dark"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -385,7 +385,7 @@
 
             <a
               href="./index.html"
-              class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark"
+              class="app-brand"
             >
               دیکته خونه
             </a>
@@ -423,20 +423,20 @@
 
             <div class="relative z-10 max-w-2xl">
               <span
-                class="mb-3 inline-flex items-center rounded-full bg-primary/10 dark:bg-primary/15 px-4 py-2 font-Dana-medium text-xs text-primary dark:text-primary-light"
+                class="ui-badge mb-3 items-center bg-primary/10 dark:bg-primary/15 text-primary dark:text-primary-light"
               >
                 داشبورد من
               </span>
 
               <h1
                 id="dashboard-welcome-title"
-                class="mb-4 !text-[clamp(26px,3vw,38px)]"
+                class="mb-4"
               >
                 خوش اومدی
               </h1>
 
               <p
-                class="max-w-xl text-sm sm:text-base leading-8 text-mutedColor dark:text-mutedColor-dark"
+                class="max-w-xl text-mutedColor dark:text-mutedColor-dark"
               >
                 از اینجا می‌تونی کلماتت رو مدیریت کنی و برای مسابقه‌های آموزشی
                 آماده بشی.
@@ -463,16 +463,16 @@
         type="button"
         data-dashboard-menu-close
         aria-label="بستن منو"
-        class="absolute inset-0 bg-bg-dark/45 backdrop-blur-sm"
+        class="absolute inset-0 cursor-pointer bg-bg-dark/45 backdrop-blur-sm"
       ></button>
 
       <!-- Drawer -->
       <aside
-        class="absolute inset-y-0 right-0 flex w-[min(86vw,320px)] flex-col border-l border-white/70 dark:border-border-dark bg-bg/95 dark:bg-bg-dark/95 p-4 shadow-floating dark:shadow-floating-dark"
+        class="absolute inset-y-0 right-0 flex w-[min(86vw,320px)] flex-col border-l border-white/75 bg-surface-strong p-4 shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
       >
         <div class="flex items-center justify-between px-2 py-2">
           <strong
-            class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark"
+            class="app-brand"
           >
             دیکته خونه
           </strong>
@@ -481,7 +481,7 @@
             type="button"
             data-dashboard-menu-close
             aria-label="بستن منو"
-            class="flex size-9 items-center justify-center rounded-full bg-surface dark:bg-surface-dark text-textColor dark:text-textColor-dark"
+            class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-surface dark:bg-surface-dark text-textColor dark:text-textColor-dark"
           >
             <svg
               viewBox="0 0 24 24"
@@ -500,13 +500,13 @@
         <div class="mt-4 rounded-md bg-surface dark:bg-surface-dark p-4">
           <span
             id="dashboard-mobile-user-name"
-            class="block font-Peyda-medium text-sm text-textColor dark:text-textColor-dark"
+            class="dashboard-user-name block"
           >
             ...
           </span>
 
           <span
-            class="mt-1 block font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+            class="ui-meta mt-1 block"
           >
             امتیاز:
             <strong
@@ -525,7 +525,7 @@
               <a
                 href="./dashboard.html?view=folders"
                 data-dashboard-link="folders"
-                class="flex cursor-pointer rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10"
+                class="dashboard-nav-link"
               >
                 نمایش پوشه‌ها
               </a>
@@ -535,7 +535,7 @@
               <a
                 href="./dashboard.html?view=add-word"
                 data-dashboard-link="add-word"
-                class="flex cursor-pointer rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-primary/5 hover:text-primary dark:hover:bg-primary/10"
+                class="dashboard-nav-link"
               >
                 افزودن کلمه
               </a>
@@ -543,14 +543,14 @@
 
             <li class="pt-4">
               <span
-                class="mb-2 block px-4 font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark"
+                class="ui-label mb-2 block px-4"
               >
                 شروع مسابقه
               </span>
 
               <a
                 href="./game.html?type=math"
-                class="flex cursor-pointer items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:text-mutedColor-dark dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                class="dashboard-game-link"
               >
                 <span
                   class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
@@ -566,7 +566,7 @@
 
               <a
                 href="./game.html?type=science"
-                class="flex cursor-pointer items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:text-mutedColor-dark dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                class="dashboard-game-link"
               >
                 <span
                   class="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary/10 text-secondary dark:bg-secondary/15"
@@ -582,7 +582,7 @@
 
               <a
                 href="./game.html?type=dictation"
-                class="flex cursor-pointer items-center gap-3 rounded-sm px-4 py-2.5 font-Dana-medium text-sm text-mutedColor transition-all duration-300 hover:bg-primary/5 hover:text-primary dark:text-mutedColor-dark dark:hover:bg-primary/10 dark:hover:text-primary-light"
+                class="dashboard-game-link"
               >
                 <span
                   class="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent dark:bg-accent/10"

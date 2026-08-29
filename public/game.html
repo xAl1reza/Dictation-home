@@ -24,11 +24,7 @@
   </head>
 
   <body class="min-h-screen overflow-x-hidden bg-bg dark:bg-bg-dark">
-    <a
-      href="#game-main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:font-Peyda-medium focus:text-white">
-      پرش به محیط مسابقه
-    </a>
+    <a href="#game-main" class="skip-link"> پرش به محیط مسابقه </a>
 
     <svg class="hidden" aria-hidden="true" focusable="false">
       <!-- Sun -->
@@ -113,7 +109,8 @@
           class="flex items-center justify-between gap-3 rounded-md border border-white/70 bg-surface px-3 py-3 shadow-card backdrop-blur-md dark:border-border-dark dark:bg-surface-dark dark:shadow-card-dark sm:px-4">
           <a
             href="./dashboard.html"
-            class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-textColor/10 bg-surface-strong px-3.5 py-2.5 font-Peyda-medium text-xs text-textColor transition-all duration-300 hover:border-primary/30 hover:text-primary active:scale-95 dark:border-border-dark dark:bg-surface-dark-strong dark:text-textColor-dark dark:hover:text-primary-light sm:px-4 sm:text-sm">
+            class="btn-ghost gap-2 bg-surface-strong dark:bg-surface-dark-strong sm:px-4">
+            <span class="hidden text-inherit sm:inline">داشبورد</span>
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -126,13 +123,11 @@
                 stroke-linejoin="round"
                 d="m15 18-6-6 6-6"></path>
             </svg>
-
-            <span class="hidden text-inherit sm:inline">داشبورد</span>
           </a>
 
           <a
             href="./index.html"
-            class="font-Peyda-bold text-base text-textColor transition-colors hover:text-primary dark:text-textColor-dark dark:hover:text-primary-light sm:text-lg">
+            class="app-brand transition-colors hover:text-primary dark:hover:text-primary-light">
             دیکته خونه
           </a>
 
@@ -172,21 +167,17 @@
             </div>
 
             <div>
-              <span
-                id="game-eyebrow"
-                class="mb-1 block font-Dana-medium text-xs text-mutedColor dark:text-mutedColor-dark">
+              <span id="game-eyebrow" class="ui-label mb-1 block">
                 مسابقه
               </span>
 
-              <h1 id="game-title" class="!text-[clamp(24px,4vw,34px)]">
-                مسابقه
-              </h1>
+              <h1 id="game-title"> مسابقه </h1>
             </div>
           </div>
 
           <span
             id="game-status"
-            class="inline-flex self-start shrink-0 items-center gap-2 rounded-full bg-accent/15 px-3.5 py-2 font-Dana-medium text-xs text-textColor dark:bg-accent/10 dark:text-textColor-dark sm:self-auto">
+            class="ui-badge self-start shrink-0 items-center gap-2 bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark sm:self-auto">
             آماده
           </span>
         </section>
@@ -200,22 +191,19 @@
           </div>
         </section>
 
-        <section
-          class="relative min-h-[470px] overflow-hidden rounded-lg border border-white/70 bg-surface px-5 py-10 shadow-floating backdrop-blur-md dark:border-border-dark dark:bg-surface-dark dark:shadow-floating-dark sm:min-h-[520px] sm:px-8 sm:py-12 lg:px-12"
-          aria-describedby="game-description">
+        <section class="game-stage" aria-describedby="game-description">
           <div
             id="game-stage-glow"
             aria-hidden="true"
             class="pointer-events-none absolute -top-24 left-1/2 size-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]"></div>
 
-          <div
-            class="relative z-10 flex min-h-[390px] items-center justify-center sm:min-h-[420px]">
-            <div id="game-stage-content" class="w-full" aria-live="polite">
+          <div class="game-stage-inner">
+            <div
+              id="game-stage-content"
+              class="game-stage-content"
+              aria-live="polite">
               <div class="mx-auto max-w-xl py-10 text-center">
-                <span
-                  class="font-Dana-regular text-sm text-mutedColor dark:text-mutedColor-dark">
-                  در حال آماده‌سازی مسابقه...
-                </span>
+                <span> در حال آماده‌سازی مسابقه... </span>
               </div>
             </div>
           </div>
@@ -225,16 +213,15 @@
           class="mt-4 flex flex-col gap-2 px-1 sm:flex-row sm:items-center sm:justify-between">
           <p
             id="game-description"
-            class="max-w-2xl !text-xs !leading-6 text-mutedColor dark:text-mutedColor-dark">
+            class="max-w-2xl text-mutedColor dark:text-mutedColor-dark">
             محیط مسابقه دیکته خونه
           </p>
 
-          <span
-            class="font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark">
+          <span class="ui-meta">
             امتیاز کل:
             <strong
               id="game-total-score"
-              class="font-Dana-bold text-textColor dark:text-textColor-dark">
+              class="text-textColor dark:text-textColor-dark">
               ۰
             </strong>
           </span>
@@ -258,7 +245,7 @@
         aria-modal="true"
         aria-labelledby="game-tutorial-title"
         aria-describedby="game-tutorial-description"
-        class="relative z-10 w-full max-w-lg overflow-hidden rounded-lg border border-white/70 bg-bg shadow-floating dark:border-border-dark dark:bg-bg-dark-secondary dark:shadow-floating-dark">
+        class="relative z-10 w-full max-w-lg overflow-hidden rounded-lg border border-white/75 bg-surface-strong shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark">
         <div class="relative overflow-hidden px-5 pt-6 sm:px-6 sm:pt-7">
           <div
             id="game-tutorial-glow"
@@ -275,18 +262,13 @@
               </svg>
             </div>
 
-            <span
-              class="mb-2 block font-Dana-medium text-xs text-primary dark:text-primary-light">
-              قبل از شروع
-            </span>
+            <span class="ui-eyebrow mb-2 block"> قبل از شروع </span>
 
-            <h2 id="game-tutorial-title" class="mb-3 !text-xl sm:!text-2xl">
-              روش بازی
-            </h2>
+            <h2 id="game-tutorial-title" class="mb-3"> روش بازی </h2>
 
             <p
               id="game-tutorial-description"
-              class="text-sm leading-8 text-mutedColor dark:text-mutedColor-dark">
+              class="text-mutedColor dark:text-mutedColor-dark">
               ...
             </p>
           </div>
@@ -301,7 +283,7 @@
           <button
             id="game-tutorial-confirm"
             type="button"
-            class="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-primary bg-primary px-7 py-3 font-Peyda-medium text-sm text-white shadow-btn transition-all duration-300 hover:-translate-y-0.5 hover:bg-transparent hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30">
+            class="btn-primary w-full">
             متوجه شدم، شروع کنیم
           </button>
         </div>
