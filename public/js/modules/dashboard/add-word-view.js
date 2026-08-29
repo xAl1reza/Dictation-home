@@ -312,6 +312,8 @@
 
           WORD_FOLDER_LOCKED: 'امکان افزودن کلمه به این پوشه وجود ندارد.',
 
+          WORD_FOLDER_TYPE_INVALID: 'فقط پوشه‌های دیکته قابل انتخاب هستند.',
+
           WORD_DUPLICATE: 'این کلمه قبلاً در همین پوشه اضافه شده است.',
         }
 
@@ -320,7 +322,8 @@
         if (
           error.message === 'WORD_FOLDER_REQUIRED' ||
           error.message === 'WORD_FOLDER_NOT_FOUND' ||
-          error.message === 'WORD_FOLDER_LOCKED'
+          error.message === 'WORD_FOLDER_LOCKED' ||
+          error.message === 'WORD_FOLDER_TYPE_INVALID'
         ) {
           showFolderError(message)
         }
@@ -389,7 +392,7 @@
   `
 
     try {
-      const folders = await window.folderService.getWritableFolders()
+      const folders = await window.folderService.getWritableFolders('dictation')
 
       const folderOptions = folders
         .map(
@@ -528,7 +531,7 @@
     role="listbox"
     aria-labelledby="word-folder-label"
     tabindex="-1"
-    class="form-dropdown-menu"
+    class="form-dropdown-menu hidden"
   >
     ${folderOptions}
   </div>
@@ -633,13 +636,13 @@
                   </div>
 
                   <h3 class="mb-2">
-                    هنوز پوشه قابل ویرایشی نداری
+                    هنوز پوشه دیکته قابل ویرایشی نداری
                   </h3>
 
                   <p
                     class="mb-5 text-mutedColor dark:text-mutedColor-dark"
                   >
-                    برای افزودن کلمه، اول یک پوشه شخصی بساز.
+                    برای افزودن کلمه، اول یک پوشه شخصی از نوع دیکته بساز.
                   </p>
 
                   <a

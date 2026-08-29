@@ -63,6 +63,7 @@
     currentWord: null,
     readerId: null,
     writerId: null,
+    cardBusy: false,
   };
 
   const createGuestId = () => {
@@ -144,7 +145,9 @@
     const folders = await window.folderService.getFolders();
 
     return folders.filter(
-      (folder) => Number(folder.wordCount || 0) >= MIN_DICTATION_WORDS,
+      (folder) =>
+        folder.type === "dictation" &&
+        Number(folder.wordCount || 0) >= MIN_DICTATION_WORDS,
     );
   };
 
@@ -830,14 +833,32 @@
       },
     });
 
-    renderReaderView({
+    await renderReaderView({
       engine,
       shell,
     });
   };
 
+  const getDictationFlashcard = () => {
+    return document.getElementById("dictation-flashcard");
+  };
+
+  const setDictationActionState = (activeId) => {
+    const actionIds = [
+      "dictation-reader-actions",
+      "dictation-writer-actions",
+      "dictation-review-actions",
+      "dictation-handoff-actions",
+    ];
+
+    actionIds.forEach((id) => {
+      document.getElementById(id)?.classList.toggle("hidden", id !== activeId);
+    });
+  };
+
   const renderReaderView = async ({ engine, shell }) => {
     setPhase(PHASE.READER);
+    runtime.cardBusy = false;
 
     const stage = getStage();
     const reader = getReader(engine);
@@ -850,7 +871,7 @@
     await shell.animateStage(() => {
       stage.innerHTML = `
         <div
-          class="mx-auto max-w-2xl text-center"
+          class="mx-auto w-full max-w-2xl text-center"
         >
           <span
             class="ui-badge mb-4 bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark"
@@ -859,53 +880,178 @@
           </span>
 
           <p
-            class="mb-2 text-mutedColor dark:text-mutedColor-dark"
+            id="dictation-round-hint"
+            class="mx-auto mb-5 max-w-xl text-mutedColor dark:text-mutedColor-dark"
           >
             ${shell.escapeGameHtml(reader.name)} کلمه را برای
             ${shell.escapeGameHtml(writer.name)}
-            می‌خواند
+            می‌خواند.
           </p>
-
-          <h2
-            class="mb-7"
-          >
-            فقط ${shell.escapeGameHtml(reader.name)} به صفحه نگاه کند
-          </h2>
 
           <div
-            class="mx-auto max-w-xl rounded-lg border border-accent/20 bg-accent/5 px-5 py-8 shadow-card dark:border-accent/15 dark:bg-accent/5 dark:shadow-card-dark sm:px-8 sm:py-10"
+            id="dictation-flashcard"
+            class="game-flashcard game-flashcard--dictation"
+            aria-label="فلش کارت کلمه دیکته"
           >
-            <span
-              class="ui-label mb-3 block"
+            <div
+              data-flashcard-inner
+              class="game-flashcard__inner"
             >
-              کلمه این دور
-            </span>
+              <article
+                data-flashcard-front
+                class="game-flashcard__face game-flashcard__face--front"
+                aria-hidden="false"
+              >
+                <div class="game-flashcard__content">
+                  <span class="ui-eyebrow mb-4 block">
+                    کلمه این دور
+                  </span>
 
-            <strong
-              class="game-word-value block"
-            >
-              ${shell.escapeGameHtml(runtime.currentWord.value)}
-            </strong>
+                  <strong class="game-word-value block">
+                    ${shell.escapeGameHtml(runtime.currentWord.value)}
+                  </strong>
+
+                  <span class="game-flashcard__hint mt-6">
+                    فقط ${shell.escapeGameHtml(reader.name)} به کارت نگاه کند.
+                  </span>
+                </div>
+              </article>
+
+              <article
+                data-flashcard-back
+                class="game-flashcard__face game-flashcard__face--back"
+                aria-hidden="true"
+              >
+                <div
+                  data-dictation-back-content
+                  class="game-flashcard__content"
+                >
+                  <span class="ui-eyebrow mb-4 block">
+                    نوبت نوشتن
+                  </span>
+
+                  <h3 class="mb-4">
+                    ${shell.escapeGameHtml(writer.name)}، کلمه را بنویس
+                  </h3>
+
+                  <p class="max-w-md text-mutedColor dark:text-mutedColor-dark">
+                    کلمه پشت کارت پنهان شده. چیزی که شنیدی را روی کاغذ بنویس.
+                  </p>
+
+                  <span class="game-flashcard__hint mt-6">
+                    وقتی تمام شد، کارت را برای بررسی برگردانید.
+                  </span>
+                </div>
+              </article>
+            </div>
           </div>
 
-          <p
-            class="mx-auto mt-5 max-w-lg text-mutedColor dark:text-mutedColor-dark"
+          <div
+            id="dictation-reader-actions"
+            class="mt-12"
           >
-            کلمه را با صدای واضح برای
-            ${shell.escapeGameHtml(writer.name)}
-            بخوان و بعد آن را از صفحه مخفی کن.
-          </p>
+            <button
+              type="button"
+              id="dictation-word-read"
+              class="btn-primary"
+            >
+              کلمه را خواندم
+            </button>
+          </div>
 
-          <button
-            type="button"
-            id="dictation-word-read"
-            class="btn-primary mt-7"
+          <div
+            id="dictation-writer-actions"
+            class="mt-12 hidden"
           >
-            کلمه را خواندم
-          </button>
+            <button
+              type="button"
+              id="dictation-written"
+              class="btn-primary"
+            >
+              نوشتم، بررسی کنیم
+            </button>
+          </div>
+
+          <div
+            id="dictation-review-actions"
+            class="mt-12 hidden"
+          >
+            <p class="mx-auto mb-4 max-w-lg text-mutedColor dark:text-mutedColor-dark">
+              نوشته را با کلمه روی کارت مقایسه کنید.
+            </p>
+
+            <div class="grid gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                data-dictation-outcome="correct"
+                class="btn-primary gap-2"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  class="size-4"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m6 12 4 4 8-8"
+                  ></path>
+                </svg>
+                درست
+              </button>
+
+              <button
+                type="button"
+                data-dictation-outcome="wrong"
+                class="btn-secondary gap-2"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  class="size-4"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    d="m8 8 8 8M16 8l-8 8"
+                  ></path>
+                </svg>
+                غلط
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="dictation-handoff-actions"
+            class="mt-12 hidden"
+          >
+            <button
+              type="button"
+              id="dictation-next-round"
+              class="btn-primary"
+            >
+              دور بعد
+            </button>
+
+            <button
+              type="button"
+              id="dictation-finish"
+              class="btn-ghost-secondary btn-compact mt-3 text-mutedColor dark:text-mutedColor-dark"
+            >
+              پایان مسابقه
+            </button>
+          </div>
         </div>
       `;
     });
+
+    const card = getDictationFlashcard();
+    shell.animateGameFlashcardIn?.(card);
 
     document.getElementById("dictation-word-read")?.addEventListener(
       "click",
@@ -917,74 +1063,6 @@
       },
       { once: true },
     );
-  };
-
-  const renderWriterView = async ({ engine, shell }) => {
-    setPhase(PHASE.WRITER);
-
-    const stage = getStage();
-    const writer = getWriter(engine);
-
-    if (!stage || !writer) {
-      return;
-    }
-
-    await shell.animateStage(() => {
-      stage.innerHTML = `
-        <div
-          class="mx-auto max-w-xl text-center"
-        >
-          <div
-            class="mx-auto mb-6 flex size-16 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
-            aria-hidden="true"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              class="size-7"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M7 18h10M8 15l7.5-7.5 2 2L10 17H8z"
-              ></path>
-            </svg>
-          </div>
-
-          <span
-            class="ui-badge mb-3 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
-          >
-            حالا نوبت نوشتنه
-          </span>
-
-          <h2
-            class="mb-3"
-          >
-            گوشی را به
-            ${shell.escapeGameHtml(writer.name)}
-            بده
-          </h2>
-
-          <p
-            class="mx-auto max-w-md text-mutedColor dark:text-mutedColor-dark"
-          >
-            ${shell.escapeGameHtml(
-              writer.name,
-            )} باید کلمه‌ای را که شنیده روی کاغذ بنویسد. کلمه تا زمان بررسی روی صفحه نمایش داده نمی‌شود.
-          </p>
-
-          <button
-            type="button"
-            id="dictation-written"
-            class="btn-primary mt-8"
-          >
-            نوشتم، بررسی کنیم
-          </button>
-        </div>
-      `;
-    });
 
     document.getElementById("dictation-written")?.addEventListener(
       "click",
@@ -996,113 +1074,13 @@
       },
       { once: true },
     );
-  };
-
-  const renderReviewView = async ({ engine, shell }) => {
-    setPhase(PHASE.REVIEW);
-
-    const stage = getStage();
-    const writer = getWriter(engine);
-
-    if (!stage || !writer || !runtime.currentWord) {
-      return;
-    }
-
-    await shell.animateStage(() => {
-      stage.innerHTML = `
-        <div
-          class="mx-auto max-w-2xl text-center"
-        >
-          <span
-            class="ui-badge mb-4 bg-secondary/10 text-secondary dark:bg-secondary/15"
-          >
-            بررسی پاسخ
-          </span>
-
-          <h2
-            class="mb-2"
-          >
-            نوشته
-            ${shell.escapeGameHtml(writer.name)}
-            را بررسی کنید
-          </h2>
-
-          <p
-            class="mb-6 text-mutedColor dark:text-mutedColor-dark"
-          >
-            کلمه درست این دور:
-          </p>
-
-          <div
-            class="mx-auto max-w-xl rounded-lg border border-primary/15 bg-primary/5 px-5 py-7 dark:border-primary/15 dark:bg-primary/5 sm:px-8"
-          >
-            <strong
-              class="game-word-value block"
-            >
-              ${shell.escapeGameHtml(runtime.currentWord.value)}
-            </strong>
-          </div>
-
-          <p
-            class="mx-auto mt-5 max-w-lg text-mutedColor dark:text-mutedColor-dark"
-          >
-            اگر کلمه دقیق و درست نوشته شده «درست» را بزن؛ در غیر این صورت «غلط» را انتخاب کن.
-          </p>
-
-          <div
-            class="mt-7 grid gap-3 sm:grid-cols-2"
-          >
-            <button
-              type="button"
-              data-dictation-outcome="correct"
-              class="btn-primary gap-2"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                class="size-4"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m6 12 4 4 8-8"
-                ></path>
-              </svg>
-              درست
-            </button>
-
-            <button
-              type="button"
-              data-dictation-outcome="wrong"
-              class="btn-secondary gap-2 focus:ring-secondary/30"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                class="size-4"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  d="m8 8 8 8M16 8l-8 8"
-                ></path>
-              </svg>
-              غلط
-            </button>
-          </div>
-        </div>
-      `;
-    });
 
     stage.querySelectorAll("[data-dictation-outcome]").forEach((button) => {
       button.addEventListener(
         "click",
         () => {
+          if (runtime.cardBusy) return;
+
           recordOutcome({
             engine,
             shell,
@@ -1114,16 +1092,82 @@
     });
   };
 
+  const renderWriterView = async ({ engine, shell }) => {
+    if (runtime.phase !== PHASE.READER || runtime.cardBusy) {
+      return;
+    }
+
+    const card = getDictationFlashcard();
+    const writer = getWriter(engine);
+    const hint = document.getElementById("dictation-round-hint");
+
+    if (!card || !writer) {
+      return;
+    }
+
+    runtime.cardBusy = true;
+    setPhase(PHASE.WRITER);
+
+    if (hint) {
+      hint.textContent = `${writer.name} باید کلمه‌ای را که شنیده روی کاغذ بنویسد.`;
+    }
+
+    await shell.flipGameFlashcard(card, {
+      toBack: true,
+    });
+
+    setDictationActionState("dictation-writer-actions");
+    runtime.cardBusy = false;
+  };
+
+  const renderReviewView = async ({ engine, shell }) => {
+    if (runtime.phase !== PHASE.WRITER || runtime.cardBusy) {
+      return;
+    }
+
+    const card = getDictationFlashcard();
+    const writer = getWriter(engine);
+    const hint = document.getElementById("dictation-round-hint");
+
+    if (!card || !writer || !runtime.currentWord) {
+      return;
+    }
+
+    runtime.cardBusy = true;
+    setPhase(PHASE.REVIEW);
+
+    if (hint) {
+      hint.textContent = `نوشته ${writer.name} را با کلمه روی کارت مقایسه کنید.`;
+    }
+
+    await shell.flipGameFlashcard(card, {
+      toBack: false,
+    });
+
+    setDictationActionState("dictation-review-actions");
+
+    await shell.revealGameActionGroup?.(
+      document.getElementById("dictation-review-actions"),
+    );
+
+    runtime.cardBusy = false;
+  };
+
   const swapRoles = () => {
     const previousReader = runtime.readerId;
 
     runtime.readerId = runtime.writerId;
-
     runtime.writerId = previousReader;
   };
 
-  const recordOutcome = ({ engine, shell, outcome }) => {
+  const recordOutcome = async ({ engine, shell, outcome }) => {
+    if (runtime.phase !== PHASE.REVIEW || runtime.cardBusy) {
+      return;
+    }
+
     const isCorrect = outcome === "correct";
+
+    runtime.cardBusy = true;
 
     engine.recordOutcome({
       outcome: isCorrect
@@ -1138,142 +1182,131 @@
 
     showSuccess(isCorrect ? "یک امتیاز اضافه شد." : "یک امتیاز کم شد.");
 
-    if (runtime.wordIndex >= runtime.words.length) {
-      finishGame({
-        engine,
-        shell,
-        reason: "words-completed",
-      });
-      return;
+    const isLastRound = runtime.wordIndex >= runtime.words.length;
+
+    if (!isLastRound) {
+      swapRoles();
     }
 
-    swapRoles();
-
-    renderHandoffView({
+    await renderHandoffView({
       engine,
       shell,
       isCorrect,
+      isLastRound,
     });
+
+    runtime.cardBusy = false;
   };
 
-  const renderHandoffView = async ({ engine, shell, isCorrect }) => {
+  const renderHandoffView = async ({
+    engine,
+    shell,
+    isCorrect,
+    isLastRound,
+  }) => {
     setPhase(PHASE.HANDOFF);
 
-    const stage = getStage();
-    const reader = getReader(engine);
-    const writer = getWriter(engine);
+    const card = getDictationFlashcard();
+    const backContent = card?.querySelector("[data-dictation-back-content]");
+    const hint = document.getElementById("dictation-round-hint");
+    const nextButton = document.getElementById("dictation-next-round");
+    const finishButton = document.getElementById("dictation-finish");
 
-    if (!stage || !reader || !writer) {
+    if (!card || !backContent || !nextButton || !finishButton) {
       return;
     }
 
-    await shell.animateStage(() => {
-      stage.innerHTML = `
-        <div
-          class="mx-auto max-w-xl text-center"
-        >
-          <div
-            class="mx-auto mb-6 flex size-16 items-center justify-center rounded-lg ${ isCorrect ?"bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
-                : "bg-secondary/10 text-secondary dark:bg-secondary/15"
-            }"
-            aria-hidden="true"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              class="size-7"
-            >
-              ${
-                isCorrect
-                  ? `
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m6 12 4 4 8-8"
-                    ></path>
-                  `
-                  : `
-                    <path
-                      stroke-linecap="round"
-                      d="m8 8 8 8M16 8l-8 8"
-                    ></path>
-                  `
-              }
-            </svg>
-          </div>
+    const reader = isLastRound ? null : getReader(engine);
+    const writer = isLastRound ? null : getWriter(engine);
 
-          <span
-            class="mb-3 inline-flex rounded-full ${ isCorrect ?"bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
-                : "bg-secondary/10 text-secondary dark:bg-secondary/15"
-            } ui-badge"
-          >
-            امتیاز ثبت شد
-          </span>
+    backContent.innerHTML = `
+      <span
+        class="ui-badge mb-4 ${
+          isCorrect
+            ? "bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
+            : "bg-secondary/10 text-secondary dark:bg-secondary/15"
+        }"
+      >
+        ${isCorrect ? "درست" : "غلط"}
+      </span>
 
-          <h2
-            class="mb-3"
-          >
-            حالا نقش‌ها عوض می‌شود
-          </h2>
+      <h3 class="mb-4">
+        ${isLastRound ? "آخرین کلمه هم ثبت شد" : "نقش‌ها عوض شد"}
+      </h3>
 
-          <p
-            class="mx-auto max-w-md text-mutedColor dark:text-mutedColor-dark"
-          >
-            در دور بعد،
-            <strong
-              class="text-textColor dark:text-textColor-dark"
-            >
-              ${shell.escapeGameHtml(reader.name)}
-            </strong>
-            کلمه را می‌خواند و
-            <strong
-              class="text-textColor dark:text-textColor-dark"
-            >
-              ${shell.escapeGameHtml(writer.name)}
-            </strong>
-            آن را می‌نویسد.
-          </p>
+      <p class="max-w-md text-mutedColor dark:text-mutedColor-dark">
+        ${
+          isLastRound
+            ? "همه کلمه‌های این مسابقه تمام شدند. نتیجه را ببینید."
+            : `در دور بعد، ${shell.escapeGameHtml(
+                reader?.name || "بازیکن",
+              )} کلمه را می‌خواند و ${shell.escapeGameHtml(
+                writer?.name || "بازیکن",
+              )} آن را می‌نویسد.`
+        }
+      </p>
 
-          <button
-            type="button"
-            id="dictation-next-round"
-            class="btn-primary mt-8"
-          >
-            آماده‌ایم، دور بعد
-          </button>
+      <span class="game-flashcard__hint mt-6">
+        ${isLastRound ? "آماده دیدن نتیجه‌اید؟" : "برای کارت بعدی آماده‌اید؟"}
+      </span>
+    `;
 
-          <button
-            type="button"
-            id="dictation-finish"
-            class="btn-ghost-secondary btn-compact mt-3 text-mutedColor dark:text-mutedColor-dark"
-          >
-            پایان مسابقه
-          </button>
-        </div>
-      `;
+    if (hint) {
+      hint.textContent = isLastRound
+        ? "مسابقه کامل شد."
+        : "امتیاز ثبت شد و نوبت‌ها برای دور بعد جابه‌جا شدند.";
+    }
+
+    nextButton.textContent = isLastRound ? "دیدن نتیجه" : "دور بعد";
+    finishButton.classList.toggle("hidden", isLastRound);
+
+    await shell.flipGameFlashcard(card, {
+      toBack: true,
     });
 
-    document.getElementById("dictation-next-round")?.addEventListener(
+    setDictationActionState("dictation-handoff-actions");
+
+    nextButton.addEventListener(
       "click",
-      () => {
-        beginNextRound({
-          engine,
-          shell,
-        });
+      async () => {
+        if (runtime.cardBusy) return;
+
+        runtime.cardBusy = true;
+        await shell.animateGameFlashcardAdvance?.(card);
+
+        if (isLastRound) {
+          await finishGame({
+            engine,
+            shell,
+            reason: "words-completed",
+          });
+        } else {
+          await beginNextRound({
+            engine,
+            shell,
+          });
+        }
+
+        runtime.cardBusy = false;
       },
       { once: true },
     );
 
-    document.getElementById("dictation-finish")?.addEventListener(
+    finishButton.addEventListener(
       "click",
-      () => {
-        finishGame({
+      async () => {
+        if (runtime.cardBusy) return;
+
+        runtime.cardBusy = true;
+        await shell.animateGameFlashcardAdvance?.(card);
+
+        await finishGame({
           engine,
           shell,
           reason: "user-finished",
         });
+
+        runtime.cardBusy = false;
       },
       { once: true },
     );
@@ -1413,6 +1446,7 @@
         runtime.currentWord = null;
         runtime.readerId = null;
         runtime.writerId = null;
+        runtime.cardBusy = false;
 
         renderSetup({
           engine,

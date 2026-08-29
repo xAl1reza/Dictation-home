@@ -18,6 +18,8 @@
 
   const { renderAddWordView } = window.DashboardAddWord
 
+  const { renderAddScienceQuestionView } = window.DashboardAddScienceQuestion
+
   const renderDashboardView = async () => {
     const currentView = getCurrentDashboardView()
 
@@ -28,6 +30,10 @@
 
       case 'add-word':
         await renderAddWordView()
+        break
+
+      case 'add-science-question':
+        await renderAddScienceQuestionView()
         break
 
       default:

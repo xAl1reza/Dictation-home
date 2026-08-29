@@ -1,418 +1,426 @@
 /*
  * Dashboard folder manager.
  *
- * Handles folder detail modal, rename, word editing/deletion
- * and folder deletion.
+ * Manages folder title plus type-specific content:
+ * - dictation folders → words
+ * - science folders → science question/answer pairs
  */
 
 ;(() => {
   const { toPersianNumber, escapeDashboardHtml } = window.DashboardShared
 
+  const getFolderMeta = (folder) => {
+    const isScience = folder?.type === 'science'
+
+    return {
+      isScience,
+      typeLabel: isScience ? 'علوم' : 'دیکته',
+      itemLabel: isScience ? 'سؤال' : 'کلمه',
+      itemsTitle: isScience ? 'سؤال‌های پوشه' : 'کلمات پوشه',
+      itemsDescription: isScience
+        ? 'سؤال و پاسخ‌های این پوشه را از اینجا ویرایش یا حذف کن.'
+        : 'کلمات این پوشه را از اینجا ویرایش یا حذف کن.',
+      emptyText: isScience
+        ? 'هنوز سؤال علوم داخل این پوشه نیست.'
+        : 'هنوز کلمه‌ای داخل این پوشه نیست.',
+      typeClass: isScience
+        ? 'bg-secondary/10 text-secondary dark:bg-secondary/15'
+        : 'bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark',
+    }
+  }
+
   const createFolderManagerModal = () => {
     return `
-    <div
-      id="folder-manager-modal"
-      class="fixed inset-0 z-[100] hidden items-center justify-center p-3 sm:p-6"
-      aria-hidden="true"
-    >
-      <button
-        type="button"
-        data-folder-manager-close
-        aria-label="بستن مدیریت پوشه"
-        class="absolute inset-0 cursor-pointer bg-bg-dark/55 backdrop-blur-sm"
-      ></button>
-
       <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="folder-manager-heading"
-        class="relative z-10 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-white/75 bg-surface-strong shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
-      >
-        <!-- Header -->
-        <div
-          class="flex shrink-0 items-start gap-4 border-b border-textColor/5 dark:border-border-dark-soft px-5 py-5 sm:px-6"
-        >
-          <div class="min-w-0">
-            <span
-              class="ui-eyebrow mb-1.5 block"
-            >
-              مدیریت پوشه
-            </span>
-
-            <h2
-              id="folder-manager-heading"
-              class="truncate"
-            >
-              پوشه
-            </h2>
-          </div>
-
-        </div>
-
-        <!-- Scrollable content -->
-        <div
-          class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-6 sm:py-6"
-        >
-          <!-- Folder title -->
-          <section
-            class="rounded-md border border-white/70 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft p-4 sm:p-5"
-            aria-labelledby="folder-manager-title-label"
-          >
-            <form
-              id="folder-manager-title-form"
-              novalidate
-            >
-              <div class="form-group">
-                <label
-                  id="folder-manager-title-label"
-                  for="folder-manager-title"
-                  class="form-label"
-                >
-                  نام پوشه
-                </label>
-
-                <div
-                  class="flex flex-col gap-3 sm:flex-row sm:items-start"
-                >
-                  <div class="min-w-0 flex-1">
-                    <input
-                      id="folder-manager-title"
-                      name="folderTitle"
-                      type="text"
-                      maxlength="60"
-                      autocomplete="off"
-                      class="form-control"
-                      aria-describedby="folder-manager-title-error"
-                    />
-
-                    <span
-                      id="folder-manager-title-error"
-                      class="form-error hidden mt-2"
-                      role="alert"
-                    ></span>
-                  </div>
-
-                  <button
-                    id="folder-manager-title-submit"
-                    type="submit"
-                    class="btn-primary gap-2"
-                  >
-                    ذخیره نام
-                  </button>
-                </div>
-              </div>
-            </form>
-          </section>
-
-          <!-- Words -->
-          <section
-            class="mt-6"
-            aria-labelledby="folder-manager-words-title"
-          >
-            <div
-              class="mb-4 flex items-center justify-between gap-4"
-            >
-              <div>
-                <h3
-                  id="folder-manager-words-title"
-                  class="mb-1"
-                >
-                  کلمات پوشه
-                </h3>
-
-                <span
-                  class="ui-meta"
-                >
-                  از اینجا می‌تونی کلمات رو ویرایش یا حذف کنی.
-                </span>
-              </div>
-
-              <span
-                id="folder-manager-word-count"
-                class="ui-eyebrow shrink-0 rounded-full bg-primary/10 dark:bg-primary/15 px-3 py-1.5"
-              >
-                ۰ کلمه
-              </span>
-            </div>
-
-            <div
-              id="folder-manager-words"
-              class="space-y-2.5"
-            ></div>
-          </section>
-        </div>
-
-        <!-- Footer -->
-        <div
-          class="flex shrink-0 flex-col gap-3 border-t border-textColor/5 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft px-5 py-4 sm:px-6 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <span
-            class="ui-meta"
-          >
-            حذف پوشه، همه کلمات داخل آن را هم حذف می‌کند.
-          </span>
-
-          <button
-            id="folder-manager-delete-folder"
-            type="button"
-            class="btn-danger-soft"
-          >
-            حذف پوشه
-          </button>
-        </div>
-      </div>
-
-      <!-- Delete folder confirmation -->
-      <div
-        id="delete-folder-confirm"
-        class="absolute inset-0 z-20 hidden items-center justify-center p-4"
+        id="folder-manager-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center p-3 sm:p-6"
         aria-hidden="true"
       >
         <button
           type="button"
-          data-delete-folder-cancel
-          aria-label="انصراف از حذف پوشه"
-          class="absolute inset-0 cursor-pointer bg-bg-dark/45 backdrop-blur-sm"
+          data-folder-manager-close
+          aria-label="بستن مدیریت پوشه"
+          class="absolute inset-0 cursor-pointer bg-bg-dark/55 backdrop-blur-sm"
         ></button>
 
         <div
-          role="alertdialog"
+          role="dialog"
           aria-modal="true"
-          aria-labelledby="delete-folder-confirm-title"
-          aria-describedby="delete-folder-confirm-description"
-          class="relative z-10 w-full max-w-md rounded-lg border border-white/75 bg-surface-strong p-5 sm:p-6 shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
+          aria-labelledby="folder-manager-heading"
+          class="relative z-10 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-white/75 bg-surface-strong shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark"
         >
           <div
-            class="mb-5 flex size-12 items-center justify-center rounded-md bg-secondary/10 text-secondary"
+            class="flex shrink-0 items-start justify-between gap-4 border-b border-textColor/5 px-5 py-5 dark:border-border-dark-soft sm:px-6"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 50 50"
-              width="24"
-              height="24"
-              class="size-6 shrink-0"
-              aria-hidden="true"
-              focusable="false"
+            <div class="min-w-0">
+              <div class="mb-2 flex flex-wrap items-center gap-2">
+                <span class="ui-eyebrow">مدیریت پوشه</span>
+                <span id="folder-manager-type" class="ui-badge"></span>
+              </div>
+              <h2 id="folder-manager-heading" class="truncate">پوشه</h2>
+            </div>
+
+            <button
+              type="button"
+              data-folder-manager-close
+              aria-label="بستن"
+              class="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-surface text-textColor transition-colors hover:text-primary dark:bg-surface-dark dark:text-textColor-dark dark:hover:text-primary-light"
             >
-              <use href="#icon-trash"></use>
-            </svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                class="size-4"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"></path>
+              </svg>
+            </button>
           </div>
 
-          <h3
-            id="delete-folder-confirm-title"
-            class="mb-2"
-          >
-            مطمئنی می‌خوای این پوشه حذف بشه؟
-          </h3>
+          <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-6 sm:py-6">
+            <section
+              class="rounded-md border border-white/70 bg-surface-soft p-4 dark:border-border-dark-soft dark:bg-surface-dark-soft sm:p-5"
+              aria-labelledby="folder-manager-title-label"
+            >
+              <form id="folder-manager-title-form" novalidate>
+                <div class="form-group">
+                  <label
+                    id="folder-manager-title-label"
+                    for="folder-manager-title"
+                    class="form-label"
+                  >
+                    نام پوشه
+                  </label>
 
-          <p
-            id="delete-folder-confirm-description"
-            class="text-mutedColor dark:text-mutedColor-dark"
-          >
-            این عملیات قابل بازگشت نیست.
-          </p>
+                  <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
+                    <div class="min-w-0 flex-1">
+                      <input
+                        id="folder-manager-title"
+                        name="folderTitle"
+                        type="text"
+                        maxlength="60"
+                        autocomplete="off"
+                        class="form-control"
+                        aria-describedby="folder-manager-title-error"
+                      />
+
+                      <span
+                        id="folder-manager-title-error"
+                        class="form-error mt-2 hidden"
+                        role="alert"
+                      ></span>
+                    </div>
+
+                    <button
+                      id="folder-manager-title-submit"
+                      type="submit"
+                      class="btn-primary"
+                    >
+                      ذخیره نام
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </section>
+
+            <section class="mt-6" aria-labelledby="folder-manager-items-title">
+              <div class="mb-4 flex items-start justify-between gap-4">
+                <div>
+                  <h3 id="folder-manager-items-title" class="mb-1">محتوای پوشه</h3>
+                  <span id="folder-manager-items-help" class="ui-meta"></span>
+                </div>
+
+                <span
+                  id="folder-manager-item-count"
+                  class="ui-badge shrink-0 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
+                >
+                  ۰
+                </span>
+              </div>
+
+              <div id="folder-manager-items" class="space-y-2.5"></div>
+            </section>
+          </div>
 
           <div
-            class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"
+            class="flex shrink-0 flex-col gap-3 border-t border-textColor/5 bg-surface-soft px-5 py-4 dark:border-border-dark-soft dark:bg-surface-dark-soft sm:flex-row sm:items-center sm:justify-between sm:px-6"
           >
-            <button
-              type="button"
-              data-delete-folder-cancel
-              class="btn-ghost"
-            >
-              انصراف
-            </button>
+            <span id="folder-manager-delete-help" class="ui-meta"></span>
 
             <button
-              id="delete-folder-confirm-submit"
+              id="folder-manager-delete-folder"
               type="button"
-              class="btn-secondary gap-2"
+              class="btn-danger-soft"
             >
               حذف پوشه
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  `
-  }
 
-  const renderFolderManagerWords = (words) => {
-    if (!words.length) {
-      return `
-      <div
-        class="rounded-md border border-dashed border-primary/20 bg-primary/[0.03] dark:bg-primary/[0.05] px-5 py-8 text-center"
-      >
-        <span
-         
+        <div
+          id="delete-folder-confirm"
+          class="absolute inset-0 z-20 hidden items-center justify-center p-4"
+          aria-hidden="true"
         >
-          هنوز کلمه‌ای داخل این پوشه نیست.
-        </span>
+          <button
+            type="button"
+            data-delete-folder-cancel
+            aria-label="انصراف از حذف پوشه"
+            class="absolute inset-0 cursor-pointer bg-bg-dark/45 backdrop-blur-sm"
+          ></button>
+
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="delete-folder-confirm-title"
+            aria-describedby="delete-folder-confirm-description"
+            class="relative z-10 w-full max-w-md rounded-lg border border-white/75 bg-surface-strong p-5 shadow-floating backdrop-blur-md dark:border-border-dark-strong dark:bg-surface-dark-strong dark:shadow-floating-dark sm:p-6"
+          >
+            <div
+              class="mb-5 flex size-12 items-center justify-center rounded-md bg-secondary/10 text-secondary"
+            >
+              <svg viewBox="0 0 50 50" class="size-6" aria-hidden="true">
+                <use href="#icon-trash"></use>
+              </svg>
+            </div>
+
+            <h3 id="delete-folder-confirm-title" class="mb-2">
+              مطمئنی می‌خوای این پوشه حذف بشه؟
+            </h3>
+
+            <p
+              id="delete-folder-confirm-description"
+              class="text-mutedColor dark:text-mutedColor-dark"
+            >
+              این عملیات قابل بازگشت نیست.
+            </p>
+
+            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button type="button" data-delete-folder-cancel class="btn-ghost">
+                انصراف
+              </button>
+              <button id="delete-folder-confirm-submit" type="button" class="btn-secondary">
+                حذف پوشه
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     `
-    }
+  }
+
+  const renderEmptyState = (text) => {
+    return `
+      <div
+        class="rounded-md border border-dashed border-primary/20 bg-primary/5 px-5 py-8 text-center dark:bg-primary/5"
+      >
+        <span class="ui-meta">${escapeDashboardHtml(text)}</span>
+      </div>
+    `
+  }
+
+  const renderWordItems = (words, emptyText) => {
+    if (!words.length) return renderEmptyState(emptyText)
 
     return words
       .map(
         (word) => `
-        <article
-          data-word-row
-          data-word-id="${escapeDashboardHtml(word.id)}"
-          class="rounded-md border border-white/70 dark:border-border-dark-soft bg-surface dark:bg-surface-dark p-3.5 sm:p-4"
-        >
-          <div
-            data-word-display
-            class="flex items-center justify-between gap-3"
+          <article
+            data-folder-item-row
+            data-word-row
+            data-word-id="${escapeDashboardHtml(word.id)}"
+            class="rounded-md border border-white/70 bg-surface p-3.5 dark:border-border-dark-soft dark:bg-surface-dark sm:p-4"
           >
-            <span
-              data-word-text
-              class="word-list-value min-w-0 flex-1 break-words"
-            >
-              ${escapeDashboardHtml(word.value)}
-            </span>
-
-            <div
-              class="flex shrink-0 items-center gap-1.5"
-            >
-              <button
-                type="button"
-                data-edit-word
-                aria-label="ویرایش کلمه ${escapeDashboardHtml(word.value)}"
-                class="btn-link flex size-9 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/15 transition-all duration-200 hover:bg-primary/15 dark:hover:bg-primary/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/20"
+            <div data-item-display class="flex items-center justify-between gap-3">
+              <p
+                data-word-text
+                class="word-list-value min-w-0 flex-1 break-words"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 50 50"
-                  width="16"
-                  height="16"
-                  class="size-[15px] shrink-0"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-edit-pencil"></use>
-                </svg>
-              </button>
+                ${escapeDashboardHtml(word.value)}
+              </p>
 
-              <button
-                type="button"
-                data-delete-word
-                aria-label="حذف کلمه ${escapeDashboardHtml(word.value)}"
-                class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-secondary/10 text-secondary dark:bg-secondary/15 transition-all duration-200 hover:bg-secondary/20 dark:hover:bg-secondary/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secondary/20"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 50 50"
-                  width="16"
-                  height="16"
-                  class="size-[15px] shrink-0"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-trash"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <form
-            data-word-edit-form
-            class="hidden"
-            novalidate
-          >
-            <div
-              class="flex flex-col gap-3 sm:flex-row sm:items-start"
-            >
-              <div class="min-w-0 flex-1">
-                <input
-                  data-word-edit-input
-                  type="text"
-                  maxlength="80"
-                  autocomplete="off"
-                  class="form-control"
-                  value="${escapeDashboardHtml(word.value)}"
-                />
-
-                <span
-                  data-word-edit-error
-                  class="form-error hidden mt-2"
-                  role="alert"
-                ></span>
-              </div>
-
-              <div
-                class="flex shrink-0 gap-2"
-              >
+              <div class="flex shrink-0 items-center gap-1.5">
                 <button
-                  type="submit"
-                  class="btn-primary btn-compact"
+                  type="button"
+                  data-edit-word
+                  aria-label="ویرایش کلمه ${escapeDashboardHtml(word.value)}"
+                  class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-200 hover:scale-105 hover:bg-primary/15 focus:outline-none focus:ring-2 focus:ring-primary/20 dark:bg-primary/15 dark:text-primary-light dark:hover:bg-primary/20"
                 >
-                  ذخیره
+                  <svg viewBox="0 0 50 50" class="size-4" aria-hidden="true">
+                    <use href="#icon-edit-pencil"></use>
+                  </svg>
                 </button>
 
                 <button
                   type="button"
-                  data-cancel-word-edit
-                  class="btn-ghost btn-compact"
+                  data-delete-word
+                  aria-label="حذف کلمه ${escapeDashboardHtml(word.value)}"
+                  class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-secondary/10 text-secondary transition-all duration-200 hover:scale-105 hover:bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary/20 dark:bg-secondary/15 dark:hover:bg-secondary/20"
                 >
-                  انصراف
+                  <svg viewBox="0 0 50 50" class="size-4" aria-hidden="true">
+                    <use href="#icon-trash"></use>
+                  </svg>
                 </button>
               </div>
             </div>
-          </form>
-        </article>
-      `
+
+            <form data-word-edit-form class="hidden" novalidate>
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
+                <div class="min-w-0 flex-1">
+                  <input
+                    data-word-edit-input
+                    type="text"
+                    maxlength="80"
+                    autocomplete="off"
+                    class="form-control"
+                    value="${escapeDashboardHtml(word.value)}"
+                  />
+                  <span data-item-edit-error class="form-error mt-2 hidden" role="alert"></span>
+                </div>
+
+                <div class="flex shrink-0 gap-2">
+                  <button type="submit" class="btn-primary btn-compact">ذخیره</button>
+                  <button type="button" data-cancel-item-edit class="btn-ghost btn-compact">انصراف</button>
+                </div>
+              </div>
+            </form>
+          </article>
+        `,
+      )
+      .join('')
+  }
+
+  const renderScienceItems = (questions, emptyText) => {
+    if (!questions.length) return renderEmptyState(emptyText)
+
+    return questions
+      .map(
+        (item) => `
+          <article
+            data-folder-item-row
+            data-science-row
+            data-question-id="${escapeDashboardHtml(item.id)}"
+            class="rounded-md border border-white/70 bg-surface p-4 dark:border-border-dark-soft dark:bg-surface-dark"
+          >
+            <div data-item-display>
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0 flex-1">
+                  <span class="ui-label mb-1 block">سؤال</span>
+                  <h5 data-science-question-text class="break-words">
+                    ${escapeDashboardHtml(item.question)}
+                  </h5>
+                </div>
+
+                <div class="flex shrink-0 items-center gap-1.5">
+                  <button
+                    type="button"
+                    data-edit-science
+                    aria-label="ویرایش سؤال علوم"
+                    class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-200 hover:scale-105 hover:bg-primary/15 focus:outline-none focus:ring-2 focus:ring-primary/20 dark:bg-primary/15 dark:text-primary-light dark:hover:bg-primary/20"
+                  >
+                    <svg viewBox="0 0 50 50" class="size-4" aria-hidden="true">
+                      <use href="#icon-edit-pencil"></use>
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    data-delete-science
+                    aria-label="حذف سؤال علوم"
+                    class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-secondary/10 text-secondary transition-all duration-200 hover:scale-105 hover:bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary/20 dark:bg-secondary/15 dark:hover:bg-secondary/20"
+                  >
+                    <svg viewBox="0 0 50 50" class="size-4" aria-hidden="true">
+                      <use href="#icon-trash"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="mt-4 border-t border-textColor/5 pt-4 dark:border-border-dark-soft">
+                <span class="ui-label mb-1 block">پاسخ</span>
+                <p
+                  data-science-answer-text
+                  class="text-mutedColor dark:text-mutedColor-dark"
+                >
+                  ${escapeDashboardHtml(item.answer)}
+                </p>
+              </div>
+            </div>
+
+            <form data-science-edit-form class="hidden flex-col gap-4" novalidate>
+              <div class="form-group">
+                <label class="form-label">سؤال</label>
+                <textarea
+                  data-science-question-input
+                  maxlength="220"
+                  class="form-textarea"
+                >${escapeDashboardHtml(item.question)}</textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">پاسخ درست</label>
+                <textarea
+                  data-science-answer-input
+                  maxlength="600"
+                  class="form-textarea"
+                >${escapeDashboardHtml(item.answer)}</textarea>
+              </div>
+
+              <span data-item-edit-error class="form-error hidden" role="alert"></span>
+
+              <div class="flex gap-2 sm:justify-end">
+                <button type="submit" class="btn-primary btn-compact">ذخیره</button>
+                <button type="button" data-cancel-item-edit class="btn-ghost btn-compact">انصراف</button>
+              </div>
+            </form>
+          </article>
+        `,
       )
       .join('')
   }
 
   const initFolderManagerEvents = (renderFoldersView) => {
     const modal = document.getElementById('folder-manager-modal')
-
     if (!modal) return
 
     const openButtons = document.querySelectorAll('[data-manage-folder]')
-
     const closeButtons = modal.querySelectorAll('[data-folder-manager-close]')
-
     const heading = document.getElementById('folder-manager-heading')
-
+    const typeBadge = document.getElementById('folder-manager-type')
     const titleForm = document.getElementById('folder-manager-title-form')
-
     const titleInput = document.getElementById('folder-manager-title')
-
     const titleError = document.getElementById('folder-manager-title-error')
-
     const titleSubmit = document.getElementById('folder-manager-title-submit')
-
-    const wordsContainer = document.getElementById('folder-manager-words')
-
-    const wordCount = document.getElementById('folder-manager-word-count')
-
-    const deleteFolderButton = document.getElementById(
-      'folder-manager-delete-folder'
-    )
-
+    const itemsTitle = document.getElementById('folder-manager-items-title')
+    const itemsHelp = document.getElementById('folder-manager-items-help')
+    const itemsContainer = document.getElementById('folder-manager-items')
+    const itemCount = document.getElementById('folder-manager-item-count')
+    const deleteHelp = document.getElementById('folder-manager-delete-help')
+    const deleteFolderButton = document.getElementById('folder-manager-delete-folder')
     const deleteConfirm = document.getElementById('delete-folder-confirm')
-
     const deleteConfirmDescription = document.getElementById(
-      'delete-folder-confirm-description'
+      'delete-folder-confirm-description',
     )
-
     const deleteConfirmSubmit = document.getElementById(
-      'delete-folder-confirm-submit'
+      'delete-folder-confirm-submit',
     )
-
     const deleteCancelButtons = modal.querySelectorAll(
-      '[data-delete-folder-cancel]'
+      '[data-delete-folder-cancel]',
     )
 
     if (
       !heading ||
+      !typeBadge ||
       !titleForm ||
       !titleInput ||
       !titleError ||
-      !wordsContainer ||
-      !wordCount ||
+      !itemsTitle ||
+      !itemsHelp ||
+      !itemsContainer ||
+      !itemCount ||
+      !deleteHelp ||
       !deleteFolderButton ||
       !deleteConfirm ||
       !deleteConfirmDescription ||
@@ -421,154 +429,129 @@
       return
     }
 
-    let activeFolderId = null
     let activeFolder = null
     let lastTrigger = null
 
     const clearTitleError = () => {
       titleError.textContent = ''
       titleError.classList.add('hidden')
-
       titleInput.removeAttribute('aria-invalid')
     }
 
     const showTitleError = (message) => {
       titleError.textContent = message
       titleError.classList.remove('hidden')
-
       titleInput.setAttribute('aria-invalid', 'true')
     }
 
-    const updateCardWordCount = (folderId, count) => {
+    const loadItems = async () => {
+      if (!activeFolder) return []
+
+      if (activeFolder.type === 'science') {
+        return window.scienceQuestionService.getQuestionsByFolder(activeFolder.id)
+      }
+
+      return window.wordService.getWordsByFolder(activeFolder.id)
+    }
+
+    const updateCard = (items) => {
+      if (!activeFolder) return
+
       const card = document.querySelector(
-        `[data-manage-folder][data-folder-id="${CSS.escape(folderId)}"]`
+        `[data-manage-folder][data-folder-id="${CSS.escape(activeFolder.id)}"]`,
       )
 
-      const countElement = card?.querySelector('[data-folder-word-count]')
+      const countElement = card?.querySelector('[data-folder-item-count]')
+      const titleElement = card?.querySelector('[data-folder-card-title]')
+      const meta = getFolderMeta(activeFolder)
 
       if (countElement) {
-        countElement.textContent = `${toPersianNumber(count)} کلمه`
+        countElement.textContent = `${toPersianNumber(items.length)} ${meta.itemLabel}`
       }
-    }
-
-    const updateCardTitle = (folderId, title) => {
-      const card = document.querySelector(
-        `[data-manage-folder][data-folder-id="${CSS.escape(folderId)}"]`
-      )
-
-      const titleElement = card?.querySelector('[data-folder-card-title]')
 
       if (titleElement) {
-        titleElement.textContent = title
+        titleElement.textContent = activeFolder.title
       }
 
-      if (card) {
-        card.setAttribute('aria-label', `مدیریت پوشه ${title}`)
-      }
+      card?.setAttribute('aria-label', `مدیریت پوشه ${activeFolder.title}`)
     }
 
-    const refreshWords = async () => {
-      if (!activeFolderId) return
+    const renderItems = (items) => {
+      const meta = getFolderMeta(activeFolder)
 
-      const words = await window.wordService.getWordsByFolder(activeFolderId)
+      itemsTitle.textContent = meta.itemsTitle
+      itemsHelp.textContent = meta.itemsDescription
+      itemCount.textContent = `${toPersianNumber(items.length)} ${meta.itemLabel}`
+      deleteHelp.textContent = `حذف پوشه، همه ${meta.itemLabel}‌های داخل آن را هم حذف می‌کند.`
 
-      wordsContainer.innerHTML = renderFolderManagerWords(words)
+      itemsContainer.innerHTML = meta.isScience
+        ? renderScienceItems(items, meta.emptyText)
+        : renderWordItems(items, meta.emptyText)
 
-      wordCount.textContent = `${toPersianNumber(words.length)} کلمه`
+      updateCard(items)
+    }
 
-      updateCardWordCount(activeFolderId, words.length)
-
-      return words
+    const refreshItems = async () => {
+      const items = await loadItems()
+      renderItems(items)
+      return items
     }
 
     const hideDeleteConfirm = () => {
       deleteConfirm.classList.add('hidden')
-
       deleteConfirm.classList.remove('flex')
-
       deleteConfirm.setAttribute('aria-hidden', 'true')
-
       deleteFolderButton.focus()
     }
 
     const showDeleteConfirm = async () => {
-      if (!activeFolderId || !activeFolder) {
-        return
-      }
+      if (!activeFolder) return
 
-      const words = await window.wordService.getWordsByFolder(activeFolderId)
+      const items = await loadItems()
+      const meta = getFolderMeta(activeFolder)
 
-      deleteConfirmDescription.textContent = words.length
-        ? `پوشه «${activeFolder.title}» و ${toPersianNumber(
-            words.length
-          )} کلمه داخل آن برای همیشه حذف می‌شوند. این عملیات قابل بازگشت نیست.`
+      deleteConfirmDescription.textContent = items.length
+        ? `پوشه «${activeFolder.title}» و ${toPersianNumber(items.length)} ${meta.itemLabel} داخل آن برای همیشه حذف می‌شوند. این عملیات قابل بازگشت نیست.`
         : `پوشه «${activeFolder.title}» برای همیشه حذف می‌شود. این عملیات قابل بازگشت نیست.`
 
       deleteConfirm.classList.remove('hidden')
-
       deleteConfirm.classList.add('flex')
-
       deleteConfirm.setAttribute('aria-hidden', 'false')
 
-      requestAnimationFrame(() => {
-        deleteConfirmSubmit.focus()
-      })
+      requestAnimationFrame(() => deleteConfirmSubmit.focus())
     }
 
     const openModal = async (folderId, trigger) => {
       try {
-        if (
-          !window.folderService?.getFolderById ||
-          !window.wordService?.getWordsByFolder
-        ) {
-          throw new Error('FOLDER_MANAGER_SERVICES_NOT_READY')
-        }
+        const folder = await window.folderService.getFolderById(folderId)
 
-        const [folder, words] = await Promise.all([
-          window.folderService.getFolderById(folderId),
+        if (!folder || folder.locked) return
 
-          window.wordService.getWordsByFolder(folderId),
-        ])
-
-        if (!folder || folder.locked) {
-          return
-        }
-
-        activeFolderId = folder.id
         activeFolder = folder
         lastTrigger = trigger
-
         heading.textContent = folder.title
-
         titleInput.value = folder.title
-
         clearTitleError()
 
-        wordsContainer.innerHTML = renderFolderManagerWords(words)
+        const meta = getFolderMeta(folder)
+        typeBadge.textContent = meta.typeLabel
+        typeBadge.className = `ui-badge ${meta.typeClass}`
 
-        wordCount.textContent = `${toPersianNumber(words.length)} کلمه`
+        const items = await loadItems()
+        renderItems(items)
 
         modal.classList.remove('hidden')
-
         modal.classList.add('flex')
-
         modal.setAttribute('aria-hidden', 'false')
-
         document.body.classList.add('overflow-hidden')
 
-        requestAnimationFrame(() => {
-          titleInput.focus()
-        })
+        requestAnimationFrame(() => titleInput.focus())
       } catch (error) {
         console.error('Failed to open folder manager:', error)
-
         window.showToast?.({
           type: 'error',
           title: 'پوشه باز نشد',
-          message:
-            error.message === 'FOLDER_MANAGER_SERVICES_NOT_READY'
-              ? 'سرویس‌های مدیریت پوشه بارگذاری نشده‌اند.'
-              : 'اطلاعات پوشه دریافت نشد.',
+          message: 'اطلاعات پوشه دریافت نشد.',
         })
       }
     }
@@ -576,22 +559,13 @@
     const closeModal = () => {
       modal.classList.add('hidden')
       modal.classList.remove('flex')
-
       modal.setAttribute('aria-hidden', 'true')
-
       deleteConfirm.classList.add('hidden')
-
       deleteConfirm.classList.remove('flex')
-
       deleteConfirm.setAttribute('aria-hidden', 'true')
-
       document.body.classList.remove('overflow-hidden')
-
       clearTitleError()
-
-      activeFolderId = null
       activeFolder = null
-
       lastTrigger?.focus()
     }
 
@@ -609,16 +583,13 @@
 
     titleForm.addEventListener('submit', async (event) => {
       event.preventDefault()
-
-      if (!activeFolderId) return
+      if (!activeFolder) return
 
       clearTitleError()
-
       const title = titleInput.value.trim()
 
       if (!title) {
         showTitleError('نام پوشه را وارد کن.')
-
         titleInput.focus()
         return
       }
@@ -629,39 +600,31 @@
           titleSubmit.classList.add('opacity-60', 'cursor-not-allowed')
         }
 
-        const updatedFolder = await window.folderService.updateFolder({
-          folderId: activeFolderId,
+        activeFolder = await window.folderService.updateFolder({
+          folderId: activeFolder.id,
           title,
         })
 
-        activeFolder = updatedFolder
-
-        heading.textContent = updatedFolder.title
-
-        titleInput.value = updatedFolder.title
-
-        updateCardTitle(activeFolderId, updatedFolder.title)
+        heading.textContent = activeFolder.title
+        titleInput.value = activeFolder.title
+        updateCard(await loadItems())
 
         window.showToast?.({
           type: 'success',
           title: 'نام پوشه تغییر کرد',
-          message: `نام پوشه به «${updatedFolder.title}» تغییر کرد.`,
+          message: `نام پوشه به «${activeFolder.title}» تغییر کرد.`,
         })
       } catch (error) {
         const errors = {
           FOLDER_TITLE_REQUIRED: 'نام پوشه را وارد کن.',
-
           FOLDER_TITLE_TOO_LONG: 'نام پوشه خیلی طولانی است.',
-
-          FOLDER_TITLE_DUPLICATE: 'پوشه‌ای با این نام از قبل وجود دارد.',
-
+          FOLDER_TITLE_DUPLICATE:
+            'پوشه‌ای با همین نام و همین نوع از قبل وجود دارد.',
           FOLDER_NOT_FOUND: 'پوشه پیدا نشد.',
-
           FOLDER_LOCKED: 'این پوشه قابل ویرایش نیست.',
         }
 
         const message = errors[error.message] || 'ویرایش نام پوشه انجام نشد.'
-
         showTitleError(message)
 
         window.showToast?.({
@@ -677,183 +640,215 @@
       }
     })
 
-    wordsContainer.addEventListener('click', async (event) => {
-      const editButton = event.target.closest('[data-edit-word]')
+    itemsContainer.addEventListener('click', async (event) => {
+      const row = event.target.closest('[data-folder-item-row]')
+      if (!row || !activeFolder) return
 
-      const deleteButton = event.target.closest('[data-delete-word]')
+      const display = row.querySelector('[data-item-display]')
+      const editForm = row.querySelector(
+        '[data-word-edit-form], [data-science-edit-form]',
+      )
+      const errorElement = row.querySelector('[data-item-edit-error]')
 
-      const cancelButton = event.target.closest('[data-cancel-word-edit]')
+      if (event.target.closest('[data-cancel-item-edit]')) {
+        const wordInput = row.querySelector('[data-word-edit-input]')
+        const wordText = row.querySelector('[data-word-text]')
+        const scienceQuestionInput = row.querySelector(
+          '[data-science-question-input]',
+        )
+        const scienceQuestionText = row.querySelector(
+          '[data-science-question-text]',
+        )
+        const scienceAnswerInput = row.querySelector(
+          '[data-science-answer-input]',
+        )
+        const scienceAnswerText = row.querySelector(
+          '[data-science-answer-text]',
+        )
 
-      const row = event.target.closest('[data-word-row]')
+        if (wordInput && wordText) {
+          wordInput.value = wordText.textContent.trim()
+        }
 
-      if (!row) return
+        if (scienceQuestionInput && scienceQuestionText) {
+          scienceQuestionInput.value = scienceQuestionText.textContent.trim()
+        }
 
-      const display = row.querySelector('[data-word-display]')
+        if (scienceAnswerInput && scienceAnswerText) {
+          scienceAnswerInput.value = scienceAnswerText.textContent.trim()
+        }
 
-      const editForm = row.querySelector('[data-word-edit-form]')
+        editForm?.classList.add('hidden')
+        editForm?.classList.remove('flex')
+        display?.classList.remove('hidden')
+        errorElement?.classList.add('hidden')
+        return
+      }
 
-      const editInput = row.querySelector('[data-word-edit-input]')
-
-      const editError = row.querySelector('[data-word-edit-error]')
-
-      if (editButton && display && editForm && editInput) {
-        display.classList.add('hidden')
-
-        editForm.classList.remove('hidden')
-
-        editError?.classList.add('hidden')
-
+      if (event.target.closest('[data-edit-word]')) {
+        display?.classList.add('hidden')
+        editForm?.classList.remove('hidden')
+        editForm?.classList.add('flex')
+        errorElement?.classList.add('hidden')
+        const input = row.querySelector('[data-word-edit-input]')
         requestAnimationFrame(() => {
-          editInput.focus()
-          editInput.select()
+          input?.focus()
+          input?.select()
         })
-
         return
       }
 
-      if (cancelButton && display && editForm && editInput) {
-        const currentText = row
-          .querySelector('[data-word-text]')
-          ?.textContent.trim()
-
-        editInput.value = currentText || ''
-
-        editError?.classList.add('hidden')
-
-        editForm.classList.add('hidden')
-
-        display.classList.remove('hidden')
-
+      if (event.target.closest('[data-edit-science]')) {
+        display?.classList.add('hidden')
+        editForm?.classList.remove('hidden')
+        editForm?.classList.add('flex')
+        errorElement?.classList.add('hidden')
+        requestAnimationFrame(() =>
+          row.querySelector('[data-science-question-input]')?.focus(),
+        )
         return
       }
 
-      if (deleteButton && activeFolderId) {
-        const wordId = row.dataset.wordId
-
-        const wordText =
-          row.querySelector('[data-word-text]')?.textContent.trim() || 'کلمه'
-
+      const deleteWordButton = event.target.closest('[data-delete-word]')
+      if (deleteWordButton) {
         try {
-          deleteButton.disabled = true
-          deleteButton.classList.add('opacity-50', 'cursor-not-allowed')
-
-          await window.wordService.deleteWord(wordId)
-
-          await refreshWords()
+          deleteWordButton.disabled = true
+          deleteWordButton.classList.add('opacity-50', 'cursor-not-allowed')
+          await window.wordService.deleteWord(row.dataset.wordId)
+          await refreshItems()
 
           window.showToast?.({
             type: 'success',
             title: 'کلمه حذف شد',
-            message: `«${wordText}» از پوشه حذف شد.`,
+            message: 'کلمه از پوشه حذف شد.',
           })
         } catch (error) {
-          const errors = {
-            WORD_NOT_FOUND: 'کلمه پیدا نشد.',
-
-            WORD_FOLDER_NOT_FOUND: 'پوشه این کلمه پیدا نشد.',
-
-            WORD_FOLDER_LOCKED: 'امکان حذف کلمه از این پوشه وجود ندارد.',
-          }
-
           window.showToast?.({
             type: 'error',
             title: 'حذف کلمه انجام نشد',
-            message: errors[error.message] || 'حذف کلمه انجام نشد.',
+            message: 'حذف کلمه انجام نشد.',
           })
 
-          deleteButton.disabled = false
-          deleteButton.classList.remove('opacity-50', 'cursor-not-allowed')
+          if (deleteWordButton.isConnected) {
+            deleteWordButton.disabled = false
+            deleteWordButton.classList.remove('opacity-50', 'cursor-not-allowed')
+          }
+        }
+        return
+      }
+
+      const deleteScienceButton = event.target.closest('[data-delete-science]')
+      if (deleteScienceButton) {
+        try {
+          deleteScienceButton.disabled = true
+          deleteScienceButton.classList.add('opacity-50', 'cursor-not-allowed')
+          await window.scienceQuestionService.deleteQuestion(
+            row.dataset.questionId,
+          )
+          await refreshItems()
+
+          window.showToast?.({
+            type: 'success',
+            title: 'سؤال حذف شد',
+            message: 'سؤال علوم از پوشه حذف شد.',
+          })
+        } catch (error) {
+          window.showToast?.({
+            type: 'error',
+            title: 'حذف سؤال انجام نشد',
+            message: 'حذف سؤال علوم انجام نشد.',
+          })
+
+          if (deleteScienceButton.isConnected) {
+            deleteScienceButton.disabled = false
+            deleteScienceButton.classList.remove(
+              'opacity-50',
+              'cursor-not-allowed',
+            )
+          }
         }
       }
     })
 
-    wordsContainer.addEventListener('input', (event) => {
-      const input = event.target.closest('[data-word-edit-input]')
-
-      if (!input) return
-
-      const row = input.closest('[data-word-row]')
-
-      row?.querySelector('[data-word-edit-error]')?.classList.add('hidden')
+    itemsContainer.addEventListener('input', (event) => {
+      event.target
+        .closest('[data-folder-item-row]')
+        ?.querySelector('[data-item-edit-error]')
+        ?.classList.add('hidden')
     })
 
-    wordsContainer.addEventListener('submit', async (event) => {
-      const form = event.target.closest('[data-word-edit-form]')
-
+    itemsContainer.addEventListener('submit', async (event) => {
+      const wordForm = event.target.closest('[data-word-edit-form]')
+      const scienceForm = event.target.closest('[data-science-edit-form]')
+      const form = wordForm || scienceForm
       if (!form) return
 
       event.preventDefault()
-
-      const row = form.closest('[data-word-row]')
-
-      const input = form.querySelector('[data-word-edit-input]')
-
-      const errorElement = form.querySelector('[data-word-edit-error]')
-
+      const row = form.closest('[data-folder-item-row]')
+      const errorElement = form.querySelector('[data-item-edit-error]')
       const submitButton = form.querySelector('button[type="submit"]')
 
-      if (!row || !input || !errorElement) {
-        return
-      }
-
-      const value = input.value.trim()
-
-      if (!value) {
-        errorElement.textContent = 'کلمه یا عبارت را وارد کن.'
-
-        errorElement.classList.remove('hidden')
-
-        input.focus()
-        return
-      }
-
       try {
-        if (submitButton) {
-          submitButton.disabled = true
-          submitButton.classList.add('opacity-60', 'cursor-not-allowed')
+        submitButton.disabled = true
+        submitButton.classList.add('opacity-60', 'cursor-not-allowed')
+        errorElement.classList.add('hidden')
+
+        if (wordForm) {
+          const input = form.querySelector('[data-word-edit-input]')
+          await window.wordService.updateWord({
+            wordId: row.dataset.wordId,
+            value: input.value,
+          })
+
+          window.showToast?.({
+            type: 'success',
+            title: 'کلمه ویرایش شد',
+            message: 'تغییرات کلمه ذخیره شد.',
+          })
+        } else {
+          const questionInput = form.querySelector(
+            '[data-science-question-input]',
+          )
+          const answerInput = form.querySelector('[data-science-answer-input]')
+
+          await window.scienceQuestionService.updateQuestion({
+            questionId: row.dataset.questionId,
+            question: questionInput.value,
+            answer: answerInput.value,
+          })
+
+          window.showToast?.({
+            type: 'success',
+            title: 'سؤال ویرایش شد',
+            message: 'سؤال و پاسخ علوم ذخیره شدند.',
+          })
         }
 
-        const updatedWord = await window.wordService.updateWord({
-          wordId: row.dataset.wordId,
-
-          value,
-        })
-
-        await refreshWords()
-
-        window.showToast?.({
-          type: 'success',
-          title: 'کلمه ویرایش شد',
-          message: `کلمه به «${updatedWord.value}» تغییر کرد.`,
-        })
+        await refreshItems()
       } catch (error) {
         const errors = {
           WORD_VALUE_REQUIRED: 'کلمه یا عبارت را وارد کن.',
-
           WORD_VALUE_TOO_LONG: 'کلمه یا عبارت خیلی طولانی است.',
-
           WORD_DUPLICATE: 'این کلمه قبلاً در همین پوشه وجود دارد.',
-
-          WORD_NOT_FOUND: 'کلمه پیدا نشد.',
-
-          WORD_FOLDER_NOT_FOUND: 'پوشه این کلمه پیدا نشد.',
-
-          WORD_FOLDER_LOCKED: 'این پوشه قابل ویرایش نیست.',
+          WORD_FOLDER_TYPE_INVALID: 'این پوشه برای کلمات دیکته نیست.',
+          SCIENCE_QUESTION_REQUIRED: 'متن سؤال را وارد کن.',
+          SCIENCE_QUESTION_TOO_LONG: 'متن سؤال خیلی طولانی است.',
+          SCIENCE_ANSWER_REQUIRED: 'پاسخ سؤال را وارد کن.',
+          SCIENCE_ANSWER_TOO_LONG: 'پاسخ سؤال خیلی طولانی است.',
+          SCIENCE_QUESTION_DUPLICATE: 'این سؤال قبلاً در همین پوشه وجود دارد.',
         }
 
-        const message = errors[error.message] || 'ویرایش کلمه انجام نشد.'
-
+        const message = errors[error.message] || 'ذخیره تغییرات انجام نشد.'
         errorElement.textContent = message
-
         errorElement.classList.remove('hidden')
 
         window.showToast?.({
           type: 'error',
-          title: 'کلمه ویرایش نشد',
+          title: 'تغییرات ذخیره نشد',
           message,
         })
       } finally {
-        if (submitButton && submitButton.isConnected) {
+        if (submitButton?.isConnected) {
           submitButton.disabled = false
           submitButton.classList.remove('opacity-60', 'cursor-not-allowed')
         }
@@ -861,73 +856,58 @@
     })
 
     deleteFolderButton.addEventListener('click', showDeleteConfirm)
-
     deleteCancelButtons.forEach((button) => {
       button.addEventListener('click', hideDeleteConfirm)
     })
 
     deleteConfirmSubmit.addEventListener('click', async () => {
-      if (!activeFolderId || !activeFolder) {
-        return
-      }
+      if (!activeFolder) return
 
       try {
         deleteConfirmSubmit.disabled = true
-
         deleteConfirmSubmit.classList.add('opacity-60', 'cursor-not-allowed')
 
-        const result = await window.folderService.deleteFolder(activeFolderId)
-
+        const result = await window.folderService.deleteFolder(activeFolder.id)
         const deletedTitle = result.folder?.title || activeFolder.title
+        const deletedCount =
+          activeFolder.type === 'science'
+            ? result.deletedQuestionCount
+            : result.deletedWordCount
+        const meta = getFolderMeta(activeFolder)
 
         modal.classList.add('hidden')
-
         modal.classList.remove('flex')
-
         document.body.classList.remove('overflow-hidden')
 
         window.showToast?.({
           type: 'success',
           title: 'پوشه حذف شد',
-          message: result.deletedWordCount
-            ? `پوشه «${deletedTitle}» همراه با ${toPersianNumber(
-                result.deletedWordCount
-              )} کلمه حذف شد.`
+          message: deletedCount
+            ? `پوشه «${deletedTitle}» همراه با ${toPersianNumber(deletedCount)} ${meta.itemLabel} حذف شد.`
             : `پوشه «${deletedTitle}» حذف شد.`,
         })
 
-        activeFolderId = null
         activeFolder = null
-
         await renderFoldersView()
       } catch (error) {
-        const errors = {
-          FOLDER_NOT_FOUND: 'پوشه پیدا نشد.',
-
-          FOLDER_LOCKED: 'این پوشه قابل حذف نیست.',
-        }
-
         window.showToast?.({
           type: 'error',
           title: 'حذف پوشه انجام نشد',
-          message: errors[error.message] || 'حذف پوشه انجام نشد.',
+          message: 'حذف پوشه انجام نشد.',
         })
       } finally {
         if (deleteConfirmSubmit.isConnected) {
           deleteConfirmSubmit.disabled = false
-
           deleteConfirmSubmit.classList.remove(
             'opacity-60',
-            'cursor-not-allowed'
+            'cursor-not-allowed',
           )
         }
       }
     })
 
     modal.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') {
-        return
-      }
+      if (event.key !== 'Escape') return
 
       if (!deleteConfirm.classList.contains('hidden')) {
         hideDeleteConfirm()
@@ -938,8 +918,8 @@
     })
   }
 
-  window.DashboardFolderManager = {
+  window.DashboardFolderManager = Object.freeze({
     createFolderManagerModal,
     initFolderManagerEvents,
-  }
+  })
 })()

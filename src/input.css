@@ -972,7 +972,42 @@ body {
   .form-select-trigger {
     @apply flex cursor-pointer
            items-center justify-between
-           gap-4 text-right;
+           gap-4
+           border-primary/15
+           text-right
+           shadow-card
+           dark:border-border-dark-strong
+           dark:shadow-card-dark;
+
+    background-color: color-mix(
+      in oklab,
+      var(--color-bg) 92%,
+      white 8%
+    );
+  }
+
+  .dark .form-select-trigger {
+    border-color: color-mix(
+      in oklab,
+      var(--color-primary-light) 14%,
+      var(--color-border-dark-strong)
+    );
+
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, white 5%, transparent),
+        transparent 62%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 84%,
+        white 16%
+      );
+
+    box-shadow:
+      var(--shadow-card-dark),
+      inset 0 1px 0 color-mix(in oklab, white 8%, transparent);
   }
 
   .form-dropdown-menu {
@@ -981,14 +1016,42 @@ body {
            z-40 mt-2
            max-h-64 overflow-y-auto
            rounded-md
-           border border-white/75
-           bg-surface-strong
+           border border-primary/15
            p-2
            shadow-floating
            backdrop-blur-md
            dark:border-border-dark-strong
-           dark:bg-surface-dark-strong
            dark:shadow-floating-dark;
+
+    background-color: color-mix(
+      in oklab,
+      var(--color-bg) 96%,
+      white 4%
+    );
+  }
+
+  .dark .form-dropdown-menu {
+    border-color: color-mix(
+      in oklab,
+      var(--color-primary-light) 12%,
+      var(--color-border-dark-strong)
+    );
+
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in oklab, white 6%, transparent),
+        transparent 58%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 82%,
+        white 18%
+      );
+
+    box-shadow:
+      var(--shadow-floating-dark),
+      inset 0 1px 0 color-mix(in oklab, white 8%, transparent);
   }
 
   .form-option {
@@ -997,16 +1060,150 @@ body {
            items-center justify-between
            gap-3
            rounded-sm
+           border border-transparent
            px-4 py-3
            text-right
            font-Dana-medium text-sm
            text-textColor
            transition-colors
+           hover:border-primary/15
            hover:bg-primary/10
            hover:text-primary
            dark:text-textColor-dark
+           dark:hover:border-border-dark
            dark:hover:bg-primary/15
            dark:hover:text-primary-light;
+  }
+
+  /* =========================
+     Game dark-mode composition
+     Mirrors the homepage: illuminated canvas + layered glass.
+  ========================= */
+
+  .game-ambient {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+  }
+
+  .game-ambient__orb {
+    position: absolute;
+    display: block;
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+
+  .game-ambient__orb--primary {
+    top: -10rem;
+    right: -8rem;
+    width: 34rem;
+    height: 34rem;
+    background: color-mix(
+      in oklab,
+      var(--color-primary) 11%,
+      transparent
+    );
+    filter: blur(110px);
+  }
+
+  .game-ambient__orb--secondary {
+    top: 42%;
+    left: -10rem;
+    width: 31rem;
+    height: 31rem;
+    background: color-mix(
+      in oklab,
+      var(--color-secondary) 7%,
+      transparent
+    );
+    filter: blur(120px);
+  }
+
+  .game-ambient__orb--accent {
+    right: 30%;
+    bottom: -10rem;
+    width: 25rem;
+    height: 25rem;
+    background: color-mix(
+      in oklab,
+      var(--color-accent) 5%,
+      transparent
+    );
+    filter: blur(115px);
+  }
+
+  .dark .game-ambient__orb--primary {
+    background: color-mix(
+      in oklab,
+      var(--color-primary) 20%,
+      transparent
+    );
+  }
+
+  .dark .game-ambient__orb--secondary {
+    background: color-mix(
+      in oklab,
+      var(--color-secondary) 13%,
+      transparent
+    );
+  }
+
+  .dark .game-ambient__orb--accent {
+    background: color-mix(
+      in oklab,
+      var(--color-accent) 8%,
+      transparent
+    );
+  }
+
+  .dark .game-topbar,
+  .dark .game-scorebar {
+    border-color: var(--color-border-dark-strong);
+
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, white 4%, transparent),
+        transparent 64%
+      ),
+      var(--color-surface-dark);
+
+    box-shadow:
+      var(--shadow-glass-dark),
+      inset 0 1px 0 color-mix(in oklab, white 7%, transparent);
+  }
+
+  .dark .game-stage {
+    border-color: var(--color-border-dark-strong);
+
+    background:
+      radial-gradient(
+        circle at 82% 9%,
+        color-mix(in oklab, var(--color-primary) 12%, transparent),
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 8% 92%,
+        color-mix(in oklab, var(--color-secondary) 7%, transparent),
+        transparent 44%
+      ),
+      linear-gradient(
+        145deg,
+        color-mix(in oklab, white 3%, transparent),
+        transparent 58%
+      ),
+      var(--color-surface-dark);
+
+    box-shadow:
+      var(--shadow-card-dark),
+      inset 0 1px 0 color-mix(in oklab, white 8%, transparent);
+  }
+
+  #game-stage-glow {
+    opacity: 0.78;
+  }
+
+  .dark #game-stage-glow {
+    opacity: 1;
+    filter: blur(88px);
   }
 
   .game-stage {
@@ -1087,6 +1284,417 @@ body {
 
   .game-result-value {
     @apply font-Dana-bold text-2xl;
+  }
+
+  /* =========================
+     Dark-mode clarity refinements
+  ========================= */
+
+  .dark .form-control,
+  .dark .form-textarea,
+  .dark .form-select {
+    border-color: var(--color-border-dark-strong);
+
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, white 4%, transparent),
+        transparent 65%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 87%,
+        white 13%
+      );
+
+    box-shadow: inset 0 1px 0 color-mix(in oklab, white 6%, transparent);
+  }
+
+  .dark .btn-ghost,
+  .dark .btn-ghost-secondary {
+    background: var(--color-surface-dark-soft);
+    border-color: var(--color-border-dark);
+  }
+
+  .dark .btn-ghost:hover,
+  .dark .btn-ghost-secondary:hover {
+    background: var(--color-surface-dark);
+  }
+
+  /* =========================
+     Shared game flashcard
+     Used by Dictation + Science
+  ========================= */
+
+  .game-flashcard {
+    --game-flashcard-accent: var(--color-primary);
+
+    @apply relative isolate mx-auto w-full max-w-2xl;
+    perspective: 1400px;
+  }
+
+  .game-flashcard--science {
+    --game-flashcard-accent: var(--color-secondary);
+  }
+
+  .game-flashcard--dictation {
+    --game-flashcard-accent: var(--color-accent);
+  }
+
+  /*
+   * Two restrained sheets behind the active card.
+   * They give the component a real flashcard-stack feel
+   * without introducing new colors or arbitrary shadows.
+   */
+  .game-flashcard::before,
+  .game-flashcard::after {
+    content: '';
+    position: absolute;
+    inset-inline: 1.25rem;
+    bottom: -0.85rem;
+    height: 100%;
+    z-index: -1;
+    border-radius: var(--radius-lg);
+    border: 1px solid
+      color-mix(in oklab, var(--game-flashcard-accent) 10%, transparent);
+    background: color-mix(
+      in oklab,
+      var(--color-surface-strong) 88%,
+      var(--game-flashcard-accent) 12%
+    );
+    pointer-events: none;
+  }
+
+  .game-flashcard::before {
+    transform: translateY(0.1rem) scale(0.975);
+    opacity: 0.72;
+  }
+
+  .game-flashcard::after {
+    inset-inline: 2.25rem;
+    bottom: -1.45rem;
+    transform: translateY(0.15rem) scale(0.955);
+    opacity: 0.34;
+  }
+
+  .dark .game-flashcard::before,
+  .dark .game-flashcard::after {
+    border-color: color-mix(
+      in oklab,
+      white 9%,
+      var(--game-flashcard-accent) 14%
+    );
+
+    background:
+      linear-gradient(
+        150deg,
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 7%,
+          transparent
+        ),
+        transparent 54%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 94%,
+        var(--game-flashcard-accent) 6%
+      );
+
+    box-shadow:
+      0 18px 48px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  }
+
+  .dark .game-flashcard::before {
+    opacity: 0.88;
+  }
+
+  .dark .game-flashcard::after {
+    opacity: 0.42;
+  }
+
+  /*
+   * Grid overlap replaces absolute faces.
+   * Both sides participate in layout, so the card grows
+   * with longer content and never needs an inner scrollbar.
+   */
+  .game-flashcard__inner {
+    @apply relative grid min-h-[300px] sm:min-h-[330px];
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    will-change: transform;
+  }
+
+  .game-flashcard__inner.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .game-flashcard__face {
+    grid-area: 1 / 1;
+
+    @apply relative
+           flex min-h-[300px] flex-col
+           items-center justify-center
+           overflow-hidden
+           rounded-lg
+           border border-white/80
+           px-6 py-10
+           text-center
+           shadow-card
+           backdrop-blur-md
+           dark:border-border-dark-strong
+           dark:shadow-card-dark
+           sm:min-h-[330px]
+           sm:px-10 sm:py-12;
+
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 7%,
+          transparent
+        ),
+        transparent 44%
+      ),
+      var(--color-surface-strong);
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .dark .game-flashcard__face {
+    border-color: color-mix(
+      in oklab,
+      white 12%,
+      var(--game-flashcard-accent) 16%
+    );
+
+    background:
+      radial-gradient(
+        circle at 84% 10%,
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 14%,
+          transparent
+        ),
+        transparent 34%
+      ),
+      radial-gradient(
+        circle at 10% 94%,
+        rgba(167, 139, 250, 0.075),
+        transparent 42%
+      ),
+      linear-gradient(
+        155deg,
+        rgba(255, 255, 255, 0.045),
+        rgba(255, 255, 255, 0.012) 52%,
+        transparent 76%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 93%,
+        var(--game-flashcard-accent) 7%
+      );
+
+    box-shadow:
+      0 28px 72px rgba(0, 0, 0, 0.4),
+      0 0 42px
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 7%,
+          transparent
+        ),
+      inset 0 1px 0 rgba(255, 255, 255, 0.095),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.025);
+  }
+
+  .dark .game-flashcard__face--front {
+    background:
+      radial-gradient(
+        circle at 84% 10%,
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 13%,
+          transparent
+        ),
+        transparent 34%
+      ),
+      linear-gradient(
+        155deg,
+        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.012) 54%,
+        transparent 78%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 94%,
+        var(--game-flashcard-accent) 6%
+      );
+  }
+
+  .dark .game-flashcard__face--back {
+    background:
+      radial-gradient(
+        circle at 18% 12%,
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 17%,
+          transparent
+        ),
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 88% 90%,
+        rgba(167, 139, 250, 0.065),
+        transparent 44%
+      ),
+      linear-gradient(
+        155deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.014) 56%,
+        transparent 80%
+      ),
+      color-mix(
+        in oklab,
+        var(--color-bg-dark-secondary) 90%,
+        var(--game-flashcard-accent) 10%
+      );
+  }
+
+  /*
+   * A small centered accent rail is enough to identify the card
+   * without the oversized decorative glow/ring used before.
+   */
+  .game-flashcard__face::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4.75rem;
+    height: 0.25rem;
+    border-radius: 0 0 9999px 9999px;
+    background: var(--game-flashcard-accent);
+    transform: translateX(-50%);
+    opacity: 0.88;
+    pointer-events: none;
+  }
+
+  .dark .game-flashcard__face::before {
+    opacity: 1;
+    box-shadow:
+      0 0 14px
+        color-mix(
+          in oklab,
+          var(--game-flashcard-accent) 38%,
+          transparent
+        );
+  }
+
+  .game-flashcard__face::after {
+    content: '';
+    position: absolute;
+    inset: 0.85rem;
+    border-radius: calc(var(--radius-lg) - 8px);
+    border: 1px solid
+      color-mix(in oklab, var(--game-flashcard-accent) 6%, transparent);
+    pointer-events: none;
+  }
+
+  .dark .game-flashcard__face::after {
+    border-color: rgba(255, 255, 255, 0.055);
+  }
+
+  .game-flashcard__face--back {
+    transform: rotateY(180deg);
+  }
+
+  .game-flashcard__content {
+    @apply relative z-10
+           flex w-full max-w-xl flex-col
+           items-center justify-center
+           py-2;
+  }
+
+  .game-flashcard__content > .ui-eyebrow {
+    @apply inline-flex
+           items-center justify-center
+           rounded-full
+           border border-white/70
+           bg-white/45
+           px-3.5 py-1.5
+           dark:border-border-dark
+           dark:bg-surface-dark-soft;
+
+    color: var(--game-flashcard-accent);
+  }
+
+  .dark .game-flashcard__content > .ui-eyebrow {
+    border-color: color-mix(
+      in oklab,
+      var(--game-flashcard-accent) 22%,
+      rgba(255, 255, 255, 0.08)
+    );
+
+    background: color-mix(
+      in oklab,
+      var(--color-bg-dark-secondary) 84%,
+      var(--game-flashcard-accent) 16%
+    );
+
+    color: color-mix(
+      in oklab,
+      var(--game-flashcard-accent) 82%,
+      white 18%
+    );
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 8px 24px rgba(0, 0, 0, 0.14);
+  }
+
+  .game-flashcard__answer {
+    @apply max-w-xl
+           font-Dana-medium
+           text-lg
+           leading-relaxed
+           text-textColor
+           dark:text-textColor-dark
+           sm:text-xl;
+  }
+
+  .game-flashcard__hint {
+    @apply inline-flex
+           max-w-md
+           items-center justify-center
+           rounded-full
+           border border-textColor/5
+           bg-white/35
+           px-4 py-2
+           font-Dana-regular text-xs
+           text-mutedColor
+           dark:border-border-dark-soft
+           dark:bg-surface-dark-soft
+           dark:text-mutedColor-dark;
+  }
+
+  .dark .game-flashcard__hint {
+    border-color: rgba(255, 255, 255, 0.075);
+
+    background: rgba(255, 255, 255, 0.055);
+
+    color: color-mix(
+      in oklab,
+      var(--color-mutedColor-dark) 90%,
+      white 10%
+    );
+
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .dark .game-flashcard__answer {
+    color: rgba(255, 255, 255, 0.94);
   }
 
   .word-list-value {

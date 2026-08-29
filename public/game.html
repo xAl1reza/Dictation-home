@@ -95,18 +95,16 @@
       </symbol>
     </svg>
 
-    <div class="relative min-h-screen overflow-hidden">
-      <div aria-hidden="true" class="pointer-events-none absolute inset-0">
-        <div
-          class="absolute -top-32 -right-32 size-80 rounded-full bg-primary/8 blur-[110px] dark:bg-primary/10"></div>
-
-        <div
-          class="absolute top-1/2 -left-40 size-96 -translate-y-1/2 rounded-full bg-secondary/6 blur-[130px] dark:bg-secondary/8"></div>
+    <div class="game-page-shell relative min-h-screen overflow-hidden">
+      <div aria-hidden="true" class="game-ambient">
+        <span class="game-ambient__orb game-ambient__orb--primary"></span>
+        <span class="game-ambient__orb game-ambient__orb--secondary"></span>
+        <span class="game-ambient__orb game-ambient__orb--accent"></span>
       </div>
 
       <header class="relative z-20 page-container pt-4 sm:pt-5">
         <div
-          class="flex items-center justify-between gap-3 rounded-md border border-white/70 bg-surface px-3 py-3 shadow-card backdrop-blur-md dark:border-border-dark dark:bg-surface-dark dark:shadow-card-dark sm:px-4">
+          class="game-topbar flex items-center justify-between gap-3 rounded-md border border-white/70 bg-surface px-3 py-3 shadow-card backdrop-blur-md dark:border-border-dark dark:bg-surface-dark dark:shadow-card-dark sm:px-4">
           <a
             href="./dashboard.html"
             class="btn-ghost gap-2 bg-surface-strong dark:bg-surface-dark-strong sm:px-4">
@@ -184,7 +182,7 @@
 
         <section
           id="game-scorebar"
-          class="mb-5 overflow-hidden rounded-md border border-white/70 bg-surface shadow-card backdrop-blur-md dark:border-border-dark dark:bg-surface-dark dark:shadow-card-dark"
+          class="game-scorebar mb-5 overflow-hidden rounded-md border border-white/70 bg-surface shadow-card backdrop-blur-md dark:border-border-dark dark:bg-surface-dark dark:shadow-card-dark"
           aria-label="وضعیت مسابقه">
           <div id="game-scorebar-grid" class="grid grid-cols-3">
             <!-- Rendered by game.js -->
@@ -301,6 +299,7 @@
     <script src="./js/services/user-service.js"></script>
     <script src="./js/services/folder-service.js"></script>
     <script src="./js/services/word-service.js"></script>
+    <script src="./js/services/science-question-service.js"></script>
 
     <!-- Shared game core -->
     <script src="./js/modules/games/game-engine.js"></script>

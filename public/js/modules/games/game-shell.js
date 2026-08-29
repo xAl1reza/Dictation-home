@@ -632,6 +632,203 @@
     );
   };
 
+  const getFlashcardParts = (card) => {
+    if (!card) return null;
+
+    const inner = card.querySelector("[data-flashcard-inner]");
+    const front = card.querySelector("[data-flashcard-front]");
+    const back = card.querySelector("[data-flashcard-back]");
+
+    if (!inner || !front || !back) {
+      return null;
+    }
+
+    return {
+      inner,
+      front,
+      back,
+    };
+  };
+
+  const flipGameFlashcard = async (card, { toBack = true } = {}) => {
+    const parts = getFlashcardParts(card);
+
+    if (!parts) return;
+
+    const { inner, front, back } = parts;
+    const isCurrentlyFlipped = inner.classList.contains("is-flipped");
+
+    if (isCurrentlyFlipped === toBack) {
+      front.setAttribute("aria-hidden", String(toBack));
+      back.setAttribute("aria-hidden", String(!toBack));
+      return;
+    }
+
+    const startAngle = isCurrentlyFlipped ? 180 : 0;
+    const endAngle = toBack ? 180 : 0;
+
+    inner.classList.toggle("is-flipped", toBack);
+
+    if (!prefersReducedMotion && typeof inner.animate === "function") {
+      const middleAngle = startAngle + (endAngle - startAngle) / 2;
+
+      const animation = inner.animate(
+        [
+          {
+            transform: `rotateY(${startAngle}deg) scale(1)`,
+          },
+          {
+            transform: `rotateY(${middleAngle}deg) scale(0.985)`,
+            offset: 0.5,
+          },
+          {
+            transform: `rotateY(${endAngle}deg) scale(1)`,
+          },
+        ],
+        {
+          duration: 540,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        },
+      );
+
+      try {
+        await animation.finished;
+      } catch {
+        // A fast interaction can cancel the flip.
+      }
+
+      animation.cancel();
+    }
+
+    front.setAttribute("aria-hidden", String(toBack));
+    back.setAttribute("aria-hidden", String(!toBack));
+  };
+
+  const animateGameFlashcardIn = async (card) => {
+    if (!card || prefersReducedMotion || typeof card.animate !== "function") {
+      return;
+    }
+
+    const animation = card.animate(
+      [
+        {
+          opacity: 0,
+          transform: "translateY(10px) scale(0.99)",
+        },
+        {
+          opacity: 1,
+          transform: "translateY(0) scale(1)",
+        },
+      ],
+      {
+        duration: 360,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
+    );
+
+    try {
+      await animation.finished;
+    } catch {
+      // A fast view change can cancel the card entrance.
+    }
+  };
+
+  const revealGameActionGroup = async (container) => {
+    if (!container) return;
+
+    const items = Array.from(container.querySelectorAll("p, button"));
+
+    if (
+      prefersReducedMotion ||
+      !items.length ||
+      items.some((item) => typeof item.animate !== "function")
+    ) {
+      return;
+    }
+
+    const animations = items.map((item, index) =>
+      item.animate(
+        [
+          {
+            opacity: 0,
+            transform: "translateY(10px)",
+          },
+          {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        ],
+        {
+          duration: 340,
+          delay: index * 70,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "backwards",
+        },
+      ),
+    );
+
+    try {
+      await Promise.all(animations.map((animation) => animation.finished));
+    } catch {
+      // Fast interactions can cancel action entrance animations.
+    }
+  };
+
+  const animateGameFlashcardAdvance = async (card) => {
+    if (!card || prefersReducedMotion || typeof card.animate !== "function") {
+      return;
+    }
+
+    const parts = getFlashcardParts(card);
+    const currentAngle = parts?.inner.classList.contains("is-flipped")
+      ? 180
+      : 0;
+
+    const innerAnimation = parts?.inner.animate(
+      [
+        {
+          opacity: 1,
+          transform: `rotateY(${currentAngle}deg)`,
+        },
+        {
+          opacity: 0,
+          transform: `rotateY(${currentAngle + 82}deg)`,
+        },
+      ],
+      {
+        duration: 320,
+        easing: "cubic-bezier(0.4, 0, 1, 1)",
+        fill: "forwards",
+      },
+    );
+
+    const cardAnimation = card.animate(
+      [
+        {
+          opacity: 1,
+          transform: "translateX(0) scale(1)",
+        },
+        {
+          opacity: 0,
+          transform: "translateX(-18px) scale(0.985)",
+        },
+      ],
+      {
+        duration: 300,
+        easing: "cubic-bezier(0.4, 0, 1, 1)",
+        fill: "forwards",
+      },
+    );
+
+    try {
+      await Promise.all(
+        [innerAnimation?.finished, cardAnimation.finished].filter(Boolean),
+      );
+    } catch {
+      // A fast view change can cancel the card transition.
+    }
+  };
+
   const applyGameIdentity = ({ config, totalScore }) => {
     document.title = `${config.title} | دیکته خونه`;
 
@@ -735,6 +932,10 @@
     updateEngineUI,
     animateStage,
     animateGamePageIn,
+    flipGameFlashcard,
+    animateGameFlashcardIn,
+    animateGameFlashcardAdvance,
+    revealGameActionGroup,
     toPersianNumber,
     escapeGameHtml,
   });
