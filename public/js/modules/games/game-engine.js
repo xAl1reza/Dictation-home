@@ -147,6 +147,54 @@
       return () => listeners.delete(listener);
     };
 
+    const addParticipant = (participant) => {
+      if (state.status !== STATUS.IDLE) {
+        throw new GameEngineError("PARTICIPANTS_LOCKED");
+      }
+
+      const [normalizedParticipant] = normalizeParticipants([participant]);
+
+      if (
+        state.participants.some((item) => item.id === normalizedParticipant.id)
+      ) {
+        throw new GameEngineError("PARTICIPANT_ID_DUPLICATE");
+      }
+
+      state.participants.push(normalizedParticipant);
+
+      baseParticipants.push(cloneValue(normalizedParticipant));
+
+      if (!state.currentPlayerId) {
+        state.currentPlayerId = normalizedParticipant.id;
+      }
+
+      emit();
+
+      return cloneValue(normalizedParticipant);
+    };
+
+    const setParticipants = (participants) => {
+      if (state.status !== STATUS.IDLE) {
+        throw new GameEngineError("PARTICIPANTS_LOCKED");
+      }
+
+      const normalized = normalizeParticipants(participants);
+
+      baseParticipants.splice(
+        0,
+        baseParticipants.length,
+        ...cloneValue(normalized),
+      );
+
+      state.participants = cloneValue(normalized);
+
+      state.currentPlayerId = state.participants[0]?.id || null;
+
+      emit();
+
+      return cloneValue(state.participants);
+    };
+
     const start = ({ context = {}, currentPlayerId = null } = {}) => {
       if (state.status === STATUS.PLAYING) {
         throw new GameEngineError("GAME_ALREADY_STARTED");
@@ -303,6 +351,8 @@
 
     return Object.freeze({
       subscribe,
+      addParticipant,
+      setParticipants,
       start,
       beginRound,
       recordOutcome,

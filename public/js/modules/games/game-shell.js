@@ -385,7 +385,7 @@
             fill="none"
             stroke="currentColor"
             stroke-width="1.8"
-            class="size-4"
+            class="size-4 rotate-180"
             aria-hidden="true"
           >
             <path
