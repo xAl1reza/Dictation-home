@@ -3,43 +3,43 @@
    Tailwind v4 — Liquid Glass Theme
 ───────────────────────────────────────── */
 
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
-  font-family: 'Peyda-medium';
-  src: url('../fonts/Peyda/PeydaWeb-Medium.woff2') format('woff2');
+  font-family: "Peyda-medium";
+  src: url("../fonts/Peyda/PeydaWeb-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Peyda-bold';
-  src: url('../fonts/Peyda/PeydaWeb-Bold.woff2') format('woff2');
+  font-family: "Peyda-bold";
+  src: url("../fonts/Peyda/PeydaWeb-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Dana-regular';
-  src: url('../fonts/Dana/Dana-Regular.woff2') format('woff2');
+  font-family: "Dana-regular";
+  src: url("../fonts/Dana/Dana-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Dana-medium';
-  src: url('../fonts/Dana/Dana-Medium.woff2') format('woff2');
+  font-family: "Dana-medium";
+  src: url("../fonts/Dana/Dana-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Dana-bold';
-  src: url('../fonts/Dana/Dana-Bold.woff2') format('woff2');
+  font-family: "Dana-bold";
+  src: url("../fonts/Dana/Dana-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -75,12 +75,12 @@
   --color-textColor: #221c42;
   --color-mutedColor: #6b7280;
 
-  --font-Peyda-medium: 'Peyda-medium', sans-serif;
-  --font-Peyda-bold: 'Peyda-bold', sans-serif;
+  --font-Peyda-medium: "Peyda-medium", sans-serif;
+  --font-Peyda-bold: "Peyda-bold", sans-serif;
 
-  --font-Dana-regular: 'Dana-regular', sans-serif;
-  --font-Dana-medium: 'Dana-medium', sans-serif;
-  --font-Dana-bold: 'Dana-bold', sans-serif;
+  --font-Dana-regular: "Dana-regular", sans-serif;
+  --font-Dana-medium: "Dana-medium", sans-serif;
+  --font-Dana-bold: "Dana-bold", sans-serif;
 
   --text-body: 15px;
 
@@ -568,13 +568,13 @@ body {
 ========================================= */
 
 @media (max-width: 639px) {
-  .hero-signal-card[data-aos='fade-left'],
-  .hero-signal-card[data-aos='fade-right'] {
+  .hero-signal-card[data-aos="fade-left"],
+  .hero-signal-card[data-aos="fade-right"] {
     transform: translate3d(0, 18px, 0) !important;
   }
 
-  .hero-signal-card[data-aos='fade-left'].aos-animate,
-  .hero-signal-card[data-aos='fade-right'].aos-animate {
+  .hero-signal-card[data-aos="fade-left"].aos-animate,
+  .hero-signal-card[data-aos="fade-right"].aos-animate {
     transform: translate3d(0, 0, 0) !important;
   }
 }
@@ -924,6 +924,194 @@ body {
            text-textColor dark:text-textColor-dark;
   }
 
+  /* =========================
+     Auth page
+     ========================= */
+
+  .auth-stage {
+    @apply relative overflow-hidden py-10 sm:py-12 md:py-16;
+    min-height: calc(100vh - 5rem);
+  }
+
+  .auth-stage__lights {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+  }
+
+  .auth-stage__orb {
+    position: absolute;
+    display: block;
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+
+  .auth-stage__orb--primary {
+    top: 3rem;
+    right: -7rem;
+    width: 25rem;
+    height: 25rem;
+    background: color-mix(in oklab, var(--color-primary) 12%, transparent);
+    filter: blur(92px);
+  }
+
+  .auth-stage__orb--secondary {
+    bottom: 2rem;
+    left: -7rem;
+    width: 22rem;
+    height: 22rem;
+    background: color-mix(in oklab, var(--color-secondary) 8%, transparent);
+    filter: blur(100px);
+  }
+
+  .dark .auth-stage__orb--primary {
+    background: color-mix(in oklab, var(--color-primary) 18%, transparent);
+  }
+
+  .dark .auth-stage__orb--secondary {
+    background: color-mix(in oklab, var(--color-secondary) 11%, transparent);
+  }
+
+  .auth-heading {
+    @apply mx-auto mb-7 max-w-2xl text-center sm:mb-9;
+  }
+
+  .auth-panel {
+    @apply relative mx-auto w-full max-w-2xl
+           overflow-visible
+           rounded-lg
+           border border-white/75
+           bg-surface
+           p-5
+           shadow-floating
+           backdrop-blur-md
+           dark:border-border-dark-strong
+           dark:bg-surface-dark
+           dark:shadow-floating-dark
+           sm:p-7 md:p-8;
+  }
+
+  .auth-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 5.5rem;
+    height: 0.25rem;
+    border-radius: 0 0 9999px 9999px;
+    background: var(--color-primary);
+    transform: translateX(50%);
+    box-shadow: 0 8px 26px
+      color-mix(in oklab, var(--color-primary) 22%, transparent);
+    pointer-events: none;
+  }
+
+  .dark .auth-panel {
+    background:
+      radial-gradient(
+        circle at 88% 6%,
+        color-mix(in oklab, var(--color-primary) 8%, transparent),
+        transparent 34%
+      ),
+      var(--color-surface-dark);
+    box-shadow:
+      var(--shadow-floating-dark),
+      inset 0 1px 0 color-mix(in oklab, white 7%, transparent);
+  }
+
+  .auth-tabs {
+    @apply mx-auto grid max-w-sm grid-cols-2 gap-1
+           rounded-full
+           border border-textColor/5
+           bg-textColor/5
+           p-1
+           dark:border-border-dark-soft
+           dark:bg-white/5;
+  }
+
+  .auth-tab {
+    @apply cursor-pointer
+           rounded-full
+           px-4 py-2.5
+           font-Peyda-medium text-sm
+           text-mutedColor
+           transition-all duration-300
+           dark:text-mutedColor-dark;
+  }
+
+  .auth-tab.is-active {
+    @apply bg-white
+           text-primary
+           shadow-card
+           dark:bg-surface-dark-strong
+           dark:text-primary-light
+           dark:shadow-card-dark;
+  }
+
+  .auth-panel__body {
+    @apply mx-auto mt-7 max-w-xl sm:mt-8;
+  }
+
+  .auth-form-heading {
+    @apply mb-6 text-center;
+  }
+
+  .auth-password-toggle {
+    @apply absolute top-1/2 left-3
+           flex size-9 -translate-y-1/2
+           cursor-pointer
+           items-center justify-center
+           rounded-full
+           text-mutedColor
+           transition-all duration-200
+           hover:bg-primary/10
+           hover:text-primary
+           active:scale-95
+           focus:outline-none
+           focus:ring-2
+           focus:ring-primary/20
+           dark:text-mutedColor-dark
+           dark:hover:bg-primary/15
+           dark:hover:text-primary-light;
+  }
+
+  .auth-avatar-upload {
+    @apply flex cursor-pointer items-center gap-3
+           rounded-md
+           border border-dashed border-primary/20
+           bg-primary/5
+           p-3
+           transition-all duration-300
+           hover:border-primary/40
+           hover:bg-primary/10
+           dark:border-primary-light/20
+           dark:bg-primary/10
+           dark:hover:border-primary-light/40
+           sm:p-4;
+  }
+
+  .auth-avatar-preview {
+    @apply flex size-14 shrink-0 items-center justify-center
+           overflow-hidden rounded-full
+           border border-white/80
+           bg-surface-strong
+           shadow-card
+           dark:border-border-dark-strong
+           dark:bg-surface-dark-strong
+           dark:shadow-card-dark;
+  }
+
+  .auth-avatar-action {
+    @apply hidden shrink-0 rounded-full
+           border border-primary/15
+           bg-white/45
+           px-4 py-2
+           font-Peyda-medium text-xs
+           text-primary
+           dark:border-primary-light/20
+           dark:bg-surface-dark-soft
+           dark:text-primary-light
+           sm:inline-flex;
+  }
+
   .dashboard-avatar-initial {
     @apply font-Peyda-bold text-sm
            text-primary dark:text-primary-light;
@@ -937,6 +1125,65 @@ body {
   .dashboard-user-score {
     @apply text-sm
            text-textColor dark:text-textColor-dark;
+  }
+
+  .dashboard-score-grid {
+    @apply grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4;
+  }
+
+  .dashboard-score-card {
+    @apply relative overflow-hidden
+           rounded-md
+           border border-white/70
+           bg-surface
+           p-4
+           shadow-card
+           backdrop-blur-md
+           dark:border-border-dark
+           dark:bg-surface-dark
+           dark:shadow-card-dark
+           sm:p-5;
+  }
+
+  .dashboard-score-card--total {
+    @apply border-primary/20
+           bg-primary/5
+           dark:border-primary-light/20
+           dark:bg-primary/10;
+  }
+
+  .dashboard-score-card--math {
+    @apply dark:border-primary-light/15;
+  }
+
+  .dashboard-score-card--science {
+    @apply dark:border-secondary/20;
+  }
+
+  .dashboard-score-card--dictation {
+    @apply dark:border-accent/20;
+  }
+
+  .dashboard-score-icon {
+    @apply flex size-10 shrink-0
+           items-center justify-center
+           rounded-full;
+  }
+
+  .dashboard-score-name {
+    @apply font-Peyda-medium text-sm
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .dashboard-score-value {
+    @apply font-Dana-bold text-2xl
+           text-textColor dark:text-textColor-dark
+           sm:text-3xl;
+  }
+
+  .dashboard-score-meta {
+    @apply font-Dana-regular text-xs
+           text-mutedColor dark:text-mutedColor-dark;
   }
 
   .dashboard-nav-link {
@@ -979,11 +1226,7 @@ body {
            dark:border-border-dark-strong
            dark:shadow-card-dark;
 
-    background-color: color-mix(
-      in oklab,
-      var(--color-bg) 92%,
-      white 8%
-    );
+    background-color: color-mix(in oklab, var(--color-bg) 92%, white 8%);
   }
 
   .dark .form-select-trigger {
@@ -999,11 +1242,7 @@ body {
         color-mix(in oklab, white 5%, transparent),
         transparent 62%
       ),
-      color-mix(
-        in oklab,
-        var(--color-bg-dark-secondary) 84%,
-        white 16%
-      );
+      color-mix(in oklab, var(--color-bg-dark-secondary) 84%, white 16%);
 
     box-shadow:
       var(--shadow-card-dark),
@@ -1023,11 +1262,7 @@ body {
            dark:border-border-dark-strong
            dark:shadow-floating-dark;
 
-    background-color: color-mix(
-      in oklab,
-      var(--color-bg) 96%,
-      white 4%
-    );
+    background-color: color-mix(in oklab, var(--color-bg) 96%, white 4%);
   }
 
   .dark .form-dropdown-menu {
@@ -1043,11 +1278,7 @@ body {
         color-mix(in oklab, white 6%, transparent),
         transparent 58%
       ),
-      color-mix(
-        in oklab,
-        var(--color-bg-dark-secondary) 82%,
-        white 18%
-      );
+      color-mix(in oklab, var(--color-bg-dark-secondary) 82%, white 18%);
 
     box-shadow:
       var(--shadow-floating-dark),
@@ -1096,11 +1327,7 @@ body {
     right: -8rem;
     width: 34rem;
     height: 34rem;
-    background: color-mix(
-      in oklab,
-      var(--color-primary) 11%,
-      transparent
-    );
+    background: color-mix(in oklab, var(--color-primary) 11%, transparent);
     filter: blur(110px);
   }
 
@@ -1109,11 +1336,7 @@ body {
     left: -10rem;
     width: 31rem;
     height: 31rem;
-    background: color-mix(
-      in oklab,
-      var(--color-secondary) 7%,
-      transparent
-    );
+    background: color-mix(in oklab, var(--color-secondary) 7%, transparent);
     filter: blur(120px);
   }
 
@@ -1122,36 +1345,20 @@ body {
     bottom: -10rem;
     width: 25rem;
     height: 25rem;
-    background: color-mix(
-      in oklab,
-      var(--color-accent) 5%,
-      transparent
-    );
+    background: color-mix(in oklab, var(--color-accent) 5%, transparent);
     filter: blur(115px);
   }
 
   .dark .game-ambient__orb--primary {
-    background: color-mix(
-      in oklab,
-      var(--color-primary) 20%,
-      transparent
-    );
+    background: color-mix(in oklab, var(--color-primary) 20%, transparent);
   }
 
   .dark .game-ambient__orb--secondary {
-    background: color-mix(
-      in oklab,
-      var(--color-secondary) 13%,
-      transparent
-    );
+    background: color-mix(in oklab, var(--color-secondary) 13%, transparent);
   }
 
   .dark .game-ambient__orb--accent {
-    background: color-mix(
-      in oklab,
-      var(--color-accent) 8%,
-      transparent
-    );
+    background: color-mix(in oklab, var(--color-accent) 8%, transparent);
   }
 
   .dark .game-topbar,
@@ -1301,11 +1508,7 @@ body {
         color-mix(in oklab, white 4%, transparent),
         transparent 65%
       ),
-      color-mix(
-        in oklab,
-        var(--color-bg-dark-secondary) 87%,
-        white 13%
-      );
+      color-mix(in oklab, var(--color-bg-dark-secondary) 87%, white 13%);
 
     box-shadow: inset 0 1px 0 color-mix(in oklab, white 6%, transparent);
   }
@@ -1348,7 +1551,7 @@ body {
    */
   .game-flashcard::before,
   .game-flashcard::after {
-    content: '';
+    content: "";
     position: absolute;
     inset-inline: 1.25rem;
     bottom: -0.85rem;
@@ -1388,11 +1591,7 @@ body {
     background:
       linear-gradient(
         150deg,
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 7%,
-          transparent
-        ),
+        color-mix(in oklab, var(--game-flashcard-accent) 7%, transparent),
         transparent 54%
       ),
       color-mix(
@@ -1451,11 +1650,7 @@ body {
     background:
       linear-gradient(
         145deg,
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 7%,
-          transparent
-        ),
+        color-mix(in oklab, var(--game-flashcard-accent) 7%, transparent),
         transparent 44%
       ),
       var(--color-surface-strong);
@@ -1474,11 +1669,7 @@ body {
     background:
       radial-gradient(
         circle at 84% 10%,
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 14%,
-          transparent
-        ),
+        color-mix(in oklab, var(--game-flashcard-accent) 14%, transparent),
         transparent 34%
       ),
       radial-gradient(
@@ -1500,12 +1691,7 @@ body {
 
     box-shadow:
       0 28px 72px rgba(0, 0, 0, 0.4),
-      0 0 42px
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 7%,
-          transparent
-        ),
+      0 0 42px color-mix(in oklab, var(--game-flashcard-accent) 7%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.095),
       inset 0 -1px 0 rgba(255, 255, 255, 0.025);
   }
@@ -1514,11 +1700,7 @@ body {
     background:
       radial-gradient(
         circle at 84% 10%,
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 13%,
-          transparent
-        ),
+        color-mix(in oklab, var(--game-flashcard-accent) 13%, transparent),
         transparent 34%
       ),
       linear-gradient(
@@ -1538,11 +1720,7 @@ body {
     background:
       radial-gradient(
         circle at 18% 12%,
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 17%,
-          transparent
-        ),
+        color-mix(in oklab, var(--game-flashcard-accent) 17%, transparent),
         transparent 38%
       ),
       radial-gradient(
@@ -1568,7 +1746,7 @@ body {
    * without the oversized decorative glow/ring used before.
    */
   .game-flashcard__face::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 50%;
@@ -1583,17 +1761,12 @@ body {
 
   .dark .game-flashcard__face::before {
     opacity: 1;
-    box-shadow:
-      0 0 14px
-        color-mix(
-          in oklab,
-          var(--game-flashcard-accent) 38%,
-          transparent
-        );
+    box-shadow: 0 0 14px
+      color-mix(in oklab, var(--game-flashcard-accent) 38%, transparent);
   }
 
   .game-flashcard__face::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0.85rem;
     border-radius: calc(var(--radius-lg) - 8px);
@@ -1643,11 +1816,7 @@ body {
       var(--game-flashcard-accent) 16%
     );
 
-    color: color-mix(
-      in oklab,
-      var(--game-flashcard-accent) 82%,
-      white 18%
-    );
+    color: color-mix(in oklab, var(--game-flashcard-accent) 82%, white 18%);
 
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.07),
@@ -1684,11 +1853,7 @@ body {
 
     background: rgba(255, 255, 255, 0.055);
 
-    color: color-mix(
-      in oklab,
-      var(--color-mutedColor-dark) 90%,
-      white 10%
-    );
+    color: color-mix(in oklab, var(--color-mutedColor-dark) 90%, white 10%);
 
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
@@ -1702,4 +1867,3 @@ body {
            text-textColor dark:text-textColor-dark;
   }
 }
-

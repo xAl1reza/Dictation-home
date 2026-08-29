@@ -460,7 +460,7 @@
                       ></textarea>
 
                       <span id="science-answer-help" class="form-help">
-                        دانش‌آموز بعد از پاسخ دادن، این جواب را برای مقایسه می‌بیند.
+                        پاسخ اصلی در مرحله بررسی جواب به دانش‌آموز نمایش داده می‌شود.
                       </span>
 
                       <span id="science-answer-error" class="form-error hidden" role="alert"></span>
@@ -548,13 +548,13 @@
             <h3 class="mb-3">این سؤال‌ها کجا استفاده می‌شن؟</h3>
 
             <p class="text-mutedColor dark:text-mutedColor-dark">
-              سؤال‌هایی که اینجا اضافه می‌کنی در مسابقه علوم نمایش داده می‌شن. دانش‌آموز اول به سؤال پاسخ می‌ده و بعد جواب درست رو برای مقایسه می‌بینه.
+              در Stage 8 بازی علوم، سؤال‌ها از همان پوشه‌ای که انتخاب می‌کنی خوانده می‌شوند و پاسخ اصلی بعد از جواب دانش‌آموز نمایش داده خواهد شد.
             </p>
 
             <div class="mt-6 border-t border-textColor/5 pt-5 dark:border-border-dark-soft">
               <span class="ui-label block">نکته</span>
               <p class="mt-2 text-mutedColor dark:text-mutedColor-dark">
-                برای اینکه سؤال‌ها مرتب و پیدا کردنشان راحت باشد، در این بخش فقط پوشه‌های علوم نمایش داده می‌شن.
+                پوشه‌های دیکته در این صفحه نمایش داده نمی‌شوند تا کلمات و سؤال‌های علوم با هم مخلوط نشوند.
               </p>
             </div>
           </aside>

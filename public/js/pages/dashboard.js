@@ -20,6 +20,8 @@
 
   const { renderAddScienceQuestionView } = window.DashboardAddScienceQuestion
 
+  const { renderDashboardScoreSummary } = window.DashboardScoreSummary
+
   const renderDashboardView = async () => {
     const currentView = getCurrentDashboardView()
 
@@ -41,15 +43,26 @@
     }
   }
 
+  const refreshDashboardScoreData = async (user = null) => {
+    const currentUser = user || (await window.userService.getCurrentUser())
+
+    const summary = await window.gameResultService.getUserScoreSummary(
+      currentUser.id
+    )
+
+    updateDashboardUser(currentUser, summary.totalScore)
+
+    renderDashboardScoreSummary(summary)
+
+    return {
+      user: currentUser,
+      summary,
+    }
+  }
+
   const initDashboard = async () => {
     try {
-      const [user, totalScore] = await Promise.all([
-        window.userService.getCurrentUser(),
-
-        window.userService.getUserTotalScore(),
-      ])
-
-      updateDashboardUser(user, totalScore)
+      await refreshDashboardScoreData()
 
       updateDashboardActiveLink()
 
@@ -62,6 +75,14 @@
       console.error('Failed to initialize dashboard:', error)
     }
   }
+
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return
+
+    refreshDashboardScoreData().catch((error) => {
+      console.error('Failed to refresh dashboard score summary:', error)
+    })
+  })
 
   initDashboard()
 })()

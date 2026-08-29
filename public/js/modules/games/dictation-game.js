@@ -5,7 +5,7 @@
  * SETUP → READER → WRITER → REVIEW → HANDOFF → next round
  *
  * The participant who writes the word receives the score.
- * Persistence is intentionally deferred to Stage 9.
+ * Completed results are persisted through gameResultService.
  */
 
 (() => {
@@ -948,7 +948,7 @@
 
           <div
             id="dictation-reader-actions"
-            class="mt-12"
+            class="mt-7"
           >
             <button
               type="button"
@@ -961,7 +961,7 @@
 
           <div
             id="dictation-writer-actions"
-            class="mt-12 hidden"
+            class="mt-7 hidden"
           >
             <button
               type="button"
@@ -1028,7 +1028,7 @@
 
           <div
             id="dictation-handoff-actions"
-            class="mt-12 hidden"
+            class="mt-7 hidden"
           >
             <button
               type="button"
@@ -1318,6 +1318,7 @@
         metadata: {
           reason,
           folderId: runtime.folder?.id || null,
+          folderTitle: runtime.folder?.title || null,
         },
       });
     }
@@ -1325,6 +1326,18 @@
     setPhase(PHASE.FINISHED);
 
     const result = engine.getResult();
+
+    let resultSaved = false;
+
+    try {
+      await window.gameResultService.saveEngineResult({
+        engineResult: result,
+        userId: runtime.user?.id,
+      });
+      resultSaved = true;
+    } catch (error) {
+      console.error("Failed to save dictation result:", error);
+    }
 
     const stage = getStage();
     if (!stage) return;
@@ -1361,7 +1374,12 @@
             class="mx-auto mb-7 max-w-lg text-mutedColor dark:text-mutedColor-dark"
           >
             ${shell.toPersianNumber(result.rounds)}
-            دور بازی کردید. ذخیره نتیجه دائمی در مرحله نتیجه‌ها اضافه می‌شود.
+            دور بازی کردید.
+            ${
+              resultSaved
+                ? "نتیجه این بازی با موفقیت ذخیره شد."
+                : "نتیجه بازی نمایش داده شد، اما ذخیره آن انجام نشد."
+            }
           </p>
 
           <div

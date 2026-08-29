@@ -31,7 +31,12 @@
       return;
     }
 
-    if (!window.GameEngine || !window.GameShell || !window.userService) {
+    if (
+      !window.GameEngine ||
+      !window.GameShell ||
+      !window.userService ||
+      !window.gameResultService
+    ) {
       console.error("Game dependencies are not available.");
 
       window.GameShell?.renderInvalidGame();
@@ -39,20 +44,21 @@
     }
 
     try {
-      const [user, totalScore] = await Promise.all([
-        window.userService.getCurrentUser(),
-        window.userService.getUserTotalScore(),
-      ]);
+      const user = await window.userService.getCurrentUser();
 
       if (!user?.id) {
         throw new Error("CURRENT_USER_NOT_FOUND");
       }
 
+      const scoreSummary = await window.gameResultService.getUserScoreSummary(
+        user.id,
+      );
+
       window.GameShell.init({
         type,
         gameModule,
         user,
-        totalScore,
+        totalScore: scoreSummary.totalScore,
       });
     } catch (error) {
       console.error("Failed to initialize game:", error);

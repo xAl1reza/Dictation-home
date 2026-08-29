@@ -5,7 +5,7 @@
  * QUESTION → FEEDBACK → QUESTION ... → FINISHED
  *
  * Questions are generated from appData.mathConfig.
- * Persistence is intentionally deferred to Stage 9.
+ * Results are persisted through gameResultService.
  */
 
 (() => {
@@ -817,6 +817,18 @@
 
     const result = engine.getResult();
 
+    let resultSaved = false;
+
+    try {
+      await window.gameResultService.saveEngineResult({
+        engineResult: result,
+        userId: runtime.user?.id,
+      });
+      resultSaved = true;
+    } catch (error) {
+      console.error("Failed to save math result:", error);
+    }
+
     const player = result.participants[0];
 
     const answered = Number(player?.correct || 0) + Number(player?.wrong || 0);
@@ -849,7 +861,11 @@
           <p
             class="mx-auto mb-7 max-w-lg text-mutedColor dark:text-mutedColor-dark"
           >
-            نتیجه این Session فعلاً ذخیره نمی‌شود؛ ذخیره‌سازی دائمی امتیازها در مرحله نتیجه‌ها اضافه خواهد شد.
+            ${
+              resultSaved
+                ? "نتیجه این بازی با موفقیت ذخیره شد."
+                : "نتیجه بازی نمایش داده شد، اما ذخیره آن انجام نشد."
+            }
           </p>
 
           <div

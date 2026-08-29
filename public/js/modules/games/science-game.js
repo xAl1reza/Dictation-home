@@ -5,7 +5,7 @@
  * SETUP → QUESTION → REVIEW → FEEDBACK → QUESTION ... → FINISHED
  *
  * Questions come from science folders created in the dashboard.
- * Persistence is intentionally deferred to Stage 9.
+ * Completed results are persisted through gameResultService.
  */
 
 (() => {
@@ -97,7 +97,8 @@
     const folders = await window.folderService.getFoldersByType("science");
 
     return folders.filter(
-      (folder) => Number(folder.questionCount || 0) >= MIN_SCIENCE_QUESTIONS,
+      (folder) =>
+        Number(folder.questionCount || 0) >= MIN_SCIENCE_QUESTIONS,
     );
   };
 
@@ -668,7 +669,7 @@
 
           <div
             id="science-question-actions"
-            class="mt-12 flex flex-col gap-3 sm:flex-row sm:justify-center"
+            class="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center"
           >
             <button
               type="button"
@@ -949,7 +950,7 @@
             </p>
           </div>
 
-          <div class="mt-12 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button
               type="button"
               id="science-next-question"
@@ -1022,6 +1023,19 @@
     setPhase(PHASE.FINISHED);
 
     const result = engine.getResult();
+
+    let resultSaved = false;
+
+    try {
+      await window.gameResultService.saveEngineResult({
+        engineResult: result,
+        userId: runtime.user?.id,
+      });
+      resultSaved = true;
+    } catch (error) {
+      console.error("Failed to save science result:", error);
+    }
+
     const player = result.participants[0];
     const answered = Number(player?.correct || 0) + Number(player?.wrong || 0);
     const accuracy =
@@ -1046,7 +1060,12 @@
           </h2>
 
           <p class="mx-auto mb-7 max-w-lg text-mutedColor dark:text-mutedColor-dark">
-            ${shell.toPersianNumber(result.rounds)} سؤال از پوشه «${shell.escapeGameHtml(runtime.folder?.title || "علوم")}" مرور کردی.
+            ${shell.toPersianNumber(result.rounds)} سؤال از پوشه «${shell.escapeGameHtml(runtime.folder?.title || "علوم")}» مرور کردی.
+            ${
+              resultSaved
+                ? " نتیجه این بازی ذخیره شد."
+                : " نتیجه بازی نمایش داده شد، اما ذخیره آن انجام نشد."
+            }
           </p>
 
           <div class="grid gap-3 sm:grid-cols-4">
@@ -1097,7 +1116,7 @@
               : ""
           }
 
-          <div class="mt-12 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button
               type="button"
               id="science-play-again"

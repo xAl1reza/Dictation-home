@@ -3,11 +3,25 @@
  * Used for news and other content-based lists.
  */
 
+const escapeContentCardHtml = (value = '') => {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;')
+}
+
 const createContentCard = (
   item,
   { detailPage = './newsdetail.html', aosDelay = 0 } = {}
 ) => {
   const detailUrl = `${detailPage}?slug=${encodeURIComponent(item.slug)}`
+  const title = escapeContentCardHtml(item.title)
+  const excerpt = escapeContentCardHtml(item.excerpt)
+  const image = escapeContentCardHtml(item.image)
+  const category = escapeContentCardHtml(item.category)
+  const date = escapeContentCardHtml(item.date)
 
   return `
     <article
@@ -24,7 +38,7 @@ const createContentCard = (
       <a
         href="${detailUrl}"
         class="flex h-full flex-col"
-        aria-label="مشاهده خبر ${item.title}"
+        aria-label="مشاهده خبر ${title}"
       >
         <!-- Image -->
         <div
@@ -34,8 +48,8 @@ const createContentCard = (
                  dark:border-border-dark-soft"
         >
           <img
-            src="${item.image}"
-            alt="${item.title}"
+            src="${image}"
+            alt="${title}"
             loading="lazy"
             decoding="async"
             class="h-full w-full object-cover
@@ -65,7 +79,7 @@ const createContentCard = (
                    font-Dana-medium text-xs
                    text-primary dark:text-primary-light"
           >
-            ${item.category}
+            ${category}
           </span>
         </div>
 
@@ -99,7 +113,7 @@ const createContentCard = (
             </svg>
 
             <time class="font-Dana-regular text-xs">
-              ${item.date}
+              ${date}
             </time>
           </div>
 
@@ -112,7 +126,7 @@ const createContentCard = (
                    group-hover:text-primary
                    dark:group-hover:text-primary-light"
           >
-            ${item.title}
+            ${title}
           </h2>
 
           <!-- Excerpt -->
@@ -122,7 +136,7 @@ const createContentCard = (
                    text-sm leading-7
                    text-mutedColor dark:text-mutedColor-dark"
           >
-            ${item.excerpt}
+            ${excerpt}
           </p>
 
           <!-- CTA -->
