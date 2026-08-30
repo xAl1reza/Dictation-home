@@ -25,8 +25,7 @@ const createContentBody = (content = []) => {
     .map(
       (paragraph) => `
         <p
-          class="text-[15px] sm:text-base
-                 leading-8 sm:leading-9
+          class="leading-8 sm:leading-9
                  text-textColor/85
                  dark:text-textColor-dark/80"
         >
@@ -175,7 +174,7 @@ const createContentGallery = (gallery = []) => {
 
             <h2
               id="news-gallery-title"
-              class="!text-xl sm:!text-2xl"
+              class=""
             >
               تصاویر بیشتر
             </h2>
@@ -322,10 +321,7 @@ const createContentDetail = (item) => {
           <!-- Title -->
           <h1
             id="news-title"
-            class="mb-5
-                   max-w-3xl
-                   !text-[clamp(26px,3vw,38px)]
-                   !leading-[1.65]"
+            class="mb-5 max-w-3xl"
           >
             ${title}
           </h1>
@@ -422,16 +418,12 @@ const createContentDetail = (item) => {
                      bg-primary"
             ></span>
 
-            <h2
+            <span
               id="article-content-title"
-              class="!font-Dana-medium
-                     !text-xs
-                     !leading-none
-                     text-primary
-                     dark:text-primary-light"
+              class="ui-eyebrow"
             >
               متن خبر
-            </h2>
+            </span>
           </div>
 
           <!-- Article content -->

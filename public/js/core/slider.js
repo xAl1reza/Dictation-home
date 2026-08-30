@@ -31,3 +31,37 @@ new Swiper('.testimonialSwiper', {
     },
   },
 })
+
+new Swiper('.subjectSwiper', {
+  slidesPerView: 1,
+  spaceBetween: 12,
+  loop: true,
+  rtl: true,
+  speed: 1200,
+
+  autoplay: {
+    delay: 2000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+
+  navigation: {
+    nextEl: '.subject-next',
+    prevEl: '.subject-prev',
+  },
+
+  pagination: {
+    el: '.subject-pagination',
+    clickable: true,
+  },
+
+  breakpoints: {
+    576: {
+      slidesPerView: 2,
+    },
+
+    1024: {
+      slidesPerView: 3,
+    },
+  },
+})

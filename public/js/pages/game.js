@@ -47,7 +47,8 @@
       const user = await window.userService.getCurrentUser();
 
       if (!user?.id) {
-        throw new Error("CURRENT_USER_NOT_FOUND");
+        window.location.replace("./auth.html#login");
+        return;
       }
 
       const scoreSummary = await window.gameResultService.getUserScoreSummary(

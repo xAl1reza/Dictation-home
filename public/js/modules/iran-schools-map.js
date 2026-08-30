@@ -262,8 +262,8 @@
                 bg-primary/5
                 dark:bg-primary/10
                 px-3 py-1.5
-                !text-primary
-                dark:!text-primary-light
+                text-primary
+                dark:text-primary-light
               "
             >
               ${Number(school.students).toLocaleString('fa-IR')}
@@ -300,8 +300,8 @@
           <span
             class="
               inline-flex mb-2
-              !text-primary
-              dark:!text-primary-light
+              text-primary
+              dark:text-primary-light
               font-Dana-medium
             "
           >
@@ -320,8 +320,8 @@
             bg-primary/10
             dark:bg-primary/15
             px-3 py-2
-            !text-primary
-            dark:!text-primary-light
+            text-primary
+            dark:text-primary-light
           "
         >
           ${schools.length.toLocaleString('fa-IR')} مدرسه

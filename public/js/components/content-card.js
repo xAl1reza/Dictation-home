@@ -141,21 +141,8 @@ const createContentCard = (
 
           <!-- CTA -->
           <div class="mt-auto">
-            <span
-              class="inline-flex items-center justify-center
-                     bg-primary text-white
-                     font-Peyda-medium text-sm
-                     rounded-full px-6 py-3
-                     border border-primary
-                     shadow-btn
-                     transition-all duration-300 ease-in-out
-                     hover:bg-transparent
-                     hover:text-primary
-                     hover:border-primary
-                     hover:-translate-y-1
-                     hover:shadow-lg
-                     active:scale-95"
-            >
+            <span class="btn-primary">
+
               مشاهده خبر
             </span>
           </div>

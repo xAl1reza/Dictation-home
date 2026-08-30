@@ -3,43 +3,43 @@
    Tailwind v4 — Liquid Glass Theme
 ───────────────────────────────────────── */
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
-  font-family: "Peyda-medium";
-  src: url("../fonts/Peyda/PeydaWeb-Medium.woff2") format("woff2");
+  font-family: 'Peyda-medium';
+  src: url('../fonts/Peyda/PeydaWeb-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Peyda-bold";
-  src: url("../fonts/Peyda/PeydaWeb-Bold.woff2") format("woff2");
+  font-family: 'Peyda-bold';
+  src: url('../fonts/Peyda/PeydaWeb-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Dana-regular";
-  src: url("../fonts/Dana/Dana-Regular.woff2") format("woff2");
+  font-family: 'Dana-regular';
+  src: url('../fonts/Dana/Dana-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Dana-medium";
-  src: url("../fonts/Dana/Dana-Medium.woff2") format("woff2");
+  font-family: 'Dana-medium';
+  src: url('../fonts/Dana/Dana-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Dana-bold";
-  src: url("../fonts/Dana/Dana-Bold.woff2") format("woff2");
+  font-family: 'Dana-bold';
+  src: url('../fonts/Dana/Dana-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -75,12 +75,12 @@
   --color-textColor: #221c42;
   --color-mutedColor: #6b7280;
 
-  --font-Peyda-medium: "Peyda-medium", sans-serif;
-  --font-Peyda-bold: "Peyda-bold", sans-serif;
+  --font-Peyda-medium: 'Peyda-medium', sans-serif;
+  --font-Peyda-bold: 'Peyda-bold', sans-serif;
 
-  --font-Dana-regular: "Dana-regular", sans-serif;
-  --font-Dana-medium: "Dana-medium", sans-serif;
-  --font-Dana-bold: "Dana-bold", sans-serif;
+  --font-Dana-regular: 'Dana-regular', sans-serif;
+  --font-Dana-medium: 'Dana-medium', sans-serif;
+  --font-Dana-bold: 'Dana-bold', sans-serif;
 
   --text-body: 15px;
 
@@ -568,13 +568,13 @@ body {
 ========================================= */
 
 @media (max-width: 639px) {
-  .hero-signal-card[data-aos="fade-left"],
-  .hero-signal-card[data-aos="fade-right"] {
+  .hero-signal-card[data-aos='fade-left'],
+  .hero-signal-card[data-aos='fade-right'] {
     transform: translate3d(0, 18px, 0) !important;
   }
 
-  .hero-signal-card[data-aos="fade-left"].aos-animate,
-  .hero-signal-card[data-aos="fade-right"].aos-animate {
+  .hero-signal-card[data-aos='fade-left'].aos-animate,
+  .hero-signal-card[data-aos='fade-right'].aos-animate {
     transform: translate3d(0, 0, 0) !important;
   }
 }
@@ -990,7 +990,7 @@ body {
   }
 
   .auth-panel::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: 50%;
@@ -1551,7 +1551,7 @@ body {
    */
   .game-flashcard::before,
   .game-flashcard::after {
-    content: "";
+    content: '';
     position: absolute;
     inset-inline: 1.25rem;
     bottom: -0.85rem;
@@ -1746,7 +1746,7 @@ body {
    * without the oversized decorative glow/ring used before.
    */
   .game-flashcard__face::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 50%;
@@ -1766,7 +1766,7 @@ body {
   }
 
   .game-flashcard__face::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0.85rem;
     border-radius: calc(var(--radius-lg) - 8px);
@@ -1865,5 +1865,162 @@ body {
   .word-list-value {
     @apply font-Dana-medium text-body
            text-textColor dark:text-textColor-dark;
+  }
+}
+
+/* =========================
+   Auth password strength
+========================= */
+
+@layer components {
+  .password-strength {
+    @apply rounded-md
+           border border-textColor/5
+           bg-white/35
+           p-4
+           backdrop-blur-sm
+           transition-all duration-300
+           dark:border-border-dark-soft
+           dark:bg-surface-dark-soft;
+  }
+
+  .password-strength__header {
+    @apply mb-3 flex items-center justify-between gap-4;
+  }
+
+  .password-strength__title {
+    @apply font-Peyda-medium text-sm
+           text-textColor dark:text-textColor-dark;
+  }
+
+  .password-strength__status {
+    @apply font-Dana-medium text-xs
+           text-mutedColor dark:text-mutedColor-dark
+           transition-colors duration-300;
+  }
+
+  .password-strength__segments {
+    @apply grid grid-cols-4 gap-2;
+  }
+
+  .password-strength__segment {
+    @apply block h-1.5 rounded-full
+           bg-textColor/10
+           transition-all duration-300
+           dark:bg-white/10;
+  }
+
+  .password-strength__rules {
+    @apply mt-4 grid gap-2.5 sm:grid-cols-2;
+  }
+
+  .password-rule {
+    @apply flex items-center gap-2.5
+           font-Dana-regular text-xs
+           text-mutedColor dark:text-mutedColor-dark
+           transition-all duration-300;
+  }
+
+  .password-rule__icon {
+    @apply flex size-5 shrink-0
+           items-center justify-center
+           rounded-full
+           border border-textColor/10
+           bg-white/40
+           text-mutedColor/45
+           transition-all duration-300
+           dark:border-border-dark
+           dark:bg-surface-dark-soft
+           dark:text-mutedColor-dark/40;
+  }
+
+  .password-rule__icon svg {
+    @apply size-3;
+  }
+
+  .password-rule.is-met {
+    @apply text-green-700 dark:text-green-400;
+  }
+
+  .password-rule.is-met .password-rule__icon {
+    @apply border-green-500
+         bg-green-500
+         text-white
+         shadow-sm
+         dark:border-green-400
+         dark:bg-green-500
+         dark:text-white;
+  }
+
+  .password-strength[data-strength='1'] {
+    @apply border-secondary/20;
+  }
+
+  .password-strength[data-strength='1'] .password-strength__status {
+    @apply text-secondary;
+  }
+
+  .password-strength[data-strength='1']
+    .password-strength__segment:nth-child(-n + 1) {
+    background: var(--color-secondary);
+    box-shadow: 0 0 16px
+      color-mix(in oklab, var(--color-secondary) 20%, transparent);
+  }
+
+  .password-strength[data-strength='2'] {
+    @apply border-accent/25;
+  }
+
+  .password-strength[data-strength='2'] .password-strength__status {
+    @apply text-accent;
+  }
+
+  .password-strength[data-strength='2']
+    .password-strength__segment:nth-child(-n + 2) {
+    background: var(--color-accent);
+    box-shadow: 0 0 16px
+      color-mix(in oklab, var(--color-accent) 22%, transparent);
+  }
+
+  .password-strength[data-strength='3'] {
+    @apply border-primary-light/25;
+  }
+
+  .password-strength[data-strength='3'] .password-strength__status {
+    @apply text-primary-light;
+  }
+
+  .password-strength[data-strength='3']
+    .password-strength__segment:nth-child(-n + 3) {
+    background: var(--color-primary-light);
+    box-shadow: 0 0 16px
+      color-mix(in oklab, var(--color-primary-light) 20%, transparent);
+  }
+
+  .password-strength[data-strength='4'] {
+    @apply border-primary/30
+           bg-primary/5
+           dark:border-primary-light/30
+           dark:bg-primary/10;
+  }
+
+  .password-strength[data-strength='4'] .password-strength__status {
+    @apply text-primary dark:text-primary-light;
+  }
+
+  .password-strength[data-strength='4'] .password-strength__segment {
+    background: var(--color-primary);
+    box-shadow: 0 0 18px
+      color-mix(in oklab, var(--color-primary) 24%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .password-strength,
+  .password-strength__status,
+  .password-strength__segment,
+  .password-rule,
+  .password-rule__icon {
+    transition: none !important;
   }
 }

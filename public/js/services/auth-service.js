@@ -12,6 +12,23 @@
   const USERNAME_MIN_LENGTH = 3
   const USERNAME_MAX_LENGTH = 30
   const PASSWORD_MIN_LENGTH = 8
+  const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+
+  const getPasswordRequirements = (password) => {
+    const value = String(password || '')
+
+    return {
+      minLength: value.length >= PASSWORD_MIN_LENGTH,
+      lowercase: /[a-z]/.test(value),
+      uppercase: /[A-Z]/.test(value),
+      number: /\d/.test(value),
+    }
+  }
+
+  const isPasswordValid = (password) => {
+    return PASSWORD_PATTERN.test(String(password || ''))
+  }
+
   const AVATAR_MAX_BYTES = 2 * 1024 * 1024
   const ALLOWED_AVATAR_TYPES = new Set([
     'image/jpeg',
@@ -98,8 +115,8 @@
       throw new Error('AUTH_USERNAME_INVALID')
     }
 
-    if (String(password || '').length < PASSWORD_MIN_LENGTH) {
-      throw new Error('AUTH_PASSWORD_TOO_SHORT')
+    if (!isPasswordValid(password)) {
+      throw new Error('AUTH_PASSWORD_WEAK')
     }
 
     if (cleanSchoolName.length < 2 || cleanSchoolName.length > 100) {
@@ -218,7 +235,10 @@
     USERNAME_MIN_LENGTH,
     USERNAME_MAX_LENGTH,
     PASSWORD_MIN_LENGTH,
+    PASSWORD_PATTERN,
     AVATAR_MAX_BYTES,
+    getPasswordRequirements,
+    isPasswordValid,
     register,
     login,
     getCurrentUser,

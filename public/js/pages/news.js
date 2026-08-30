@@ -206,21 +206,7 @@ const renderNewsNotFound = () => {
 
         <a
           href="./news.html"
-          class="inline-flex items-center justify-center
-                 bg-primary text-white
-                 font-Peyda-medium text-sm
-                 rounded-full px-7 py-3
-                 border border-primary
-                 transition-all duration-300 ease-in-out
-                 hover:bg-transparent
-                 hover:text-primary
-                 hover:border-primary
-                 hover:-translate-y-1
-                 hover:shadow-lg
-                 active:scale-95
-                 focus:outline-none
-                 focus:ring-2
-                 focus:ring-primary/30"
+          class="btn-primary"
         >
           بازگشت به اخبار
         </a>
@@ -256,18 +242,7 @@ const renderNewsLoadError = () => {
         <button
           type="button"
           data-news-retry
-          class="inline-flex items-center justify-center
-                 bg-primary text-white
-                 font-Peyda-medium text-sm
-                 rounded-full px-7 py-3
-                 border border-primary
-                 transition-all duration-300 ease-in-out
-                 hover:bg-transparent
-                 hover:text-primary
-                 hover:border-primary
-                 hover:-translate-y-1
-                 hover:shadow-lg
-                 active:scale-95"
+          class="btn-primary"
         >
           تلاش دوباره
         </button>

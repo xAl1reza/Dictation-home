@@ -18,9 +18,79 @@
   const avatarImage = document.getElementById('register-avatar-image')
   const avatarName = document.getElementById('register-avatar-name')
 
+
+  const registerPasswordInput = document.getElementById('register-password')
+  const passwordStrength = document.getElementById('register-password-strength')
+  const passwordStrengthLabel = document.getElementById(
+    'register-password-strength-label',
+  )
+  const passwordRuleElements = Array.from(
+    document.querySelectorAll('[data-password-rule]'),
+  )
+
   const prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)',
   ).matches
+
+  const passwordStrengthLabels = {
+    0: 'شروع به تایپ کن',
+    1: 'ضعیف',
+    2: 'متوسط',
+    3: 'خوب',
+    4: 'عالی',
+  }
+
+  const animatePasswordRule = (rule) => {
+    if (
+      prefersReducedMotion ||
+      !rule ||
+      typeof rule.animate !== 'function'
+    ) {
+      return
+    }
+
+    rule.animate(
+      [
+        { transform: 'translateY(2px) scale(0.98)' },
+        { transform: 'translateY(0) scale(1)' },
+      ],
+      {
+        duration: 260,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      },
+    )
+  }
+
+  const updatePasswordStrength = () => {
+    if (!registerPasswordInput || !passwordStrength || !window.authService) {
+      return
+    }
+
+    const value = registerPasswordInput.value
+    const requirements = window.authService.getPasswordRequirements(value)
+    const matchedRules = Object.values(requirements).filter(Boolean).length
+    const strength = value ? matchedRules : 0
+
+    passwordStrength.dataset.strength = String(strength)
+
+    if (passwordStrengthLabel) {
+      passwordStrengthLabel.textContent =
+        passwordStrengthLabels[strength] || passwordStrengthLabels[0]
+    }
+
+    passwordRuleElements.forEach((rule) => {
+      const ruleName = rule.dataset.passwordRule
+      const isMet = Boolean(requirements[ruleName])
+      const wasMet = rule.dataset.met === 'true'
+
+      rule.classList.toggle('is-met', isMet)
+      rule.dataset.met = String(isMet)
+
+      if (isMet && !wasMet) {
+        animatePasswordRule(rule)
+      }
+    })
+  }
 
   const gradeLabels = {
     1: 'پایه اول',
@@ -108,6 +178,10 @@
       clearFieldError(form, event.target.name)
     })
   })
+
+
+  registerPasswordInput?.addEventListener('input', updatePasswordStrength)
+  updatePasswordStrength()
 
   const closeGradeMenu = () => {
     gradeMenu?.classList.add('hidden')
@@ -318,8 +392,12 @@
       valid = false
     }
 
-    if (password.length < window.authService.PASSWORD_MIN_LENGTH) {
-      setFieldError(form, 'password', 'رمز عبور باید حداقل ۸ کاراکتر باشد.')
+    if (!window.authService.isPasswordValid(password)) {
+      setFieldError(
+        form,
+        'password',
+        'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.',
+      )
       valid = false
     }
 
@@ -353,6 +431,12 @@
 
       if (code === 'AUTH_USERNAME_TAKEN') {
         setFieldError(form, 'username', 'این نام کاربری قبلاً ثبت شده است.')
+      } else if (code === 'AUTH_PASSWORD_WEAK') {
+        setFieldError(
+          form,
+          'password',
+          'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.',
+        )
       } else if (code === 'AUTH_AVATAR_TOO_LARGE') {
         setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
       } else if (code === 'AUTH_AVATAR_TYPE_INVALID') {

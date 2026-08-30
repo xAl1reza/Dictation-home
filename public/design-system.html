@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>دیکته‌خونه — Design System Guide</title>
 
-  <style>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>دیکته‌خونه — Design System Guide</title>
+<style>
 
    @font-face {
   font-family: 'Peyda-medium';
@@ -326,137 +326,125 @@
 </head>
 <body>
 <div class="page-container">
-
-  <!-- ═══════════ HERO ═══════════ -->
-  <div class="hero">
-    <span class="hero-eyebrow">Liquid Glass Theme · Tailwind v4</span>
-    <h1>Design System<br/>دیکته‌خونه</h1>
-    <p>راهنمای کامل توکن‌ها، تایپوگرافی، رنگ‌ها، سطوح گلس و کامپوننت‌ها</p>
-  </div>
-
-  <!-- ═══════════ TOC ═══════════ -->
-  <nav class="toc">
-    <h2>فهرست</h2>
-    <ol>
-      <li><a href="#colors">Color Palette</a></li>
-      <li><a href="#typography">Typography</a></li>
-      <li><a href="#radius">Border Radius</a></li>
-      <li><a href="#shadows">Shadows</a></li>
-      <li><a href="#blur">Blur</a></li>
-      <li><a href="#glass">Glass Surfaces</a></li>
-      <li><a href="#buttons">Buttons</a></li>
-      <li><a href="#darkmode">Dark Mode</a></li>
-      <li><a href="#spacing">Spacing Cheatsheet</a></li>
-      <li><a href="#usage">Usage در کد</a></li>
-    </ol>
-  </nav>
-
-  <!-- ═══════════ 1. COLOR PALETTE ═══════════ -->
-  <section class="section" id="colors">
-    <p class="section-title">01 — Tokens</p>
-    <h2 class="section-heading">Color Palette</h2>
-
-    <!-- Background -->
-    <div class="card">
-      <span class="card-label">Background Colors</span>
-      <div class="grid-2" style="margin-bottom:12px;">
-        <div style="background:#f6f4ff; border-radius:var(--radius-sm); padding:20px 16px; border:1px solid rgba(0,0,0,0.06);">
-          <div style="font-size:13px;font-weight:700;color:var(--color-text);">bg</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:4px;">#f6f4ff</div>
-          <code style="margin-top:8px;">bg-bg</code>
-        </div>
-        <div style="background:#ede9ff; border-radius:var(--radius-sm); padding:20px 16px; border:1px solid rgba(0,0,0,0.06);">
-          <div style="font-size:13px;font-weight:700;color:var(--color-text);">bg-secondary</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-top:4px;">#ede9ff</div>
-          <code style="margin-top:8px;">bg-bg-secondary</code>
-        </div>
-      </div>
-      <pre><code>/* app.css @theme */
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+<span class="hero-eyebrow">Liquid Glass Theme · Tailwind v4</span>
+<h1>Design System<br/>دیکته‌خونه</h1>
+<p>راهنمای کامل توکن‌ها، تایپوگرافی، رنگ‌ها، سطوح گلس و کامپوننت‌ها</p>
+</div>
+<!-- ═══════════ TOC ═══════════ -->
+<nav class="toc">
+<h2>فهرست</h2>
+<ol>
+<li><a href="#colors">Color Palette</a></li>
+<li><a href="#typography">Typography</a></li>
+<li><a href="#radius">Border Radius</a></li>
+<li><a href="#shadows">Shadows</a></li>
+<li><a href="#blur">Blur</a></li>
+<li><a href="#glass">Glass Surfaces</a></li>
+<li><a href="#buttons">Buttons</a></li>
+<li><a href="#darkmode">Dark Mode</a></li>
+<li><a href="#spacing">Spacing Cheatsheet</a></li>
+<li><a href="#usage">Usage در کد</a></li>
+</ol>
+</nav>
+<!-- ═══════════ 1. COLOR PALETTE ═══════════ -->
+<section class="section" id="colors">
+<p class="section-title">01 — Tokens</p>
+<h2 class="section-heading">Color Palette</h2>
+<!-- Background -->
+<div class="card">
+<span class="card-label">Background Colors</span>
+<div class="grid-2" style="margin-bottom:12px;">
+<div style="background:#f6f4ff; border-radius:var(--radius-sm); padding:20px 16px; border:1px solid rgba(0,0,0,0.06);">
+<div style="font-size:13px;font-weight:700;color:var(--color-text);">bg</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:4px;">#f6f4ff</div>
+<code style="margin-top:8px;">bg-bg</code>
+</div>
+<div style="background:#ede9ff; border-radius:var(--radius-sm); padding:20px 16px; border:1px solid rgba(0,0,0,0.06);">
+<div style="font-size:13px;font-weight:700;color:var(--color-text);">bg-secondary</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:4px;">#ede9ff</div>
+<code style="margin-top:8px;">bg-bg-secondary</code>
+</div>
+</div>
+<pre><code>/* app.css @theme */
 --color-bg: #f6f4ff;
 --color-bg-secondary: #ede9ff;</code></pre>
-    </div>
-
-    <!-- Brand -->
-    <div class="card">
-      <span class="card-label">Brand Colors</span>
-      <div class="grid-4" style="margin-bottom:12px;">
-        <div>
-          <div style="height:72px;background:#8b5cf6;border-radius:var(--radius-sm);margin-bottom:8px;box-shadow:var(--shadow-btn);"></div>
-          <div style="font-size:12px;font-weight:700;">primary</div>
-          <div style="font-size:11px;color:var(--color-muted);">#8b5cf6</div>
-          <code>text-primary</code>
-        </div>
-        <div>
-          <div style="height:72px;background:#a78bfa;border-radius:var(--radius-sm);margin-bottom:8px;"></div>
-          <div style="font-size:12px;font-weight:700;">primary-light</div>
-          <div style="font-size:11px;color:var(--color-muted);">#a78bfa</div>
-          <code>bg-primary-light</code>
-        </div>
-        <div>
-          <div style="height:72px;background:#fb7185;border-radius:var(--radius-sm);margin-bottom:8px;"></div>
-          <div style="font-size:12px;font-weight:700;">secondary</div>
-          <div style="font-size:11px;color:var(--color-muted);">#fb7185</div>
-          <code>bg-secondary</code>
-        </div>
-        <div>
-          <div style="height:72px;background:#fbbf24;border-radius:var(--radius-sm);margin-bottom:8px;"></div>
-          <div style="font-size:12px;font-weight:700;">accent</div>
-          <div style="font-size:11px;color:var(--color-muted);">#fbbf24</div>
-          <code>bg-accent</code>
-        </div>
-      </div>
-    </div>
-
-    <!-- Text -->
-    <div class="card">
-      <span class="card-label">Typography Colors</span>
-      <div class="grid-2" style="margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:48px;height:48px;border-radius:12px;background:#221c42;flex-shrink:0;"></div>
-          <div>
-            <div style="font-size:13px;font-weight:700;">text</div>
-            <div style="font-size:11px;color:var(--color-muted);">#221c42</div>
-            <code>text-textColorColor</code>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:48px;height:48px;border-radius:12px;background:#6b7280;flex-shrink:0;"></div>
-          <div>
-            <div style="font-size:13px;font-weight:700;">muted</div>
-            <div style="font-size:11px;color:var(--color-muted);">#6b7280</div>
-            <code>text-mutedColor</code>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ 2. TYPOGRAPHY ═══════════ -->
-  <section class="section" id="typography">
-    <p class="section-title">02 — Type Scale</p>
-    <h2 class="section-heading">Typography</h2>
-
-    <div class="card">
-     <span class="card-label">Font System</span>
-
+</div>
+<!-- Brand -->
+<div class="card">
+<span class="card-label">Brand Colors</span>
+<div class="grid-4" style="margin-bottom:12px;">
+<div>
+<div style="height:72px;background:#8b5cf6;border-radius:var(--radius-sm);margin-bottom:8px;box-shadow:var(--shadow-btn);"></div>
+<div style="font-size:12px;font-weight:700;">primary</div>
+<div style="font-size:11px;color:var(--color-muted);">#8b5cf6</div>
+<code>text-primary</code>
+</div>
+<div>
+<div style="height:72px;background:#a78bfa;border-radius:var(--radius-sm);margin-bottom:8px;"></div>
+<div style="font-size:12px;font-weight:700;">primary-light</div>
+<div style="font-size:11px;color:var(--color-muted);">#a78bfa</div>
+<code>bg-primary-light</code>
+</div>
+<div>
+<div style="height:72px;background:#fb7185;border-radius:var(--radius-sm);margin-bottom:8px;"></div>
+<div style="font-size:12px;font-weight:700;">secondary</div>
+<div style="font-size:11px;color:var(--color-muted);">#fb7185</div>
+<code>bg-secondary</code>
+</div>
+<div>
+<div style="height:72px;background:#fbbf24;border-radius:var(--radius-sm);margin-bottom:8px;"></div>
+<div style="font-size:12px;font-weight:700;">accent</div>
+<div style="font-size:11px;color:var(--color-muted);">#fbbf24</div>
+<code>bg-accent</code>
+</div>
+</div>
+</div>
+<!-- Text -->
+<div class="card">
+<span class="card-label">Typography Colors</span>
+<div class="grid-2" style="margin-bottom:12px;">
+<div style="display:flex;align-items:center;gap:14px;">
+<div style="width:48px;height:48px;border-radius:12px;background:#221c42;flex-shrink:0;"></div>
+<div>
+<div style="font-size:13px;font-weight:700;">text</div>
+<div style="font-size:11px;color:var(--color-muted);">#221c42</div>
+<code>text-textColorColor</code>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:14px;">
+<div style="width:48px;height:48px;border-radius:12px;background:#6b7280;flex-shrink:0;"></div>
+<div>
+<div style="font-size:13px;font-weight:700;">muted</div>
+<div style="font-size:11px;color:var(--color-muted);">#6b7280</div>
+<code>text-mutedColor</code>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ═══════════ 2. TYPOGRAPHY ═══════════ -->
+<section class="section" id="typography">
+<p class="section-title">02 — Type Scale</p>
+<h2 class="section-heading">Typography</h2>
+<div class="card">
+<span class="card-label">Font System</span>
 <div style="margin-bottom:12px;font-size:13px;color:var(--color-muted);">
   دیکته‌خونه از دو فونت اصلی استفاده می‌کند.
 
-  <br><br>
-
-  <strong>Peyda</strong>
+  <br/><br/>
+<strong>Peyda</strong>
   برای Headingها، Titleها، Buttonها و عناصر مهم رابط کاربری.
 
-  <br>
-
-  <strong>Dana</strong>
+  <br/>
+<strong>Dana</strong>
   برای متن‌های اصلی، توضیحات، مقالات و محتوای آموزشی.
 
-  <br><br>
+  <br/><br/>
 
   برای بهینه‌سازی Performance فقط وزن‌های مورد استفاده در پروژه لود می‌شوند.
 </div>
-
 <pre><code>
 
   --font-Peyda-medium: "Peyda-medium", sans-serif;
@@ -467,165 +455,137 @@
   --font-Dana-bold: "Dana-bold", sans-serif;
 
 </code></pre>
-    </div>
-
-    <div class="card">
-      <span class="card-label">Type Scale — از h1 تا span</span>
-
-      <div class="col" style="gap:20px;">
-
-  <!-- h1 -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <h1 style="font-size:clamp(32px,4vw,48px);font-weight:900;color:var(--color-text);line-height:1.15;margin-bottom:8px;">عنوان اصلی صفحه</h1>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">h1</span>
-      <code>text-[clamp(32px,4vw,48px)]</code>
-      <code>font-Peyda-medium</code>
-      <code>text-textColor</code>
-      <code>leading-tight</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+</div>
+<div class="card">
+<span class="card-label">Type Scale — از h1 تا span</span>
+<div class="col" style="gap:20px;">
+<!-- h1 -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<h1 style="font-size:clamp(32px,4vw,48px);font-weight:900;color:var(--color-text);line-height:1.15;margin-bottom:8px;">عنوان اصلی صفحه</h1>
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">h1</span>
+<code>text-[clamp(32px,4vw,48px)]</code>
+<code>font-Peyda-medium</code>
+<code>text-textColor</code>
+<code>leading-tight</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: clamp(32px, 4vw, 48px) · Peyda Bold (700) · line-height: 1.15
     </div>
-  </div>
-
-  <!-- h2 -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <h2 style="font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--color-text);line-height:1.25;margin-bottom:8px;">عنوان بخش</h2>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">h2</span>
-      <code>text-[clamp(24px,3vw,32px)]</code>
-      <code>font-Peyda-medium</code>
-      <code>text-textColor</code>
-      <code>leading-snug</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+</div>
+<!-- h2 -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<h2 style="font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--color-text);line-height:1.25;margin-bottom:8px;">عنوان بخش</h2>
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">h2</span>
+<code>text-[clamp(24px,3vw,32px)]</code>
+<code>font-Peyda-medium</code>
+<code>text-textColor</code>
+<code>leading-snug</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: clamp(24px, 3vw, 32px) · Peyda medium (500)
     </div>
-  </div>
-
-  <!-- h3 -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <h3 style="font-size:clamp(20px,2.5vw,24px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان کارت یا ماژول</h3>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">h3</span>
-      <code>text-[clamp(20px,2.5vw,24px)]</code>
-      <code>font-Peyda-medium</code>
-      <code>text-textColor</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+</div>
+<!-- h3 -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<h3 style="font-size:clamp(20px,2.5vw,24px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان کارت یا ماژول</h3>
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">h3</span>
+<code>text-[clamp(20px,2.5vw,24px)]</code>
+<code>font-Peyda-medium</code>
+<code>text-textColor</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: clamp(20px, 2.5vw, 24px) · Peyda medium (500)
     </div>
-  </div>
-
-  <!-- h4 -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <h4 style="font-size:clamp(17px,2vw,20px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان فرعی</h4>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">h4</span>
-      <code>text-[clamp(17px,2vw,20px)]</code>
-      <code>font-Peyda-medium</code>
-      <code>text-textColor</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+</div>
+<!-- h4 -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<h4 style="font-size:clamp(17px,2vw,20px);font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان فرعی</h4>
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">h4</span>
+<code>text-[clamp(17px,2vw,20px)]</code>
+<code>font-Peyda-medium</code>
+<code>text-textColor</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: clamp(17px, 2vw, 20px) · Peyda medium (500)
     </div>
-  </div>
-
-  <!-- h5 -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <h5 style="font-size:16px;font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان سطح پنجم</h5>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">h5</span>
-      <code>text-base</code>
-      <code>font-Peyda-medium</code>
-      <code>text-textColor</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+</div>
+<!-- h5 -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<h5 style="font-size:16px;font-weight:700;color:var(--color-text);margin-bottom:8px;">عنوان سطح پنجم</h5>
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">h5</span>
+<code>text-base</code>
+<code>font-Peyda-medium</code>
+<code>text-textColor</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: 16px · Peyda medium (500) — ثابته، clamp نمیخواد
     </div>
-  </div>
-
-  <!-- h6 -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <h6 style="font-size:14px;font-weight:700;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">SECTION LABEL</h6>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">h6 / eyebrow</span>
-      <code>text-sm</code>
-      <code>font-Peyda-medium</code>
-      <code>text-mutedColor</code>
-      <code>uppercase</code>
-      <code>tracking-widest</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+</div>
+<!-- h6 -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<h6 style="font-size:14px;font-weight:700;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">SECTION LABEL</h6>
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">h6 / eyebrow</span>
+<code>text-sm</code>
+<code>font-Peyda-medium</code>
+<code>text-mutedColor</code>
+<code>uppercase</code>
+<code>tracking-widest</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: 14px · Peyda medium (500)· uppercase · letter-spacing: 0.12em
     </div>
-  </div>
-
-  <!-- Lead -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <p style="font-size:18px;font-weight:500;color:var(--color-text);line-height:1.8;margin-bottom:8px;">
+</div>
+<!-- Lead -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<p style="font-size:18px;font-weight:500;color:var(--color-text);line-height:1.8;margin-bottom:8px;">
       این متن برای توضیحات مهم، معرفی بخش‌ها و لید پاراگراف‌ها استفاده می‌شود.
     </p>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">lead</span>
-      <code>text-lg</code>
-      <code>font-Dana-medium</code>
-      <code>text-textColor</code>
-      <code>leading-relaxed</code>
-    </div>
-
-    <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">lead</span>
+<code>text-lg</code>
+<code>font-Dana-medium</code>
+<code>text-textColor</code>
+<code>leading-relaxed</code>
+</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
       font-size: 18px · Dana Medium (500) · line-height: 1.8
     </div>
-  </div>
-
-  <!-- p -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <p style="font-size:15px;color:var(--color-text);line-height:1.75;margin-bottom:8px;">
+</div>
+<!-- p -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<p style="font-size:15px;color:var(--color-text);line-height:1.75;margin-bottom:8px;">
       این یه پاراگراف معمولیه. متن اصلی بدنه صفحه که باید خوانایی بالایی داشته باشه و لاین‌هایتش کافی باشه.
     </p>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">p</span>
-      <code>text-body</code>
-      <code>font-Dana-regular</code>
-      <code>text-textColor</code>
-      <code>leading-relaxed</code>
-    </div>
-  </div>
-
-  <!-- small -->
-  <div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
-    <p style="font-size:13px;color:var(--color-muted);line-height:1.6;margin-bottom:8px;">
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">p</span>
+<code>text-body</code>
+<code>font-Dana-regular</code>
+<code>text-textColor</code>
+<code>leading-relaxed</code>
+</div>
+</div>
+<!-- small -->
+<div style="border-bottom:1px solid rgba(139,92,246,0.08);padding-bottom:18px;">
+<p style="font-size:13px;color:var(--color-muted);line-height:1.6;margin-bottom:8px;">
       متن فرعی، توضیحات کوچک، تاریخ و اطلاعات ثانویه.
     </p>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">small / muted</span>
-      <code>text-sm</code>
-      <code>font-Dana-regular</code>
-      <code>text-mutedColor</code>
-      <code>leading-relaxed</code>
-    </div>
-  </div>
-
-  <!-- span -->
-  <div>
-    <p style="font-size:15px;color:var(--color-text);margin-bottom:8px;">
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">small / muted</span>
+<code>text-sm</code>
+<code>font-Dana-regular</code>
+<code>text-mutedColor</code>
+<code>leading-relaxed</code>
+</div>
+</div>
+<!-- span -->
+<div>
+<p style="font-size:15px;color:var(--color-text);margin-bottom:8px;">
       این یه جمله‌ست که توش
       <span style="color:var(--color-primary);font-weight:700;">هایلایت رنگی</span>
       داریم و همچنین
@@ -633,226 +593,199 @@
       و
       <span style="background:linear-gradient(90deg,var(--color-primary),var(--color-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">گرادیانت برند</span>.
     </p>
-
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <span class="badge">span</span>
-      <code>text-primary font-Dana-bold</code>
-      <code>text-secondary font-Dana-bold</code>
-      <code>bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent</code>
-    </div>
-  </div>
-
+<div class="row" style="gap:8px;flex-wrap:wrap;">
+<span class="badge">span</span>
+<code>text-primary font-Dana-bold</code>
+<code>text-secondary font-Dana-bold</code>
+<code>bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent</code>
 </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ 3. BORDER RADIUS ═══════════ -->
-  <section class="section" id="radius">
-    <p class="section-title">03 — Shape</p>
-    <h2 class="section-heading">Border Radius</h2>
-
-    <div class="card">
-      <div class="grid-4">
-        <div style="text-align:center;">
-          <div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:16px;margin-bottom:12px;"></div>
-          <div style="font-size:13px;font-weight:700;">radius-sm</div>
-          <div style="font-size:12px;color:var(--color-muted);">16px</div>
-          <code>rounded-sm</code>
-        </div>
-        <div style="text-align:center;">
-          <div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:24px;margin-bottom:12px;"></div>
-          <div style="font-size:13px;font-weight:700;">radius-md</div>
-          <div style="font-size:12px;color:var(--color-muted);">24px</div>
-          <code>rounded-md</code>
-        </div>
-        <div style="text-align:center;">
-          <div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:32px;margin-bottom:12px;"></div>
-          <div style="font-size:13px;font-weight:700;">radius-lg</div>
-          <div style="font-size:12px;color:var(--color-muted);">32px</div>
-          <code>rounded-lg</code>
-        </div>
-        <div style="text-align:center;">
-          <div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:40px;margin-bottom:12px;"></div>
-          <div style="font-size:13px;font-weight:700;">radius-xl</div>
-          <div style="font-size:12px;color:var(--color-muted);">40px</div>
-          <code>rounded-xl</code>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div style="font-size:12px;color:var(--color-muted);line-height:1.9;">
+</div>
+</div>
+</div>
+</section>
+<!-- ═══════════ 3. BORDER RADIUS ═══════════ -->
+<section class="section" id="radius">
+<p class="section-title">03 — Shape</p>
+<h2 class="section-heading">Border Radius</h2>
+<div class="card">
+<div class="grid-4">
+<div style="text-align:center;">
+<div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:16px;margin-bottom:12px;"></div>
+<div style="font-size:13px;font-weight:700;">radius-sm</div>
+<div style="font-size:12px;color:var(--color-muted);">16px</div>
+<code>rounded-sm</code>
+</div>
+<div style="text-align:center;">
+<div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:24px;margin-bottom:12px;"></div>
+<div style="font-size:13px;font-weight:700;">radius-md</div>
+<div style="font-size:12px;color:var(--color-muted);">24px</div>
+<code>rounded-md</code>
+</div>
+<div style="text-align:center;">
+<div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:32px;margin-bottom:12px;"></div>
+<div style="font-size:13px;font-weight:700;">radius-lg</div>
+<div style="font-size:12px;color:var(--color-muted);">32px</div>
+<code>rounded-lg</code>
+</div>
+<div style="text-align:center;">
+<div style="height:80px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-primary));border-radius:40px;margin-bottom:12px;"></div>
+<div style="font-size:13px;font-weight:700;">radius-xl</div>
+<div style="font-size:12px;color:var(--color-muted);">40px</div>
+<code>rounded-xl</code>
+</div>
+</div>
+<div class="divider"></div>
+<div style="font-size:12px;color:var(--color-muted);line-height:1.9;">
         ⚠️ <strong style="color:var(--color-text);">نکته:</strong> چون <code>--radius-sm/md/lg/xl</code> رو تو <code>@theme</code> تعریف کردی، مقادیر پیش‌فرض تیلویند (مثل <code>rounded-md: 6px</code>) رو override میکنن.
         یعنی <code>rounded-sm</code> حالا <strong>16px</strong> میشه، نه 4px پیش‌فرض تیلویند. این intentional هستش.
       </div>
-        <strong style="color:var(--color-text);">کِجا چی بزن:</strong><br/>
-        · <code>rounded-xl</code> — hero section، splash card، صفحه‌ی اصلی دیکته<br/>
-        · <code>rounded-lg</code> — کارت درس، کارت نتیجه، پنل سایدبار<br/>
-        · <code>rounded-md</code> — کارت آمار کوچیک، input field، dropdown<br/>
-        · <code>rounded-sm</code> — badge، chip، tag، avatar<br/>
+<strong style="color:var(--color-text);">کِجا چی بزن:</strong><br>
+        · <code>rounded-xl</code> — hero section، splash card، صفحه‌ی اصلی دیکته<br>
+        · <code>rounded-lg</code> — کارت درس، کارت نتیجه، پنل سایدبار<br>
+        · <code>rounded-md</code> — کارت آمار کوچیک، input field، dropdown<br>
+        · <code>rounded-sm</code> — badge، chip، tag، avatar<br>
         · <code>rounded-full</code> — دکمه pill، toggle، avatar دایره
-      </div>
-      
-    </div>
-  </section>
+      </br></br></br></br></br></div>
+</section></div>
 
-  <div class="page-container">
-      <!-- ═══════════ 4. SHADOWS ═══════════ -->
-  <section class="section" id="shadows">
-    <p class="section-title">04 — Depth</p>
-    <h2 class="section-heading">Shadows</h2>
-
-    <div class="card">
-      <div class="grid-2">
-
-        <div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 10px 30px rgba(15,23,42,0.08), inset 0 1px 0 rgba(255,255,255,0.8);">
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-card</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">کارت‌های اصلی رابط</div>
-          <code>shadow-card</code>
-          <div class="divider"></div>
-          <pre><code>0 10px 30px rgba(15,23,42,0.08),
+<div class="page-container">
+<!-- ═══════════ 4. SHADOWS ═══════════ -->
+<section class="section" id="shadows">
+<p class="section-title">04 — Depth</p>
+<h2 class="section-heading">Shadows</h2>
+<div class="card">
+<div class="grid-2">
+<div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 10px 30px rgba(15,23,42,0.08), inset 0 1px 0 rgba(255,255,255,0.8);">
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-card</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">کارت‌های اصلی رابط</div>
+<code>shadow-card</code>
+<div class="divider"></div>
+<pre><code>0 10px 30px rgba(15,23,42,0.08),
 inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
-        </div>
-
-        <div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 8px 32px rgba(31,38,135,0.15);">
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-glass</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">پنل‌های گلس</div>
-          <code>shadow-glass</code>
-          <div class="divider"></div>
-          <pre><code>0 8px 32px rgba(31,38,135,0.15)</code></pre>
-        </div>
-
-        <div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 8px 24px rgba(139,92,246,0.18);">
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-btn</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">دکمه‌های primary</div>
-          <code>shadow-btn</code>
-          <div class="divider"></div>
-          <pre><code>0 8px 24px rgba(139,92,246,0.18)</code></pre>
-        </div>
-
-        <div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 20px 60px rgba(15,23,42,0.12);">
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-floating</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">مودال، dropdown، tooltip</div>
-          <code>shadow-floating</code>
-          <div class="divider"></div>
-          <pre><code>0 20px 60px rgba(15,23,42,0.12)</code></pre>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ 5. BLUR ═══════════ -->
-  <section class="section" id="blur">
-    <p class="section-title">05 — Blur Levels</p>
-    <h2 class="section-heading">Backdrop Blur</h2>
-
-    <div class="card">
-      <div style="position:relative;border-radius:var(--radius-md);overflow:hidden;height:160px;background:linear-gradient(135deg,#8b5cf6,#fb7185,#fbbf24);margin-bottom:24px;display:flex;align-items:center;justify-content:space-around;">
-
-        <div style="width:140px;padding:16px;text-align:center;background:rgba(255,255,255,0.4);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-sm);">
-          <div style="font-size:12px;font-weight:700;color:white;">blur-sm</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.8);">10px</div>
-        </div>
-
-        <div style="width:140px;padding:16px;text-align:center;background:rgba(255,255,255,0.4);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-sm);">
-          <div style="font-size:12px;font-weight:700;color:white;">blur-md</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.8);">20px</div>
-        </div>
-
-        <div style="width:140px;padding:16px;text-align:center;background:rgba(255,255,255,0.4);backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-sm);">
-          <div style="font-size:12px;font-weight:700;color:white;">blur-lg</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.8);">40px</div>
-        </div>
-
-      </div>
-
-      <div class="grid-3">
-        <div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">blur-sm — 10px</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:8px;">ناوبار، سربرگ، المان‌های کوچک</div>
-          <code>backdrop-blur-sm</code>
-        </div>
-        <div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">blur-md — 20px</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:8px;">کارت‌های اصلی، سطح پیش‌فرض</div>
-          <code>backdrop-blur-md</code>
-        </div>
-        <div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px;">blur-lg — 40px</div>
-          <div style="font-size:12px;color:var(--color-muted);margin-bottom:8px;">مودال، overlay، صفحه‌های تمام‌صفحه</div>
-          <code>backdrop-blur-lg</code>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ 6. GLASS SURFACES ═══════════ -->
-  <section class="section" id="glass">
-    <p class="section-title">06 — Surfaces</p>
-    <h2 class="section-heading">Glass Surfaces</h2>
-
-    <div class="card">
-      <span class="card-label">سه سطح گلس — Live Preview</span>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:4px;">
-
-        <!-- surface-soft -->
-        <div style="background:var(--color-surface-soft);backdrop-filter:blur(var(--blur-sm));-webkit-backdrop-filter:blur(var(--blur-sm));border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-lg);box-shadow:var(--shadow-glass);padding:22px;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-            <div>
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px;">surface-soft</div>
-              <div style="font-size:16px;font-weight:700;color:var(--color-text);">rgba(255,255,255, 0.40)</div>
-              <div style="font-size:12px;color:var(--color-muted);margin-top:4px;">hover card، پنل پس‌زمینه، skeleton</div>
-            </div>
-            <div style="font-size:12px;text-align:left;direction:ltr;line-height:2;">
-              <code>bg-surface-soft</code><br/>
-              <code>backdrop-blur-sm</code><br/>
-              <code>border border-white/50</code><br/>
-              <code>rounded-lg</code> · <code>shadow-glass</code> · <code>p-6</code>
-            </div>
-          </div>
-        </div>
-
-        <!-- surface -->
-        <div style="background:var(--color-surface);backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.65);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:22px;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-            <div>
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px;">surface — default</div>
-              <div style="font-size:16px;font-weight:700;color:var(--color-text);">rgba(255,255,255, 0.60)</div>
-              <div style="font-size:12px;color:var(--color-muted);margin-top:4px;">کارت درس، کارت آمار، ناوبار، سایدبار</div>
-            </div>
-            <div style="font-size:12px;text-align:left;direction:ltr;line-height:2;">
-              <code>bg-surface</code><br/>
-              <code>backdrop-blur-md</code><br/>
-              <code>border border-white/65</code><br/>
-              <code>rounded-lg</code> · <code>shadow-card</code> · <code>p-6</code> یا <code>p-8</code>
-            </div>
-          </div>
-        </div>
-
-        <!-- surface-strong -->
-        <div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.75);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:22px;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-            <div>
-              <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px;">surface-strong</div>
-              <div style="font-size:16px;font-weight:700;color:var(--color-text);">rgba(255,255,255, 0.78)</div>
-              <div style="font-size:12px;color:var(--color-muted);margin-top:4px;">مودال، drawer، bottom sheet، dialog</div>
-            </div>
-            <div style="font-size:12px;text-align:left;direction:ltr;line-height:2;">
-              <code>bg-surface-strong</code><br/>
-              <code>backdrop-blur-md</code><br/>
-              <code>border border-white/75</code><br/>
-              <code>rounded-lg</code> · <code>shadow-floating</code> · <code>p-8</code> یا <code>p-10</code>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Glass recipe -->
-    <div class="card">
-      <span class="card-label">Glass Recipe — کلاس‌های تیلویند کامل</span>
-      <pre><code>&lt;!-- surface-soft --&gt;
+</div>
+<div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 8px 32px rgba(31,38,135,0.15);">
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-glass</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">پنل‌های گلس</div>
+<code>shadow-glass</code>
+<div class="divider"></div>
+<pre><code>0 8px 32px rgba(31,38,135,0.15)</code></pre>
+</div>
+<div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 8px 24px rgba(139,92,246,0.18);">
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-btn</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">دکمه‌های primary</div>
+<code>shadow-btn</code>
+<div class="divider"></div>
+<pre><code>0 8px 24px rgba(139,92,246,0.18)</code></pre>
+</div>
+<div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.7);border-radius:var(--radius-md);padding:24px;box-shadow:0 20px 60px rgba(15,23,42,0.12);">
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">shadow-floating</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:10px;">مودال، dropdown، tooltip</div>
+<code>shadow-floating</code>
+<div class="divider"></div>
+<pre><code>0 20px 60px rgba(15,23,42,0.12)</code></pre>
+</div>
+</div>
+</div>
+</section>
+<!-- ═══════════ 5. BLUR ═══════════ -->
+<section class="section" id="blur">
+<p class="section-title">05 — Blur Levels</p>
+<h2 class="section-heading">Backdrop Blur</h2>
+<div class="card">
+<div style="position:relative;border-radius:var(--radius-md);overflow:hidden;height:160px;background:linear-gradient(135deg,#8b5cf6,#fb7185,#fbbf24);margin-bottom:24px;display:flex;align-items:center;justify-content:space-around;">
+<div style="width:140px;padding:16px;text-align:center;background:rgba(255,255,255,0.4);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-sm);">
+<div style="font-size:12px;font-weight:700;color:white;">blur-sm</div>
+<div style="font-size:11px;color:rgba(255,255,255,0.8);">10px</div>
+</div>
+<div style="width:140px;padding:16px;text-align:center;background:rgba(255,255,255,0.4);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-sm);">
+<div style="font-size:12px;font-weight:700;color:white;">blur-md</div>
+<div style="font-size:11px;color:rgba(255,255,255,0.8);">20px</div>
+</div>
+<div style="width:140px;padding:16px;text-align:center;background:rgba(255,255,255,0.4);backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-sm);">
+<div style="font-size:12px;font-weight:700;color:white;">blur-lg</div>
+<div style="font-size:11px;color:rgba(255,255,255,0.8);">40px</div>
+</div>
+</div>
+<div class="grid-3">
+<div>
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">blur-sm — 10px</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:8px;">ناوبار، سربرگ، المان‌های کوچک</div>
+<code>backdrop-blur-sm</code>
+</div>
+<div>
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">blur-md — 20px</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:8px;">کارت‌های اصلی، سطح پیش‌فرض</div>
+<code>backdrop-blur-md</code>
+</div>
+<div>
+<div style="font-size:13px;font-weight:700;margin-bottom:6px;">blur-lg — 40px</div>
+<div style="font-size:12px;color:var(--color-muted);margin-bottom:8px;">مودال، overlay، صفحه‌های تمام‌صفحه</div>
+<code>backdrop-blur-lg</code>
+</div>
+</div>
+</div>
+</section>
+<!-- ═══════════ 6. GLASS SURFACES ═══════════ -->
+<section class="section" id="glass">
+<p class="section-title">06 — Surfaces</p>
+<h2 class="section-heading">Glass Surfaces</h2>
+<div class="card">
+<span class="card-label">سه سطح گلس — Live Preview</span>
+<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:4px;">
+<!-- surface-soft -->
+<div style="background:var(--color-surface-soft);backdrop-filter:blur(var(--blur-sm));-webkit-backdrop-filter:blur(var(--blur-sm));border:1px solid rgba(255,255,255,0.5);border-radius:var(--radius-lg);box-shadow:var(--shadow-glass);padding:22px;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px;">surface-soft</div>
+<div style="font-size:16px;font-weight:700;color:var(--color-text);">rgba(255,255,255, 0.40)</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:4px;">hover card، پنل پس‌زمینه، skeleton</div>
+</div>
+<div style="font-size:12px;text-align:left;direction:ltr;line-height:2;">
+<code>bg-surface-soft</code><br/>
+<code>backdrop-blur-sm</code><br/>
+<code>border border-white/50</code><br/>
+<code>rounded-lg</code> · <code>shadow-glass</code> · <code>p-6</code>
+</div>
+</div>
+</div>
+<!-- surface -->
+<div style="background:var(--color-surface);backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.65);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:22px;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px;">surface — default</div>
+<div style="font-size:16px;font-weight:700;color:var(--color-text);">rgba(255,255,255, 0.60)</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:4px;">کارت درس، کارت آمار، ناوبار، سایدبار</div>
+</div>
+<div style="font-size:12px;text-align:left;direction:ltr;line-height:2;">
+<code>bg-surface</code><br/>
+<code>backdrop-blur-md</code><br/>
+<code>border border-white/65</code><br/>
+<code>rounded-lg</code> · <code>shadow-card</code> · <code>p-6</code> یا <code>p-8</code>
+</div>
+</div>
+</div>
+<!-- surface-strong -->
+<div style="background:var(--color-surface-strong);backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));border:1px solid rgba(255,255,255,0.75);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:22px;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px;">surface-strong</div>
+<div style="font-size:16px;font-weight:700;color:var(--color-text);">rgba(255,255,255, 0.78)</div>
+<div style="font-size:12px;color:var(--color-muted);margin-top:4px;">مودال، drawer، bottom sheet، dialog</div>
+</div>
+<div style="font-size:12px;text-align:left;direction:ltr;line-height:2;">
+<code>bg-surface-strong</code><br/>
+<code>backdrop-blur-md</code><br/>
+<code>border border-white/75</code><br/>
+<code>rounded-lg</code> · <code>shadow-floating</code> · <code>p-8</code> یا <code>p-10</code>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Glass recipe -->
+<div class="card">
+<span class="card-label">Glass Recipe — کلاس‌های تیلویند کامل</span>
+<pre><code>&lt;!-- surface-soft --&gt;
 &lt;div class="bg-surface-soft backdrop-blur-sm
             border border-white/50 rounded-lg
             shadow-glass p-6"&gt;
@@ -866,103 +799,80 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 &lt;div class="bg-surface-strong backdrop-blur-md
             border border-white/75 rounded-lg
             shadow-floating p-8"&gt;</code></pre>
-    </div>
-  </section>
-
-  <section class="section" id="layout">
-  <p class="section-title">07 — Layout</p>
-  <h2 class="section-heading">Container & Breakpoints</h2>
-
-  <div class="card">
-    <span class="card-label">Page Container — استاندارد تمام صفحات</span>
-
-    <div
-      style="
+</div>
+</section>
+<section class="section" id="layout">
+<p class="section-title">07 — Layout</p>
+<h2 class="section-heading">Container &amp; Breakpoints</h2>
+<div class="card">
+<span class="card-label">Page Container — استاندارد تمام صفحات</span>
+<div style="
         background:var(--color-surface);
         border:1px solid rgba(255,255,255,.65);
         border-radius:var(--radius-lg);
         box-shadow:var(--shadow-card);
         padding:22px;
-      "
-    >
-      <div
-        style="
+      ">
+<div style="
           border:2px dashed rgba(139,92,246,.25);
           border-radius:var(--radius-md);
           padding:20px;
           text-align:center;
-        "
-      >
-        <div
-          style="
+        ">
+<div style="
             font-size:16px;
             font-weight:700;
             color:var(--color-text);
             margin-bottom:8px;
-          "
-        >
+          ">
           page-container
         </div>
-
-        <div
-          style="
+<div style="
             font-size:13px;
             color:var(--color-muted);
-          "
-        >
+          ">
           حداکثر عرض محتوا + پدینگ ریسپانسیو + مرکزچین شدن صفحه
         </div>
-      </div>
-
-      <div
-        style="
+</div>
+<div style="
           display:flex;
           justify-content:space-between;
           align-items:flex-start;
           flex-wrap:wrap;
           gap:16px;
           margin-top:18px;
-        "
-      >
-        <div>
-          <div
-            style="
+        ">
+<div>
+<div style="
               font-size:12px;
               color:var(--color-muted);
               margin-bottom:8px;
-            "
-          >
+            ">
             موارد استفاده
           </div>
-
-          <div style="font-size:14px;color:var(--color-text);line-height:2;">
-            تمامی صفحات<br />
-            تمامی Sectionها<br />
-            Header و Footer<br />
+<div style="font-size:14px;color:var(--color-text);line-height:2;">
+            تمامی صفحات<br/>
+            تمامی Sectionها<br/>
+            Header و Footer<br/>
             محتواهای اصلی سایت
           </div>
-        </div>
-
-        <div
-          style="
+</div>
+<div style="
             font-size:12px;
             text-align:left;
             direction:ltr;
             line-height:2;
-          "
-        >
-          <code>page-container</code><br />
-          <code>max-w-7xl</code><br />
-          <code>mx-auto</code><br />
-          <code>responsive padding</code>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <span class="card-label">Container Recipe</span>
-
+          ">
+<code>page-container</code><br/>
+<code>max-w-7xl</code><br/>
+<code>mx-auto</code><br/>
+<code>responsive padding</code>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<span class="card-label">Container Recipe</span>
 <pre><code>@utility page-container {
   @apply mx-auto max-w-7xl
          px-4
@@ -970,128 +880,105 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
          sm:px-6
          lg:px-8;
 }</code></pre>
-
-  </div>
-
-  <div class="card">
-    <span class="card-label">Breakpoints</span>
-
-    <div
-      style="
+</div>
+<div class="card">
+<span class="card-label">Breakpoints</span>
+<div style="
         display:grid;
         grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
         gap:12px;
-      "
-    >
-
-      <div class="glass-card">
-        <div class="badge">xs</div>
-        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+      ">
+<div class="glass-card">
+<div class="badge">xs</div>
+<div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
           476px
         </div>
-        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
           موبایل کوچک
         </div>
-      </div>
-
-      <div class="glass-card">
-        <div class="badge">sm</div>
-        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+</div>
+<div class="glass-card">
+<div class="badge">sm</div>
+<div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
           640px
         </div>
-        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
           موبایل
         </div>
-      </div>
-
-      <div class="glass-card">
-        <div class="badge">md</div>
-        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+</div>
+<div class="glass-card">
+<div class="badge">md</div>
+<div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
           768px
         </div>
-        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
           تبلت
         </div>
-      </div>
-
-      <div class="glass-card">
-        <div class="badge">lg</div>
-        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+</div>
+<div class="glass-card">
+<div class="badge">lg</div>
+<div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
           1024px
         </div>
-        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
           لپ‌تاپ
         </div>
-      </div>
-
-      <div class="glass-card">
-        <div class="badge">xl</div>
-        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+</div>
+<div class="glass-card">
+<div class="badge">xl</div>
+<div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
           1280px
         </div>
-        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
           دسکتاپ
         </div>
-      </div>
-
-      <div class="glass-card">
-        <div class="badge">2xl</div>
-        <div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
+</div>
+<div class="glass-card">
+<div class="badge">2xl</div>
+<div style="font-size:18px;font-weight:700;color:var(--color-text);margin-top:10px;">
           1536px
         </div>
-        <div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
+<div style="font-size:12px;color:var(--color-muted);margin-top:6px;">
           نمایشگرهای بزرگ
         </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="card">
-    <span class="card-label">Breakpoint Tokens</span>
-
+</div>
+</div>
+</div>
+<div class="card">
+<span class="card-label">Breakpoint Tokens</span>
 <pre><code>--breakpoint-xs: 29.75rem; /* 476px */
 --breakpoint-sm: 40rem;    /* 640px */
 --breakpoint-md: 48rem;    /* 768px */
 --breakpoint-lg: 64rem;    /* 1024px */
 --breakpoint-xl: 80rem;    /* 1280px */
 --breakpoint-2xl: 96rem;   /* 1536px */</code></pre>
-
-  </div>
+</div>
 </section>
-
-  <!-- ═══════════ 7. BUTTONS ═══════════ -->
-  <section class="section" id="buttons">
-    <p class="section-title">08 — Actions</p>
-    <h2 class="section-heading">Buttons</h2>
-
-    <div class="card">
-      <span class="card-label">Button Variants</span>
-      <div class="row" style="margin-bottom:24px;gap:12px;">
-
-        <!-- primary -->
-        <button style="background:var(--color-primary);color:white;border:none;border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-btn);letter-spacing:0.02em;">
+<!-- ═══════════ 7. BUTTONS ═══════════ -->
+<section class="section" id="buttons">
+<p class="section-title">08 — Actions</p>
+<h2 class="section-heading">Buttons</h2>
+<div class="card">
+<span class="card-label">Button Variants</span>
+<div class="row" style="margin-bottom:24px;gap:12px;">
+<!-- primary -->
+<button style="background:var(--color-primary);color:white;border:none;border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-btn);letter-spacing:0.02em;">
           دکمه اصلی
         </button>
-
-        <!-- secondary -->
-        <button style="background:var(--color-secondary);color:white;border:none;border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(251,113,133,0.2);">
+<!-- secondary -->
+<button style="background:var(--color-secondary);color:white;border:none;border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(251,113,133,0.2);">
           دکمه ثانویه
         </button>
-
-        <!-- ghost -->
-        <button style="background:var(--color-surface);backdrop-filter:blur(10px);color:var(--color-primary);border:1.5px solid rgba(139,92,246,0.3);border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;">
+<!-- ghost -->
+<button style="background:var(--color-surface);backdrop-filter:blur(10px);color:var(--color-primary);border:1.5px solid rgba(139,92,246,0.3);border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;">
           Ghost
         </button>
-
-        <!-- accent -->
-        <button style="background:var(--color-accent);color:var(--color-text);border:none;border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(251,191,36,0.25);">
+<!-- accent -->
+<button style="background:var(--color-accent);color:var(--color-text);border:none;border-radius:99px;padding:12px 28px;font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(251,191,36,0.25);">
           Accent
         </button>
-
-      </div>
-
-      <pre><code>&lt;!-- Primary --&gt;
+</div>
+<pre><code>&lt;!-- Primary --&gt;
 &lt;button class="bg-primary text-white rounded-full
                px-7 py-3 font-bold text-sm
                shadow-btn hover:opacity-90
@@ -1106,32 +993,25 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 &lt;button class="bg-surface backdrop-blur-sm
                text-primary border border-primary/30
                rounded-full px-7 py-3 font-bold text-sm"&gt;Ghost&lt;/button&gt;</code></pre>
-    </div>
-  </section>
-
-  <!-- ═══════════ 8. DARK MODE ═══════════ -->
-  <section class="section" id="darkmode">
-    <p class="section-title">09 — Dark Mode</p>
-    <h2 class="section-heading">Dark Mode Tokens</h2>
-
-    <div class="card">
-      <span class="card-label">Dark Canvas & Surface Hierarchy</span>
-
-      <div
-        style="
+</div>
+</section>
+<!-- ═══════════ 8. DARK MODE ═══════════ -->
+<section class="section" id="darkmode">
+<p class="section-title">09 — Dark Mode</p>
+<h2 class="section-heading">Dark Mode Tokens</h2>
+<div class="card">
+<span class="card-label">Dark Canvas &amp; Surface Hierarchy</span>
+<div style="
           background:
             radial-gradient(circle 30rem at 90% 10%, rgba(139,92,246,.16), transparent 68%),
             radial-gradient(circle 25rem at 10% 90%, rgba(251,113,133,.10), transparent 70%),
             linear-gradient(180deg,#09090f 0%,#0e0f1d 48%,#111326 100%);
           border-radius:var(--radius-lg);
           padding:24px;
-        "
-      >
-        <div style="display:flex;flex-direction:column;gap:16px;">
-
-          <!-- soft -->
-          <div
-            style="
+        ">
+<div style="display:flex;flex-direction:column;gap:16px;">
+<!-- soft -->
+<div style="
               background:var(--color-surface-dark-soft);
               backdrop-filter:blur(var(--blur-sm));
               -webkit-backdrop-filter:blur(var(--blur-sm));
@@ -1139,20 +1019,17 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
               border-radius:var(--radius-lg);
               box-shadow:var(--shadow-glass-dark);
               padding:22px;
-            "
-          >
-            <div style="color:#fff;font-size:16px;font-weight:700;">surface-dark-soft</div>
-            <div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">Header، کارت‌های سبک، Testimonial و Surfaceهای کم‌ارتفاع</div>
-            <div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
-              <code>dark:bg-surface-dark-soft</code><br/>
-              <code>dark:border-border-dark-soft</code><br/>
-              <code>dark:shadow-glass-dark</code>
-            </div>
-          </div>
-
-          <!-- default -->
-          <div
-            style="
+            ">
+<div style="color:#fff;font-size:16px;font-weight:700;">surface-dark-soft</div>
+<div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">Header، کارت‌های سبک، Testimonial و Surfaceهای کم‌ارتفاع</div>
+<div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
+<code>dark:bg-surface-dark-soft</code><br/>
+<code>dark:border-border-dark-soft</code><br/>
+<code>dark:shadow-glass-dark</code>
+</div>
+</div>
+<!-- default -->
+<div style="
               background:var(--color-surface-dark);
               backdrop-filter:blur(var(--blur-md));
               -webkit-backdrop-filter:blur(var(--blur-md));
@@ -1160,20 +1037,17 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
               border-radius:var(--radius-lg);
               box-shadow:var(--shadow-card-dark);
               padding:22px;
-            "
-          >
-            <div style="color:#fff;font-size:16px;font-weight:700;">surface-dark</div>
-            <div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">کارت‌های اصلی، Video Card و Content Card</div>
-            <div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
-              <code>dark:bg-surface-dark</code><br/>
-              <code>dark:border-border-dark</code><br/>
-              <code>dark:shadow-card-dark</code>
-            </div>
-          </div>
-
-          <!-- strong -->
-          <div
-            style="
+            ">
+<div style="color:#fff;font-size:16px;font-weight:700;">surface-dark</div>
+<div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">کارت‌های اصلی، Video Card و Content Card</div>
+<div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
+<code>dark:bg-surface-dark</code><br/>
+<code>dark:border-border-dark</code><br/>
+<code>dark:shadow-card-dark</code>
+</div>
+</div>
+<!-- strong -->
+<div style="
               background:var(--color-surface-dark-strong);
               backdrop-filter:blur(var(--blur-md));
               -webkit-backdrop-filter:blur(var(--blur-md));
@@ -1181,25 +1055,21 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
               border-radius:var(--radius-lg);
               box-shadow:var(--shadow-floating-dark);
               padding:22px;
-            "
-          >
-            <div style="color:#fff;font-size:16px;font-weight:700;">surface-dark-strong</div>
-            <div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">Dropdown، Modal، Drawer و Floating Surface</div>
-            <div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
-              <code>dark:bg-surface-dark-strong</code><br/>
-              <code>dark:border-border-dark-strong</code><br/>
-              <code>dark:shadow-floating-dark</code>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <span class="card-label">Dark Surface Recipes</span>
-
-      <pre><code>&lt;!-- Soft Surface --&gt;
+            ">
+<div style="color:#fff;font-size:16px;font-weight:700;">surface-dark-strong</div>
+<div style="color:var(--color-muted-dark);font-size:12px;margin-top:6px;">Dropdown، Modal، Drawer و Floating Surface</div>
+<div style="margin-top:12px;direction:ltr;text-align:left;line-height:2;">
+<code>dark:bg-surface-dark-strong</code><br/>
+<code>dark:border-border-dark-strong</code><br/>
+<code>dark:shadow-floating-dark</code>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<span class="card-label">Dark Surface Recipes</span>
+<pre><code>&lt;!-- Soft Surface --&gt;
 &lt;div class="dark:bg-surface-dark-soft
             dark:border-border-dark-soft
             dark:shadow-glass-dark"&gt;
@@ -1213,102 +1083,88 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 &lt;div class="dark:bg-surface-dark-strong
             dark:border-border-dark-strong
             dark:shadow-floating-dark"&gt;</code></pre>
-    </div>
-
-    <div class="card">
-      <span class="card-label">Dark Mode Rules</span>
-      <div style="font-size:13px;color:var(--color-muted);line-height:2;">
-        <strong style="color:var(--color-text);">Soft:</strong>
+</div>
+<div class="card">
+<span class="card-label">Dark Mode Rules</span>
+<div style="font-size:13px;color:var(--color-muted);line-height:2;">
+<strong style="color:var(--color-text);">Soft:</strong>
         Header، کارت‌های کم‌ارتفاع و سطوح سبک.
         <br/>
-
-        <strong style="color:var(--color-text);">Default:</strong>
+<strong style="color:var(--color-text);">Default:</strong>
         کارت‌های اصلی محتوا و Video Card.
         <br/>
-
-        <strong style="color:var(--color-text);">Strong:</strong>
+<strong style="color:var(--color-text);">Strong:</strong>
         Dropdown، Modal، Drawer و Floating UI.
         <br/><br/>
 
         در Dark Mode از shadowهای Light برای ایجاد Depth استفاده نمی‌شود.
         هر سطح باید Border و Shadow متناظر خودش را داشته باشد.
       </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ 9. SPACING ═══════════ -->
-  <section class="section" id="spacing">
-    <p class="section-title">10 — Spacing</p>
-    <h2 class="section-heading">Spacing Cheatsheet</h2>
-
-    <div class="card">
-      <span class="card-label">Padding پیشنهادی برای سطوح مختلف</span>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;">badge، chip، tag</div>
-            <div style="font-size:12px;color:var(--color-muted);">12px × 20px</div>
-          </div>
-          <code>px-5 py-3</code>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;">کارت درس، کارت آمار، ناوبار</div>
-            <div style="font-size:12px;color:var(--color-muted);">24px</div>
-          </div>
-          <code>p-6</code>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;">پنل سایدبار، کارت نتیجه دیکته</div>
-            <div style="font-size:12px;color:var(--color-muted);">28px</div>
-          </div>
-          <code>p-7</code>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;">مودال، drawer، bottom sheet</div>
-            <div style="font-size:12px;color:var(--color-muted);">32px</div>
-          </div>
-          <code>p-8</code>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;">فاصله عمودی بین section‌ها</div>
-            <div style="font-size:12px;color:var(--color-muted);">48–64px vertical</div>
-          </div>
-          <code>my-12</code>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;">دکمه</div>
-            <div style="font-size:12px;color:var(--color-muted);">12px × 28px</div>
-          </div>
-          <code>px-7 py-3</code>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ 10. USAGE ═══════════ -->
-  <section class="section" id="usage">
-    <p class="section-title">11 — Usage</p>
-    <h2 class="section-heading">نحوه استفاده از توکن‌ها در Tailwind v4</h2>
-
-    <div class="card">
-      <span class="card-label">روش صحیح — Arbitrary Value با CSS var</span>
-      <div style="font-size:13px;color:var(--color-muted);margin-bottom:14px;line-height:1.8;">
+</div>
+</section>
+<!-- ═══════════ 9. SPACING ═══════════ -->
+<section class="section" id="spacing">
+<p class="section-title">10 — Spacing</p>
+<h2 class="section-heading">Spacing Cheatsheet</h2>
+<div class="card">
+<span class="card-label">Padding پیشنهادی برای سطوح مختلف</span>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:13px;font-weight:700;">badge، chip، tag</div>
+<div style="font-size:12px;color:var(--color-muted);">12px × 20px</div>
+</div>
+<code>px-5 py-3</code>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:13px;font-weight:700;">کارت درس، کارت آمار، ناوبار</div>
+<div style="font-size:12px;color:var(--color-muted);">24px</div>
+</div>
+<code>p-6</code>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:13px;font-weight:700;">پنل سایدبار، کارت نتیجه دیکته</div>
+<div style="font-size:12px;color:var(--color-muted);">28px</div>
+</div>
+<code>p-7</code>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:13px;font-weight:700;">مودال، drawer، bottom sheet</div>
+<div style="font-size:12px;color:var(--color-muted);">32px</div>
+</div>
+<code>p-8</code>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:13px;font-weight:700;">فاصله عمودی بین section‌ها</div>
+<div style="font-size:12px;color:var(--color-muted);">48–64px vertical</div>
+</div>
+<code>my-12</code>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(139,92,246,0.05);border-radius:var(--radius-sm);flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:13px;font-weight:700;">دکمه</div>
+<div style="font-size:12px;color:var(--color-muted);">12px × 28px</div>
+</div>
+<code>px-7 py-3</code>
+</div>
+</div>
+</div>
+</section>
+<!-- ═══════════ 10. USAGE ═══════════ -->
+<section class="section" id="usage">
+<p class="section-title">11 — Usage</p>
+<h2 class="section-heading">نحوه استفاده از توکن‌ها در Tailwind v4</h2>
+<div class="card">
+<span class="card-label">روش صحیح — Arbitrary Value با CSS var</span>
+<div style="font-size:13px;color:var(--color-muted);margin-bottom:14px;line-height:1.8;">
         در تیلویند v4 توکن‌های <code>@theme</code> مستقیم به CSS custom property تبدیل میشن.
         برای استفاده از اونا در کلاس‌های arbitrary باید از <code>var()</code> یا shorthand استفاده کنی:
       </div>
-      <pre><code>&lt;!-- رنگ پس‌زمینه --&gt;
+<pre><code>&lt;!-- رنگ پس‌زمینه --&gt;
 &lt;div class="bg-bg"&gt;...&lt;/div&gt;
 
 &lt;!-- رنگ متن --&gt;
@@ -1326,11 +1182,9 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
 
 &lt;!-- font --&gt;
 &lt;p class="font-sans"&gt;...&lt;/p&gt;</code></pre>
-
-      <div class="divider"></div>
-
-      <span class="card-label">یه کارت کامل از صفر</span>
-      <pre><code>&lt;div class="bg-surface backdrop-blur-md
+<div class="divider"></div>
+<span class="card-label">یه کارت کامل از صفر</span>
+<pre><code>&lt;div class="bg-surface backdrop-blur-md
             border border-white/65
             rounded-lg
             shadow-card
@@ -1353,16 +1207,13 @@ inset 0 1px 0 rgba(255,255,255,0.8)</code></pre>
   &lt;/button&gt;
 
 &lt;/div&gt;</code></pre>
-    </div>
-  </section>
-  </div>
-
-
-  <!-- footer -->
-  <footer style="text-align:center;padding:32px 0;color:var(--color-muted);font-size:12px;border-top:1px solid rgba(139,92,246,0.1);">
-    <span style="color:var(--color-primary-light);font-weight:700;">دیکته‌خونه</span> · Design System · Liquid Glass · Tailwind v4 · Dana
+</div>
+</section>
+</div>
+<!-- footer -->
+<footer style="text-align:center;padding:32px 0;color:var(--color-muted);font-size:12px;border-top:1px solid rgba(139,92,246,0.1);">
+<span style="color:var(--color-primary-light);font-weight:700;">دیکته‌خونه</span> · Design System · Liquid Glass · Tailwind v4 · Dana
   </footer>
 
-</div>
 </body>
 </html>

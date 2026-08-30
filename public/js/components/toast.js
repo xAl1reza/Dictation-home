@@ -201,11 +201,11 @@ const createToastElement = ({ type, title, message }) => {
 
     messageElement.className = `
       mt-1
-      !font-Dana-regular
-      !text-xs
-      !leading-6
-      !text-mutedColor
-      dark:!text-mutedColor-dark
+      font-Dana-regular
+      text-xs
+      leading-6
+      text-mutedColor
+      dark:text-mutedColor-dark
     `
 
     messageElement.textContent = message

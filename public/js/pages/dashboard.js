@@ -43,8 +43,17 @@
     }
   }
 
+  const redirectToLogin = () => {
+    window.location.replace('./auth.html#login')
+  }
+
   const refreshDashboardScoreData = async (user = null) => {
     const currentUser = user || (await window.userService.getCurrentUser())
+
+    if (!currentUser?.id) {
+      redirectToLogin()
+      return null
+    }
 
     const summary = await window.gameResultService.getUserScoreSummary(
       currentUser.id
@@ -60,15 +69,39 @@
     }
   }
 
+  const initDashboardLogout = () => {
+    const logoutButtons = document.querySelectorAll('[data-dashboard-logout]')
+
+    logoutButtons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        button.disabled = true
+
+        try {
+          await window.authService.logout()
+
+          window.location.replace('./auth.html#login')
+        } catch (error) {
+          console.error('Failed to logout:', error)
+
+          button.disabled = false
+        }
+      })
+    })
+  }
+
   const initDashboard = async () => {
     try {
-      await refreshDashboardScoreData()
+      const scoreData = await refreshDashboardScoreData()
+
+      if (!scoreData) return
 
       updateDashboardActiveLink()
 
       initDashboardDrawer()
 
       initDashboardNavigation(renderDashboardView)
+
+      initDashboardLogout()
 
       await renderDashboardView()
     } catch (error) {
