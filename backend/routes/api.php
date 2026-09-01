@@ -191,3 +191,25 @@ Router::get("/api/v1/games/history", function () {
     $controller->history($user);
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::get("/api/v1/dashboard/stats", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new DashboardController($db);
+
+    $controller->index($user);
+
+});

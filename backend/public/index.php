@@ -14,6 +14,7 @@ require_once __DIR__ . "/../app/Models/User.php";
 require_once __DIR__ . "/../app/Models/Folder.php";
 require_once __DIR__ . "/../app/Models/Word.php";
 require_once __DIR__ . "/../app/Models/GameResult.php";
+require_once __DIR__ . "/../app/Models/Dashboard.php";
 
 
 
@@ -32,7 +33,7 @@ require_once __DIR__ . "/../app/Controllers/AuthController.php";
 require_once __DIR__ . "/../app/Controllers/FolderController.php";
 require_once __DIR__ . "/../app/Controllers/WordController.php";
 require_once __DIR__ . "/../app/Controllers/GameResultController.php";
-
+require_once __DIR__ . "/../app/Controllers/DashboardController.php";
 
 
 // Routes
