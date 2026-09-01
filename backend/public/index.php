@@ -17,6 +17,8 @@ require_once __DIR__ . "/../app/Services/AuthService.php";
 
 // Controllers
 require_once __DIR__ . "/../app/Controllers/AuthController.php";
+require_once __DIR__ . "/../app/Models/Folder.php";
+require_once __DIR__ . "/../app/Controllers/FolderController.php";
 
 // Middleware
 require_once __DIR__ . "/../app/Middleware/AuthMiddleware.php";

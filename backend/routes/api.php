@@ -47,6 +47,15 @@ Router::post("/api/v1/auth/login", function () {
 
 });
 
+
+
+/*
+|--------------------------------------------------------------------------
+| User Routes
+|--------------------------------------------------------------------------
+*/
+
+
 Router::get("/api/v1/me", function () {
 
     $db = Database::connect();
@@ -60,5 +69,46 @@ Router::get("/api/v1/me", function () {
         $user,
         "Authenticated user"
     );
+
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Folder Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::get("/api/v1/folders", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new FolderController($db);
+
+    $controller->index($user);
+
+});
+
+
+
+Router::post("/api/v1/folders", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new FolderController($db);
+
+    $controller->store($user);
 
 });
