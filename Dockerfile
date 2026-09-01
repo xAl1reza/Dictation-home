@@ -1,18 +1,16 @@
-# مرحله build
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY frontend/package*.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . .
+COPY frontend .
 
-# build tailwind
 RUN npx @tailwindcss/cli -i ./src/input.css -o ./public/styles/style.css --minify
 
-# مرحله runtime
+
 FROM node:20-alpine AS runner
 
 WORKDIR /app
