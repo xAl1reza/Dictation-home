@@ -46,3 +46,19 @@ Router::post("/api/v1/auth/login", function () {
     $controller->login();
 
 });
+
+Router::get("/api/v1/me", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    Response::success(
+        $user,
+        "Authenticated user"
+    );
+
+});
