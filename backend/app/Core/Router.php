@@ -23,20 +23,36 @@ class Router
 
         $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
-$basePath = "/dictation-home/backend/public";
 
-if (str_starts_with($uri, $basePath)) {
-    $uri = substr($uri, strlen($basePath));
-}
+        $basePath = "/dictation-home/backend/public";
+
+        if (str_starts_with($uri, $basePath)) {
+            $uri = substr($uri, strlen($basePath));
+        }
 
 
-        if (isset(self::$routes[$method][$uri])) {
+        foreach (self::$routes[$method] ?? [] as $route => $callback) {
 
-            call_user_func(
-                self::$routes[$method][$uri]
+            $pattern = preg_replace(
+                '/\{[a-zA-Z]+\}/',
+                '([^/]+)',
+                $route
             );
 
-            return;
+            $pattern = "#^" . $pattern . "$#";
+
+
+            if (preg_match($pattern, $uri, $matches)) {
+
+                array_shift($matches);
+
+                call_user_func_array(
+                    $callback,
+                    $matches
+                );
+
+                return;
+            }
         }
 
 

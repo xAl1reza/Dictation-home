@@ -1,0 +1,22 @@
+CREATE TABLE words (
+
+    id CHAR(36) PRIMARY KEY,
+
+    folder_id CHAR(36) NOT NULL,
+
+    word VARCHAR(100) NOT NULL,
+
+    description TEXT DEFAULT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+    ON UPDATE CURRENT_TIMESTAMP,
+
+
+    CONSTRAINT fk_words_folder
+    FOREIGN KEY (folder_id)
+    REFERENCES folders(id)
+    ON DELETE CASCADE
+
+);

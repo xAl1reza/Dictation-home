@@ -112,3 +112,43 @@ Router::post("/api/v1/folders", function () {
     $controller->store($user);
 
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Word Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::get("/api/v1/folders/{folderId}/words", function ($folderId) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new WordController($db);
+
+    $controller->index($folderId);
+
+});
+
+
+
+Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new WordController($db);
+
+    $controller->store($folderId);
+
+});
