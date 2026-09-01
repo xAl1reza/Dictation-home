@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    container_name: dictation-frontend
     ports:
-      - "3000:3000"
+      - '3000:80'
     restart: unless-stopped

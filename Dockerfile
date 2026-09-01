@@ -1,3 +1,4 @@
+# مرحله build
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -11,16 +12,12 @@ COPY frontend .
 RUN npx @tailwindcss/cli -i ./src/input.css -o ./public/styles/style.css --minify
 
 
-FROM node:20-alpine AS runner
 
-WORKDIR /app
+# مرحله runtime
+FROM nginx:alpine
 
-ENV NODE_ENV=production
+COPY --from=builder /app/public /usr/share/nginx/html
 
-RUN npm install -g serve
+EXPOSE 80
 
-COPY --from=builder /app ./
-
-EXPOSE 3000
-
-CMD ["serve", "public", "-l", "3000"]
+CMD ["nginx", "-g", "daemon off;"]
