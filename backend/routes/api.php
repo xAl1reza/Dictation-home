@@ -152,3 +152,42 @@ Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
     $controller->store($folderId);
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Game Result Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::post("/api/v1/games/results", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new GameResultController($db);
+
+    $controller->store($user);
+
+});
+
+
+
+Router::get("/api/v1/games/history", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new GameResultController($db);
+
+    $controller->history($user);
+
+});
