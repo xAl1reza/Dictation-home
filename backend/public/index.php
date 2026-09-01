@@ -1,10 +1,12 @@
 <?php
 
 require_once __DIR__ . "/../app/Core/Database.php";
+require_once __DIR__ . "/../app/Core/Request.php";
+require_once __DIR__ . "/../app/Core/Response.php";
+require_once __DIR__ . "/../app/Core/Router.php";
 
-$db = Database::connect();
 
-echo json_encode([
-    "success" => true,
-    "message" => "Database connected successfully"
-]);
+require_once __DIR__ . "/../routes/api.php";
+
+
+Router::dispatch();

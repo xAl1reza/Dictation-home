@@ -1,2 +1,10 @@
 <?php
-// API Routes
+
+Router::get("/api/v1/test", function () {
+
+    Response::success(
+        [],
+        "API is working"
+    );
+
+});
