@@ -11,31 +11,73 @@ class Folder
     }
 
 
-
-    public function getByUserId($userId)
+    public function getByUserId($userId, $type = null)
     {
-        $query = $this->db->prepare(
-            "SELECT 
-                id,
-                title,
-                type,
-                created_at,
-                updated_at
-             FROM folders
-             WHERE user_id = :user_id
-             ORDER BY created_at DESC"
-        );
+        $sql = "
+            SELECT
+                f.id,
+                f.title,
+                f.type,
+                f.created_at AS createdAt,
+                f.updated_at AS updatedAt,
+
+                (
+                    SELECT COUNT(*)
+                    FROM words w
+                    WHERE w.folder_id = f.id
+                ) AS wordCount
+
+            FROM folders f
+
+            WHERE f.user_id = :user_id
+        ";
 
 
-        $query->execute([
+        $params = [
             "user_id" => $userId
-        ]);
+        ];
 
 
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($type !== null) {
+
+            $sql .= " AND f.type = :type";
+
+            $params["type"] = $type;
+        }
+
+
+        $sql .= " ORDER BY f.created_at DESC";
+
+
+        $query = $this->db->prepare($sql);
+
+        $query->execute($params);
+
+
+        $folders = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+        return array_map(function ($folder) {
+
+            return [
+                "id" => $folder["id"],
+                "title" => $folder["title"],
+                "type" => $folder["type"],
+
+                "ownerType" => "user",
+                "locked" => false,
+
+                "wordCount" => (int) $folder["wordCount"],
+
+                // Science API is implemented in the next stage.
+                "questionCount" => 0,
+
+                "createdAt" => $folder["createdAt"],
+                "updatedAt" => $folder["updatedAt"]
+            ];
+
+        }, $folders);
     }
-
-
 
 
     public function create($data)
@@ -69,11 +111,15 @@ class Folder
         return [
             "id" => $data["id"],
             "title" => $data["title"],
-            "type" => $data["type"]
+            "type" => $data["type"],
+
+            "ownerType" => "user",
+            "locked" => false,
+
+            "wordCount" => 0,
+            "questionCount" => 0
         ];
     }
-
-
 
 
     public function findById($id, $userId)
@@ -95,8 +141,6 @@ class Folder
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
-
-
 
 
     public function delete($id, $userId)

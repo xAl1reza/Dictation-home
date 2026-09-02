@@ -132,7 +132,10 @@ Router::get("/api/v1/folders/{folderId}/words", function ($folderId) {
 
     $controller = new WordController($db);
 
-    $controller->index($folderId);
+    $controller->index(
+    $user,
+    $folderId
+);
 
 });
 
@@ -149,7 +152,10 @@ Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
 
     $controller = new WordController($db);
 
-    $controller->store($folderId);
+    $controller->store(
+    $user,
+    $folderId
+);
 
 });
 
@@ -160,7 +166,7 @@ Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
 */
 
 
-Router::post("/api/v1/games/results", function () {
+Router::post("/api/v1/game-results", function () {
 
     $db = Database::connect();
 
@@ -176,8 +182,7 @@ Router::post("/api/v1/games/results", function () {
 });
 
 
-
-Router::get("/api/v1/games/history", function () {
+Router::get("/api/v1/game-results", function () {
 
     $db = Database::connect();
 

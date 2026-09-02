@@ -11,11 +11,36 @@ class FolderController
     }
 
 
-
     public function index($user)
     {
+        $type = isset($_GET["type"])
+            ? trim($_GET["type"])
+            : null;
+
+
+        if (
+            $type !== null &&
+            $type !== "" &&
+            !in_array($type, ["dictation", "science"], true)
+        ) {
+
+            Response::error(
+                "Invalid folder type",
+                400
+            );
+
+            return;
+        }
+
+
+        if ($type === "") {
+            $type = null;
+        }
+
+
         $folders = $this->folderModel->getByUserId(
-            $user["id"]
+            $user["id"],
+            $type
         );
 
 
@@ -26,8 +51,6 @@ class FolderController
     }
 
 
-
-
     public function store($user)
     {
         try {
@@ -35,9 +58,13 @@ class FolderController
             $data = Request::body();
 
 
+            $title = trim($data["title"] ?? "");
+            $type = trim($data["type"] ?? "");
+
+
             if (
-                empty($data["title"]) ||
-                empty($data["type"])
+                $title === "" ||
+                $type === ""
             ) {
 
                 Response::error(
@@ -45,17 +72,18 @@ class FolderController
                     400
                 );
 
+                return;
             }
-
 
 
             if (
                 !in_array(
-                    $data["type"],
+                    $type,
                     [
                         "dictation",
                         "science"
-                    ]
+                    ],
+                    true
                 )
             ) {
 
@@ -64,17 +92,16 @@ class FolderController
                     400
                 );
 
+                return;
             }
-
 
 
             $folder = $this->folderModel->create([
                 "id" => $this->uuid(),
                 "user_id" => $user["id"],
-                "title" => $data["title"],
-                "type" => $data["type"]
+                "title" => $title,
+                "type" => $type
             ]);
-
 
 
             Response::success(
@@ -94,9 +121,6 @@ class FolderController
     }
 
 
-
-
-
     public function destroy($user, $id)
     {
         $folder = $this->folderModel->findById(
@@ -112,6 +136,7 @@ class FolderController
                 404
             );
 
+            return;
         }
 
 
@@ -126,9 +151,6 @@ class FolderController
             "Folder deleted successfully"
         );
     }
-
-
-
 
 
     private function uuid()
