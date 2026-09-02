@@ -1801,6 +1801,9 @@
   .pb-10 {
     padding-bottom: calc(var(--spacing) * 10);
   }
+  .pl-11 {
+    padding-left: calc(var(--spacing) * 11);
+  }
   .pl-12 {
     padding-left: calc(var(--spacing) * 12);
   }
@@ -6605,6 +6608,362 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .password-strength, .password-strength__status, .password-strength__segment, .password-rule, .password-rule__icon {
     transition: none !important;
+  }
+}
+jdp-container {
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  padding: 14px !important;
+  direction: rtl !important;
+  font-family: 'Dana-regular', sans-serif !important;
+  color: var(--color-textColor) !important;
+  border: 1px solid color-mix(in srgb, #8b5cf6 16%, rgba(34, 28, 66, 0.08)) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in oklab, var(--color-primary) 16%, rgba(34, 28, 66, 0.08)) !important;
+  }
+  border-radius: var(--radius-md) !important;
+  background: radial-gradient( circle at 88% 8%, color-mix(in srgb, #8b5cf6 9%, transparent), transparent 36% ), color-mix(in srgb, #f6f4ff 94%, white 6%) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: radial-gradient( circle at 88% 8%, color-mix(in oklab, var(--color-primary) 9%, transparent), transparent 36% ), color-mix(in oklab, var(--color-bg) 94%, white 6%) !important;
+  }
+  box-shadow: var(--shadow-floating), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(var(--blur-md)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-md)) !important;
+  overflow: hidden !important;
+}
+.dark jdp-container {
+  color: var(--color-textColor-dark) !important;
+  border-color: var(--color-border-dark-strong) !important;
+  background: radial-gradient( circle at 88% 8%, color-mix(in srgb, #8b5cf6 15%, transparent), transparent 38% ), linear-gradient( 145deg, color-mix(in srgb, white 5%, transparent), transparent 60% ), color-mix(in srgb, #111326 90%, white 10%) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: radial-gradient( circle at 88% 8%, color-mix(in oklab, var(--color-primary) 15%, transparent), transparent 38% ), linear-gradient( 145deg, color-mix(in oklab, white 5%, transparent), transparent 60% ), color-mix(in oklab, var(--color-bg-dark-secondary) 90%, white 10%) !important;
+  }
+  box-shadow: var(--shadow-floating-dark), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+}
+jdp-container, jdp-container *, jdp-container *::before, jdp-container *::after {
+  box-sizing: border-box;
+  font-family: 'Dana-regular', sans-serif !important;
+}
+jdp-container > .jdp-years, jdp-container > .jdp-months {
+  display: grid !important;
+  grid-template-columns: 38px 1fr 38px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-height: 44px !important;
+  margin: 0 0 8px !important;
+  color: var(--color-textColor) !important;
+}
+.dark jdp-container > .jdp-years, .dark jdp-container > .jdp-months {
+  color: var(--color-textColor-dark) !important;
+}
+jdp-container .jdp-months, jdp-container .jdp-years {
+  width: 100%;
+}
+jdp-container .jdp-year, jdp-container .jdp-month {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  border: 1px solid color-mix(in srgb, #221c42 8%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in oklab, var(--color-textColor) 8%, transparent) !important;
+  }
+  border-radius: var(--radius-sm) !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  overflow: hidden !important;
+}
+.dark jdp-container .jdp-year, .dark jdp-container .jdp-month {
+  border-color: var(--color-border-dark) !important;
+  background: var(--color-surface-dark-soft) !important;
+}
+jdp-container .jdp-year > select, jdp-container .jdp-month > select {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 12px !important;
+  border: 0 !important;
+  outline: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+  color: var(--color-textColor) !important;
+  font-family: 'Dana-medium', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  cursor: pointer !important;
+}
+.dark jdp-container .jdp-year > select, .dark jdp-container .jdp-month > select {
+  color: var(--color-textColor-dark) !important;
+}
+.dark jdp-container .jdp-year > select option, .dark jdp-container .jdp-month > select option {
+  background: var(--color-bg-dark-secondary) !important;
+  color: var(--color-textColor-dark) !important;
+}
+jdp-container .jdp-icon-plus, jdp-container .jdp-icon-minus {
+  width: 38px !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid color-mix(in srgb, #8b5cf6 16%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in oklab, var(--color-primary) 16%, transparent) !important;
+  }
+  border-radius: 9999px !important;
+  background: color-mix(in srgb, #8b5cf6 7%, white) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in oklab, var(--color-primary) 7%, white) !important;
+  }
+  color: var(--color-primary) !important;
+  fill: var(--color-primary) !important;
+  cursor: pointer !important;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease !important;
+}
+jdp-container .jdp-icon-plus:hover, jdp-container .jdp-icon-minus:hover {
+  transform: translateY(-1px) !important;
+  border-color: color-mix( in oklab, #8b5cf6 36%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix( in oklab, var(--color-primary) 36%, transparent ) !important;
+  }
+  background: color-mix(in srgb, #8b5cf6 13%, white) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in oklab, var(--color-primary) 13%, white) !important;
+  }
+}
+.dark jdp-container .jdp-icon-plus, .dark jdp-container .jdp-icon-minus {
+  border-color: var(--color-border-dark) !important;
+  background: color-mix( in oklab, #8b5cf6 12%, rgba(255, 255, 255, 0.055) ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 12%, var(--color-surface-dark-soft) ) !important;
+  }
+  color: var(--color-primary-light) !important;
+  fill: var(--color-primary-light) !important;
+}
+jdp-container .jdp-icon-plus svg, jdp-container .jdp-icon-minus svg {
+  width: 16px !important;
+  height: 16px !important;
+  padding: 0 !important;
+  fill: currentColor !important;
+}
+jdp-container .jdp-icon-plus.not-in-range, jdp-container .jdp-icon-minus.not-in-range {
+  opacity: 0.25 !important;
+  pointer-events: none !important;
+}
+jdp-container > .jdp-days-header {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  margin: 6px 0 4px !important;
+  padding: 6px 4px !important;
+  border: 1px solid color-mix(in srgb, #8b5cf6 7%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in oklab, var(--color-primary) 7%, transparent) !important;
+  }
+  border-radius: var(--radius-sm) !important;
+  background: color-mix( in oklab, #8b5cf6 5%, rgba(255, 255, 255, 0.55) ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 5%, rgba(255, 255, 255, 0.55) ) !important;
+  }
+}
+.dark jdp-container > .jdp-days-header {
+  border-color: var(--color-border-dark-soft) !important;
+  background: color-mix( in oklab, #8b5cf6 10%, rgba(255, 255, 255, 0.055) ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 10%, var(--color-surface-dark-soft) ) !important;
+  }
+}
+jdp-container .jdp-day-name {
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  color: var(--color-mutedColor) !important;
+  font-family: 'Dana-medium', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+.dark jdp-container .jdp-day-name {
+  color: var(--color-mutedColor-dark) !important;
+}
+jdp-container .jdp-day-name.last-week, jdp-container .jdp-day-name.holiday-day {
+  color: var(--color-secondary) !important;
+}
+jdp-container > .jdp-days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 3px !important;
+  padding: 4px 0 !important;
+}
+jdp-container .jdp-day {
+  width: 100% !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid transparent !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+  color: var(--color-textColor) !important;
+  font-family: 'Dana-regular', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease !important;
+}
+.dark jdp-container .jdp-day {
+  color: var(--color-textColor-dark) !important;
+}
+jdp-container .jdp-day:not(.disabled-day):hover {
+  transform: translateY(-1px) scale(1.04) !important;
+  border-color: color-mix( in oklab, #8b5cf6 14%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix( in oklab, var(--color-primary) 14%, transparent ) !important;
+  }
+  background: color-mix( in oklab, #8b5cf6 10%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 10%, transparent ) !important;
+  }
+  color: var(--color-primary) !important;
+}
+.dark jdp-container .jdp-day:not(.disabled-day):hover {
+  border-color: color-mix( in oklab, #a78bfa 18%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix( in oklab, var(--color-primary-light) 18%, transparent ) !important;
+  }
+  background: color-mix( in oklab, #8b5cf6 16%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 16%, transparent ) !important;
+  }
+  color: var(--color-primary-light) !important;
+}
+jdp-container .jdp-day.today {
+  border-color: color-mix( in oklab, #8b5cf6 40%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix( in oklab, var(--color-primary) 40%, transparent ) !important;
+  }
+  background: color-mix( in oklab, #8b5cf6 6%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 6%, transparent ) !important;
+  }
+  color: var(--color-primary) !important;
+  font-family: 'Dana-medium', sans-serif !important;
+}
+jdp-container .jdp-day.selected {
+  border-color: var(--color-primary) !important;
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 22px color-mix(in srgb, #8b5cf6 28%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    box-shadow: 0 8px 22px color-mix(in oklab, var(--color-primary) 28%, transparent) !important;
+  }
+  font-family: 'Dana-medium', sans-serif !important;
+}
+jdp-container .jdp-day.last-week, jdp-container .jdp-day.holiday-day {
+  color: var(--color-secondary) !important;
+}
+jdp-container .jdp-day.selected.last-week, jdp-container .jdp-day.selected.holiday-day {
+  color: #fff !important;
+}
+jdp-container .jdp-day.not-in-month {
+  opacity: 0.26 !important;
+}
+jdp-container .jdp-day.disabled-day {
+  opacity: 0.22 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+jdp-container > .jdp-footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin-top: 8px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid color-mix(in srgb, #221c42 7%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-top: 1px solid color-mix(in oklab, var(--color-textColor) 7%, transparent) !important;
+  }
+}
+.dark jdp-container > .jdp-footer {
+  border-top-color: var(--color-border-dark-soft) !important;
+}
+jdp-container .jdp-btn-empty, jdp-container .jdp-btn-close, jdp-container .jdp-btn-today {
+  min-height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 7px 14px !important;
+  border: 1px solid color-mix(in srgb, #8b5cf6 14%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent) !important;
+  }
+  border-radius: 9999px !important;
+  background: transparent !important;
+  color: var(--color-mutedColor) !important;
+  font-family: 'Peyda-medium', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease !important;
+}
+jdp-container .jdp-btn-empty:hover, jdp-container .jdp-btn-close:hover, jdp-container .jdp-btn-today:hover {
+  transform: translateY(-1px) !important;
+  border-color: color-mix( in oklab, #8b5cf6 32%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix( in oklab, var(--color-primary) 32%, transparent ) !important;
+  }
+  background: color-mix( in oklab, #8b5cf6 8%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 8%, transparent ) !important;
+  }
+  color: var(--color-primary) !important;
+}
+.dark jdp-container .jdp-btn-empty, .dark jdp-container .jdp-btn-close, .dark jdp-container .jdp-btn-today {
+  border-color: var(--color-border-dark) !important;
+  color: var(--color-mutedColor-dark) !important;
+}
+.dark jdp-container .jdp-btn-empty:hover, .dark jdp-container .jdp-btn-close:hover, .dark jdp-container .jdp-btn-today:hover {
+  background: color-mix( in oklab, #8b5cf6 14%, transparent ) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix( in oklab, var(--color-primary) 14%, transparent ) !important;
+  }
+  color: var(--color-primary-light) !important;
+}
+@media (max-width: 481px) {
+  jdp-overlay {
+    background: rgba(9, 9, 15, 0.42) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+  }
+  jdp-container {
+    width: calc(100% - 16px) !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 16px) !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    top: auto !important;
+    padding: 14px !important;
+    border-radius: var(--radius-md) !important;
+  }
+  jdp-container .jdp-day {
+    height: 42px !important;
+    min-height: 42px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  jdp-container *, jdp-container *::before, jdp-container *::after {
+    transition: none !important;
+    animation: none !important;
   }
 }
 @property --tw-translate-x {

@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@majidh1/jalalidatepicker": "^1.0.0",
     "@tailwindcss/cli": "^4.3.0",
     "sweetalert2": "^11.26.24",
     "swiper": "^12.1.4",

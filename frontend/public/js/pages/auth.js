@@ -1,6 +1,42 @@
 /* Auth page controller */
 
 ;(() => {
+  const NATIONAL_CODE_PATTERN = /^[0-9]{10}$/
+  const MOBILE_PATTERN = /^09\d{9}$/
+
+  const normalizeDigits = (value) => {
+    return String(value || '')
+      .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+      .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+  }
+
+  const isNationalCodeValid = (value) => {
+    const nationalCode = normalizeDigits(value).trim()
+
+    if (!NATIONAL_CODE_PATTERN.test(nationalCode)) {
+      return false
+    }
+
+    if (/^(\d)\1{9}$/.test(nationalCode)) {
+      return false
+    }
+
+    const checkDigit = Number(nationalCode[9])
+
+    const sum = nationalCode
+      .slice(0, 9)
+      .split('')
+      .reduce((total, digit, index) => {
+        return total + Number(digit) * (10 - index)
+      }, 0)
+
+    const remainder = sum % 11
+
+    return remainder < 2
+      ? checkDigit === remainder
+      : checkDigit === 11 - remainder
+  }
+
   const loginTab = document.getElementById('auth-login-tab')
   const registerTab = document.getElementById('auth-register-tab')
   const loginPanel = document.getElementById('auth-login-panel')
@@ -18,18 +54,17 @@
   const avatarImage = document.getElementById('register-avatar-image')
   const avatarName = document.getElementById('register-avatar-name')
 
-
   const registerPasswordInput = document.getElementById('register-password')
   const passwordStrength = document.getElementById('register-password-strength')
   const passwordStrengthLabel = document.getElementById(
-    'register-password-strength-label',
+    'register-password-strength-label'
   )
   const passwordRuleElements = Array.from(
-    document.querySelectorAll('[data-password-rule]'),
+    document.querySelectorAll('[data-password-rule]')
   )
 
   const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)',
+    '(prefers-reduced-motion: reduce)'
   ).matches
 
   const passwordStrengthLabels = {
@@ -41,11 +76,7 @@
   }
 
   const animatePasswordRule = (rule) => {
-    if (
-      prefersReducedMotion ||
-      !rule ||
-      typeof rule.animate !== 'function'
-    ) {
+    if (prefersReducedMotion || !rule || typeof rule.animate !== 'function') {
       return
     }
 
@@ -57,7 +88,7 @@
       {
         duration: 260,
         easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      },
+      }
     )
   }
 
@@ -102,11 +133,7 @@
   }
 
   const animatePanel = (panel) => {
-    if (
-      prefersReducedMotion ||
-      !panel ||
-      typeof panel.animate !== 'function'
-    ) {
+    if (prefersReducedMotion || !panel || typeof panel.animate !== 'function') {
       return
     }
 
@@ -119,7 +146,7 @@
         duration: 320,
         easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
         fill: 'backwards',
-      },
+      }
     )
   }
 
@@ -178,7 +205,16 @@
       clearFieldError(form, event.target.name)
     })
   })
-
+  ;[
+    document.getElementById('login-national-code'),
+    document.getElementById('register-national-code'),
+    document.getElementById('register-mother-phone'),
+    document.getElementById('register-father-phone'),
+  ].forEach((input) => {
+    input?.addEventListener('input', () => {
+      input.value = normalizeDigits(input.value).replace(/\D/g, '')
+    })
+  })
 
   registerPasswordInput?.addEventListener('input', updatePasswordStrength)
   updatePasswordStrength()
@@ -238,7 +274,7 @@
       input.type = showPassword ? 'text' : 'password'
       button.setAttribute(
         'aria-label',
-        showPassword ? 'پنهان کردن رمز عبور' : 'نمایش رمز عبور',
+        showPassword ? 'پنهان کردن رمز عبور' : 'نمایش رمز عبور'
       )
       button.setAttribute('aria-pressed', String(showPassword))
     })
@@ -260,7 +296,7 @@
       setFieldError(
         document.getElementById('register-form'),
         'avatar',
-        'فرمت عکس باید JPG، PNG یا WebP باشد.',
+        'فرمت عکس باید JPG، PNG یا WebP باشد.'
       )
       return
     }
@@ -270,7 +306,7 @@
       setFieldError(
         document.getElementById('register-form'),
         'avatar',
-        'حجم عکس باید حداکثر ۲ مگابایت باشد.',
+        'حجم عکس باید حداکثر ۲ مگابایت باشد.'
       )
       return
     }
@@ -283,11 +319,9 @@
     avatarInitial.classList.add('hidden')
     avatarName.textContent = file.name
 
-    avatarImage.addEventListener(
-      'load',
-      () => URL.revokeObjectURL(url),
-      { once: true },
-    )
+    avatarImage.addEventListener('load', () => URL.revokeObjectURL(url), {
+      once: true,
+    })
   })
 
   const setSubmitting = (form, submitting) => {
@@ -304,153 +338,205 @@
     window.location.assign('./dashboard.html')
   }
 
-  document.getElementById('login-form')?.addEventListener('submit', async (event) => {
-    event.preventDefault()
+  document
+    .getElementById('login-form')
+    ?.addEventListener('submit', async (event) => {
+      event.preventDefault()
 
-    const form = event.currentTarget
-    clearFormErrors(form)
+      const form = event.currentTarget
+      clearFormErrors(form)
 
-    const formData = new FormData(form)
-    const username = String(formData.get('username') || '').trim()
-    const password = String(formData.get('password') || '')
-
-    let valid = true
-
-    if (!username) {
-      setFieldError(form, 'username', 'نام کاربری را وارد کن.')
-      valid = false
-    }
-
-    if (!password) {
-      setFieldError(form, 'password', 'رمز عبور را وارد کن.')
-      valid = false
-    }
-
-    if (!valid) return
-
-    setSubmitting(form, true)
-
-    try {
-      await window.authService.login({ username, password })
-
-      window.showToast?.({
-        type: 'success',
-        title: 'خوش اومدی',
-        message: 'ورود با موفقیت انجام شد.',
-      })
-
-      redirectToDashboard()
-    } catch (error) {
-      if (error?.message === 'AUTH_LOGIN_INVALID') {
-        setFieldError(
-          form,
-          'password',
-          'نام کاربری یا رمز عبور درست نیست.',
-        )
-      } else {
-        window.showToast?.({
-          type: 'error',
-          message: 'ورود انجام نشد. دوباره تلاش کن.',
-        })
-      }
-    } finally {
-      setSubmitting(form, false)
-    }
-  })
-
-  document.getElementById('register-form')?.addEventListener('submit', async (event) => {
-    event.preventDefault()
-
-    const form = event.currentTarget
-    clearFormErrors(form)
-
-    const formData = new FormData(form)
-    const username = String(formData.get('username') || '').trim()
-    const schoolName = String(formData.get('schoolName') || '').trim()
-    const grade = String(formData.get('grade') || '').trim()
-    const password = String(formData.get('password') || '')
-    const confirmPassword = String(formData.get('confirmPassword') || '')
-    const avatarFile = avatarInput.files?.[0] || null
-
-    let valid = true
-
-    if (
-      username.length < window.authService.USERNAME_MIN_LENGTH ||
-      username.length > window.authService.USERNAME_MAX_LENGTH
-    ) {
-      setFieldError(form, 'username', 'نام کاربری باید بین ۳ تا ۳۰ کاراکتر باشد.')
-      valid = false
-    }
-
-    if (schoolName.length < 2) {
-      setFieldError(form, 'schoolName', 'نام مدرسه را وارد کن.')
-      valid = false
-    }
-
-    if (!grade) {
-      setFieldError(form, 'grade', 'پایه تحصیلی را انتخاب کن.')
-      valid = false
-    }
-
-    if (!window.authService.isPasswordValid(password)) {
-      setFieldError(
-        form,
-        'password',
-        'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.',
+      const formData = new FormData(form)
+      const nationalCode = normalizeDigits(
+        String(formData.get('nationalCode') || '').trim()
       )
-      valid = false
-    }
+      const password = String(formData.get('password') || '')
 
-    if (password !== confirmPassword) {
-      setFieldError(form, 'confirmPassword', 'تکرار رمز عبور یکسان نیست.')
-      valid = false
-    }
+      let valid = true
 
-    if (!valid) return
+      if (!isNationalCodeValid(nationalCode)) {
+        setFieldError(form, 'nationalCode', 'کد ملی واردشده معتبر نیست.')
+        valid = false
+      }
 
-    setSubmitting(form, true)
+      if (!password) {
+        setFieldError(form, 'password', 'رمز عبور را وارد کن.')
+        valid = false
+      }
 
-    try {
-      await window.authService.register({
-        username,
-        password,
-        schoolName,
-        grade,
-        avatarFile,
-      })
+      if (!valid) return
 
-      window.showToast?.({
-        type: 'success',
-        title: 'حساب ساخته شد',
-        message: 'ثبت‌نام با موفقیت انجام شد.',
-      })
+      setSubmitting(form, true)
 
-      redirectToDashboard()
-    } catch (error) {
-      const code = error?.message
+      try {
+        await window.authService.login({
+          nationalCode,
+          password,
+        })
 
-      if (code === 'AUTH_USERNAME_TAKEN') {
-        setFieldError(form, 'username', 'این نام کاربری قبلاً ثبت شده است.')
-      } else if (code === 'AUTH_PASSWORD_WEAK') {
+        window.showToast?.({
+          type: 'success',
+          title: 'خوش اومدی',
+          message: 'ورود با موفقیت انجام شد.',
+        })
+
+        redirectToDashboard()
+      } catch (error) {
+        if (error?.message === 'AUTH_LOGIN_INVALID') {
+          setFieldError(form, 'password', 'کد ملی یا رمز عبور درست نیست.')
+        } else {
+          window.showToast?.({
+            type: 'error',
+            message: 'ورود انجام نشد. دوباره تلاش کن.',
+          })
+        }
+      } finally {
+        setSubmitting(form, false)
+      }
+    })
+
+  document
+    .getElementById('register-form')
+    ?.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      const form = event.currentTarget
+      clearFormErrors(form)
+
+      const formData = new FormData(form)
+
+      const nationalCode = normalizeDigits(
+        String(formData.get('nationalCode') || '').trim()
+      )
+      const firstName = String(formData.get('firstName') || '').trim()
+      const lastName = String(formData.get('lastName') || '').trim()
+      const schoolName = String(formData.get('schoolName') || '').trim()
+      const grade = String(formData.get('grade') || '').trim()
+      const motherPhone = normalizeDigits(
+        String(formData.get('motherPhone') || '').trim()
+      )
+      const fatherPhone = normalizeDigits(
+        String(formData.get('fatherPhone') || '').trim()
+      )
+      const birthDate = String(formData.get('birthDate') || '').trim()
+      const password = String(formData.get('password') || '')
+      const confirmPassword = String(formData.get('confirmPassword') || '')
+      const avatarFile = avatarInput.files?.[0] || null
+
+      let valid = true
+
+      if (!isNationalCodeValid(nationalCode)) {
+        setFieldError(form, 'nationalCode', 'کد ملی واردشده معتبر نیست.')
+        valid = false
+      }
+
+      if (firstName.length < 2) {
+        setFieldError(form, 'firstName', 'نام را وارد کن.')
+        valid = false
+      }
+
+      if (lastName.length < 2) {
+        setFieldError(form, 'lastName', 'نام خانوادگی را وارد کن.')
+        valid = false
+      }
+
+      if (schoolName.length < 2) {
+        setFieldError(form, 'schoolName', 'نام مدرسه را وارد کن.')
+        valid = false
+      }
+
+      if (!grade) {
+        setFieldError(form, 'grade', 'پایه تحصیلی را انتخاب کن.')
+        valid = false
+      }
+
+      if (!MOBILE_PATTERN.test(motherPhone)) {
+        setFieldError(
+          form,
+          'motherPhone',
+          'شماره تلفن مادر باید ۱۱ رقم و با 09 شروع شود.'
+        )
+        valid = false
+      }
+
+      if (!MOBILE_PATTERN.test(fatherPhone)) {
+        setFieldError(
+          form,
+          'fatherPhone',
+          'شماره تلفن پدر باید ۱۱ رقم و با 09 شروع شود.'
+        )
+        valid = false
+      }
+
+      if (!birthDate) {
+        setFieldError(form, 'birthDate', 'تاریخ تولد را انتخاب کن.')
+        valid = false
+      }
+
+      if (!window.authService.isPasswordValid(password)) {
         setFieldError(
           form,
           'password',
-          'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.',
+          'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.'
         )
-      } else if (code === 'AUTH_AVATAR_TOO_LARGE') {
-        setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
-      } else if (code === 'AUTH_AVATAR_TYPE_INVALID') {
-        setFieldError(form, 'avatar', 'فرمت عکس باید JPG، PNG یا WebP باشد.')
-      } else {
-        window.showToast?.({
-          type: 'error',
-          message: 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
-        })
+        valid = false
       }
-    } finally {
-      setSubmitting(form, false)
-    }
-  })
+
+      if (password !== confirmPassword) {
+        setFieldError(form, 'confirmPassword', 'تکرار رمز عبور یکسان نیست.')
+        valid = false
+      }
+
+      if (!valid) return
+
+      setSubmitting(form, true)
+
+      try {
+        await window.authService.register({
+          nationalCode,
+          firstName,
+          lastName,
+          motherPhone,
+          fatherPhone,
+          birthDate,
+          password,
+          schoolName,
+          grade,
+          avatarFile,
+        })
+
+        window.showToast?.({
+          type: 'success',
+          title: 'حساب ساخته شد',
+          message: 'ثبت‌نام با موفقیت انجام شد.',
+        })
+
+        redirectToDashboard()
+      } catch (error) {
+        const code = error?.message
+
+        if (code === 'AUTH_NATIONAL_CODE_TAKEN') {
+          setFieldError(form, 'nationalCode', 'این کد ملی قبلاً ثبت شده است.')
+        } else if (code === 'AUTH_PASSWORD_WEAK') {
+          setFieldError(
+            form,
+            'password',
+            'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.'
+          )
+        } else if (code === 'AUTH_AVATAR_TOO_LARGE') {
+          setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
+        } else if (code === 'AUTH_AVATAR_TYPE_INVALID') {
+          setFieldError(form, 'avatar', 'فرمت عکس باید JPG، PNG یا WebP باشد.')
+        } else {
+          window.showToast?.({
+            type: 'error',
+            message: 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
+          })
+        }
+      } finally {
+        setSubmitting(form, false)
+      }
+    })
 
   setAuthMode(location.hash === '#register' ? 'register' : 'login', {
     updateHash: false,

@@ -1,344 +1,988 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html dir="rtl" lang="fa">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ورود و ثبت‌نام | دیکته خونه</title>
-<meta content="ورود یا ساخت حساب کاربری دیکته خونه." name="description"/>
-<meta content="noindex, nofollow" name="robots"/>
-<meta content="#f6f4ff" media="(prefers-color-scheme: light)" name="theme-color"/>
-<meta content="#09090f" media="(prefers-color-scheme: dark)" name="theme-color"/>
-<link href="./styles/style.css" rel="stylesheet"/>
-</head>
-<body class="bg-bg dark:bg-bg-dark">
-<a class="skip-link" href="#auth-main">پرش به فرم ورود</a>
-<!-- SVG icon sprite -->
-<svg aria-hidden="true" class="hidden" focusable="false">
-<symbol class="size-5" id="icon-sun" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-<path d="M24.90625 3.96875C24.863281 3.976563 24.820313 3.988281 24.78125 4C24.316406 4.105469 23.988281 4.523438 24 5L24 11C23.996094 11.359375 24.183594 11.695313 24.496094 11.878906C24.808594 12.058594 25.191406 12.058594 25.503906 11.878906C25.816406 11.695313 26.003906 11.359375 26 11L26 5C26.011719 4.710938 25.894531 4.433594 25.6875 4.238281C25.476563 4.039063 25.191406 3.941406 24.90625 3.96875 Z M 10.65625 9.84375C10.28125 9.910156 9.980469 10.183594 9.875 10.546875C9.769531 10.914063 9.878906 11.304688 10.15625 11.5625L14.40625 15.8125C14.648438 16.109375 15.035156 16.246094 15.410156 16.160156C15.78125 16.074219 16.074219 15.78125 16.160156 15.410156C16.246094 15.035156 16.109375 14.648438 15.8125 14.40625L11.5625 10.15625C11.355469 9.933594 11.054688 9.820313 10.75 9.84375C10.71875 9.84375 10.6875 9.84375 10.65625 9.84375 Z M 39.03125 9.84375C38.804688 9.875 38.59375 9.988281 38.4375 10.15625L34.1875 14.40625C33.890625 14.648438 33.753906 15.035156 33.839844 15.410156C33.925781 15.78125 34.21875 16.074219 34.589844 16.160156C34.964844 16.246094 35.351563 16.109375 35.59375 15.8125L39.84375 11.5625C40.15625 11.265625 40.246094 10.800781 40.0625 10.410156C39.875 10.015625 39.460938 9.789063 39.03125 9.84375 Z M 24.90625 15C24.875 15.007813 24.84375 15.019531 24.8125 15.03125C24.75 15.035156 24.6875 15.046875 24.625 15.0625C24.613281 15.074219 24.605469 15.082031 24.59375 15.09375C19.289063 15.320313 15 19.640625 15 25C15 30.503906 19.496094 35 25 35C30.503906 35 35 30.503906 35 25C35 19.660156 30.746094 15.355469 25.46875 15.09375C25.433594 15.09375 25.410156 15.0625 25.375 15.0625C25.273438 15.023438 25.167969 15.003906 25.0625 15C25.042969 15 25.019531 15 25 15C24.96875 15 24.9375 15 24.90625 15 Z M 24.9375 17C24.957031 17 24.980469 17 25 17C25.03125 17 25.0625 17 25.09375 17C29.46875 17.050781 33 20.613281 33 25C33 29.421875 29.421875 33 25 33C20.582031 33 17 29.421875 17 25C17 20.601563 20.546875 17.035156 24.9375 17 Z M 4.71875 24C4.167969 24.078125 3.78125 24.589844 3.859375 25.140625C3.9375 25.691406 4.449219 26.078125 5 26L11 26C11.359375 26.003906 11.695313 25.816406 11.878906 25.503906C12.058594 25.191406 12.058594 24.808594 11.878906 24.496094C11.695313 24.183594 11.359375 23.996094 11 24L5 24C4.96875 24 4.9375 24 4.90625 24C4.875 24 4.84375 24 4.8125 24C4.78125 24 4.75 24 4.71875 24 Z M 38.71875 24C38.167969 24.078125 37.78125 24.589844 37.859375 25.140625C37.9375 25.691406 38.449219 26.078125 39 26L45 26C45.359375 26.003906 45.695313 25.816406 45.878906 25.503906C46.058594 25.191406 46.058594 24.808594 45.878906 24.496094C45.695313 24.183594 45.359375 23.996094 45 24L39 24C38.96875 24 38.9375 24 38.90625 24C38.875 24 38.84375 24 38.8125 24C38.78125 24 38.75 24 38.71875 24 Z M 15 33.875C14.773438 33.90625 14.5625 34.019531 14.40625 34.1875L10.15625 38.4375C9.859375 38.679688 9.722656 39.066406 9.808594 39.441406C9.894531 39.8125 10.1875 40.105469 10.558594 40.191406C10.933594 40.277344 11.320313 40.140625 11.5625 39.84375L15.8125 35.59375C16.109375 35.308594 16.199219 34.867188 16.039063 34.488281C15.882813 34.109375 15.503906 33.867188 15.09375 33.875C15.0625 33.875 15.03125 33.875 15 33.875 Z M 34.6875 33.875C34.3125 33.941406 34.011719 34.214844 33.90625 34.578125C33.800781 34.945313 33.910156 35.335938 34.1875 35.59375L38.4375 39.84375C38.679688 40.140625 39.066406 40.277344 39.441406 40.191406C39.8125 40.105469 40.105469 39.8125 40.191406 39.441406C40.277344 39.066406 40.140625 38.679688 39.84375 38.4375L35.59375 34.1875C35.40625 33.988281 35.148438 33.878906 34.875 33.875C34.84375 33.875 34.8125 33.875 34.78125 33.875C34.75 33.875 34.71875 33.875 34.6875 33.875 Z M 24.90625 37.96875C24.863281 37.976563 24.820313 37.988281 24.78125 38C24.316406 38.105469 23.988281 38.523438 24 39L24 45C23.996094 45.359375 24.183594 45.695313 24.496094 45.878906C24.808594 46.058594 25.191406 46.058594 25.503906 45.878906C25.816406 45.695313 26.003906 45.359375 26 45L26 39C26.011719 38.710938 25.894531 38.433594 25.6875 38.238281C25.476563 38.039063 25.191406 37.941406 24.90625 37.96875Z"></path>
-</symbol>
-<symbol class="size-5" id="icon-moon" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.941406 2C25.464844 2.027344 25.074219 2.386719 25.007813 2.859375C24.941406 3.332031 25.21875 3.785156 25.671875 3.945313C32.292969 6.261719 37 12.566406 37 20C37 29.402344 29.402344 37 20 37C12.566406 37 6.261719 32.292969 3.945313 25.671875C3.78125 25.203125 3.296875 24.925781 2.8125 25.015625C2.324219 25.109375 1.980469 25.546875 2 26.042969C2.515625 38.28125 12.640625 48 25 48C37.691406 48 48 37.691406 48 25C48 12.640625 38.28125 2.515625 26.042969 2C26.007813 2 25.972656 2 25.941406 2 Z M 31.84375 5.203125C40.074219 8.039063 46 15.78125 46 25C46 36.609375 36.609375 46 25 46C15.78125 46 8.039063 40.074219 5.203125 31.84375C8.691406 36.183594 14 39 20 39C30.480469 39 39 30.480469 39 20C39 14 36.183594 8.691406 31.84375 5.203125Z"></path>
-</symbol>
-<symbol id="icon-star" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12,17.877L18.831,22l-1.813-7.77l6.035-5.228l-7.947-0.674L12,1L8.894,8.328L0.947,9.002l6.035,5.228L5.169,22L12,17.877z" fill="#FBBF24"></path>
-</symbol>
-<symbol id="icon-chevron" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-<path d="M32.136719 3.0625C31.875 3.0625 31.628906 3.167969 31.441406 3.351563L10.359375 24.265625C9.964844 24.65625 9.960938 25.289063 10.351563 25.679688L31.265625 46.765625C31.65625 47.15625 32.289063 47.160156 32.679688 46.769531L38.703125 40.796875C39.097656 40.40625 39.101563 39.773438 38.710938 39.378906L24.476563 25.03125L38.828125 10.796875C39.21875 10.40625 39.222656 9.773438 38.832031 9.382813L32.859375 3.359375C32.667969 3.164063 32.40625 3.058594 32.136719 3.0625 Z M 32.140625 5.476563L36.707031 10.078125L22.359375 24.3125C21.964844 24.703125 21.960938 25.335938 22.351563 25.730469L36.585938 40.078125L31.980469 44.644531L12.476563 24.980469Z" fill="currentColor"></path>
-</symbol>
-<symbol class="size-5" id="play-icon" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.396484 4.1113281C9.1042001 4.2020187 7 6.0721788 7 8.5917969L7 39.408203C7 42.767694 10.742758 44.971891 13.681641 43.34375L41.490234 27.935547C44.513674 26.260259 44.513674 21.739741 41.490234 20.064453L13.681641 4.65625C12.94692 4.2492148 12.160579 4.0810979 11.396484 4.1113281 z"></path>
-</symbol>
-</svg>
-<!-- Desktop header -->
-<header class="hidden lg:block sticky top-3 z-50 pt-3">
-<div class="page-container">
-<div class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-6 py-2.5">
-<a class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light" href="./index.html">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ورود و ثبت‌نام | دیکته خونه</title>
+    <meta content="ورود یا ساخت حساب کاربری دیکته خونه." name="description" />
+    <meta content="noindex, nofollow" name="robots" />
+    <meta
+      content="#f6f4ff"
+      media="(prefers-color-scheme: light)"
+      name="theme-color"
+    />
+    <meta
+      content="#09090f"
+      media="(prefers-color-scheme: dark)"
+      name="theme-color"
+    />
+    <link href="./styles/library/jalalidatepicker.min.css" rel="stylesheet" />
+    <link href="./styles/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-bg dark:bg-bg-dark">
+    <a class="skip-link" href="#auth-main">پرش به فرم ورود</a>
+    <!-- SVG icon sprite -->
+    <svg aria-hidden="true" class="hidden" focusable="false">
+      <symbol
+        class="size-5"
+        id="icon-sun"
+        viewbox="0 0 50 50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M24.90625 3.96875C24.863281 3.976563 24.820313 3.988281 24.78125 4C24.316406 4.105469 23.988281 4.523438 24 5L24 11C23.996094 11.359375 24.183594 11.695313 24.496094 11.878906C24.808594 12.058594 25.191406 12.058594 25.503906 11.878906C25.816406 11.695313 26.003906 11.359375 26 11L26 5C26.011719 4.710938 25.894531 4.433594 25.6875 4.238281C25.476563 4.039063 25.191406 3.941406 24.90625 3.96875 Z M 10.65625 9.84375C10.28125 9.910156 9.980469 10.183594 9.875 10.546875C9.769531 10.914063 9.878906 11.304688 10.15625 11.5625L14.40625 15.8125C14.648438 16.109375 15.035156 16.246094 15.410156 16.160156C15.78125 16.074219 16.074219 15.78125 16.160156 15.410156C16.246094 15.035156 16.109375 14.648438 15.8125 14.40625L11.5625 10.15625C11.355469 9.933594 11.054688 9.820313 10.75 9.84375C10.71875 9.84375 10.6875 9.84375 10.65625 9.84375 Z M 39.03125 9.84375C38.804688 9.875 38.59375 9.988281 38.4375 10.15625L34.1875 14.40625C33.890625 14.648438 33.753906 15.035156 33.839844 15.410156C33.925781 15.78125 34.21875 16.074219 34.589844 16.160156C34.964844 16.246094 35.351563 16.109375 35.59375 15.8125L39.84375 11.5625C40.15625 11.265625 40.246094 10.800781 40.0625 10.410156C39.875 10.015625 39.460938 9.789063 39.03125 9.84375 Z M 24.90625 15C24.875 15.007813 24.84375 15.019531 24.8125 15.03125C24.75 15.035156 24.6875 15.046875 24.625 15.0625C24.613281 15.074219 24.605469 15.082031 24.59375 15.09375C19.289063 15.320313 15 19.640625 15 25C15 30.503906 19.496094 35 25 35C30.503906 35 35 30.503906 35 25C35 19.660156 30.746094 15.355469 25.46875 15.09375C25.433594 15.09375 25.410156 15.0625 25.375 15.0625C25.273438 15.023438 25.167969 15.003906 25.0625 15C25.042969 15 25.019531 15 25 15C24.96875 15 24.9375 15 24.90625 15 Z M 24.9375 17C24.957031 17 24.980469 17 25 17C25.03125 17 25.0625 17 25.09375 17C29.46875 17.050781 33 20.613281 33 25C33 29.421875 29.421875 33 25 33C20.582031 33 17 29.421875 17 25C17 20.601563 20.546875 17.035156 24.9375 17 Z M 4.71875 24C4.167969 24.078125 3.78125 24.589844 3.859375 25.140625C3.9375 25.691406 4.449219 26.078125 5 26L11 26C11.359375 26.003906 11.695313 25.816406 11.878906 25.503906C12.058594 25.191406 12.058594 24.808594 11.878906 24.496094C11.695313 24.183594 11.359375 23.996094 11 24L5 24C4.96875 24 4.9375 24 4.90625 24C4.875 24 4.84375 24 4.8125 24C4.78125 24 4.75 24 4.71875 24 Z M 38.71875 24C38.167969 24.078125 37.78125 24.589844 37.859375 25.140625C37.9375 25.691406 38.449219 26.078125 39 26L45 26C45.359375 26.003906 45.695313 25.816406 45.878906 25.503906C46.058594 25.191406 46.058594 24.808594 45.878906 24.496094C45.695313 24.183594 45.359375 23.996094 45 24L39 24C38.96875 24 38.9375 24 38.90625 24C38.875 24 38.84375 24 38.8125 24C38.78125 24 38.75 24 38.71875 24 Z M 15 33.875C14.773438 33.90625 14.5625 34.019531 14.40625 34.1875L10.15625 38.4375C9.859375 38.679688 9.722656 39.066406 9.808594 39.441406C9.894531 39.8125 10.1875 40.105469 10.558594 40.191406C10.933594 40.277344 11.320313 40.140625 11.5625 39.84375L15.8125 35.59375C16.109375 35.308594 16.199219 34.867188 16.039063 34.488281C15.882813 34.109375 15.503906 33.867188 15.09375 33.875C15.0625 33.875 15.03125 33.875 15 33.875 Z M 34.6875 33.875C34.3125 33.941406 34.011719 34.214844 33.90625 34.578125C33.800781 34.945313 33.910156 35.335938 34.1875 35.59375L38.4375 39.84375C38.679688 40.140625 39.066406 40.277344 39.441406 40.191406C39.8125 40.105469 40.105469 39.8125 40.191406 39.441406C40.277344 39.066406 40.140625 38.679688 39.84375 38.4375L35.59375 34.1875C35.40625 33.988281 35.148438 33.878906 34.875 33.875C34.84375 33.875 34.8125 33.875 34.78125 33.875C34.75 33.875 34.71875 33.875 34.6875 33.875 Z M 24.90625 37.96875C24.863281 37.976563 24.820313 37.988281 24.78125 38C24.316406 38.105469 23.988281 38.523438 24 39L24 45C23.996094 45.359375 24.183594 45.695313 24.496094 45.878906C24.808594 46.058594 25.191406 46.058594 25.503906 45.878906C25.816406 45.695313 26.003906 45.359375 26 45L26 39C26.011719 38.710938 25.894531 38.433594 25.6875 38.238281C25.476563 38.039063 25.191406 37.941406 24.90625 37.96875Z"
+        ></path>
+      </symbol>
+      <symbol
+        class="size-5"
+        id="icon-moon"
+        viewbox="0 0 50 50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M25.941406 2C25.464844 2.027344 25.074219 2.386719 25.007813 2.859375C24.941406 3.332031 25.21875 3.785156 25.671875 3.945313C32.292969 6.261719 37 12.566406 37 20C37 29.402344 29.402344 37 20 37C12.566406 37 6.261719 32.292969 3.945313 25.671875C3.78125 25.203125 3.296875 24.925781 2.8125 25.015625C2.324219 25.109375 1.980469 25.546875 2 26.042969C2.515625 38.28125 12.640625 48 25 48C37.691406 48 48 37.691406 48 25C48 12.640625 38.28125 2.515625 26.042969 2C26.007813 2 25.972656 2 25.941406 2 Z M 31.84375 5.203125C40.074219 8.039063 46 15.78125 46 25C46 36.609375 36.609375 46 25 46C15.78125 46 8.039063 40.074219 5.203125 31.84375C8.691406 36.183594 14 39 20 39C30.480469 39 39 30.480469 39 20C39 14 36.183594 8.691406 31.84375 5.203125Z"
+        ></path>
+      </symbol>
+      <symbol
+        id="icon-star"
+        viewbox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12,17.877L18.831,22l-1.813-7.77l6.035-5.228l-7.947-0.674L12,1L8.894,8.328L0.947,9.002l6.035,5.228L5.169,22L12,17.877z"
+          fill="#FBBF24"
+        ></path>
+      </symbol>
+      <symbol
+        id="icon-chevron"
+        viewbox="0 0 50 50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M32.136719 3.0625C31.875 3.0625 31.628906 3.167969 31.441406 3.351563L10.359375 24.265625C9.964844 24.65625 9.960938 25.289063 10.351563 25.679688L31.265625 46.765625C31.65625 47.15625 32.289063 47.160156 32.679688 46.769531L38.703125 40.796875C39.097656 40.40625 39.101563 39.773438 38.710938 39.378906L24.476563 25.03125L38.828125 10.796875C39.21875 10.40625 39.222656 9.773438 38.832031 9.382813L32.859375 3.359375C32.667969 3.164063 32.40625 3.058594 32.136719 3.0625 Z M 32.140625 5.476563L36.707031 10.078125L22.359375 24.3125C21.964844 24.703125 21.960938 25.335938 22.351563 25.730469L36.585938 40.078125L31.980469 44.644531L12.476563 24.980469Z"
+          fill="currentColor"
+        ></path>
+      </symbol>
+      <symbol
+        class="size-5"
+        id="play-icon"
+        viewbox="0 0 48 48"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.396484 4.1113281C9.1042001 4.2020187 7 6.0721788 7 8.5917969L7 39.408203C7 42.767694 10.742758 44.971891 13.681641 43.34375L41.490234 27.935547C44.513674 26.260259 44.513674 21.739741 41.490234 20.064453L13.681641 4.65625C12.94692 4.2492148 12.160579 4.0810979 11.396484 4.1113281 z"
+        ></path>
+      </symbol>
+    </svg>
+    <!-- Desktop header -->
+    <header class="hidden lg:block sticky top-3 z-50 pt-3">
+      <div class="page-container">
+        <div
+          class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-6 py-2.5"
+        >
+          <a
+            class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light"
+            href="./index.html"
+          >
             دیکته خونه
           </a>
-<nav aria-label="منوی اصلی">
-<ul class="flex items-center gap-2">
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./index.html">
+          <nav aria-label="منوی اصلی">
+            <ul class="flex items-center gap-2">
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./index.html"
+                >
                   خانه
                 </a>
-</li>
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./aboutus.html">
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./aboutus.html"
+                >
                   درباره ما
                 </a>
-</li>
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./news.html">
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./news.html"
+                >
                   اخبار
                 </a>
-</li>
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./contactus.html">
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./contactus.html"
+                >
                   تماس با ما
                 </a>
-</li>
-</ul>
-</nav>
-<div class="flex items-center gap-3">
-<div class="flex items-center justify-center size-11 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark transition-all duration-300 hover:border-primary/30 dark:hover:border-primary-light/30">
-<svg class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95" id="sunIcon">
-<use href="#icon-sun"></use>
-</svg>
-<svg class="size-5 fill-textColor cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95" id="moonIcon">
-<use href="#icon-moon"></use>
-</svg>
-</div>
-<a class="inline-flex items-center justify-center bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="#auth-main">
+              </li>
+            </ul>
+          </nav>
+          <div class="flex items-center gap-3">
+            <div
+              class="flex items-center justify-center size-11 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark transition-all duration-300 hover:border-primary/30 dark:hover:border-primary-light/30"
+            >
+              <svg
+                class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
+                id="sunIcon"
+              >
+                <use href="#icon-sun"></use>
+              </svg>
+              <svg
+                class="size-5 fill-textColor cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
+                id="moonIcon"
+              >
+                <use href="#icon-moon"></use>
+              </svg>
+            </div>
+            <a
+              class="inline-flex items-center justify-center bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              href="#auth-main"
+            >
               شروع یادگیری
             </a>
-</div>
-</div>
-</div>
-</header>
-<!-- Mobile header -->
-<header class="lg:hidden sticky top-3 z-50 pt-3">
-<div class="page-container">
-<div class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-4 py-2.5">
-<a class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark" href="./index.html">
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Mobile header -->
+    <header class="lg:hidden sticky top-3 z-50 pt-3">
+      <div class="page-container">
+        <div
+          class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-4 py-2.5"
+        >
+          <a
+            class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark"
+            href="./index.html"
+          >
             دیکته خونه
           </a>
-<div class="flex items-center gap-2">
-<div class="flex items-center justify-center size-10 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark">
-<svg class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 active:scale-95" id="sunIcon--mobile">
-<use href="#icon-sun"></use>
-</svg>
-<svg class="size-5 fill-textColor cursor-pointer transition-all duration-300 active:scale-95" id="moonIcon--mobile">
-<use href="#icon-moon"></use>
-</svg>
-</div>
-<button aria-controls="mobile-menu" aria-expanded="false" aria-label="باز کردن منو" class="flex items-center justify-center size-10 text-textColor dark:text-textColor-dark bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark rounded-full transition-all duration-300 hover:text-primary dark:hover:text-primary-light active:scale-95" id="menu-btn" type="button">
-<svg fill="none" height="20" id="icon-open" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-<svg class="hidden" fill="none" height="20" id="icon-close" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
-</div>
-<div class="overflow-hidden max-h-0 mt-2 bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/70 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark rounded-md px-3 transition-all duration-300 ease-in-out" id="mobile-menu">
-<div class="py-3">
-<nav aria-label="منوی موبایل">
-<ul class="flex flex-col gap-1">
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./index.html">
+          <div class="flex items-center gap-2">
+            <div
+              class="flex items-center justify-center size-10 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark"
+            >
+              <svg
+                class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 active:scale-95"
+                id="sunIcon--mobile"
+              >
+                <use href="#icon-sun"></use>
+              </svg>
+              <svg
+                class="size-5 fill-textColor cursor-pointer transition-all duration-300 active:scale-95"
+                id="moonIcon--mobile"
+              >
+                <use href="#icon-moon"></use>
+              </svg>
+            </div>
+            <button
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              aria-label="باز کردن منو"
+              class="flex items-center justify-center size-10 text-textColor dark:text-textColor-dark bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark rounded-full transition-all duration-300 hover:text-primary dark:hover:text-primary-light active:scale-95"
+              id="menu-btn"
+              type="button"
+            >
+              <svg
+                fill="none"
+                height="20"
+                id="icon-open"
+                stroke="currentColor"
+                stroke-width="2"
+                viewbox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+              <svg
+                class="hidden"
+                fill="none"
+                height="20"
+                id="icon-close"
+                stroke="currentColor"
+                stroke-width="2"
+                viewbox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 12"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="overflow-hidden max-h-0 mt-2 bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/70 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark rounded-md px-3 transition-all duration-300 ease-in-out"
+          id="mobile-menu"
+        >
+          <div class="py-3">
+            <nav aria-label="منوی موبایل">
+              <ul class="flex flex-col gap-1">
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./index.html"
+                  >
                     خانه
                   </a>
-</li>
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./aboutus.html">
+                </li>
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./aboutus.html"
+                  >
                     درباره ما
                   </a>
-</li>
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./news.html">
+                </li>
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./news.html"
+                  >
                     اخبار
                   </a>
-</li>
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./contactus.html">
+                </li>
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./contactus.html"
+                  >
                     تماس با ما
                   </a>
-</li>
-</ul>
-</nav>
-<div class="border-t border-white/60 dark:border-border-dark-soft mt-3 pt-3">
-<a class="flex items-center justify-center w-full bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="#auth-main">
+                </li>
+              </ul>
+            </nav>
+            <div
+              class="border-t border-white/60 dark:border-border-dark-soft mt-3 pt-3"
+            >
+              <a
+                class="flex items-center justify-center w-full bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                href="#auth-main"
+              >
                 شروع یادگیری
               </a>
-</div>
-</div>
-</div>
-</div>
-</header>
-<main id="auth-main">
-<section aria-labelledby="auth-title" class="auth-stage">
-<div aria-hidden="true" class="auth-stage__lights">
-<span class="auth-stage__orb auth-stage__orb--primary"></span>
-<span class="auth-stage__orb auth-stage__orb--secondary"></span>
-</div>
-<div class="page-container relative z-10">
-<div class="auth-heading">
-<span class="ui-eyebrow">حساب کاربری</span>
-<h1 class="mt-2" id="auth-title">خوش اومدی به دیکته خونه</h1>
-<p class="mt-3 max-w-xl mx-auto text-mutedColor dark:text-mutedColor-dark">
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main id="auth-main">
+      <section aria-labelledby="auth-title" class="auth-stage">
+        <div aria-hidden="true" class="auth-stage__lights">
+          <span class="auth-stage__orb auth-stage__orb--primary"></span>
+          <span class="auth-stage__orb auth-stage__orb--secondary"></span>
+        </div>
+        <div class="page-container relative z-10">
+          <div class="auth-heading">
+            <span class="ui-eyebrow">حساب کاربری</span>
+            <h1 class="mt-2" id="auth-title">خوش اومدی به دیکته خونه</h1>
+            <p
+              class="mt-3 max-w-xl mx-auto text-mutedColor dark:text-mutedColor-dark"
+            >
               برای ادامه وارد حسابت شو یا اگر اولین باره، یک حساب جدید بساز.
             </p>
-</div>
-<section class="auth-panel" id="auth-card">
-<div aria-label="ورود یا ثبت‌نام" class="auth-tabs" role="tablist">
-<button aria-controls="auth-login-panel" aria-selected="true" class="auth-tab is-active" id="auth-login-tab" role="tab" type="button">ورود</button>
-<button aria-controls="auth-register-panel" aria-selected="false" class="auth-tab" id="auth-register-tab" role="tab" type="button">ثبت‌نام</button>
-</div>
-<div aria-labelledby="auth-login-tab" class="auth-panel__body" id="auth-login-panel" role="tabpanel">
-<div class="auth-form-heading">
-<h2>ورود به حساب</h2>
-<p class="mt-2 text-mutedColor dark:text-mutedColor-dark">نام کاربری و رمز عبورت رو وارد کن.</p>
-</div>
-<form class="grid gap-5" data-auth-form="" id="login-form" novalidate="">
-<div class="form-group">
-<label class="form-label" for="login-username">نام کاربری</label>
-<input autocomplete="username" class="form-control" id="login-username" name="username" placeholder="نام کاربری" type="text"/>
-<span class="form-error hidden" data-error-for="username" role="alert"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="login-password">رمز عبور</label>
-<div class="relative">
-<input autocomplete="current-password" class="form-control pl-12" id="login-password" name="password" placeholder="رمز عبور" type="password"/>
-<button aria-label="نمایش رمز عبور" aria-pressed="false" class="auth-password-toggle" data-password-toggle="login-password" type="button">
-<svg aria-hidden="true" class="size-5" fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24">
-<path d="M2.8 12s3.2-5 9.2-5 9.2 5 9.2 5-3.2 5-9.2 5-9.2-5-9.2-5Z" stroke-linecap="round" stroke-linejoin="round"></path>
-<circle cx="12" cy="12" r="2.4"></circle>
-</svg>
-</button>
-</div>
-<span class="form-error hidden" data-error-for="password" role="alert"></span>
-</div>
-<button class="btn-primary mt-2 w-full" type="submit">ورود به حساب</button>
-<p class="text-center text-mutedColor dark:text-mutedColor-dark">
+          </div>
+          <section class="auth-panel" id="auth-card">
+            <div aria-label="ورود یا ثبت‌نام" class="auth-tabs" role="tablist">
+              <button
+                aria-controls="auth-login-panel"
+                aria-selected="true"
+                class="auth-tab is-active"
+                id="auth-login-tab"
+                role="tab"
+                type="button"
+              >
+                ورود
+              </button>
+              <button
+                aria-controls="auth-register-panel"
+                aria-selected="false"
+                class="auth-tab"
+                id="auth-register-tab"
+                role="tab"
+                type="button"
+              >
+                ثبت‌نام
+              </button>
+            </div>
+            <div
+              aria-labelledby="auth-login-tab"
+              class="auth-panel__body"
+              id="auth-login-panel"
+              role="tabpanel"
+            >
+              <div class="auth-form-heading">
+                <h2>ورود به حساب</h2>
+                <p class="mt-2 text-mutedColor dark:text-mutedColor-dark">
+                  کد ملی و رمز عبورت رو وارد کن.
+                </p>
+              </div>
+              <form
+                class="grid gap-5"
+                data-auth-form=""
+                id="login-form"
+                novalidate=""
+              >
+                <div class="form-group">
+                  <label class="form-label" for="login-national-code"
+                    >کد ملی</label
+                  >
+                  <input
+                    autocomplete="off"
+                    class="form-control"
+                    id="login-national-code"
+                    inputmode="numeric"
+                    maxlength="10"
+                    name="nationalCode"
+                    pattern="[0-9]{10}"
+                    placeholder="کد ملی ۱۰ رقمی"
+                    type="text"
+                  />
+                  <span
+                    class="form-error hidden"
+                    data-error-for="nationalCode"
+                    role="alert"
+                  ></span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="login-password"
+                    >رمز عبور</label
+                  >
+                  <div class="relative">
+                    <input
+                      autocomplete="current-password"
+                      class="form-control pl-12"
+                      id="login-password"
+                      name="password"
+                      placeholder="رمز عبور"
+                      type="password"
+                    />
+                    <button
+                      aria-label="نمایش رمز عبور"
+                      aria-pressed="false"
+                      class="auth-password-toggle"
+                      data-password-toggle="login-password"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="size-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        viewbox="0 0 24 24"
+                      >
+                        <path
+                          d="M2.8 12s3.2-5 9.2-5 9.2 5 9.2 5-3.2 5-9.2 5-9.2-5-9.2-5Z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <circle cx="12" cy="12" r="2.4"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                  <span
+                    class="form-error hidden"
+                    data-error-for="password"
+                    role="alert"
+                  ></span>
+                </div>
+                <button class="btn-primary mt-2 w-full" type="submit">
+                  ورود به حساب
+                </button>
+                <p
+                  class="text-center text-mutedColor dark:text-mutedColor-dark"
+                >
                   هنوز حساب نداری؟
-                  <button class="btn-link" data-auth-mode="register" type="button">ثبت‌نام کن</button>
-</p>
-</form>
-</div>
-<div aria-labelledby="auth-register-tab" class="auth-panel__body hidden" id="auth-register-panel" role="tabpanel">
-<div class="auth-form-heading">
-<h2>ساخت حساب جدید</h2>
-<p class="mt-2 text-mutedColor dark:text-mutedColor-dark">اطلاعاتت رو وارد کن تا حسابت ساخته بشه.</p>
-</div>
-<form class="grid gap-5" data-auth-form="" id="register-form" novalidate="">
-<div class="form-group">
-<label class="form-label" for="register-username">نام کاربری <span class="form-required">*</span></label>
-<input autocomplete="username" class="form-control" id="register-username" name="username" placeholder="مثلاً ali_12" type="text"/>
-<span class="form-help">نام کاربری باید یکتا باشد.</span>
-<span class="form-error hidden" data-error-for="username" role="alert"></span>
-</div>
-<div class="grid gap-5 sm:grid-cols-2">
-<div class="form-group">
-<label class="form-label" for="register-school">نام مدرسه <span class="form-required">*</span></label>
-<input autocomplete="organization" class="form-control" id="register-school" name="schoolName" placeholder="نام مدرسه" type="text"/>
-<span class="form-error hidden" data-error-for="schoolName" role="alert"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="register-grade-trigger">پایه تحصیلی <span class="form-required">*</span></label>
-<div class="relative" id="register-grade-dropdown">
-<input id="register-grade" name="grade" type="hidden" value=""/>
-<button aria-expanded="false" aria-haspopup="listbox" class="form-control form-select-trigger" id="register-grade-trigger" type="button">
-<span id="register-grade-label">انتخاب پایه</span>
-<svg aria-hidden="true" class="size-4 shrink-0 transition-transform duration-200" fill="none" id="register-grade-chevron" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
-<path d="m8 10 4 4 4-4" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-<div aria-label="پایه تحصیلی" class="form-dropdown-menu hidden" id="register-grade-menu" role="listbox">
-<button aria-selected="false" class="form-option" data-grade-value="1" role="option" type="button">پایه اول</button>
-<button aria-selected="false" class="form-option" data-grade-value="2" role="option" type="button">پایه دوم</button>
-<button aria-selected="false" class="form-option" data-grade-value="3" role="option" type="button">پایه سوم</button>
-<button aria-selected="false" class="form-option" data-grade-value="4" role="option" type="button">پایه چهارم</button>
-<button aria-selected="false" class="form-option" data-grade-value="5" role="option" type="button">پایه پنجم</button>
-<button aria-selected="false" class="form-option" data-grade-value="6" role="option" type="button">پایه ششم</button>
-</div>
-</div>
-<span class="form-error hidden" data-error-for="grade" role="alert"></span>
-</div>
-</div>
-<div class="grid gap-5 sm:grid-cols-2">
-<div class="form-group">
-<label class="form-label" for="register-password">رمز عبور <span class="form-required">*</span></label>
-<div class="relative">
-<input aria-describedby="register-password-strength register-password-error" autocomplete="new-password" class="form-control pl-12" id="register-password" name="password" placeholder="حداقل ۸ کاراکتر" type="password"/>
-<button aria-label="نمایش رمز عبور" aria-pressed="false" class="auth-password-toggle" data-password-toggle="register-password" type="button">
-<svg aria-hidden="true" class="size-5" fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24">
-<path d="M2.8 12s3.2-5 9.2-5 9.2 5 9.2 5-3.2 5-9.2 5-9.2-5-9.2-5Z" stroke-linecap="round" stroke-linejoin="round"></path>
-<circle cx="12" cy="12" r="2.4"></circle>
-</svg>
-</button>
-</div>
-<span class="form-error hidden" data-error-for="password" id="register-password-error" role="alert"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="register-confirm-password">تکرار رمز عبور
-                      <span class="form-required">*</span></label>
-<div class="relative">
-<input autocomplete="new-password" class="form-control pl-12" id="register-confirm-password" name="confirmPassword" placeholder="تکرار رمز عبور" type="password"/>
-<button aria-label="نمایش رمز عبور" aria-pressed="false" class="auth-password-toggle" data-password-toggle="register-confirm-password" type="button">
-<svg aria-hidden="true" class="size-5" fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24">
-<path d="M2.8 12s3.2-5 9.2-5 9.2 5 9.2 5-3.2 5-9.2 5-9.2-5-9.2-5Z" stroke-linecap="round" stroke-linejoin="round"></path>
-<circle cx="12" cy="12" r="2.4"></circle>
-</svg>
-</button>
-</div>
-<span class="form-error hidden" data-error-for="confirmPassword" role="alert"></span>
-</div>
-<div aria-live="polite" class="password-strength sm:col-span-2" data-strength="0" id="register-password-strength">
-<div class="password-strength__header">
-<span class="password-strength__title">قدرت رمز عبور</span>
-<span class="password-strength__status" id="register-password-strength-label">
+                  <button
+                    class="btn-link"
+                    data-auth-mode="register"
+                    type="button"
+                  >
+                    ثبت‌نام کن
+                  </button>
+                </p>
+              </form>
+            </div>
+            <div
+              aria-labelledby="auth-register-tab"
+              class="auth-panel__body hidden"
+              id="auth-register-panel"
+              role="tabpanel"
+            >
+              <div class="auth-form-heading">
+                <h2>ساخت حساب جدید</h2>
+                <p class="mt-2 text-mutedColor dark:text-mutedColor-dark">
+                  اطلاعاتت رو وارد کن تا حسابت ساخته بشه.
+                </p>
+              </div>
+              <form
+                class="grid gap-5"
+                data-auth-form=""
+                id="register-form"
+                novalidate=""
+              >
+                <div class="form-group">
+                  <label class="form-label" for="register-national-code"
+                    >کد ملی <span class="form-required">*</span></label
+                  >
+                  <input
+                    autocomplete="off"
+                    class="form-control"
+                    id="register-national-code"
+                    inputmode="numeric"
+                    maxlength="10"
+                    name="nationalCode"
+                    pattern="[0-9]{10}"
+                    placeholder="کد ملی ۱۰ رقمی"
+                    type="text"
+                  />
+                  <span class="form-help">کد ملی باید ۱۰ رقم باشد.</span>
+                  <span
+                    class="form-error hidden"
+                    data-error-for="nationalCode"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label" for="register-first-name"
+                      >نام <span class="form-required">*</span></label
+                    >
+                    <input
+                      autocomplete="given-name"
+                      class="form-control"
+                      id="register-first-name"
+                      name="firstName"
+                      placeholder="نام"
+                      type="text"
+                    />
+                    <span
+                      class="form-error hidden"
+                      data-error-for="firstName"
+                      role="alert"
+                    ></span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="register-last-name"
+                      >نام خانوادگی <span class="form-required">*</span></label
+                    >
+                    <input
+                      autocomplete="family-name"
+                      class="form-control"
+                      id="register-last-name"
+                      name="lastName"
+                      placeholder="نام خانوادگی"
+                      type="text"
+                    />
+                    <span
+                      class="form-error hidden"
+                      data-error-for="lastName"
+                      role="alert"
+                    ></span>
+                  </div>
+                </div>
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label" for="register-school"
+                      >نام مدرسه <span class="form-required">*</span></label
+                    >
+                    <input
+                      autocomplete="organization"
+                      class="form-control"
+                      id="register-school"
+                      name="schoolName"
+                      placeholder="نام مدرسه"
+                      type="text"
+                    />
+                    <span
+                      class="form-error hidden"
+                      data-error-for="schoolName"
+                      role="alert"
+                    ></span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="register-grade-trigger"
+                      >پایه تحصیلی <span class="form-required">*</span></label
+                    >
+                    <div class="relative" id="register-grade-dropdown">
+                      <input
+                        id="register-grade"
+                        name="grade"
+                        type="hidden"
+                        value=""
+                      />
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        class="form-control form-select-trigger"
+                        id="register-grade-trigger"
+                        type="button"
+                      >
+                        <span id="register-grade-label">انتخاب پایه</span>
+                        <svg
+                          aria-hidden="true"
+                          class="size-4 shrink-0 transition-transform duration-200"
+                          fill="none"
+                          id="register-grade-chevron"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          viewbox="0 0 24 24"
+                        >
+                          <path
+                            d="m8 10 4 4 4-4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </button>
+                      <div
+                        aria-label="پایه تحصیلی"
+                        class="form-dropdown-menu hidden"
+                        id="register-grade-menu"
+                        role="listbox"
+                      >
+                        <button
+                          aria-selected="false"
+                          class="form-option"
+                          data-grade-value="1"
+                          role="option"
+                          type="button"
+                        >
+                          پایه اول
+                        </button>
+                        <button
+                          aria-selected="false"
+                          class="form-option"
+                          data-grade-value="2"
+                          role="option"
+                          type="button"
+                        >
+                          پایه دوم
+                        </button>
+                        <button
+                          aria-selected="false"
+                          class="form-option"
+                          data-grade-value="3"
+                          role="option"
+                          type="button"
+                        >
+                          پایه سوم
+                        </button>
+                        <button
+                          aria-selected="false"
+                          class="form-option"
+                          data-grade-value="4"
+                          role="option"
+                          type="button"
+                        >
+                          پایه چهارم
+                        </button>
+                        <button
+                          aria-selected="false"
+                          class="form-option"
+                          data-grade-value="5"
+                          role="option"
+                          type="button"
+                        >
+                          پایه پنجم
+                        </button>
+                        <button
+                          aria-selected="false"
+                          class="form-option"
+                          data-grade-value="6"
+                          role="option"
+                          type="button"
+                        >
+                          پایه ششم
+                        </button>
+                      </div>
+                    </div>
+                    <span
+                      class="form-error hidden"
+                      data-error-for="grade"
+                      role="alert"
+                    ></span>
+                  </div>
+                </div>
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label" for="register-mother-phone"
+                      >شماره تلفن مادر
+                      <span class="form-required">*</span></label
+                    >
+                    <input
+                      autocomplete="tel"
+                      class="form-control"
+                      id="register-mother-phone"
+                      inputmode="numeric"
+                      maxlength="11"
+                      name="motherPhone"
+                      pattern="09[0-9]{9}"
+                      placeholder="مثلاً 09123456789"
+                      type="tel"
+                    />
+                    <span
+                      class="form-error hidden"
+                      data-error-for="motherPhone"
+                      role="alert"
+                    ></span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="register-father-phone"
+                      >شماره تلفن پدر
+                      <span class="form-required">*</span></label
+                    >
+                    <input
+                      autocomplete="tel"
+                      class="form-control"
+                      id="register-father-phone"
+                      inputmode="numeric"
+                      maxlength="11"
+                      name="fatherPhone"
+                      pattern="09[0-9]{9}"
+                      placeholder="مثلاً 09123456789"
+                      type="tel"
+                    />
+                    <span
+                      class="form-error hidden"
+                      data-error-for="fatherPhone"
+                      role="alert"
+                    ></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="register-birth-date-fa">
+                    تاریخ تولد
+                    <span class="form-required">*</span>
+                  </label>
+
+                  <div class="relative">
+                    <input
+                      class="form-control cursor-pointer pl-11"
+                      id="register-birth-date-fa"
+                      type="text"
+                      placeholder="انتخاب تاریخ تولد"
+                      autocomplete="off"
+                      inputmode="none"
+                      data-jdp
+                      data-jdp-only-date
+                      aria-describedby="register-birth-date-error"
+                    />
+
+                    <svg
+                      aria-hidden="true"
+                      class="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-mutedColor dark:text-mutedColor-dark"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      viewBox="0 0 24 24"
+                    >
+                      <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                      <path d="M16 3v4M8 3v4M3 10h18"></path>
+                    </svg>
+                  </div>
+
+                  <input
+                    id="register-birth-date"
+                    name="birthDate"
+                    type="hidden"
+                  />
+
+                  <span
+                    class="form-error hidden"
+                    data-error-for="birthDate"
+                    id="register-birth-date-error"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label" for="register-password"
+                      >رمز عبور <span class="form-required">*</span></label
+                    >
+                    <div class="relative">
+                      <input
+                        aria-describedby="register-password-strength register-password-error"
+                        autocomplete="new-password"
+                        class="form-control pl-12"
+                        id="register-password"
+                        name="password"
+                        placeholder="حداقل ۸ کاراکتر"
+                        type="password"
+                      />
+                      <button
+                        aria-label="نمایش رمز عبور"
+                        aria-pressed="false"
+                        class="auth-password-toggle"
+                        data-password-toggle="register-password"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="size-5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          viewbox="0 0 24 24"
+                        >
+                          <path
+                            d="M2.8 12s3.2-5 9.2-5 9.2 5 9.2 5-3.2 5-9.2 5-9.2-5-9.2-5Z"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                          <circle cx="12" cy="12" r="2.4"></circle>
+                        </svg>
+                      </button>
+                    </div>
+                    <span
+                      class="form-error hidden"
+                      data-error-for="password"
+                      id="register-password-error"
+                      role="alert"
+                    ></span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="register-confirm-password"
+                      >تکرار رمز عبور
+                      <span class="form-required">*</span></label
+                    >
+                    <div class="relative">
+                      <input
+                        autocomplete="new-password"
+                        class="form-control pl-12"
+                        id="register-confirm-password"
+                        name="confirmPassword"
+                        placeholder="تکرار رمز عبور"
+                        type="password"
+                      />
+                      <button
+                        aria-label="نمایش رمز عبور"
+                        aria-pressed="false"
+                        class="auth-password-toggle"
+                        data-password-toggle="register-confirm-password"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="size-5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          viewbox="0 0 24 24"
+                        >
+                          <path
+                            d="M2.8 12s3.2-5 9.2-5 9.2 5 9.2 5-3.2 5-9.2 5-9.2-5-9.2-5Z"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                          <circle cx="12" cy="12" r="2.4"></circle>
+                        </svg>
+                      </button>
+                    </div>
+                    <span
+                      class="form-error hidden"
+                      data-error-for="confirmPassword"
+                      role="alert"
+                    ></span>
+                  </div>
+                  <div
+                    aria-live="polite"
+                    class="password-strength sm:col-span-2"
+                    data-strength="0"
+                    id="register-password-strength"
+                  >
+                    <div class="password-strength__header">
+                      <span class="password-strength__title"
+                        >قدرت رمز عبور</span
+                      >
+                      <span
+                        class="password-strength__status"
+                        id="register-password-strength-label"
+                      >
                         شروع به تایپ کن
                       </span>
-</div>
-<div aria-hidden="true" class="password-strength__segments">
-<span class="password-strength__segment"></span>
-<span class="password-strength__segment"></span>
-<span class="password-strength__segment"></span>
-<span class="password-strength__segment"></span>
-</div>
-<div class="password-strength__rules">
-<div class="password-rule" data-met="false" data-password-rule="minLength">
-<span aria-hidden="true" class="password-rule__icon">
-<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-<path d="m7 12 3 3 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</span>
-<span>حداقل ۸ کاراکتر</span>
-</div>
-<div class="password-rule" data-met="false" data-password-rule="lowercase">
-<span aria-hidden="true" class="password-rule__icon">
-<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-<path d="m7 12 3 3 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</span>
-<span>حداقل یک حرف کوچک انگلیسی</span>
-</div>
-<div class="password-rule" data-met="false" data-password-rule="uppercase">
-<span aria-hidden="true" class="password-rule__icon">
-<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-<path d="m7 12 3 3 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</span>
-<span>حداقل یک حرف بزرگ انگلیسی</span>
-</div>
-<div class="password-rule" data-met="false" data-password-rule="number">
-<span aria-hidden="true" class="password-rule__icon">
-<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-<path d="m7 12 3 3 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</span>
-<span>حداقل یک عدد</span>
-</div>
-</div>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="register-avatar">عکس پروفایل <span class="ui-meta">(اختیاری)</span></label>
-<label class="auth-avatar-upload" for="register-avatar">
-<span aria-hidden="true" class="auth-avatar-preview" id="register-avatar-preview">
-<span class="font-Peyda-bold text-primary dark:text-primary-light" id="register-avatar-initial">د</span>
-<img alt="" class="hidden size-full object-cover" id="register-avatar-image"/>
-</span>
-<span class="min-w-0 flex-1">
-<strong class="block">انتخاب عکس پروفایل</strong>
-<small class="mt-1 block truncate" id="register-avatar-name">هنوز عکسی انتخاب نشده</small>
-</span>
-<span class="auth-avatar-action">انتخاب فایل</span>
-</label>
-<input accept="image/jpeg,image/png,image/webp" class="sr-only" id="register-avatar" name="avatar" type="file"/>
-<span class="form-help">JPG، PNG یا WebP تا حداکثر ۲ مگابایت</span>
-<span class="form-error hidden" data-error-for="avatar" role="alert"></span>
-</div>
-<button class="btn-primary mt-2 w-full" type="submit">ساخت حساب</button>
-<p class="text-center text-mutedColor dark:text-mutedColor-dark">
+                    </div>
+                    <div aria-hidden="true" class="password-strength__segments">
+                      <span class="password-strength__segment"></span>
+                      <span class="password-strength__segment"></span>
+                      <span class="password-strength__segment"></span>
+                      <span class="password-strength__segment"></span>
+                    </div>
+                    <div class="password-strength__rules">
+                      <div
+                        class="password-rule"
+                        data-met="false"
+                        data-password-rule="minLength"
+                      >
+                        <span aria-hidden="true" class="password-rule__icon">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewbox="0 0 24 24"
+                          >
+                            <path
+                              d="m7 12 3 3 7-7"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                        <span>حداقل ۸ کاراکتر</span>
+                      </div>
+                      <div
+                        class="password-rule"
+                        data-met="false"
+                        data-password-rule="lowercase"
+                      >
+                        <span aria-hidden="true" class="password-rule__icon">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewbox="0 0 24 24"
+                          >
+                            <path
+                              d="m7 12 3 3 7-7"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                        <span>حداقل یک حرف کوچک انگلیسی</span>
+                      </div>
+                      <div
+                        class="password-rule"
+                        data-met="false"
+                        data-password-rule="uppercase"
+                      >
+                        <span aria-hidden="true" class="password-rule__icon">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewbox="0 0 24 24"
+                          >
+                            <path
+                              d="m7 12 3 3 7-7"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                        <span>حداقل یک حرف بزرگ انگلیسی</span>
+                      </div>
+                      <div
+                        class="password-rule"
+                        data-met="false"
+                        data-password-rule="number"
+                      >
+                        <span aria-hidden="true" class="password-rule__icon">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewbox="0 0 24 24"
+                          >
+                            <path
+                              d="m7 12 3 3 7-7"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                        <span>حداقل یک عدد</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="register-avatar"
+                    >عکس پروفایل <span class="ui-meta">(اختیاری)</span></label
+                  >
+                  <label class="auth-avatar-upload" for="register-avatar">
+                    <span
+                      aria-hidden="true"
+                      class="auth-avatar-preview"
+                      id="register-avatar-preview"
+                    >
+                      <span
+                        class="font-Peyda-bold text-primary dark:text-primary-light"
+                        id="register-avatar-initial"
+                        >د</span
+                      >
+                      <img
+                        alt=""
+                        class="hidden size-full object-cover"
+                        id="register-avatar-image"
+                      />
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <strong class="block">انتخاب عکس پروفایل</strong>
+                      <small
+                        class="mt-1 block truncate"
+                        id="register-avatar-name"
+                        >هنوز عکسی انتخاب نشده</small
+                      >
+                    </span>
+                    <span class="auth-avatar-action">انتخاب فایل</span>
+                  </label>
+                  <input
+                    accept="image/jpeg,image/png,image/webp"
+                    class="sr-only"
+                    id="register-avatar"
+                    name="avatar"
+                    type="file"
+                  />
+                  <span class="form-help"
+                    >JPG، PNG یا WebP تا حداکثر ۲ مگابایت</span
+                  >
+                  <span
+                    class="form-error hidden"
+                    data-error-for="avatar"
+                    role="alert"
+                  ></span>
+                </div>
+                <button class="btn-primary mt-2 w-full" type="submit">
+                  ساخت حساب
+                </button>
+                <p
+                  class="text-center text-mutedColor dark:text-mutedColor-dark"
+                >
                   قبلاً ثبت‌نام کردی؟
-                  <button class="btn-link" data-auth-mode="login" type="button">وارد شو</button>
-</p>
-</form>
-</div>
-</section>
-</div>
-</section>
-</main>
-<script src="./js/core/header.js"></script>
-<script src="./js/core/themetoggle.js"></script>
-<script src="./js/components/toast.js"></script>
-<script src="./js/services/data-provider.js"></script>
-<script src="./js/services/auth-service.js"></script>
-<script src="./js/pages/auth.js"></script>
-</body>
+                  <button class="btn-link" data-auth-mode="login" type="button">
+                    وارد شو
+                  </button>
+                </p>
+              </form>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="./js/core/header.js"></script>
+    <script src="./js/core/themetoggle.js"></script>
+    <script src="./js/components/toast.js"></script>
+    <script src="./js/services/data-provider.js"></script>
+    <script src="./js/services/auth-service.js"></script>
+    <script src="./js/library/jalalidatepicker.min.js"></script>
+    <script src="./js/components/persian-datepicker.js"></script>
+    <script src="./js/pages/auth.js"></script>
+  </body>
 </html>

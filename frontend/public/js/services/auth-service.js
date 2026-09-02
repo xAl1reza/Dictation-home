@@ -1,18 +1,48 @@
 /*
  * Local authentication service used by the current frontend prototype.
  *
- * Public methods are async on purpose so the implementation can later be
- * replaced with HTTP requests without changing the page controller.
+ * Public methods are async so the implementation can later be replaced
+ * with HTTP requests without changing page controllers.
  *
- * IMPORTANT: this local implementation is for prototype/offline usage only.
+ * IMPORTANT:
  * Production authentication must be handled by the backend.
  */
 
 ;(() => {
-  const USERNAME_MIN_LENGTH = 3
-  const USERNAME_MAX_LENGTH = 30
+  const NATIONAL_CODE_PATTERN = /^[0-9]{10}$/
+  const MOBILE_PATTERN = /^09\d{9}$/
+
   const PASSWORD_MIN_LENGTH = 8
   const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+
+  const AVATAR_MAX_BYTES = 2 * 1024 * 1024
+
+  const ALLOWED_AVATAR_TYPES = new Set([
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+  ])
+
+  const normalizeDigits = (value) => {
+    return String(value || '')
+      .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+      .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+  }
+
+  const normalizeText = (value) => {
+    return String(value || '')
+      .normalize('NFKC')
+      .trim()
+      .replace(/\s+/g, ' ')
+  }
+
+  const normalizeNationalCode = (value) => {
+    return normalizeDigits(value).trim()
+  }
+
+  const normalizeMobile = (value) => {
+    return normalizeDigits(value).trim()
+  }
 
   const getPasswordRequirements = (password) => {
     const value = String(password || '')
@@ -29,13 +59,6 @@
     return PASSWORD_PATTERN.test(String(password || ''))
   }
 
-  const AVATAR_MAX_BYTES = 2 * 1024 * 1024
-  const ALLOWED_AVATAR_TYPES = new Set([
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-  ])
-
   const createUserId = () => {
     if (window.crypto?.randomUUID) {
       return `user-${window.crypto.randomUUID()}`
@@ -44,21 +67,23 @@
     return `user-${Date.now()}-${Math.random().toString(16).slice(2)}`
   }
 
-  const normalizeUsername = (value) => {
-    return String(value || '')
-      .normalize('NFKC')
-      .trim()
-  }
-
-  const usernameKey = (value) => normalizeUsername(value).toLocaleLowerCase('fa')
-
   const sanitizeUser = (user) => {
     if (!user) return null
 
+    const firstName = normalizeText(user.firstName)
+
     return {
       id: user.id,
-      username: user.username,
-      name: user.name || user.username,
+      nationalCode: user.nationalCode,
+      firstName,
+      lastName: normalizeText(user.lastName),
+
+      // Display name used by dashboard and all games.
+      name: firstName,
+
+      motherPhone: user.motherPhone,
+      fatherPhone: user.fatherPhone,
+      birthDate: user.birthDate,
       schoolName: user.schoolName,
       grade: user.grade,
       avatar: user.avatar || null,
@@ -92,27 +117,60 @@
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
 
-      reader.addEventListener('load', () => resolve(String(reader.result || '')))
-      reader.addEventListener('error', () => reject(new Error('AUTH_AVATAR_READ_FAILED')))
+      reader.addEventListener('load', () => {
+        resolve(String(reader.result || ''))
+      })
+
+      reader.addEventListener('error', () => {
+        reject(new Error('AUTH_AVATAR_READ_FAILED'))
+      })
+
       reader.readAsDataURL(file)
     })
   }
 
   const validateRegistration = ({
-    username,
+    nationalCode,
+    firstName,
+    lastName,
+    motherPhone,
+    fatherPhone,
+    birthDate,
     password,
     schoolName,
     grade,
   }) => {
-    const cleanUsername = normalizeUsername(username)
-    const cleanSchoolName = String(schoolName || '').trim()
+    const cleanNationalCode = normalizeNationalCode(nationalCode)
+    const cleanFirstName = normalizeText(firstName)
+    const cleanLastName = normalizeText(lastName)
+    const cleanMotherPhone = normalizeMobile(motherPhone)
+    const cleanFatherPhone = normalizeMobile(fatherPhone)
+    const cleanBirthDate = String(birthDate || '').trim()
+    const cleanSchoolName = normalizeText(schoolName)
     const cleanGrade = String(grade || '').trim()
 
-    if (
-      cleanUsername.length < USERNAME_MIN_LENGTH ||
-      cleanUsername.length > USERNAME_MAX_LENGTH
-    ) {
-      throw new Error('AUTH_USERNAME_INVALID')
+    if (!NATIONAL_CODE_PATTERN.test(cleanNationalCode)) {
+      throw new Error('AUTH_NATIONAL_CODE_INVALID')
+    }
+
+    if (cleanFirstName.length < 2) {
+      throw new Error('AUTH_FIRST_NAME_INVALID')
+    }
+
+    if (cleanLastName.length < 2) {
+      throw new Error('AUTH_LAST_NAME_INVALID')
+    }
+
+    if (!MOBILE_PATTERN.test(cleanMotherPhone)) {
+      throw new Error('AUTH_MOTHER_PHONE_INVALID')
+    }
+
+    if (!MOBILE_PATTERN.test(cleanFatherPhone)) {
+      throw new Error('AUTH_FATHER_PHONE_INVALID')
+    }
+
+    if (!cleanBirthDate) {
+      throw new Error('AUTH_BIRTH_DATE_REQUIRED')
     }
 
     if (!isPasswordValid(password)) {
@@ -128,21 +186,36 @@
     }
 
     return {
-      username: cleanUsername,
+      nationalCode: cleanNationalCode,
+      firstName: cleanFirstName,
+      lastName: cleanLastName,
+      motherPhone: cleanMotherPhone,
+      fatherPhone: cleanFatherPhone,
+      birthDate: cleanBirthDate,
       schoolName: cleanSchoolName,
       grade: cleanGrade,
     }
   }
 
   const register = async ({
-    username,
+    nationalCode,
+    firstName,
+    lastName,
+    motherPhone,
+    fatherPhone,
+    birthDate,
     password,
     schoolName,
     grade,
     avatarFile = null,
   }) => {
     const normalized = validateRegistration({
-      username,
+      nationalCode,
+      firstName,
+      lastName,
+      motherPhone,
+      fatherPhone,
+      birthDate,
       password,
       schoolName,
       grade,
@@ -150,6 +223,7 @@
 
     const avatar = await avatarFileToDataUrl(avatarFile)
     const passwordHash = await hashPassword(password)
+
     let registeredUser = null
 
     await window.appDataProvider.updateState((state) => {
@@ -158,28 +232,40 @@
       }
 
       const exists = state.users.some(
-        (user) => usernameKey(user.username) === usernameKey(normalized.username),
+        (user) =>
+          normalizeNationalCode(user.nationalCode) === normalized.nationalCode
       )
 
       if (exists) {
-        throw new Error('AUTH_USERNAME_TAKEN')
+        throw new Error('AUTH_NATIONAL_CODE_TAKEN')
       }
 
       const now = new Date().toISOString()
 
       const user = {
         id: createUserId(),
-        username: normalized.username,
-        name: normalized.username,
+
+        nationalCode: normalized.nationalCode,
+        firstName: normalized.firstName,
+        lastName: normalized.lastName,
+
+        motherPhone: normalized.motherPhone,
+        fatherPhone: normalized.fatherPhone,
+        birthDate: normalized.birthDate,
+
         passwordHash,
+
         schoolName: normalized.schoolName,
         grade: normalized.grade,
+
         avatar,
+
         createdAt: now,
         updatedAt: now,
       }
 
       state.users.push(user)
+
       state.currentUser = sanitizeUser(user)
       registeredUser = sanitizeUser(user)
 
@@ -189,21 +275,22 @@
     return registeredUser
   }
 
-  const login = async ({ username, password }) => {
-    const cleanUsername = normalizeUsername(username)
+  const login = async ({ nationalCode, password }) => {
+    const cleanNationalCode = normalizeNationalCode(nationalCode)
 
-    if (!cleanUsername || !password) {
+    if (!NATIONAL_CODE_PATTERN.test(cleanNationalCode) || !password) {
       throw new Error('AUTH_LOGIN_FIELDS_REQUIRED')
     }
 
     const passwordHash = await hashPassword(password)
+
     let loggedInUser = null
 
     await window.appDataProvider.updateState((state) => {
       const users = Array.isArray(state.users) ? state.users : []
 
       const user = users.find(
-        (item) => usernameKey(item.username) === usernameKey(cleanUsername),
+        (item) => normalizeNationalCode(item.nationalCode) === cleanNationalCode
       )
 
       if (!user || user.passwordHash !== passwordHash) {
@@ -221,6 +308,7 @@
 
   const getCurrentUser = async () => {
     const state = await window.appDataProvider.getState()
+
     return state.currentUser || null
   }
 
@@ -232,13 +320,17 @@
   }
 
   window.authService = Object.freeze({
-    USERNAME_MIN_LENGTH,
-    USERNAME_MAX_LENGTH,
+    NATIONAL_CODE_PATTERN,
+    MOBILE_PATTERN,
+
     PASSWORD_MIN_LENGTH,
     PASSWORD_PATTERN,
+
     AVATAR_MAX_BYTES,
+
     getPasswordRequirements,
     isPasswordValid,
+
     register,
     login,
     getCurrentUser,

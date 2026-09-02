@@ -4,78 +4,84 @@ class AuthMiddleware
 {
     private $db;
 
-
     public function __construct($db)
     {
         $this->db = $db;
     }
 
-
-
     public function handle()
     {
-        $header = Request::header("Authorization");
+        $authorization = Request::header("Authorization");
 
-
-        if (!$header) {
+        if (
+            !$authorization ||
+            !str_starts_with($authorization, "Bearer ")
+        ) {
             Response::error(
                 "Unauthorized",
                 401
             );
         }
 
+        $token = trim(
+            substr($authorization, 7)
+        );
 
-        if (!str_starts_with($header, "Bearer ")) {
-
+        if ($token === "") {
             Response::error(
-                "Invalid authorization format",
+                "Unauthorized",
                 401
             );
-
         }
 
-
-        $token = str_replace(
-            "Bearer ",
-            "",
-            $header
-        );
-
-
         $query = $this->db->prepare(
-            "SELECT 
-                users.id,
-                users.username,
-                users.school_name,
-                users.grade,
-                users.avatar
-            FROM auth_tokens
-            INNER JOIN users 
-                ON users.id = auth_tokens.user_id
-            WHERE auth_tokens.token = :token
-            AND auth_tokens.expires_at > NOW()
-            LIMIT 1"
+            "SELECT
+                u.id,
+                u.national_code,
+                u.first_name,
+                u.last_name,
+                u.mother_phone,
+                u.father_phone,
+                u.birth_date,
+                u.school_name,
+                u.grade,
+                u.avatar
+             FROM auth_tokens t
+             INNER JOIN users u
+                ON u.id = t.user_id
+             WHERE t.token = :token
+               AND t.expires_at > NOW()
+             LIMIT 1"
         );
-
 
         $query->execute([
             "token" => $token
         ]);
 
-
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
-
         if (!$user) {
-
             Response::error(
                 "Invalid or expired token",
                 401
             );
-
         }
 
+        return [
+            "id" => $user["id"],
+            "nationalCode" => $user["national_code"],
+            "firstName" => $user["first_name"],
+            "lastName" => $user["last_name"],
 
-        return $user;
+            // Used everywhere in the UI
+            "name" => $user["first_name"],
+
+            "motherPhone" => $user["mother_phone"],
+            "fatherPhone" => $user["father_phone"],
+            "birthDate" => $user["birth_date"],
+            "schoolName" => $user["school_name"],
+            "grade" => (int)$user["grade"],
+            "avatar" => $user["avatar"] ?? null
+        ];
     }
 }
