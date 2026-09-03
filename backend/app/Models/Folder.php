@@ -160,6 +160,30 @@ class Folder
     }
 
 
+    public function updateTitle($id, $userId, $title)
+    {
+        $query = $this->db->prepare(
+            "UPDATE folders
+             SET title = :title
+             WHERE id = :id
+             AND user_id = :user_id"
+        );
+
+
+        $query->execute([
+            "id" => $id,
+            "user_id" => $userId,
+            "title" => $title
+        ]);
+
+
+        return $this->findById(
+            $id,
+            $userId
+        );
+    }
+
+
     public function delete($id, $userId)
     {
         $query = $this->db->prepare(

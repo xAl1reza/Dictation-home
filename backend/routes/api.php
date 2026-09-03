@@ -114,6 +114,44 @@ Router::post("/api/v1/folders", function () {
 });
 
 
+Router::patch("/api/v1/folders/{id}", function ($id) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new FolderController($db);
+
+    $controller->update(
+        $user,
+        $id
+    );
+
+});
+
+
+Router::delete("/api/v1/folders/{id}", function ($id) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new FolderController($db);
+
+    $controller->destroy(
+        $user,
+        $id
+    );
+
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Word Routes
@@ -133,12 +171,11 @@ Router::get("/api/v1/folders/{folderId}/words", function ($folderId) {
     $controller = new WordController($db);
 
     $controller->index(
-    $user,
-    $folderId
-);
+        $user,
+        $folderId
+    );
 
 });
-
 
 
 Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
@@ -153,11 +190,50 @@ Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
     $controller = new WordController($db);
 
     $controller->store(
-    $user,
-    $folderId
-);
+        $user,
+        $folderId
+    );
 
 });
+
+
+Router::patch("/api/v1/words/{id}", function ($id) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new WordController($db);
+
+    $controller->update(
+        $user,
+        $id
+    );
+
+});
+
+
+Router::delete("/api/v1/words/{id}", function ($id) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new WordController($db);
+
+    $controller->destroy(
+        $user,
+        $id
+    );
+
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -197,6 +273,7 @@ Router::get("/api/v1/game-results", function () {
 
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | Dashboard Routes
@@ -218,6 +295,7 @@ Router::get("/api/v1/dashboard/stats", function () {
     $controller->index($user);
 
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -263,6 +341,45 @@ Router::post("/api/v1/folders/{folderId}/science-questions", function ($folderId
 
 });
 
+
+Router::patch("/api/v1/science-questions/{id}", function ($id) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ScienceQuestionController($db);
+
+    $controller->update(
+        $user,
+        $id
+    );
+
+});
+
+
+Router::delete("/api/v1/science-questions/{id}", function ($id) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ScienceQuestionController($db);
+
+    $controller->destroy(
+        $user,
+        $id
+    );
+
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Public News Routes
@@ -301,6 +418,7 @@ Router::get("/api/v1/news/{slug}", function ($slug) {
     $controller->show($slug);
 
 });
+
 
 /*
 |--------------------------------------------------------------------------

@@ -96,6 +96,17 @@ class FolderController
             }
 
 
+            if (mb_strlen($title) > 100) {
+
+                Response::error(
+                    "Title must not exceed 100 characters",
+                    400
+                );
+
+                return;
+            }
+
+
             $folder = $this->folderModel->create([
                 "id" => $this->uuid(),
                 "user_id" => $user["id"],
@@ -118,6 +129,74 @@ class FolderController
             );
 
         }
+    }
+
+
+    public function update($user, $id)
+    {
+        $folder = $this->folderModel->findById(
+            $id,
+            $user["id"]
+        );
+
+
+        if (!$folder) {
+
+            Response::error(
+                "Folder not found",
+                404
+            );
+
+            return;
+        }
+
+
+        $data = Request::body();
+
+
+        $title = trim(
+            $data["title"] ?? ""
+        );
+
+
+        if ($title === "") {
+
+            Response::error(
+                "Title is required",
+                400
+            );
+
+            return;
+        }
+
+
+        if (mb_strlen($title) > 100) {
+
+            Response::error(
+                "Title must not exceed 100 characters",
+                400
+            );
+
+            return;
+        }
+
+
+        $updatedFolder =
+            $this->folderModel->updateTitle(
+                $id,
+                $user["id"],
+                $title
+            );
+
+
+        Response::success(
+            [
+                "id" => $updatedFolder["id"],
+                "title" => $updatedFolder["title"],
+                "type" => $updatedFolder["type"]
+            ],
+            "Folder updated successfully"
+        );
     }
 
 

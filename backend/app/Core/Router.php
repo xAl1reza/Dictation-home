@@ -17,21 +17,50 @@ class Router
     }
 
 
+    public static function patch($path, $callback)
+    {
+        self::$routes["PATCH"][$path] = $callback;
+    }
+
+
+    public static function delete($path, $callback)
+    {
+        self::$routes["DELETE"][$path] = $callback;
+    }
+
+
     public static function dispatch()
     {
         $method = $_SERVER["REQUEST_METHOD"];
 
-        $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        $uri = parse_url(
+            $_SERVER["REQUEST_URI"],
+            PHP_URL_PATH
+        );
 
 
-        $basePath = "/dictation-home/backend/public";
+        $basePath =
+            "/dictation-home/backend/public";
 
-        if (str_starts_with($uri, $basePath)) {
-            $uri = substr($uri, strlen($basePath));
+
+        if (
+            str_starts_with(
+                $uri,
+                $basePath
+            )
+        ) {
+
+            $uri = substr(
+                $uri,
+                strlen($basePath)
+            );
         }
 
 
-        foreach (self::$routes[$method] ?? [] as $route => $callback) {
+        foreach (
+            self::$routes[$method] ?? []
+            as $route => $callback
+        ) {
 
             $pattern = preg_replace(
                 '/\{[a-zA-Z]+\}/',
@@ -39,17 +68,27 @@ class Router
                 $route
             );
 
-            $pattern = "#^" . $pattern . "$#";
+
+            $pattern =
+                "#^" . $pattern . "$#";
 
 
-            if (preg_match($pattern, $uri, $matches)) {
+            if (
+                preg_match(
+                    $pattern,
+                    $uri,
+                    $matches
+                )
+            ) {
 
                 array_shift($matches);
+
 
                 call_user_func_array(
                     $callback,
                     $matches
                 );
+
 
                 return;
             }

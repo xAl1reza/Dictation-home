@@ -2,6 +2,8 @@
 
 class WordController
 {
+    private const WORD_MAX_LENGTH = 80;
+
     private $wordModel;
     private $folderModel;
 
@@ -59,17 +61,26 @@ class WordController
 
         $data = Request::body();
 
-
-        $value = trim(
+        $value = $this->normalizeValue(
             $data["value"] ?? ""
         );
 
 
-        if ($value === "") {
+        if (!$this->validateValue($value)) {
+            return;
+        }
+
+
+        if (
+            $this->wordModel->existsInFolder(
+                $folderId,
+                $value
+            )
+        ) {
 
             Response::error(
-                "Value is required",
-                400
+                "Word already exists in this folder",
+                409
             );
 
             return;
@@ -78,13 +89,13 @@ class WordController
 
         $word = $this->wordModel->create([
             "id" => $this->uuid(),
-
             "folder_id" => $folderId,
 
-            // اسم ستون دیتابیس فعلاً word است.
+            // Database column is still named "word".
             "word" => $value,
 
-            "description" => $data["description"] ?? null
+            // Legacy DB field; frontend does not currently use it.
+            "description" => null
         ]);
 
 
@@ -95,16 +106,109 @@ class WordController
     }
 
 
-    /*
-     * فعلاً Route حذف کلمه را نهایی نکرده‌ایم.
-     * این متد برای زمانی که CRUD را کامل می‌کنیم
-     * Ownership را هم رعایت می‌کند.
-     */
-    public function destroy($user, $id, $folderId)
+    public function update($user, $id)
     {
+        $word = $this->wordModel->findById(
+            $id
+        );
+
+
+        if (!$word) {
+
+            Response::error(
+                "Word not found",
+                404
+            );
+
+            return;
+        }
+
+
+        /*
+         * Ownership is verified through the word's folder.
+         */
         $folder = $this->getOwnedDictationFolder(
             $user,
-            $folderId
+            $word["folder_id"]
+        );
+
+
+        if (!$folder) {
+            return;
+        }
+
+
+        $data = Request::body();
+
+        $value = $this->normalizeValue(
+            $data["value"] ?? ""
+        );
+
+
+        if (!$this->validateValue($value)) {
+            return;
+        }
+
+
+        if (
+            $this->wordModel->existsInFolder(
+                $word["folder_id"],
+                $value,
+                $id
+            )
+        ) {
+
+            Response::error(
+                "Word already exists in this folder",
+                409
+            );
+
+            return;
+        }
+
+
+        $updatedWord =
+            $this->wordModel->updateValue(
+                $id,
+                $word["folder_id"],
+                $value
+            );
+
+
+        Response::success(
+            $this->formatWord(
+                $updatedWord
+            ),
+            "Word updated successfully"
+        );
+    }
+
+
+    public function destroy($user, $id)
+    {
+        $word = $this->wordModel->findById(
+            $id
+        );
+
+
+        if (!$word) {
+
+            Response::error(
+                "Word not found",
+                404
+            );
+
+            return;
+        }
+
+
+        /*
+         * A user may delete a word only when its
+         * dictation folder belongs to that user.
+         */
+        $folder = $this->getOwnedDictationFolder(
+            $user,
+            $word["folder_id"]
         );
 
 
@@ -115,7 +219,7 @@ class WordController
 
         $this->wordModel->delete(
             $id,
-            $folderId
+            $word["folder_id"]
         );
 
 
@@ -137,12 +241,12 @@ class WordController
         );
 
 
-        /*
-         * هم وجود پوشه و هم Ownership
-         * در همین Query بررسی می‌شود.
-         */
         if (!$folder) {
 
+            /*
+             * Return the same 404 for a missing folder
+             * and another user's folder.
+             */
             Response::error(
                 "Folder not found",
                 404
@@ -152,9 +256,6 @@ class WordController
         }
 
 
-        /*
-         * Word فقط داخل پوشه Dictation مجاز است.
-         */
         if ($folder["type"] !== "dictation") {
 
             Response::error(
@@ -170,6 +271,52 @@ class WordController
     }
 
 
+    private function normalizeValue($value)
+    {
+        $value = trim(
+            (string) $value
+        );
+
+
+        return preg_replace(
+            '/\s+/u',
+            ' ',
+            $value
+        );
+    }
+
+
+    private function validateValue($value)
+    {
+        if ($value === "") {
+
+            Response::error(
+                "Value is required",
+                400
+            );
+
+            return false;
+        }
+
+
+        if (
+            mb_strlen($value) >
+            self::WORD_MAX_LENGTH
+        ) {
+
+            Response::error(
+                "Value must not exceed 80 characters",
+                400
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
     private function formatWord($word)
     {
         if (!is_array($word)) {
@@ -177,24 +324,18 @@ class WordController
         }
 
 
-        if (array_key_exists("word", $word)) {
+        return [
+            "id" => $word["id"],
 
-            $word["value"] = $word["word"];
+            "folderId" =>
+                $word["folder_id"],
 
-            unset($word["word"]);
-        }
+            "value" =>
+                $word["word"],
 
-
-        if (array_key_exists("folder_id", $word)) {
-
-            $word["folderId"] =
-                $word["folder_id"];
-
-            unset($word["folder_id"]);
-        }
-
-
-        return $word;
+            "createdAt" =>
+                $word["created_at"] ?? null
+        ];
     }
 
 
