@@ -9,6 +9,9 @@ class AuthService
     private const NATIONAL_CODE_PATTERN = '/^[0-9]{10}$/';
     private const MOBILE_PATTERN = '/^09\d{9}$/';
 
+    private const LOGIN_MAX_ATTEMPTS = 5;
+    private const LOGIN_WINDOW_MINUTES = 15;
+
     public function __construct($db)
     {
         $this->db = $db;
@@ -60,12 +63,50 @@ class AuthService
             throw new Exception("AUTH_LOGIN_FIELDS_REQUIRED");
         }
 
+        /*
+         * Small maintenance cleanup.
+         * Keeps expired tokens and old limiter rows from growing forever.
+         */
+        $this->cleanupExpiredSecurityRows();
+
+        /*
+         * Rate limit is based on a SHA-256 hash of:
+         * national code + requester IP.
+         * Raw national codes are NOT stored in the limiter table.
+         */
+        $this->assertLoginAllowed($nationalCode);
+
         $user = $this->userModel->findByNationalCode($nationalCode);
 
         if (!$user || !password_verify($password, $user["password"])) {
+
+            $this->recordLoginFailure($nationalCode);
+
             throw new Exception("AUTH_LOGIN_INVALID");
         }
 
+        /*
+         * Successful login clears previous failed attempts
+         * for this national-code/IP pair.
+         */
+        $this->clearLoginFailures($nationalCode);
+
+        /*
+         * Keep only one active token per user.
+         * Every successful login invalidates all previous sessions.
+         */
+        $deleteOldTokens = $this->db->prepare(
+            "DELETE FROM auth_tokens
+             WHERE user_id = :user_id"
+        );
+
+        $deleteOldTokens->execute([
+            "user_id" => $user["id"]
+        ]);
+
+        /*
+         * Generate a new active token.
+         */
         $token = bin2hex(random_bytes(32));
 
         $query = $this->db->prepare(
@@ -90,8 +131,190 @@ class AuthService
 
         return [
             "token" => $token,
+            "expiresInDays" => 30,
             "user" => $this->formatUser($user)
         ];
+    }
+
+    public function logout($token)
+    {
+        $token = trim((string)$token);
+
+        if ($token === "") {
+            throw new Exception("AUTH_TOKEN_REQUIRED");
+        }
+
+        $query = $this->db->prepare(
+            "DELETE FROM auth_tokens
+             WHERE token = :token"
+        );
+
+        $query->execute([
+            "token" => $token
+        ]);
+
+        return true;
+    }
+
+    private function assertLoginAllowed($nationalCode)
+    {
+        $keyHash = $this->loginLimitKey($nationalCode);
+
+        $query = $this->db->prepare(
+            "SELECT
+                attempts,
+                window_started
+             FROM auth_login_limits
+             WHERE key_hash = :key_hash
+             LIMIT 1"
+        );
+
+        $query->execute([
+            "key_hash" => $keyHash
+        ]);
+
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return;
+        }
+
+        $windowStarted = strtotime($row["window_started"]);
+        $windowSeconds = self::LOGIN_WINDOW_MINUTES * 60;
+
+        if (
+            $windowStarted === false ||
+            (time() - $windowStarted) >= $windowSeconds
+        ) {
+            $this->deleteLoginLimitRow($keyHash);
+            return;
+        }
+
+        if ((int)$row["attempts"] >= self::LOGIN_MAX_ATTEMPTS) {
+            throw new Exception("AUTH_LOGIN_RATE_LIMITED");
+        }
+    }
+
+    private function recordLoginFailure($nationalCode)
+    {
+        $keyHash = $this->loginLimitKey($nationalCode);
+
+        $query = $this->db->prepare(
+            "SELECT
+                attempts,
+                window_started
+             FROM auth_login_limits
+             WHERE key_hash = :key_hash
+             LIMIT 1"
+        );
+
+        $query->execute([
+            "key_hash" => $keyHash
+        ]);
+
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+
+            $insert = $this->db->prepare(
+                "INSERT INTO auth_login_limits (
+                    key_hash,
+                    attempts,
+                    window_started
+                ) VALUES (
+                    :key_hash,
+                    1,
+                    NOW()
+                )"
+            );
+
+            $insert->execute([
+                "key_hash" => $keyHash
+            ]);
+
+            return;
+        }
+
+        $windowStarted = strtotime($row["window_started"]);
+        $windowSeconds = self::LOGIN_WINDOW_MINUTES * 60;
+
+        if (
+            $windowStarted === false ||
+            (time() - $windowStarted) >= $windowSeconds
+        ) {
+
+            $reset = $this->db->prepare(
+                "UPDATE auth_login_limits
+                 SET
+                    attempts = 1,
+                    window_started = NOW()
+                 WHERE key_hash = :key_hash"
+            );
+
+            $reset->execute([
+                "key_hash" => $keyHash
+            ]);
+
+            return;
+        }
+
+        $update = $this->db->prepare(
+            "UPDATE auth_login_limits
+             SET attempts = attempts + 1
+             WHERE key_hash = :key_hash"
+        );
+
+        $update->execute([
+            "key_hash" => $keyHash
+        ]);
+    }
+
+    private function clearLoginFailures($nationalCode)
+    {
+        $this->deleteLoginLimitRow(
+            $this->loginLimitKey($nationalCode)
+        );
+    }
+
+    private function deleteLoginLimitRow($keyHash)
+    {
+        $query = $this->db->prepare(
+            "DELETE FROM auth_login_limits
+             WHERE key_hash = :key_hash"
+        );
+
+        $query->execute([
+            "key_hash" => $keyHash
+        ]);
+    }
+
+    private function loginLimitKey($nationalCode)
+    {
+        /*
+         * Do not trust X-Forwarded-For here.
+         * REMOTE_ADDR is the direct peer address.
+         * If a trusted reverse proxy is added later,
+         * proxy handling can be configured explicitly.
+         */
+        $ip = $_SERVER["REMOTE_ADDR"] ?? "unknown";
+
+        return hash(
+            "sha256",
+            $nationalCode . "|" . $ip
+        );
+    }
+
+    private function cleanupExpiredSecurityRows()
+    {
+        $this->db->exec(
+            "DELETE FROM auth_tokens
+             WHERE expires_at <= NOW()"
+        );
+
+        $this->db->exec(
+            "DELETE FROM auth_login_limits
+             WHERE updated_at < DATE_SUB(NOW(), INTERVAL 1 DAY)"
+        );
     }
 
     private function validateRegistration($data)
@@ -252,7 +475,6 @@ class AuthService
             "firstName" => $user["first_name"],
             "lastName" => $user["last_name"],
 
-            // UI display name across dashboard and games
             "name" => $user["first_name"],
 
             "motherPhone" => $user["mother_phone"],

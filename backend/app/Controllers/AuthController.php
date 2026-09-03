@@ -49,14 +49,83 @@ class AuthController
 
         } catch (Exception $e) {
 
+            $code = $e->getMessage();
+
+            if ($code === "AUTH_LOGIN_RATE_LIMITED") {
+                Response::error(
+                    "Too many login attempts. Try again later.",
+                    429
+                );
+
+                return;
+            }
+
             $statusCode =
-                $e->getMessage() === "AUTH_LOGIN_INVALID"
+                $code === "AUTH_LOGIN_INVALID"
                     ? 401
                     : 422;
 
             Response::error(
-                $e->getMessage(),
+                $code,
                 $statusCode
+            );
+        }
+    }
+
+    public function logout()
+    {
+        $authorization =
+            Request::header("Authorization");
+
+        if (
+            !$authorization ||
+            !str_starts_with(
+                $authorization,
+                "Bearer "
+            )
+        ) {
+
+            Response::error(
+                "Unauthorized",
+                401
+            );
+
+            return;
+        }
+
+        $token = trim(
+            substr(
+                $authorization,
+                7
+            )
+        );
+
+        if ($token === "") {
+
+            Response::error(
+                "Unauthorized",
+                401
+            );
+
+            return;
+        }
+
+        try {
+
+            $this->authService->logout(
+                $token
+            );
+
+            Response::success(
+                [],
+                "Logout successful"
+            );
+
+        } catch (Exception $e) {
+
+            Response::error(
+                "Logout failed",
+                400
             );
         }
     }
