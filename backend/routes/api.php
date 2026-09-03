@@ -218,3 +218,47 @@ Router::get("/api/v1/dashboard/stats", function () {
     $controller->index($user);
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Science Question Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::get("/api/v1/folders/{folderId}/science-questions", function ($folderId) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ScienceQuestionController($db);
+
+    $controller->index(
+        $user,
+        $folderId
+    );
+
+});
+
+
+Router::post("/api/v1/folders/{folderId}/science-questions", function ($folderId) {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ScienceQuestionController($db);
+
+    $controller->store(
+        $user,
+        $folderId
+    );
+
+});

@@ -25,7 +25,13 @@ class Folder
                     SELECT COUNT(*)
                     FROM words w
                     WHERE w.folder_id = f.id
-                ) AS wordCount
+                ) AS wordCount,
+
+                (
+                    SELECT COUNT(*)
+                    FROM science_questions sq
+                    WHERE sq.folder_id = f.id
+                ) AS questionCount
 
             FROM folders f
 
@@ -54,29 +60,38 @@ class Folder
         $query->execute($params);
 
 
-        $folders = $query->fetchAll(PDO::FETCH_ASSOC);
+        $folders =
+            $query->fetchAll(
+                PDO::FETCH_ASSOC
+            );
 
 
-        return array_map(function ($folder) {
+        return array_map(
+            function ($folder) {
 
-            return [
-                "id" => $folder["id"],
-                "title" => $folder["title"],
-                "type" => $folder["type"],
+                return [
+                    "id" => $folder["id"],
+                    "title" => $folder["title"],
+                    "type" => $folder["type"],
 
-                "ownerType" => "user",
-                "locked" => false,
+                    "ownerType" => "user",
+                    "locked" => false,
 
-                "wordCount" => (int) $folder["wordCount"],
+                    "wordCount" =>
+                        (int) $folder["wordCount"],
 
-                // Science API is implemented in the next stage.
-                "questionCount" => 0,
+                    "questionCount" =>
+                        (int) $folder["questionCount"],
 
-                "createdAt" => $folder["createdAt"],
-                "updatedAt" => $folder["updatedAt"]
-            ];
+                    "createdAt" =>
+                        $folder["createdAt"],
 
-        }, $folders);
+                    "updatedAt" =>
+                        $folder["updatedAt"]
+                ];
+            },
+            $folders
+        );
     }
 
 
@@ -139,7 +154,9 @@ class Folder
         ]);
 
 
-        return $query->fetch(PDO::FETCH_ASSOC);
+        return $query->fetch(
+            PDO::FETCH_ASSOC
+        );
     }
 
 
