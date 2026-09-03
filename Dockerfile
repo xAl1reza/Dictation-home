@@ -1,3 +1,23 @@
-abbc5a46fe43981dd70f72ca79d071085d20380eab273300ee37d411fa5fb395
+# مرحله build
+FROM node:20-alpine AS builder
 
-16db6c1227dab1c08cfff63de14237eca7999d94f1702eeaf67b4135c227ec67
+WORKDIR /app
+
+COPY frontend/package*.json ./
+
+RUN npm ci
+
+COPY frontend .
+
+RUN npx @tailwindcss/cli -i ./src/input.css -o ./public/styles/style.css --minify
+
+
+
+# مرحله runtime
+FROM nginx:alpine
+
+COPY --from=builder /app/public /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
