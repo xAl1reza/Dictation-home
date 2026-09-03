@@ -301,3 +301,35 @@ Router::get("/api/v1/news/{slug}", function ($slug) {
     $controller->show($slug);
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Iran Map Public Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::get("/api/v1/iran-map/provinces", function () {
+
+    $db = Database::connect();
+
+    $controller =
+        new PartnerSchoolController($db);
+
+    $controller->provinces();
+
+});
+
+
+Router::get("/api/v1/iran-map/provinces/{provinceCode}/schools", function ($provinceCode) {
+
+    $db = Database::connect();
+
+    $controller =
+        new PartnerSchoolController($db);
+
+    $controller->schools(
+        $provinceCode
+    );
+
+});
