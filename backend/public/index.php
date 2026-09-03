@@ -16,6 +16,7 @@ require_once __DIR__ . "/../app/Models/Word.php";
 require_once __DIR__ . "/../app/Models/GameResult.php";
 require_once __DIR__ . "/../app/Models/Dashboard.php";
 require_once __DIR__ . '/../app/Models/ScienceQuestion.php';
+require_once __DIR__ . '/../app/Models/News.php';
 
 
 
@@ -36,6 +37,7 @@ require_once __DIR__ . "/../app/Controllers/WordController.php";
 require_once __DIR__ . "/../app/Controllers/GameResultController.php";
 require_once __DIR__ . "/../app/Controllers/DashboardController.php";
 require_once __DIR__ . '/../app/Controllers/ScienceQuestionController.php';
+require_once __DIR__ . '/../app/Controllers/NewsController.php';
 
 
 // Routes

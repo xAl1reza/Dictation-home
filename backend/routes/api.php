@@ -262,3 +262,42 @@ Router::post("/api/v1/folders/{folderId}/science-questions", function ($folderId
     );
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Public News Routes
+|--------------------------------------------------------------------------
+*/
+
+
+Router::get("/api/v1/news", function () {
+
+    $db = Database::connect();
+
+    $controller = new NewsController($db);
+
+    $controller->index();
+
+});
+
+
+Router::get("/api/v1/news/{slug}/related", function ($slug) {
+
+    $db = Database::connect();
+
+    $controller = new NewsController($db);
+
+    $controller->related($slug);
+
+});
+
+
+Router::get("/api/v1/news/{slug}", function ($slug) {
+
+    $db = Database::connect();
+
+    $controller = new NewsController($db);
+
+    $controller->show($slug);
+
+});
