@@ -2,56 +2,54 @@
  * Dictation game.
  *
  * Two-player flow:
- * SETUP → READER → WRITER → REVIEW → HANDOFF → next round
+ * SETUP → READER → REVIEW → next round
  *
  * The participant who writes the word receives the score.
  * Completed results are persisted through gameResultService.
  */
 
-(() => {
+;(() => {
   const PHASE = Object.freeze({
-    READY: "ready",
-    SETUP: "setup",
-    READER: "reader",
-    WRITER: "writer",
-    REVIEW: "review",
-    HANDOFF: "handoff",
-    FINISHED: "finished",
-  });
+    READY: 'ready',
+    SETUP: 'setup',
+    READER: 'reader',
+    REVIEW: 'review',
+    FINISHED: 'finished',
+  })
 
-  const MIN_DICTATION_WORDS = 10;
+  const MIN_DICTATION_WORDS = 10
 
   const getFairRoundCount = (wordCount) => {
-    const count = Number(wordCount || 0);
+    const count = Number(wordCount || 0)
 
     if (count < MIN_DICTATION_WORDS) {
-      return 0;
+      return 0
     }
 
-    return count % 2 === 0 ? count : count - 1;
-  };
+    return count % 2 === 0 ? count : count - 1
+  }
 
   const config = Object.freeze({
-    title: "دیکته",
-    eyebrow: "مسابقه دیکته",
-    description: "کلمات را نوبتی تمرین کن و امتیاز هر پاسخ را ثبت کن.",
-    icon: "#icon-game-dictation",
-    iconClass: "bg-accent/15 text-accent dark:bg-accent/10",
-    glowClass: "bg-accent/10",
+    title: 'دیکته',
+    eyebrow: 'مسابقه دیکته',
+    description: 'کلمات را نوبتی تمرین کن و امتیاز هر پاسخ را ثبت کن.',
+    icon: '#icon-game-dictation',
+    iconClass: 'bg-accent/15 text-accent dark:bg-accent/10',
+    glowClass: 'bg-accent/10',
     badgeClass:
-      "bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark",
+      'bg-accent/15 text-textColor dark:bg-accent/10 dark:text-textColor-dark',
     tutorial: {
-      title: "مسابقه دیکته چطور انجام می‌شود؟",
+      title: 'مسابقه دیکته چطور انجام می‌شود؟',
       description:
-        "این بازی دونفره است. بازیکن دوم فقط برای همین مسابقه وارد می‌شود و نیازی به حساب کاربری ندارد.",
+        'این بازی دونفره است. بازیکن دوم فقط برای همین مسابقه وارد می‌شود و نیازی به حساب کاربری ندارد.',
       steps: [
-        "یک پوشه از کلماتت را برای مسابقه انتخاب می‌کنی.",
-        "در هر دور، یک نفر کلمه را می‌بیند و برای نفر مقابل می‌خواند؛ بازیکن دوم باید کلمه را بنویسد و بعد نتیجه را با دکمه «درست» یا «غلط» ثبت کنید.",
-        "بعد از ثبت نتیجه، نقش دو بازیکن عوض می‌شود و دور بعد شروع خواهد شد.",
-        "فقط امتیاز کاربر واردشده در حساب ذخیره می‌شود.",
+        'یک پوشه از کلماتت را برای مسابقه انتخاب می‌کنی.',
+        'در هر دور، یک نفر کلمه را می‌بیند و برای نفر مقابل می‌خواند؛ سپس نتیجه را با دکمه «درست» یا «غلط» ثبت کنید.',
+        'بعد از ثبت نتیجه، نقش دو بازیکن خودکار عوض می‌شود و کلمه بعدی نمایش داده خواهد شد.',
+        'فقط امتیاز کاربر واردشده در حساب ذخیره می‌شود.',
       ],
     },
-  });
+  })
 
   const runtime = {
     phase: PHASE.READY,
@@ -64,131 +62,120 @@
     readerId: null,
     writerId: null,
     cardBusy: false,
-  };
+  }
 
   const createGuestId = () => {
     if (window.crypto?.randomUUID) {
-      return `guest-${window.crypto.randomUUID()}`;
+      return `guest-${window.crypto.randomUUID()}`
     }
 
-    return `guest-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  };
+    return `guest-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  }
 
-  const normalizeName = (value = "") => {
-    return String(value).replace(/\s+/g, " ").trim();
-  };
+  const normalizeName = (value = '') => {
+    return String(value).replace(/\s+/g, ' ').trim()
+  }
 
   const shuffleWords = (words) => {
-    const items = [...words];
+    const items = [...words]
 
     for (let index = items.length - 1; index > 0; index -= 1) {
-      const randomIndex = Math.floor(Math.random() * (index + 1));
+      const randomIndex = Math.floor(Math.random() * (index + 1))
 
-      [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
+      ;[items[index], items[randomIndex]] = [items[randomIndex], items[index]]
     }
 
-    return items;
-  };
+    return items
+  }
 
   const getStage = () => {
-    return document.getElementById("game-stage-content");
-  };
+    return document.getElementById('game-stage-content')
+  }
 
   const getParticipant = (engine, participantId) => {
     return engine
       .getSnapshot()
-      .participants.find((participant) => participant.id === participantId);
-  };
+      .participants.find((participant) => participant.id === participantId)
+  }
 
   const getReader = (engine) => {
-    return getParticipant(engine, runtime.readerId);
-  };
+    return getParticipant(engine, runtime.readerId)
+  }
 
   const getWriter = (engine) => {
-    return getParticipant(engine, runtime.writerId);
-  };
+    return getParticipant(engine, runtime.writerId)
+  }
 
   const setPhase = (phase) => {
-    runtime.phase = phase;
-  };
+    runtime.phase = phase
+  }
 
   const showError = (message) => {
-    if (typeof window.showToast === "function") {
+    if (typeof window.showToast === 'function') {
       window.showToast({
-        type: "error",
-        title: "امکان ادامه بازی نیست",
+        type: 'error',
+        title: 'امکان ادامه بازی نیست',
         message,
-      });
+      })
 
-      return;
+      return
     }
 
-    console.error(message);
-  };
-
-  const showSuccess = (message) => {
-    if (typeof window.showToast === "function") {
-      window.showToast({
-        type: "success",
-        title: "ثبت شد",
-        message,
-        duration: 2200,
-      });
-    }
-  };
+    console.error(message)
+  }
 
   const getAvailableFolders = async () => {
     if (!window.folderService || !window.wordService) {
-      throw new Error("DICTATION_SERVICES_MISSING");
+      throw new Error('DICTATION_SERVICES_MISSING')
     }
 
-    const folders = await window.folderService.getFolders();
+    const folders = await window.folderService.getFolders()
 
     return folders.filter(
       (folder) =>
-        folder.type === "dictation" &&
-        Number(folder.wordCount || 0) >= MIN_DICTATION_WORDS,
-    );
-  };
+        folder.type === 'dictation' &&
+        Number(folder.wordCount || 0) >= MIN_DICTATION_WORDS
+    )
+  }
 
   const clearSetupErrors = () => {
-    const nameError = document.getElementById("dictation-name-error");
+    const nameError = document.getElementById('dictation-name-error')
 
-    const folderError = document.getElementById("dictation-folder-error");
+    const folderError = document.getElementById('dictation-folder-error')
 
-    [nameError, folderError].forEach((element) => {
-      if (!element) return;
+    ;[nameError, folderError].forEach((element) => {
+      if (!element) return
 
-      element.textContent = "";
-      element.classList.add("hidden");
-    });
-  };
+      element.textContent = ''
+      element.classList.add('hidden')
+    })
+  }
 
   const setFieldError = (id, message) => {
-    const element = document.getElementById(id);
+    const element = document.getElementById(id)
 
-    if (!element) return;
+    if (!element) return
 
-    element.textContent = message;
-    element.classList.remove("hidden");
-  };
+    element.textContent = message
+    element.classList.remove('hidden')
+  }
 
   const initFolderDropdown = () => {
-    const dropdown = document.getElementById("dictation-folder-dropdown");
+    const dropdown = document.getElementById('dictation-folder-dropdown')
 
-    const trigger = document.getElementById("dictation-folder-trigger");
+    const trigger = document.getElementById('dictation-folder-trigger')
 
-    const menu = document.getElementById("dictation-folder-menu");
+    const menu = document.getElementById('dictation-folder-menu')
 
-    const valueElement = document.getElementById("dictation-folder-value");
+    const valueElement = document.getElementById('dictation-folder-value')
 
-    const input = document.getElementById("dictation-folder");
+    const input = document.getElementById('dictation-folder')
 
-    const chevron = document.getElementById("dictation-folder-chevron");
+    const chevron = document.getElementById('dictation-folder-chevron')
 
     const options = Array.from(
-      document.querySelectorAll(".dictation-folder-option"),
-    );
+      document.querySelectorAll('.dictation-folder-option')
+    )
 
     if (
       !dropdown ||
@@ -199,185 +186,185 @@
       !chevron ||
       !options.length
     ) {
-      return;
+      return
     }
 
-    let activeIndex = -1;
+    let activeIndex = -1
 
     const openDropdown = () => {
-      menu.classList.remove("hidden");
+      menu.classList.remove('hidden')
 
-      trigger.setAttribute("aria-expanded", "true");
+      trigger.setAttribute('aria-expanded', 'true')
 
-      chevron.classList.add("rotate-180");
+      chevron.classList.add('rotate-180')
 
       const selectedIndex = options.findIndex(
-        (option) => option.getAttribute("aria-selected") === "true",
-      );
+        (option) => option.getAttribute('aria-selected') === 'true'
+      )
 
-      activeIndex = selectedIndex >= 0 ? selectedIndex : 0;
+      activeIndex = selectedIndex >= 0 ? selectedIndex : 0
 
-      options[activeIndex]?.focus();
-    };
+      options[activeIndex]?.focus()
+    }
 
     const closeDropdown = (returnFocus = false) => {
-      menu.classList.add("hidden");
+      menu.classList.add('hidden')
 
-      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute('aria-expanded', 'false')
 
-      chevron.classList.remove("rotate-180");
+      chevron.classList.remove('rotate-180')
 
-      activeIndex = -1;
+      activeIndex = -1
 
       if (returnFocus) {
-        trigger.focus();
+        trigger.focus()
       }
-    };
+    }
 
     const selectFolder = (option) => {
-      const value = option.dataset.value;
+      const value = option.dataset.value
 
       const label =
         option
-          .querySelector(".dictation-folder-option-label")
-          ?.textContent.trim() || "";
+          .querySelector('.dictation-folder-option-label')
+          ?.textContent.trim() || ''
 
-      input.value = value;
+      input.value = value
 
       input.dispatchEvent(
-        new Event("change", {
+        new Event('change', {
           bubbles: true,
-        }),
-      );
+        })
+      )
 
-      valueElement.textContent = label;
+      valueElement.textContent = label
 
       valueElement.classList.remove(
-        "text-mutedColor/60",
-        "dark:text-mutedColor-dark/50",
-      );
+        'text-mutedColor/60',
+        'dark:text-mutedColor-dark/50'
+      )
 
-      valueElement.classList.add("text-textColor", "dark:text-textColor-dark");
+      valueElement.classList.add('text-textColor', 'dark:text-textColor-dark')
 
       options.forEach((item) => {
-        const selected = item === option;
+        const selected = item === option
 
-        item.setAttribute("aria-selected", String(selected));
+        item.setAttribute('aria-selected', String(selected))
 
-        item.classList.toggle("bg-primary/10", selected);
+        item.classList.toggle('bg-primary/10', selected)
 
-        item.classList.toggle("text-primary", selected);
+        item.classList.toggle('text-primary', selected)
 
-        item.classList.toggle("dark:bg-primary/15", selected);
+        item.classList.toggle('dark:bg-primary/15', selected)
 
-        item.classList.toggle("dark:text-primary-light", selected);
+        item.classList.toggle('dark:text-primary-light', selected)
 
         item
-          .querySelector(".dictation-folder-check")
-          ?.classList.toggle("hidden", !selected);
-      });
+          .querySelector('.dictation-folder-check')
+          ?.classList.toggle('hidden', !selected)
+      })
 
-      closeDropdown(true);
-    };
+      closeDropdown(true)
+    }
 
-    trigger.addEventListener("click", () => {
-      const isOpen = trigger.getAttribute("aria-expanded") === "true";
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true'
 
       if (isOpen) {
-        closeDropdown();
+        closeDropdown()
       } else {
-        openDropdown();
+        openDropdown()
       }
-    });
+    })
 
     options.forEach((option, index) => {
-      option.addEventListener("click", () => {
-        selectFolder(option);
-      });
+      option.addEventListener('click', () => {
+        selectFolder(option)
+      })
 
-      option.addEventListener("keydown", (event) => {
-        if (event.key === "ArrowDown") {
-          event.preventDefault();
+      option.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown') {
+          event.preventDefault()
 
-          activeIndex = (index + 1) % options.length;
+          activeIndex = (index + 1) % options.length
 
-          options[activeIndex].focus();
+          options[activeIndex].focus()
         }
 
-        if (event.key === "ArrowUp") {
-          event.preventDefault();
+        if (event.key === 'ArrowUp') {
+          event.preventDefault()
 
-          activeIndex = (index - 1 + options.length) % options.length;
+          activeIndex = (index - 1 + options.length) % options.length
 
-          options[activeIndex].focus();
+          options[activeIndex].focus()
         }
 
-        if (event.key === "Home") {
-          event.preventDefault();
+        if (event.key === 'Home') {
+          event.preventDefault()
 
-          activeIndex = 0;
+          activeIndex = 0
 
-          options[activeIndex].focus();
+          options[activeIndex].focus()
         }
 
-        if (event.key === "End") {
-          event.preventDefault();
+        if (event.key === 'End') {
+          event.preventDefault()
 
-          activeIndex = options.length - 1;
+          activeIndex = options.length - 1
 
-          options[activeIndex].focus();
+          options[activeIndex].focus()
         }
 
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
 
-          selectFolder(option);
+          selectFolder(option)
         }
 
-        if (event.key === "Escape") {
-          event.preventDefault();
+        if (event.key === 'Escape') {
+          event.preventDefault()
 
-          closeDropdown(true);
+          closeDropdown(true)
         }
-      });
-    });
+      })
+    })
 
-    trigger.addEventListener("keydown", (event) => {
+    trigger.addEventListener('keydown', (event) => {
       if (
-        event.key === "ArrowDown" ||
-        event.key === "ArrowUp" ||
-        event.key === "Enter" ||
-        event.key === " "
+        event.key === 'ArrowDown' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'Enter' ||
+        event.key === ' '
       ) {
-        event.preventDefault();
-        openDropdown();
+        event.preventDefault()
+        openDropdown()
       }
-    });
+    })
 
-    document.addEventListener("click", (event) => {
+    document.addEventListener('click', (event) => {
       if (
         !dropdown.contains(event.target) &&
-        trigger.getAttribute("aria-expanded") === "true"
+        trigger.getAttribute('aria-expanded') === 'true'
       ) {
-        closeDropdown();
+        closeDropdown()
       }
-    });
-  };
+    })
+  }
 
   const renderSetup = async ({ engine, shell }) => {
-    setPhase(PHASE.SETUP);
+    setPhase(PHASE.SETUP)
 
-    const stage = getStage();
-    if (!stage) return;
+    const stage = getStage()
+    if (!stage) return
 
-    let folders = [];
+    let folders = []
 
     try {
-      folders = await getAvailableFolders();
+      folders = await getAvailableFolders()
     } catch (error) {
-      console.error("Failed to load dictation folders:", error);
+      console.error('Failed to load dictation folders:', error)
 
-      showError("پوشه‌های کلمات در دسترس نیستند.");
+      showError('پوشه‌های کلمات در دسترس نیستند.')
     }
 
     if (!folders.length) {
@@ -430,10 +417,10 @@
               افزودن کلمه
             </a>
           </div>
-        `;
-      });
+        `
+      })
 
-      return;
+      return
     }
 
     await shell.animateStage(() => {
@@ -566,7 +553,7 @@
                 >
                   ${folders
                     .map((folder) => {
-                      const roundCount = getFairRoundCount(folder.wordCount);
+                      const roundCount = getFairRoundCount(folder.wordCount)
 
                       return `
                         <button
@@ -603,9 +590,9 @@
                             ✓
                           </span>
                         </button>
-                      `;
+                      `
                     })
-                    .join("")}
+                    .join('')}
                 </div>
               </div>
 
@@ -631,7 +618,7 @@
                 <strong
                   class="text-textColor dark:text-textColor-dark"
                 >
-                  ${shell.escapeGameHtml(runtime.user?.name || "بازیکن")}
+                  ${shell.escapeGameHtml(runtime.user?.name || 'بازیکن')}
                 </strong>
                 است. بازیکن دوم فقط در همین مسابقه حضور دارد.
               </p>
@@ -645,111 +632,108 @@
             </button>
           </form>
         </div>
-      `;
-    });
+      `
+    })
 
-    initFolderDropdown();
+    initFolderDropdown()
 
     initSetupForm({
       engine,
       shell,
       folders,
-    });
-  };
+    })
+  }
 
   const initSetupForm = ({ engine, shell, folders }) => {
-    const form = document.getElementById("dictation-setup-form");
+    const form = document.getElementById('dictation-setup-form')
 
-    if (!form) return;
+    if (!form) return
 
-    const folderInput = document.getElementById("dictation-folder");
+    const folderInput = document.getElementById('dictation-folder')
 
-    folderInput?.addEventListener("change", () => {
-      const folderError = document.getElementById("dictation-folder-error");
+    folderInput?.addEventListener('change', () => {
+      const folderError = document.getElementById('dictation-folder-error')
 
       if (!folderError) {
-        return;
+        return
       }
 
-      folderError.textContent = "";
-      folderError.classList.add("hidden");
-    });
+      folderError.textContent = ''
+      folderError.classList.add('hidden')
+    })
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      clearSetupErrors();
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      clearSetupErrors()
 
-      const formData = new FormData(form);
+      const formData = new FormData(form)
 
-      const guestName = normalizeName(formData.get("guestName"));
+      const guestName = normalizeName(formData.get('guestName'))
 
-      const folderId = String(formData.get("folderId") || "").trim();
+      const folderId = String(formData.get('folderId') || '').trim()
 
-      let hasError = false;
+      let hasError = false
 
       if (guestName.length < 2) {
-        setFieldError("dictation-name-error", "نام بازیکن دوم را وارد کن.");
-        hasError = true;
+        setFieldError('dictation-name-error', 'نام بازیکن دوم را وارد کن.')
+        hasError = true
       }
 
       if (guestName.length > 40) {
-        setFieldError(
-          "dictation-name-error",
-          "نام بازیکن دوم خیلی طولانی است.",
-        );
-        hasError = true;
+        setFieldError('dictation-name-error', 'نام بازیکن دوم خیلی طولانی است.')
+        hasError = true
       }
 
       if (
         guestName &&
-        guestName.localeCompare(runtime.user?.name || "", "fa", {
-          sensitivity: "base",
+        guestName.localeCompare(runtime.user?.name || '', 'fa', {
+          sensitivity: 'base',
         }) === 0
       ) {
         setFieldError(
-          "dictation-name-error",
-          "برای بازیکن دوم یک نام متفاوت وارد کن.",
-        );
-        hasError = true;
+          'dictation-name-error',
+          'برای بازیکن دوم یک نام متفاوت وارد کن.'
+        )
+        hasError = true
       }
 
-      const folder = folders.find((item) => item.id === folderId);
+      const folder = folders.find((item) => item.id === folderId)
 
       if (!folder) {
         setFieldError(
-          "dictation-folder-error",
-          "یک پوشه برای مسابقه انتخاب کن.",
-        );
-        hasError = true;
+          'dictation-folder-error',
+          'یک پوشه برای مسابقه انتخاب کن.'
+        )
+        hasError = true
       }
 
       if (folder && Number(folder.wordCount || 0) < MIN_DICTATION_WORDS) {
         setFieldError(
-          "dictation-folder-error",
-          `پوشه باید حداقل ${MIN_DICTATION_WORDS} کلمه داشته باشد.`,
-        );
-        hasError = true;
+          'dictation-folder-error',
+          `پوشه باید حداقل ${MIN_DICTATION_WORDS} کلمه داشته باشد.`
+        )
+        hasError = true
       }
 
-      if (hasError) return;
+      if (hasError) return
 
-      const submitButton = form.querySelector('button[type="submit"]');
+      const submitButton = form.querySelector('button[type="submit"]')
 
       if (submitButton) {
-        submitButton.disabled = true;
+        submitButton.disabled = true
       }
 
       try {
-        const words = await window.wordService.getWordsByFolder(folder.id);
+        const words = await window.wordService.getWordsByFolder(folder.id)
 
         if (words.length < MIN_DICTATION_WORDS) {
-          throw new Error("DICTATION_FOLDER_TOO_SMALL");
+          throw new Error('DICTATION_FOLDER_TOO_SMALL')
         }
 
-        const fairRoundCount = getFairRoundCount(words.length);
+        const fairRoundCount = getFairRoundCount(words.length)
 
         if (fairRoundCount < MIN_DICTATION_WORDS) {
-          throw new Error("DICTATION_ROUNDS_INVALID");
+          throw new Error('DICTATION_ROUNDS_INVALID')
         }
 
         runtime.guest = {
@@ -757,29 +741,29 @@
           name: guestName,
           isGuest: true,
           persistent: false,
-        };
+        }
 
-        runtime.folder = folder;
+        runtime.folder = folder
 
         /*
          * An even number of rounds guarantees
          * that both players write exactly the
          * same number of words.
          */
-        runtime.words = shuffleWords(words).slice(0, fairRoundCount);
+        runtime.words = shuffleWords(words).slice(0, fairRoundCount)
 
-        runtime.wordIndex = 0;
-        runtime.currentWord = null;
+        runtime.wordIndex = 0
+        runtime.currentWord = null
 
         /*
          * First round:
          * logged-in player reads,
          * guest writes and receives score.
          */
-        runtime.readerId = runtime.user.id;
-        runtime.writerId = runtime.guest.id;
+        runtime.readerId = runtime.user.id
+        runtime.writerId = runtime.guest.id
 
-        engine.addParticipant(runtime.guest);
+        engine.addParticipant(runtime.guest)
 
         engine.start({
           context: {
@@ -789,41 +773,41 @@
             roundCount: fairRoundCount,
           },
           currentPlayerId: runtime.writerId,
-        });
+        })
 
         beginNextRound({
           engine,
           shell,
-        });
+        })
       } catch (error) {
-        console.error("Failed to start dictation:", error);
+        console.error('Failed to start dictation:', error)
 
         if (submitButton) {
-          submitButton.disabled = false;
+          submitButton.disabled = false
         }
 
         showError(
-          error?.message === "DICTATION_FOLDER_TOO_SMALL"
+          error?.message === 'DICTATION_FOLDER_TOO_SMALL'
             ? `این پوشه باید حداقل ${MIN_DICTATION_WORDS} کلمه داشته باشد.`
-            : "شروع مسابقه انجام نشد. دوباره تلاش کن.",
-        );
+            : 'شروع مسابقه انجام نشد. دوباره تلاش کن.'
+        )
       }
-    });
-  };
+    })
+  }
 
   const beginNextRound = async ({ engine, shell }) => {
     if (runtime.wordIndex >= runtime.words.length) {
       finishGame({
         engine,
         shell,
-        reason: "words-completed",
-      });
-      return;
+        reason: 'words-completed',
+      })
+      return
     }
 
-    runtime.currentWord = runtime.words[runtime.wordIndex];
+    runtime.currentWord = runtime.words[runtime.wordIndex]
 
-    runtime.wordIndex += 1;
+    runtime.wordIndex += 1
 
     engine.beginRound({
       currentPlayerId: runtime.writerId,
@@ -831,41 +815,36 @@
         wordId: runtime.currentWord.id,
         folderId: runtime.folder.id,
       },
-    });
+    })
 
     await renderReaderView({
       engine,
       shell,
-    });
-  };
+    })
+  }
 
   const getDictationFlashcard = () => {
-    return document.getElementById("dictation-flashcard");
-  };
+    return document.getElementById('dictation-flashcard')
+  }
 
   const setDictationActionState = (activeId) => {
-    const actionIds = [
-      "dictation-reader-actions",
-      "dictation-writer-actions",
-      "dictation-review-actions",
-      "dictation-handoff-actions",
-    ];
+    const actionIds = ['dictation-reader-actions', 'dictation-review-actions']
 
     actionIds.forEach((id) => {
-      document.getElementById(id)?.classList.toggle("hidden", id !== activeId);
-    });
-  };
+      document.getElementById(id)?.classList.toggle('hidden', id !== activeId)
+    })
+  }
 
   const renderReaderView = async ({ engine, shell }) => {
-    setPhase(PHASE.READER);
-    runtime.cardBusy = false;
+    setPhase(PHASE.READER)
+    runtime.cardBusy = false
 
-    const stage = getStage();
-    const reader = getReader(engine);
-    const writer = getWriter(engine);
+    const stage = getStage()
+    const reader = getReader(engine)
+    const writer = getWriter(engine)
 
     if (!stage || !reader || !writer || !runtime.currentWord) {
-      return;
+      return
     }
 
     await shell.animateStage(() => {
@@ -921,28 +900,7 @@
                 data-flashcard-back
                 class="game-flashcard__face game-flashcard__face--back"
                 aria-hidden="true"
-              >
-                <div
-                  data-dictation-back-content
-                  class="game-flashcard__content"
-                >
-                  <span class="ui-eyebrow mb-4 block">
-                    نوبت نوشتن
-                  </span>
-
-                  <h3 class="mb-4">
-                    ${shell.escapeGameHtml(writer.name)}، کلمه را بنویس
-                  </h3>
-
-                  <p class="max-w-md text-mutedColor dark:text-mutedColor-dark">
-                    کلمه پشت کارت پنهان شده. چیزی که شنیدی را روی کاغذ بنویس.
-                  </p>
-
-                  <span class="game-flashcard__hint mt-6">
-                    وقتی تمام شد، کارت را برای بررسی برگردانید.
-                  </span>
-                </div>
-              </article>
+              ></article>
             </div>
           </div>
 
@@ -960,21 +918,8 @@
           </div>
 
           <div
-            id="dictation-writer-actions"
-            class="mt-7 hidden"
-          >
-            <button
-              type="button"
-              id="dictation-written"
-              class="btn-primary"
-            >
-              نوشتم، بررسی کنیم
-            </button>
-          </div>
-
-          <div
             id="dictation-review-actions"
-            class="mt-12 hidden"
+            class="mt-7 hidden"
           >
             <p class="mx-auto mb-4 max-w-lg text-mutedColor dark:text-mutedColor-dark">
               نوشته را با کلمه روی کارت مقایسه کنید.
@@ -1026,148 +971,113 @@
             </div>
           </div>
 
-          <div
-            id="dictation-handoff-actions"
-            class="mt-7 hidden"
+          <button
+            type="button"
+            id="dictation-finish"
+            class="btn-danger-soft btn-compact mt-4 cursor-pointer"
           >
-            <button
-              type="button"
-              id="dictation-next-round"
-              class="btn-primary"
-            >
-              دور بعد
-            </button>
+            پایان مسابقه
+          </button>
 
-            <button
-              type="button"
-              id="dictation-finish"
-              class="btn-ghost-secondary btn-compact mt-3 text-mutedColor dark:text-mutedColor-dark"
-            >
-              پایان مسابقه
-            </button>
-          </div>
         </div>
-      `;
-    });
+      `
+    })
 
-    const card = getDictationFlashcard();
-    shell.animateGameFlashcardIn?.(card);
+    const card = getDictationFlashcard()
+    shell.animateGameFlashcardIn?.(card)
 
-    document.getElementById("dictation-word-read")?.addEventListener(
-      "click",
-      () => {
-        renderWriterView({
-          engine,
-          shell,
-        });
-      },
-      { once: true },
-    );
-
-    document.getElementById("dictation-written")?.addEventListener(
-      "click",
+    document.getElementById('dictation-word-read')?.addEventListener(
+      'click',
       () => {
         renderReviewView({
           engine,
           shell,
-        });
+        })
       },
-      { once: true },
-    );
+      { once: true }
+    )
 
-    stage.querySelectorAll("[data-dictation-outcome]").forEach((button) => {
+    document.getElementById('dictation-finish')?.addEventListener(
+      'click',
+      async () => {
+        if (runtime.cardBusy) return
+
+        runtime.cardBusy = true
+
+        const card = getDictationFlashcard()
+        await shell.animateGameFlashcardAdvance?.(card)
+
+        await finishGame({
+          engine,
+          shell,
+          reason: 'user-finished',
+        })
+
+        runtime.cardBusy = false
+      },
+      { once: true }
+    )
+
+    stage.querySelectorAll('[data-dictation-outcome]').forEach((button) => {
       button.addEventListener(
-        "click",
+        'click',
         () => {
-          if (runtime.cardBusy) return;
+          if (runtime.cardBusy) return
 
           recordOutcome({
             engine,
             shell,
             outcome: button.dataset.dictationOutcome,
-          });
+          })
         },
-        { once: true },
-      );
-    });
-  };
-
-  const renderWriterView = async ({ engine, shell }) => {
-    if (runtime.phase !== PHASE.READER || runtime.cardBusy) {
-      return;
-    }
-
-    const card = getDictationFlashcard();
-    const writer = getWriter(engine);
-    const hint = document.getElementById("dictation-round-hint");
-
-    if (!card || !writer) {
-      return;
-    }
-
-    runtime.cardBusy = true;
-    setPhase(PHASE.WRITER);
-
-    if (hint) {
-      hint.textContent = `${writer.name} باید کلمه‌ای را که شنیده روی کاغذ بنویسد.`;
-    }
-
-    await shell.flipGameFlashcard(card, {
-      toBack: true,
-    });
-
-    setDictationActionState("dictation-writer-actions");
-    runtime.cardBusy = false;
-  };
+        { once: true }
+      )
+    })
+  }
 
   const renderReviewView = async ({ engine, shell }) => {
-    if (runtime.phase !== PHASE.WRITER || runtime.cardBusy) {
-      return;
+    if (runtime.phase !== PHASE.READER || runtime.cardBusy) {
+      return
     }
 
-    const card = getDictationFlashcard();
-    const writer = getWriter(engine);
-    const hint = document.getElementById("dictation-round-hint");
+    const writer = getWriter(engine)
+    const hint = document.getElementById('dictation-round-hint')
 
-    if (!card || !writer || !runtime.currentWord) {
-      return;
+    if (!writer || !runtime.currentWord) {
+      return
     }
 
-    runtime.cardBusy = true;
-    setPhase(PHASE.REVIEW);
+    runtime.cardBusy = true
+    setPhase(PHASE.REVIEW)
 
     if (hint) {
-      hint.textContent = `نوشته ${writer.name} را با کلمه روی کارت مقایسه کنید.`;
+      hint.textContent = `نتیجه نوشته ${writer.name} را ثبت کنید.`
     }
 
-    await shell.flipGameFlashcard(card, {
-      toBack: false,
-    });
-
-    setDictationActionState("dictation-review-actions");
+    setDictationActionState('dictation-review-actions')
 
     await shell.revealGameActionGroup?.(
-      document.getElementById("dictation-review-actions"),
-    );
+      document.getElementById('dictation-review-actions')
+    )
 
-    runtime.cardBusy = false;
-  };
+    runtime.cardBusy = false
+  }
 
   const swapRoles = () => {
-    const previousReader = runtime.readerId;
+    const previousReader = runtime.readerId
 
-    runtime.readerId = runtime.writerId;
-    runtime.writerId = previousReader;
-  };
+    runtime.readerId = runtime.writerId
+    runtime.writerId = previousReader
+  }
 
   const recordOutcome = async ({ engine, shell, outcome }) => {
     if (runtime.phase !== PHASE.REVIEW || runtime.cardBusy) {
-      return;
+      return
     }
 
-    const isCorrect = outcome === "correct";
+    const isCorrect = outcome === 'correct'
 
-    runtime.cardBusy = true;
+    runtime.cardBusy = true
 
     engine.recordOutcome({
       outcome: isCorrect
@@ -1178,139 +1088,38 @@
         wordId: runtime.currentWord.id,
         word: runtime.currentWord.value,
       },
-    });
+    })
 
-    showSuccess(isCorrect ? "یک امتیاز اضافه شد." : "یک امتیاز کم شد.");
-
-    const isLastRound = runtime.wordIndex >= runtime.words.length;
+    const isLastRound = runtime.wordIndex >= runtime.words.length
 
     if (!isLastRound) {
-      swapRoles();
+      swapRoles()
     }
 
-    await renderHandoffView({
-      engine,
-      shell,
-      isCorrect,
-      isLastRound,
-    });
+    setDictationActionState(null)
+    document.getElementById('dictation-finish')?.classList.add('hidden')
 
-    runtime.cardBusy = false;
-  };
+    /*
+     * Intentional silent 500ms delay between registering the answer
+     * and showing the next word/result.
+     */
+    await new Promise((resolve) => window.setTimeout(resolve, 500))
 
-  const renderHandoffView = async ({
-    engine,
-    shell,
-    isCorrect,
-    isLastRound,
-  }) => {
-    setPhase(PHASE.HANDOFF);
-
-    const card = getDictationFlashcard();
-    const backContent = card?.querySelector("[data-dictation-back-content]");
-    const hint = document.getElementById("dictation-round-hint");
-    const nextButton = document.getElementById("dictation-next-round");
-    const finishButton = document.getElementById("dictation-finish");
-
-    if (!card || !backContent || !nextButton || !finishButton) {
-      return;
+    if (isLastRound) {
+      await finishGame({
+        engine,
+        shell,
+        reason: 'words-completed',
+      })
+    } else {
+      await beginNextRound({
+        engine,
+        shell,
+      })
     }
 
-    const reader = isLastRound ? null : getReader(engine);
-    const writer = isLastRound ? null : getWriter(engine);
-
-    backContent.innerHTML = `
-      <span
-        class="ui-badge mb-4 ${
-          isCorrect
-            ? "bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
-            : "bg-secondary/10 text-secondary dark:bg-secondary/15"
-        }"
-      >
-        ${isCorrect ? "درست" : "غلط"}
-      </span>
-
-      <h3 class="mb-4">
-        ${isLastRound ? "آخرین کلمه هم ثبت شد" : "نقش‌ها عوض شد"}
-      </h3>
-
-      <p class="max-w-md text-mutedColor dark:text-mutedColor-dark">
-        ${
-          isLastRound
-            ? "همه کلمه‌های این مسابقه تمام شدند. نتیجه را ببینید."
-            : `در دور بعد، ${shell.escapeGameHtml(
-                reader?.name || "بازیکن",
-              )} کلمه را می‌خواند و ${shell.escapeGameHtml(
-                writer?.name || "بازیکن",
-              )} آن را می‌نویسد.`
-        }
-      </p>
-
-      <span class="game-flashcard__hint mt-6">
-        ${isLastRound ? "آماده دیدن نتیجه‌اید؟" : "برای کارت بعدی آماده‌اید؟"}
-      </span>
-    `;
-
-    if (hint) {
-      hint.textContent = isLastRound
-        ? "مسابقه کامل شد."
-        : "امتیاز ثبت شد و نوبت‌ها برای دور بعد جابه‌جا شدند.";
-    }
-
-    nextButton.textContent = isLastRound ? "دیدن نتیجه" : "دور بعد";
-    finishButton.classList.toggle("hidden", isLastRound);
-
-    await shell.flipGameFlashcard(card, {
-      toBack: true,
-    });
-
-    setDictationActionState("dictation-handoff-actions");
-
-    nextButton.addEventListener(
-      "click",
-      async () => {
-        if (runtime.cardBusy) return;
-
-        runtime.cardBusy = true;
-        await shell.animateGameFlashcardAdvance?.(card);
-
-        if (isLastRound) {
-          await finishGame({
-            engine,
-            shell,
-            reason: "words-completed",
-          });
-        } else {
-          await beginNextRound({
-            engine,
-            shell,
-          });
-        }
-
-        runtime.cardBusy = false;
-      },
-      { once: true },
-    );
-
-    finishButton.addEventListener(
-      "click",
-      async () => {
-        if (runtime.cardBusy) return;
-
-        runtime.cardBusy = true;
-        await shell.animateGameFlashcardAdvance?.(card);
-
-        await finishGame({
-          engine,
-          shell,
-          reason: "user-finished",
-        });
-
-        runtime.cardBusy = false;
-      },
-      { once: true },
-    );
-  };
+    runtime.cardBusy = false
+  }
 
   const finishGame = async ({ engine, shell, reason }) => {
     if (engine.getSnapshot().status === window.GameEngine.STATUS.PLAYING) {
@@ -1320,34 +1129,34 @@
           folderId: runtime.folder?.id || null,
           folderTitle: runtime.folder?.title || null,
         },
-      });
+      })
     }
 
-    setPhase(PHASE.FINISHED);
+    setPhase(PHASE.FINISHED)
 
-    const result = engine.getResult();
+    const result = engine.getResult()
 
-    let resultSaved = false;
+    let resultSaved = false
 
     try {
       await window.gameResultService.saveEngineResult({
         engineResult: result,
         userId: runtime.user?.id,
-      });
-      resultSaved = true;
+      })
+      resultSaved = true
     } catch (error) {
-      console.error("Failed to save dictation result:", error);
+      console.error('Failed to save dictation result:', error)
     }
 
-    const stage = getStage();
-    if (!stage) return;
+    const stage = getStage()
+    if (!stage) return
 
-    const [playerOne, playerTwo] = result.participants;
+    const [playerOne, playerTwo] = result.participants
 
     const winner =
       playerOne?.score === playerTwo?.score
         ? null
-        : [playerOne, playerTwo].sort((a, b) => b.score - a.score)[0];
+        : [playerOne, playerTwo].sort((a, b) => b.score - a.score)[0]
 
     await shell.animateStage(() => {
       stage.innerHTML = `
@@ -1366,7 +1175,7 @@
             ${
               winner
                 ? `${shell.escapeGameHtml(winner.name)} برنده شد!`
-                : "بازی مساوی شد!"
+                : 'بازی مساوی شد!'
             }
           </h2>
 
@@ -1377,8 +1186,8 @@
             دور بازی کردید.
             ${
               resultSaved
-                ? "نتیجه این بازی با موفقیت ذخیره شد."
-                : "نتیجه بازی نمایش داده شد، اما ذخیره آن انجام نشد."
+                ? 'نتیجه این بازی با موفقیت ذخیره شد.'
+                : 'نتیجه بازی نمایش داده شد، اما ذخیره آن انجام نشد.'
             }
           </p>
 
@@ -1394,7 +1203,7 @@
                     <span
                       class="ui-meta mb-1 block"
                     >
-                      ${participant.isGuest ? "بازیکن مهمان" : "بازیکن"}
+                      ${participant.isGuest ? 'بازیکن مهمان' : 'بازیکن'}
                     </span>
 
                     <strong
@@ -1415,9 +1224,9 @@
                       امتیاز
                     </span>
                   </div>
-                `,
+                `
               )
-              .join("")}
+              .join('')}
           </div>
 
           <div
@@ -1439,69 +1248,69 @@
             </a>
           </div>
         </div>
-      `;
-    });
+      `
+    })
 
-    document.getElementById("dictation-play-again")?.addEventListener(
-      "click",
+    document.getElementById('dictation-play-again')?.addEventListener(
+      'click',
       () => {
-        engine.reset();
+        engine.reset()
 
         engine.setParticipants([
           {
             id: runtime.user.id,
-            name: runtime.user.name || "بازیکن",
+            name: runtime.user.name || 'بازیکن',
             isGuest: false,
             persistent: true,
           },
-        ]);
+        ])
 
-        runtime.phase = PHASE.READY;
-        runtime.guest = null;
-        runtime.folder = null;
-        runtime.words = [];
-        runtime.wordIndex = 0;
-        runtime.currentWord = null;
-        runtime.readerId = null;
-        runtime.writerId = null;
-        runtime.cardBusy = false;
+        runtime.phase = PHASE.READY
+        runtime.guest = null
+        runtime.folder = null
+        runtime.words = []
+        runtime.wordIndex = 0
+        runtime.currentWord = null
+        runtime.readerId = null
+        runtime.writerId = null
+        runtime.cardBusy = false
 
         renderSetup({
           engine,
           shell,
-        });
+        })
       },
-      { once: true },
-    );
-  };
+      { once: true }
+    )
+  }
 
   const createEngine = ({ user }) => {
-    runtime.user = user;
+    runtime.user = user
 
     return window.GameEngine.create({
-      gameType: "dictation",
+      gameType: 'dictation',
       participants: [
         {
           id: user.id,
-          name: user.name || "بازیکن",
+          name: user.name || 'بازیکن',
           isGuest: false,
           persistent: true,
         },
       ],
-    });
-  };
+    })
+  }
 
   const onStart = async ({ engine, shell }) => {
     await renderSetup({
       engine,
       shell,
-    });
-  };
+    })
+  }
 
   window.DictationGame = Object.freeze({
-    type: "dictation",
+    type: 'dictation',
     config,
     createEngine,
     onStart,
-  });
-})();
+  })
+})()
