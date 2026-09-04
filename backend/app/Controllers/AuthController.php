@@ -6,15 +6,22 @@ class AuthController
 
     public function __construct($db)
     {
-        $this->authService = new AuthService($db);
+        $this->authService =
+            new AuthService($db);
     }
 
     public function register()
     {
         try {
-            $data = Request::body();
 
-            $user = $this->authService->register($data);
+            $data =
+                Request::body();
+
+            $user =
+                $this->authService
+                    ->register(
+                        $data
+                    );
 
             Response::success(
                 $user,
@@ -24,9 +31,11 @@ class AuthController
         } catch (Exception $e) {
 
             $statusCode =
-                $e->getMessage() === "AUTH_NATIONAL_CODE_TAKEN"
-                    ? 409
-                    : 422;
+                $e->getMessage()
+                    ===
+                    "AUTH_NATIONAL_CODE_TAKEN"
+                        ? 409
+                        : 422;
 
             Response::error(
                 $e->getMessage(),
@@ -38,9 +47,47 @@ class AuthController
     public function login()
     {
         try {
-            $data = Request::body();
 
-            $result = $this->authService->login($data);
+            $data =
+                Request::body();
+
+            $result =
+                $this->authService
+                    ->login(
+                        $data
+                    );
+
+            $token =
+                (string)(
+                    $result[
+                        "token"
+                    ]
+                    ?? ""
+                );
+
+            $expiresInDays =
+                (int)(
+                    $result[
+                        "expiresInDays"
+                    ]
+                    ?? 30
+                );
+
+            /*
+             * Token is moved into an HttpOnly cookie.
+             * It is deliberately removed from JSON so frontend JS
+             * can never read or persist it.
+             */
+            AuthCookie::issue(
+                $token,
+                $expiresInDays
+            );
+
+            unset(
+                $result[
+                    "token"
+                ]
+            );
 
             Response::success(
                 $result,
@@ -49,9 +96,13 @@ class AuthController
 
         } catch (Exception $e) {
 
-            $code = $e->getMessage();
+            $code =
+                $e->getMessage();
 
-            if ($code === "AUTH_LOGIN_RATE_LIMITED") {
+            if (
+                $code ===
+                "AUTH_LOGIN_RATE_LIMITED"
+            ) {
                 Response::error(
                     "Too many login attempts. Try again later.",
                     429
@@ -60,8 +111,23 @@ class AuthController
                 return;
             }
 
+            if (
+                $code ===
+                "AUTH_COOKIE_SET_FAILED" ||
+                $code ===
+                "AUTH_COOKIE_TOKEN_REQUIRED"
+            ) {
+                Response::error(
+                    "Internal server error",
+                    500
+                );
+
+                return;
+            }
+
             $statusCode =
-                $code === "AUTH_LOGIN_INVALID"
+                $code ===
+                "AUTH_LOGIN_INVALID"
                     ? 401
                     : 422;
 
@@ -74,59 +140,34 @@ class AuthController
 
     public function logout()
     {
-        $authorization =
-            Request::header("Authorization");
-
-        if (
-            !$authorization ||
-            !str_starts_with(
-                $authorization,
-                "Bearer "
-            )
-        ) {
-
-            Response::error(
-                "Unauthorized",
-                401
-            );
-
-            return;
-        }
-
-        $token = trim(
-            substr(
-                $authorization,
-                7
-            )
-        );
-
-        if ($token === "") {
-
-            Response::error(
-                "Unauthorized",
-                401
-            );
-
-            return;
-        }
+        $token =
+            AuthCookie::token();
 
         try {
 
-            $this->authService->logout(
-                $token
-            );
-
-            Response::success(
-                [],
-                "Logout successful"
-            );
+            if ($token) {
+                $this->authService
+                    ->logout(
+                        $token
+                    );
+            }
 
         } catch (Exception $e) {
 
-            Response::error(
-                "Logout failed",
-                400
-            );
+            /*
+             * Cookie still has to be removed from the browser
+             * even if token revocation itself fails.
+             */
+            AuthCookie::clear();
+
+            throw $e;
         }
+
+        AuthCookie::clear();
+
+        Response::success(
+            [],
+            "Logout successful"
+        );
     }
 }

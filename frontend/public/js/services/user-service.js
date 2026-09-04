@@ -1,32 +1,73 @@
 /*
- * User service.
- * Provides current user and score information.
+ * User service backed by the real API.
+ *
+ * Auth state is verified by the backend HttpOnly cookie.
+ * All backend access uses async/await.
  */
 
-const getCurrentUser = async () => {
-  const data = await window.appDataProvider.getState()
+;(() => {
+  const getCurrentUser =
+    async () => {
+      const user =
+        await window.authService
+          .getCurrentUser()
 
-  return data.currentUser || null
-}
+      if (user?.id) {
+        window.apiClient.log(
+          '[API:USER] loaded and verified from backend'
+        )
+      }
 
-const getUserGameResults = async () => {
-  const data = await window.appDataProvider.getState()
+      return user
+    }
 
-  const userId = data.currentUser?.id
+  const getUserGameResults =
+    async () => {
+      const results =
+        await window.apiClient.get(
+          '/game-results'
+        )
 
-  if (!userId) return []
+      const normalizedResults =
+        Array.isArray(results)
+          ? results
+          : []
 
-  return (data.gameResults || []).filter((result) => result.userId === userId)
-}
+      window.apiClient.log(
+        `[API:USER] game history loaded from backend: ${normalizedResults.length}`
+      )
 
-const getUserTotalScore = async () => {
-  const results = await getUserGameResults()
+      return normalizedResults
+    }
 
-  return results.reduce((total, result) => total + Number(result.score || 0), 0)
-}
+  const getUserTotalScore =
+    async () => {
+      const results =
+        await getUserGameResults()
 
-window.userService = {
-  getCurrentUser,
-  getUserGameResults,
-  getUserTotalScore,
-}
+      const total =
+        results.reduce(
+          (
+            sum,
+            result
+          ) => {
+            return (
+              sum +
+              Number(
+                result.score || 0
+              )
+            )
+          },
+          0
+        )
+
+      return total
+    }
+
+  window.userService =
+    Object.freeze({
+      getCurrentUser,
+      getUserGameResults,
+      getUserTotalScore,
+    })
+})()

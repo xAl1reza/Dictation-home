@@ -1,32 +1,50 @@
 /*
- * Local authentication service used by the current frontend prototype.
+ * Authentication service backed by the real PHP API.
  *
- * Public methods are async so the implementation can later be replaced
- * with HTTP requests without changing page controllers.
+ * Authentication token handling belongs entirely to the backend.
+ * Frontend JavaScript never receives, reads, or stores the token.
  *
- * IMPORTANT:
- * Production authentication must be handled by the backend.
+ * All backend requests use async/await.
  */
 
 ;(() => {
-  const NATIONAL_CODE_PATTERN = /^[0-9]{10}$/
-  const MOBILE_PATTERN = /^09\d{9}$/
+  const NATIONAL_CODE_PATTERN =
+    /^[0-9]{10}$/
+
+  const MOBILE_PATTERN =
+    /^09\d{9}$/
 
   const PASSWORD_MIN_LENGTH = 8
-  const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
 
-  const AVATAR_MAX_BYTES = 2 * 1024 * 1024
+  const PASSWORD_PATTERN =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
 
-  const ALLOWED_AVATAR_TYPES = new Set([
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-  ])
+  const AVATAR_MAX_BYTES =
+    2 * 1024 * 1024
+
+  const ALLOWED_AVATAR_TYPES =
+    new Set([
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+    ])
 
   const normalizeDigits = (value) => {
     return String(value || '')
-      .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
-      .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+      .replace(
+        /[۰-۹]/g,
+        (digit) =>
+          String(
+            '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)
+          )
+      )
+      .replace(
+        /[٠-٩]/g,
+        (digit) =>
+          String(
+            '٠١٢٣٤٥٦٧٨٩'.indexOf(digit)
+          )
+      )
   }
 
   const normalizeText = (value) => {
@@ -36,97 +54,71 @@
       .replace(/\s+/g, ' ')
   }
 
-  const normalizeNationalCode = (value) => {
+  const normalizeNationalCode = (
+    value
+  ) => {
     return normalizeDigits(value).trim()
   }
 
-  const normalizeMobile = (value) => {
+  const normalizeMobile = (
+    value
+  ) => {
     return normalizeDigits(value).trim()
   }
 
-  const getPasswordRequirements = (password) => {
-    const value = String(password || '')
+  const getPasswordRequirements = (
+    password
+  ) => {
+    const value =
+      String(password || '')
 
     return {
-      minLength: value.length >= PASSWORD_MIN_LENGTH,
-      lowercase: /[a-z]/.test(value),
-      uppercase: /[A-Z]/.test(value),
-      number: /\d/.test(value),
+      minLength:
+        value.length >=
+        PASSWORD_MIN_LENGTH,
+
+      lowercase:
+        /[a-z]/.test(value),
+
+      uppercase:
+        /[A-Z]/.test(value),
+
+      number:
+        /\d/.test(value),
     }
   }
 
-  const isPasswordValid = (password) => {
-    return PASSWORD_PATTERN.test(String(password || ''))
+  const isPasswordValid = (
+    password
+  ) => {
+    return PASSWORD_PATTERN.test(
+      String(password || '')
+    )
   }
 
-  const createUserId = () => {
-    if (window.crypto?.randomUUID) {
-      return `user-${window.crypto.randomUUID()}`
+  const validateAvatarFile = (
+    file
+  ) => {
+    if (!file) return
+
+    if (
+      !ALLOWED_AVATAR_TYPES.has(
+        file.type
+      )
+    ) {
+      throw new Error(
+        'AUTH_AVATAR_TYPE_INVALID'
+      )
     }
 
-    return `user-${Date.now()}-${Math.random().toString(16).slice(2)}`
-  }
-
-  const sanitizeUser = (user) => {
-    if (!user) return null
-
-    const firstName = normalizeText(user.firstName)
-
-    return {
-      id: user.id,
-      nationalCode: user.nationalCode,
-      firstName,
-      lastName: normalizeText(user.lastName),
-
-      // Display name used by dashboard and all games.
-      name: firstName,
-
-      motherPhone: user.motherPhone,
-      fatherPhone: user.fatherPhone,
-      birthDate: user.birthDate,
-      schoolName: user.schoolName,
-      grade: user.grade,
-      avatar: user.avatar || null,
+    if (
+      file.size >
+      AVATAR_MAX_BYTES
+    ) {
+      throw new Error(
+        'AUTH_AVATAR_TOO_LARGE'
+      )
     }
-  }
-
-  const hashPassword = async (password) => {
-    if (!window.crypto?.subtle) {
-      throw new Error('AUTH_CRYPTO_UNAVAILABLE')
-    }
-
-    const bytes = new TextEncoder().encode(String(password))
-    const digest = await window.crypto.subtle.digest('SHA-256', bytes)
-
-    return Array.from(new Uint8Array(digest))
-      .map((byte) => byte.toString(16).padStart(2, '0'))
-      .join('')
-  }
-
-  const avatarFileToDataUrl = (file) => {
-    if (!file) return Promise.resolve(null)
-
-    if (!ALLOWED_AVATAR_TYPES.has(file.type)) {
-      return Promise.reject(new Error('AUTH_AVATAR_TYPE_INVALID'))
-    }
-
-    if (file.size > AVATAR_MAX_BYTES) {
-      return Promise.reject(new Error('AUTH_AVATAR_TOO_LARGE'))
-    }
-
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-
-      reader.addEventListener('load', () => {
-        resolve(String(reader.result || ''))
-      })
-
-      reader.addEventListener('error', () => {
-        reject(new Error('AUTH_AVATAR_READ_FAILED'))
-      })
-
-      reader.readAsDataURL(file)
-    })
   }
 
   const validateRegistration = ({
@@ -139,62 +131,217 @@
     password,
     schoolName,
     grade,
+    avatarFile,
   }) => {
-    const cleanNationalCode = normalizeNationalCode(nationalCode)
-    const cleanFirstName = normalizeText(firstName)
-    const cleanLastName = normalizeText(lastName)
-    const cleanMotherPhone = normalizeMobile(motherPhone)
-    const cleanFatherPhone = normalizeMobile(fatherPhone)
-    const cleanBirthDate = String(birthDate || '').trim()
-    const cleanSchoolName = normalizeText(schoolName)
-    const cleanGrade = String(grade || '').trim()
+    const cleanNationalCode =
+      normalizeNationalCode(
+        nationalCode
+      )
 
-    if (!NATIONAL_CODE_PATTERN.test(cleanNationalCode)) {
-      throw new Error('AUTH_NATIONAL_CODE_INVALID')
+    const cleanFirstName =
+      normalizeText(
+        firstName
+      )
+
+    const cleanLastName =
+      normalizeText(
+        lastName
+      )
+
+    const cleanMotherPhone =
+      normalizeMobile(
+        motherPhone
+      )
+
+    const cleanFatherPhone =
+      normalizeMobile(
+        fatherPhone
+      )
+
+    const cleanBirthDate =
+      String(
+        birthDate || ''
+      ).trim()
+
+    const cleanSchoolName =
+      normalizeText(
+        schoolName
+      )
+
+    const cleanGrade =
+      String(
+        grade || ''
+      ).trim()
+
+    if (
+      !NATIONAL_CODE_PATTERN.test(
+        cleanNationalCode
+      )
+    ) {
+      throw new Error(
+        'AUTH_NATIONAL_CODE_INVALID'
+      )
     }
 
-    if (cleanFirstName.length < 2) {
-      throw new Error('AUTH_FIRST_NAME_INVALID')
+    if (
+      cleanFirstName.length < 2 ||
+      cleanFirstName.length > 50
+    ) {
+      throw new Error(
+        'AUTH_FIRST_NAME_INVALID'
+      )
     }
 
-    if (cleanLastName.length < 2) {
-      throw new Error('AUTH_LAST_NAME_INVALID')
+    if (
+      cleanLastName.length < 2 ||
+      cleanLastName.length > 80
+    ) {
+      throw new Error(
+        'AUTH_LAST_NAME_INVALID'
+      )
     }
 
-    if (!MOBILE_PATTERN.test(cleanMotherPhone)) {
-      throw new Error('AUTH_MOTHER_PHONE_INVALID')
+    if (
+      !MOBILE_PATTERN.test(
+        cleanMotherPhone
+      )
+    ) {
+      throw new Error(
+        'AUTH_MOTHER_PHONE_INVALID'
+      )
     }
 
-    if (!MOBILE_PATTERN.test(cleanFatherPhone)) {
-      throw new Error('AUTH_FATHER_PHONE_INVALID')
+    if (
+      !MOBILE_PATTERN.test(
+        cleanFatherPhone
+      )
+    ) {
+      throw new Error(
+        'AUTH_FATHER_PHONE_INVALID'
+      )
     }
 
     if (!cleanBirthDate) {
-      throw new Error('AUTH_BIRTH_DATE_REQUIRED')
+      throw new Error(
+        'AUTH_BIRTH_DATE_REQUIRED'
+      )
     }
 
-    if (!isPasswordValid(password)) {
-      throw new Error('AUTH_PASSWORD_WEAK')
+    if (
+      !isPasswordValid(
+        password
+      )
+    ) {
+      throw new Error(
+        'AUTH_PASSWORD_WEAK'
+      )
     }
 
-    if (cleanSchoolName.length < 2 || cleanSchoolName.length > 100) {
-      throw new Error('AUTH_SCHOOL_INVALID')
+    if (
+      cleanSchoolName.length < 2 ||
+      cleanSchoolName.length > 100
+    ) {
+      throw new Error(
+        'AUTH_SCHOOL_INVALID'
+      )
     }
 
-    if (!['1', '2', '3', '4', '5', '6'].includes(cleanGrade)) {
-      throw new Error('AUTH_GRADE_INVALID')
+    if (
+      ![
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+      ].includes(
+        cleanGrade
+      )
+    ) {
+      throw new Error(
+        'AUTH_GRADE_INVALID'
+      )
     }
+
+    validateAvatarFile(
+      avatarFile
+    )
 
     return {
-      nationalCode: cleanNationalCode,
-      firstName: cleanFirstName,
-      lastName: cleanLastName,
-      motherPhone: cleanMotherPhone,
-      fatherPhone: cleanFatherPhone,
-      birthDate: cleanBirthDate,
-      schoolName: cleanSchoolName,
-      grade: cleanGrade,
+      nationalCode:
+        cleanNationalCode,
+
+      firstName:
+        cleanFirstName,
+
+      lastName:
+        cleanLastName,
+
+      motherPhone:
+        cleanMotherPhone,
+
+      fatherPhone:
+        cleanFatherPhone,
+
+      birthDate:
+        cleanBirthDate,
+
+      password:
+        String(
+          password || ''
+        ),
+
+      schoolName:
+        cleanSchoolName,
+
+      grade:
+        Number(
+          cleanGrade
+        ),
     }
+  }
+
+  const performLogin = async ({
+    nationalCode,
+    password,
+  }) => {
+    const result =
+      await window.apiClient.post(
+        '/auth/login',
+        {
+          nationalCode:
+            normalizeNationalCode(
+              nationalCode
+            ),
+
+          password:
+            String(
+              password || ''
+            ),
+        },
+        {
+          auth: false,
+        }
+      )
+
+    if (!result?.user?.id) {
+      throw new window.apiClient.ApiError({
+        code:
+          'API_INVALID_RESPONSE',
+
+        path:
+          '/auth/login',
+
+        method:
+          'POST',
+      })
+    }
+
+    window.apiClient.log(
+      '[API:AUTH] login accepted; session is backend-owned HttpOnly cookie'
+    )
+
+    return result.user
   }
 
   const register = async ({
@@ -209,131 +356,142 @@
     grade,
     avatarFile = null,
   }) => {
-    const normalized = validateRegistration({
-      nationalCode,
-      firstName,
-      lastName,
-      motherPhone,
-      fatherPhone,
-      birthDate,
-      password,
-      schoolName,
-      grade,
-    })
+    const payload =
+      validateRegistration({
+        nationalCode,
+        firstName,
+        lastName,
+        motherPhone,
+        fatherPhone,
+        birthDate,
+        password,
+        schoolName,
+        grade,
+        avatarFile,
+      })
 
-    const avatar = await avatarFileToDataUrl(avatarFile)
-    const passwordHash = await hashPassword(password)
-
-    let registeredUser = null
-
-    await window.appDataProvider.updateState((state) => {
-      if (!Array.isArray(state.users)) {
-        state.users = []
-      }
-
-      const exists = state.users.some(
-        (user) =>
-          normalizeNationalCode(user.nationalCode) === normalized.nationalCode
+    const registeredUser =
+      await window.apiClient.post(
+        '/auth/register',
+        payload,
+        {
+          auth: false,
+        }
       )
 
-      if (exists) {
-        throw new Error('AUTH_NATIONAL_CODE_TAKEN')
-      }
+    window.apiClient.log(
+      '[API:AUTH] account created on backend'
+    )
 
-      const now = new Date().toISOString()
+    /*
+     * Register does not create the login session.
+     * Login once after registration.
+     * The backend sets the HttpOnly cookie.
+     */
+    const loggedInUser =
+      await performLogin({
+        nationalCode:
+          payload.nationalCode,
 
-      const user = {
-        id: createUserId(),
+        password:
+          payload.password,
+      })
 
-        nationalCode: normalized.nationalCode,
-        firstName: normalized.firstName,
-        lastName: normalized.lastName,
+    return {
+      user:
+        loggedInUser ||
+        registeredUser,
 
-        motherPhone: normalized.motherPhone,
-        fatherPhone: normalized.fatherPhone,
-        birthDate: normalized.birthDate,
-
-        passwordHash,
-
-        schoolName: normalized.schoolName,
-        grade: normalized.grade,
-
-        avatar,
-
-        createdAt: now,
-        updatedAt: now,
-      }
-
-      state.users.push(user)
-
-      state.currentUser = sanitizeUser(user)
-      registeredUser = sanitizeUser(user)
-
-      return state
-    })
-
-    return registeredUser
+      avatarPending:
+        Boolean(
+          avatarFile
+        ),
+    }
   }
 
-  const login = async ({ nationalCode, password }) => {
-    const cleanNationalCode = normalizeNationalCode(nationalCode)
+  const login = async ({
+    nationalCode,
+    password,
+  }) => {
+    const cleanNationalCode =
+      normalizeNationalCode(
+        nationalCode
+      )
 
-    if (!NATIONAL_CODE_PATTERN.test(cleanNationalCode) || !password) {
-      throw new Error('AUTH_LOGIN_FIELDS_REQUIRED')
+    if (
+      !NATIONAL_CODE_PATTERN.test(
+        cleanNationalCode
+      ) ||
+      !password
+    ) {
+      throw new Error(
+        'AUTH_LOGIN_FIELDS_REQUIRED'
+      )
     }
 
-    const passwordHash = await hashPassword(password)
+    const user =
+      await performLogin({
+        nationalCode:
+          cleanNationalCode,
 
-    let loggedInUser = null
+        password,
+      })
 
-    await window.appDataProvider.updateState((state) => {
-      const users = Array.isArray(state.users) ? state.users : []
+    return user
+  }
 
-      const user = users.find(
-        (item) => normalizeNationalCode(item.nationalCode) === cleanNationalCode
+  const getCurrentUser =
+    async () => {
+      try {
+        const user =
+          await window.apiClient.get(
+            '/me'
+          )
+
+        window.apiClient.log(
+          '[API:AUTH] current session verified by backend'
+        )
+
+        return user || null
+      } catch (error) {
+        if (
+          Number(
+            error?.status || 0
+          ) === 401
+        ) {
+          return null
+        }
+
+        throw error
+      }
+    }
+
+  const logout =
+    async () => {
+      await window.apiClient.post(
+        '/auth/logout'
       )
 
-      if (!user || user.passwordHash !== passwordHash) {
-        throw new Error('AUTH_LOGIN_INVALID')
-      }
+      window.apiClient.log(
+        '[API:AUTH] HttpOnly session cleared by backend'
+      )
+    }
 
-      state.currentUser = sanitizeUser(user)
-      loggedInUser = sanitizeUser(user)
+  window.authService =
+    Object.freeze({
+      NATIONAL_CODE_PATTERN,
+      MOBILE_PATTERN,
 
-      return state
+      PASSWORD_MIN_LENGTH,
+      PASSWORD_PATTERN,
+      AVATAR_MAX_BYTES,
+
+      getPasswordRequirements,
+      isPasswordValid,
+
+      register,
+      login,
+      getCurrentUser,
+      logout,
     })
-
-    return loggedInUser
-  }
-
-  const getCurrentUser = async () => {
-    const state = await window.appDataProvider.getState()
-
-    return state.currentUser || null
-  }
-
-  const logout = async () => {
-    await window.appDataProvider.updateState((state) => {
-      state.currentUser = null
-      return state
-    })
-  }
-
-  window.authService = Object.freeze({
-    NATIONAL_CODE_PATTERN,
-    MOBILE_PATTERN,
-
-    PASSWORD_MIN_LENGTH,
-    PASSWORD_PATTERN,
-
-    AVATAR_MAX_BYTES,
-
-    getPasswordRequirements,
-    isPasswordValid,
-
-    register,
-    login,
-    getCurrentUser,
-    logout,
-  })
 })()

@@ -53,13 +53,10 @@ Router::post("/api/v1/auth/logout", function () {
     $db = Database::connect();
 
     /*
-     * Require a currently valid token before revoking it.
+     * Logout is intentionally idempotent.
+     * The controller revokes the current token when present
+     * and always clears the browser auth cookie.
      */
-    $auth = new AuthMiddleware($db);
-
-    $auth->handle();
-
-
     $controller = new AuthController($db);
 
     $controller->logout();

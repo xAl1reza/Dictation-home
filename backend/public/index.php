@@ -6,11 +6,24 @@
 |--------------------------------------------------------------------------
 */
 
-ini_set("display_errors", "0");
-ini_set("display_startup_errors", "0");
-ini_set("log_errors", "1");
+ini_set(
+    "display_errors",
+    "0"
+);
 
-error_reporting(E_ALL);
+ini_set(
+    "display_startup_errors",
+    "0"
+);
+
+ini_set(
+    "log_errors",
+    "1"
+);
+
+error_reporting(
+    E_ALL
+);
 
 
 /*
@@ -19,36 +32,58 @@ error_reporting(E_ALL);
 |--------------------------------------------------------------------------
 */
 
-header("X-Content-Type-Options: nosniff");
-header("X-Frame-Options: DENY");
-header("Referrer-Policy: no-referrer");
-header("Permissions-Policy: camera=(), microphone=(), geolocation=()");
-header("Content-Security-Policy: default-src 'none'; frame-ancestors 'none'; base-uri 'none'");
+header(
+    "X-Content-Type-Options: nosniff"
+);
+
+header(
+    "X-Frame-Options: DENY"
+);
+
+header(
+    "Referrer-Policy: no-referrer"
+);
+
+header(
+    "Permissions-Policy: camera=(), microphone=(), geolocation=()"
+);
+
+header(
+    "Content-Security-Policy: default-src 'none'; frame-ancestors 'none'; base-uri 'none'"
+);
 
 
 /*
 |--------------------------------------------------------------------------
-| CORS
+| CORS + Cookie Credentials
 |--------------------------------------------------------------------------
 |
-| Local development origins are allowed by default.
-| On production set APP_ALLOWED_ORIGINS as a comma-separated list, e.g.
+| HttpOnly cookie authentication requires:
+| - an exact allowed frontend Origin
+| - Access-Control-Allow-Credentials: true
+| - frontend fetch(..., { credentials: "include" })
 |
-| https://example.com,https://www.example.com
+| Production:
+| APP_ALLOWED_ORIGINS=https://your-frontend.example
 |
 */
 
 $defaultAllowedOrigins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+
+    "http://localhost:5578",
+    "http://127.0.0.1:5578",
+
     "http://localhost",
     "http://127.0.0.1"
 ];
 
 
-$configuredOrigins = getenv(
-    "APP_ALLOWED_ORIGINS"
-);
+$configuredOrigins =
+    getenv(
+        "APP_ALLOWED_ORIGINS"
+    );
 
 
 $allowedOrigins =
@@ -68,24 +103,60 @@ $allowedOrigins =
 
 
 $requestOrigin =
-    $_SERVER["HTTP_ORIGIN"] ?? null;
+    $_SERVER[
+        "HTTP_ORIGIN"
+    ] ?? null;
 
 
-if (
-    $requestOrigin &&
+$isAllowedOrigin =
+    !$requestOrigin ||
     in_array(
         $requestOrigin,
         $allowedOrigins,
         true
-    )
+    );
+
+
+if (
+    $requestOrigin &&
+    !$isAllowedOrigin
 ) {
+    header(
+        "Content-Type: application/json; charset=utf-8"
+    );
+
+    http_response_code(
+        403
+    );
+
+    echo json_encode(
+        [
+            "success" => false,
+            "message" =>
+                "Origin not allowed",
+            "data" => []
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
+
+    exit;
+}
+
+
+if ($requestOrigin) {
 
     header(
         "Access-Control-Allow-Origin: " .
         $requestOrigin
     );
 
-    header("Vary: Origin");
+    header(
+        "Access-Control-Allow-Credentials: true"
+    );
+
+    header(
+        "Vary: Origin"
+    );
 }
 
 
@@ -109,11 +180,18 @@ header(
 */
 
 if (
-    ($_SERVER["REQUEST_METHOD"] ?? "GET")
+    (
+        $_SERVER[
+            "REQUEST_METHOD"
+        ] ?? "GET"
+    )
     === "OPTIONS"
 ) {
 
-    http_response_code(204);
+    http_response_code(
+        204
+    );
+
     exit;
 }
 
@@ -124,10 +202,25 @@ if (
 |--------------------------------------------------------------------------
 */
 
-require_once __DIR__ . "/../app/Core/Database.php";
-require_once __DIR__ . "/../app/Core/Request.php";
-require_once __DIR__ . "/../app/Core/Response.php";
-require_once __DIR__ . "/../app/Core/Router.php";
+require_once
+    __DIR__ .
+    "/../app/Core/Database.php";
+
+require_once
+    __DIR__ .
+    "/../app/Core/Request.php";
+
+require_once
+    __DIR__ .
+    "/../app/Core/Response.php";
+
+require_once
+    __DIR__ .
+    "/../app/Core/Router.php";
+
+require_once
+    __DIR__ .
+    "/../app/Core/AuthCookie.php";
 
 
 /*
@@ -137,7 +230,9 @@ require_once __DIR__ . "/../app/Core/Router.php";
 */
 
 set_exception_handler(
-    function (Throwable $exception) {
+    function (
+        Throwable $exception
+    ) {
 
         error_log(
             sprintf(
@@ -191,7 +286,9 @@ require_once __DIR__ . "/../app/Controllers/PartnerSchoolController.php";
 
 
 // Routes
-require_once __DIR__ . "/../routes/api.php";
+require_once
+    __DIR__ .
+    "/../routes/api.php";
 
 
 // Run Router

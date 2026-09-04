@@ -43,7 +43,11 @@
     }
   }
 
-  const redirectToLogin = () => {
+  const redirectToLogin = (reason = 'AUTH_REQUIRED') => {
+    window.apiClient?.warn(
+      `[API:DASHBOARD] redirecting to login | reason=${reason}`
+    )
+
     window.location.replace('./auth.html#login')
   }
 
@@ -51,7 +55,7 @@
     const currentUser = user || (await window.userService.getCurrentUser())
 
     if (!currentUser?.id) {
-      redirectToLogin()
+      redirectToLogin('NO_VERIFIED_USER')
       return null
     }
 
@@ -83,7 +87,20 @@
         } catch (error) {
           console.error('Failed to logout:', error)
 
-          button.disabled = false
+          const resolved = window.apiErrors?.resolve(
+            error,
+            'خروج از حساب روی سرور کامل نشد، اما نشست این مرورگر بسته شد.'
+          )
+
+          window.showToast?.({
+            type: 'warning',
+            title: 'خروج از حساب',
+            message:
+              resolved?.message ||
+              'خروج از حساب روی سرور کامل نشد، اما نشست این مرورگر بسته شد.',
+          })
+
+          window.location.replace('./auth.html#login')
         }
       })
     })
@@ -91,6 +108,10 @@
 
   const initDashboard = async () => {
     try {
+      window.apiClient?.log(
+        '[API:DASHBOARD] init | verifying HttpOnly session through /me'
+      )
+
       const scoreData = await refreshDashboardScoreData()
 
       if (!scoreData) return
@@ -106,15 +127,32 @@
       await renderDashboardView()
     } catch (error) {
       console.error('Failed to initialize dashboard:', error)
+
+      const resolved = window.apiErrors?.resolve(
+        error,
+        'اطلاعات داشبورد از سرور دریافت نشد.'
+      )
+
+      window.showToast?.({
+        type: 'error',
+        title: 'بارگذاری داشبورد',
+        message:
+          resolved?.message || 'اطلاعات داشبورد از سرور دریافت نشد.',
+      })
     }
   }
 
-  window.addEventListener('pageshow', (event) => {
+  window.addEventListener('pageshow', async (event) => {
     if (!event.persisted) return
 
-    refreshDashboardScoreData().catch((error) => {
-      console.error('Failed to refresh dashboard score summary:', error)
-    })
+    try {
+      await refreshDashboardScoreData()
+    } catch (error) {
+      console.error(
+        'Failed to refresh dashboard score summary:',
+        error
+      )
+    }
   })
 
   initDashboard()

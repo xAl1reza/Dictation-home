@@ -64,6 +64,19 @@
     } catch (error) {
       console.error("Failed to initialize game:", error);
 
+      const resolved = window.apiErrors?.resolve(
+        error,
+        "اطلاعات لازم برای شروع بازی از سرور دریافت نشد.",
+      );
+
+      window.showToast?.({
+        type: "error",
+        title: "شروع بازی انجام نشد",
+        message:
+          resolved?.message ||
+          "اطلاعات لازم برای شروع بازی از سرور دریافت نشد.",
+      });
+
       window.GameShell.renderInvalidGame();
     }
   };

@@ -199,6 +199,65 @@
     })
   }
 
+  const showFormErrorFeedback = (
+    form,
+    { title = 'اطلاعات فرم را بررسی کن', message = '', focusFirst = true } = {}
+  ) => {
+    const firstError = Array.from(
+      form.querySelectorAll('[data-error-for]')
+    ).find((error) => {
+      return !error.classList.contains('hidden') && error.textContent.trim()
+    })
+
+    const feedbackMessage =
+      message ||
+      firstError?.textContent?.trim() ||
+      'بعضی از اطلاعات واردشده نیاز به اصلاح دارد.'
+
+    window.showToast?.({
+      type: 'error',
+      title,
+      message: feedbackMessage,
+    })
+
+    if (!focusFirst || !firstError) {
+      return
+    }
+
+    const fieldName = firstError.dataset.errorFor
+
+    let field = Array.from(form.elements).find((element) => {
+      return element.name === fieldName
+    })
+
+    if (fieldName === 'grade') {
+      field = gradeTrigger || field
+    }
+
+    if (!field) {
+      firstError.scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'center',
+      })
+
+      return
+    }
+
+    field.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'center',
+    })
+
+    window.setTimeout(
+      () => {
+        field.focus?.({
+          preventScroll: true,
+        })
+      },
+      prefersReducedMotion ? 0 : 280
+    )
+  }
+
   document.querySelectorAll('form[data-auth-form]').forEach((form) => {
     form.addEventListener('input', (event) => {
       if (!event.target?.name) return
@@ -293,21 +352,31 @@
 
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
       avatarInput.value = ''
-      setFieldError(
-        document.getElementById('register-form'),
-        'avatar',
-        'فرمت عکس باید JPG، PNG یا WebP باشد.'
-      )
+      const form = document.getElementById('register-form')
+
+      setFieldError(form, 'avatar', 'فرمت عکس باید JPG، PNG یا WebP باشد.')
+
+      showFormErrorFeedback(form, {
+        title: 'عکس پروفایل معتبر نیست',
+        message: 'فرمت عکس باید JPG، PNG یا WebP باشد.',
+        focusFirst: false,
+      })
+
       return
     }
 
     if (file.size > window.authService.AVATAR_MAX_BYTES) {
       avatarInput.value = ''
-      setFieldError(
-        document.getElementById('register-form'),
-        'avatar',
-        'حجم عکس باید حداکثر ۲ مگابایت باشد.'
-      )
+      const form = document.getElementById('register-form')
+
+      setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
+
+      showFormErrorFeedback(form, {
+        title: 'حجم عکس زیاد است',
+        message: 'حجم عکس باید حداکثر ۲ مگابایت باشد.',
+        focusFirst: false,
+      })
+
       return
     }
 
@@ -364,7 +433,13 @@
         valid = false
       }
 
-      if (!valid) return
+      if (!valid) {
+        showFormErrorFeedback(form, {
+          title: 'اطلاعات ورود را بررسی کن',
+        })
+
+        return
+      }
 
       setSubmitting(form, true)
 
@@ -374,6 +449,10 @@
           password,
         })
 
+        window.apiClient?.log(
+          '[API:AUTH] login verified; redirecting to dashboard'
+        )
+
         window.showToast?.({
           type: 'success',
           title: 'خوش اومدی',
@@ -382,12 +461,23 @@
 
         redirectToDashboard()
       } catch (error) {
-        if (error?.message === 'AUTH_LOGIN_INVALID') {
-          setFieldError(form, 'password', 'کد ملی یا رمز عبور درست نیست.')
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'ورود انجام نشد. دوباره تلاش کن.'
+        )
+
+        if (resolved?.field) {
+          setFieldError(form, resolved.field, resolved.message)
+
+          showFormErrorFeedback(form, {
+            title: 'ورود انجام نشد',
+            message: resolved.message,
+          })
         } else {
           window.showToast?.({
             type: 'error',
-            message: 'ورود انجام نشد. دوباره تلاش کن.',
+            title: 'ورود انجام نشد',
+            message: resolved?.message || 'ورود انجام نشد. دوباره تلاش کن.',
           })
         }
       } finally {
@@ -487,12 +577,19 @@
         valid = false
       }
 
-      if (!valid) return
+      if (!valid) {
+        showFormErrorFeedback(form, {
+          title: 'ثبت‌نام نیاز به اصلاح دارد',
+          message: 'بعضی از اطلاعات فرم درست نیست. موارد مشخص‌شده را اصلاح کن.',
+        })
+
+        return
+      }
 
       setSubmitting(form, true)
 
       try {
-        await window.authService.register({
+        const result = await window.authService.register({
           nationalCode,
           firstName,
           lastName,
@@ -505,32 +602,37 @@
           avatarFile,
         })
 
+        window.apiClient?.log(
+          '[API:AUTH] registration + login verified; redirecting to dashboard'
+        )
+
         window.showToast?.({
           type: 'success',
           title: 'حساب ساخته شد',
-          message: 'ثبت‌نام با موفقیت انجام شد.',
+          message: result?.avatarPending
+            ? 'ثبت‌نام انجام شد؛ اطلاعات حساب ذخیره شد. عکس پروفایل فعلاً ذخیره نشده است.'
+            : 'ثبت‌نام با موفقیت انجام شد.',
         })
 
         redirectToDashboard()
       } catch (error) {
-        const code = error?.message
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'ثبت‌نام انجام نشد. دوباره تلاش کن.'
+        )
 
-        if (code === 'AUTH_NATIONAL_CODE_TAKEN') {
-          setFieldError(form, 'nationalCode', 'این کد ملی قبلاً ثبت شده است.')
-        } else if (code === 'AUTH_PASSWORD_WEAK') {
-          setFieldError(
-            form,
-            'password',
-            'رمز عبور باید حداقل ۸ کاراکتر و شامل حرف کوچک، حرف بزرگ و عدد باشد.'
-          )
-        } else if (code === 'AUTH_AVATAR_TOO_LARGE') {
-          setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
-        } else if (code === 'AUTH_AVATAR_TYPE_INVALID') {
-          setFieldError(form, 'avatar', 'فرمت عکس باید JPG، PNG یا WebP باشد.')
+        if (resolved?.field) {
+          setFieldError(form, resolved.field, resolved.message)
+
+          showFormErrorFeedback(form, {
+            title: 'ثبت‌نام انجام نشد',
+            message: resolved.message,
+          })
         } else {
           window.showToast?.({
             type: 'error',
-            message: 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
+            title: 'ثبت‌نام انجام نشد',
+            message: resolved?.message || 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
           })
         }
       } finally {
