@@ -70,7 +70,7 @@ Router::post("/api/v1/auth/logout", function () {
 
 /*
 |--------------------------------------------------------------------------
-| User Routes
+| User / Profile Routes
 |--------------------------------------------------------------------------
 */
 
@@ -88,6 +88,70 @@ Router::get("/api/v1/me", function () {
         $user,
         "Authenticated user"
     );
+
+});
+
+
+Router::patch("/api/v1/profile", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ProfileController($db);
+
+    $controller->update($user);
+
+});
+
+
+Router::patch("/api/v1/profile/password", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ProfileController($db);
+
+    $controller->changePassword($user);
+
+});
+
+
+Router::post("/api/v1/profile/avatar", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ProfileController($db);
+
+    $controller->uploadAvatar($user);
+
+});
+
+
+Router::delete("/api/v1/profile/avatar", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ProfileController($db);
+
+    $controller->deleteAvatar($user);
 
 });
 

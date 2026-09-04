@@ -171,6 +171,7 @@ require_once __DIR__ . "/../app/Models/PartnerSchool.php";
 
 // Services
 require_once __DIR__ . "/../app/Services/AuthService.php";
+require_once __DIR__ . "/../app/Services/ProfileService.php";
 
 
 // Middleware
@@ -179,6 +180,7 @@ require_once __DIR__ . "/../app/Middleware/AuthMiddleware.php";
 
 // Controllers
 require_once __DIR__ . "/../app/Controllers/AuthController.php";
+require_once __DIR__ . "/../app/Controllers/ProfileController.php";
 require_once __DIR__ . "/../app/Controllers/FolderController.php";
 require_once __DIR__ . "/../app/Controllers/WordController.php";
 require_once __DIR__ . "/../app/Controllers/GameResultController.php";
