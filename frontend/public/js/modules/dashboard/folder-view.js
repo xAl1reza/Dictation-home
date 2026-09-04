@@ -129,6 +129,38 @@
     `
   }
 
+  const createUserFoldersEmptyState = () => {
+    return `
+      <div
+        class="sm:col-span-2 xl:col-span-3 rounded-lg border border-dashed border-primary/20 bg-primary/5 px-6 py-10 text-center dark:bg-primary/5"
+        data-folder-empty-state
+      >
+        <div
+          class="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            class="size-5"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" d="M12 5v14M5 12h14"></path>
+          </svg>
+        </div>
+
+        <h3 class="mb-2">هنوز پوشه‌ای نساختی</h3>
+        <p class="mb-5 text-mutedColor dark:text-mutedColor-dark">
+          اولین پوشه‌ات را بساز و مشخص کن برای دیکته است یا علوم.
+        </p>
+        <button type="button" data-add-folder class="btn-link">
+          + ساخت اولین پوشه
+        </button>
+      </div>
+    `
+  }
+
   const createAddFolderModal = () => {
     return `
       <div
@@ -278,6 +310,10 @@
         (folder) => folder.type === 'science',
       ).length
 
+      window.apiClient?.log(
+        `[API:FOLDERS] dashboard view: user=${userFolders.length}, system=${systemFolders.length}`
+      )
+
       container.innerHTML = `
         <section aria-labelledby="folders-title">
           <div
@@ -329,34 +365,7 @@
               ${
                 userFolders.length
                   ? userFolders.map(createFolderCard).join('')
-                  : `
-                    <div
-                      class="sm:col-span-2 xl:col-span-3 rounded-lg border border-dashed border-primary/20 bg-primary/5 px-6 py-10 text-center dark:bg-primary/5"
-                    >
-                      <div
-                        class="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.7"
-                          class="size-5"
-                          aria-hidden="true"
-                        >
-                          <path stroke-linecap="round" d="M12 5v14M5 12h14"></path>
-                        </svg>
-                      </div>
-
-                      <h3 class="mb-2">هنوز پوشه‌ای نساختی</h3>
-                      <p class="mb-5 text-mutedColor dark:text-mutedColor-dark">
-                        اولین پوشه‌ات را بساز و مشخص کن برای دیکته است یا علوم.
-                      </p>
-                      <button type="button" data-add-folder class="btn-link">
-                        + ساخت اولین پوشه
-                      </button>
-                    </div>
-                  `
+                  : createUserFoldersEmptyState()
               }
 
               ${
@@ -420,6 +429,11 @@
       initFolderManagerEvents(renderFoldersView)
     } catch (error) {
       console.error('Failed to load folders:', error)
+
+      window.apiErrors?.showToast(error, {
+        title: 'دریافت پوشه‌ها انجام نشد',
+        fallbackMessage: 'پوشه‌ها از سرور دریافت نشدند. دوباره تلاش کن.',
+      })
 
       container.innerHTML = `
         <div class="rounded-lg border border-secondary/15 bg-secondary/5 px-6 py-10 text-center">
@@ -544,8 +558,15 @@
       const type = typeInput.value
 
       if (!title) {
-        showError('نام پوشه را وارد کن.')
+        const message = 'نام پوشه را وارد کن.'
+        showError(message)
         titleInput.focus()
+
+        window.showToast?.({
+          type: 'error',
+          title: 'ساخت پوشه انجام نشد',
+          message,
+        })
         return
       }
 
@@ -581,7 +602,11 @@
           FOLDER_TYPE_INVALID: 'نوع پوشه معتبر نیست.',
         }
 
-        const message = errors[error.message] || 'ساخت پوشه انجام نشد.'
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'ساخت پوشه انجام نشد. دوباره تلاش کن.'
+        )
+        const message = errors[error.message] || resolved?.message || 'ساخت پوشه انجام نشد.'
         showError(message)
 
         window.showToast?.({

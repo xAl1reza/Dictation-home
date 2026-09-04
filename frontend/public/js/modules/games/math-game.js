@@ -4,7 +4,7 @@
  * Single-player flow:
  * QUESTION → FEEDBACK → QUESTION ... → FINISHED
  *
- * Questions are generated from appData.mathConfig.
+ * Questions are generated from the built-in product math configuration.
  * Results are persisted through gameResultService.
  */
 
@@ -103,7 +103,7 @@
 
     /*
      * All four basic operators are active from Stage 7 onward,
-     * even if an older localStorage seed only contains + and -.
+     * even if an older configuration only contained + and -.
      */
     return [...new Set([...requiredOperators, ...canonical])];
   };
@@ -126,7 +126,7 @@
     /*
      * Current product rule:
      * operands must never be greater than 9,
-     * even if an older localStorage config still says 20.
+     * even if an older configuration used a larger number.
      */
     minNumber = Math.min(minNumber, MAX_MATH_NUMBER);
 
@@ -144,22 +144,11 @@
   };
 
   const loadMathConfig = async () => {
-    if (
-      !window.appDataProvider ||
-      typeof window.appDataProvider.getState !== "function"
-    ) {
-      return normalizeMathConfig();
-    }
-
-    try {
-      const state = await window.appDataProvider.getState();
-
-      return normalizeMathConfig(state?.mathConfig);
-    } catch (error) {
-      console.error("Failed to load math config:", error);
-
-      return normalizeMathConfig();
-    }
+    /*
+     * Math configuration is product/static configuration, not user data.
+     * Keep the async contract without browser mock-data dependencies.
+     */
+    return normalizeMathConfig(DEFAULT_MATH_CONFIG);
   };
 
   const shuffleItems = (items) => {
@@ -827,6 +816,11 @@
       resultSaved = true;
     } catch (error) {
       console.error("Failed to save math result:", error);
+
+      window.apiErrors?.showToast(error, {
+        title: "نتیجه ریاضی ذخیره نشد",
+        fallbackMessage: "نتیجه مسابقه روی سرور ذخیره نشد. دوباره تلاش کن.",
+      });
     }
 
     const player = result.participants[0];

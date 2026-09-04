@@ -2,308 +2,55 @@
 
 class GameResultController
 {
+    private const SESSION_ID_MAX_LENGTH = 128;
+    private const MAX_COUNTER = 10000;
+
     private $gameResultModel;
     private $folderModel;
 
 
     public function __construct($db)
     {
-        $this->gameResultModel = new GameResult($db);
-        $this->folderModel = new Folder($db);
+        $this->gameResultModel =
+            new GameResult($db);
+
+        $this->folderModel =
+            new Folder($db);
     }
 
 
     public function store($user)
     {
-        try {
-
-            $data = Request::body();
-
-
-            $sessionId = trim(
-                $data["sessionId"] ?? ""
-            );
-
-            $gameType = trim(
-                $data["gameType"] ?? ""
-            );
-
-
-            if ($sessionId === "") {
-
-                Response::error(
-                    "Session ID is required",
-                    400
-                );
-
-                return;
-            }
-
-
-            if (
-                !in_array(
-                    $gameType,
-                    [
-                        "dictation",
-                        "science",
-                        "math"
-                    ],
-                    true
-                )
-            ) {
-
-                Response::error(
-                    "Invalid game type",
-                    400
-                );
-
-                return;
-            }
-
-
-            /*
-             * Idempotency:
-             * same session + same user must not create
-             * another game result.
-             */
-            $existingResult =
-                $this->gameResultModel
-                    ->findBySessionIdAndUserId(
-                        $sessionId,
-                        $user["id"]
-                    );
-
-
-            if ($existingResult) {
-
-                Response::success(
-                    $existingResult,
-                    "Game result already saved"
-                );
-
-                return;
-            }
-
-
-            $correct = $this->nonNegativeInteger(
-                $data["correct"] ?? null,
-                "Correct"
-            );
-
-            $wrong = $this->nonNegativeInteger(
-                $data["wrong"] ?? null,
-                "Wrong"
-            );
-
-            $skipped = $this->nonNegativeInteger(
-                $data["skipped"] ?? null,
-                "Skipped"
-            );
-
-            $rounds = $this->nonNegativeInteger(
-                $data["rounds"] ?? null,
-                "Rounds"
-            );
-
-
-            $folderId = $data["folderId"] ?? null;
-            $folderId = $folderId !== null
-                ? trim((string) $folderId)
-                : null;
-
-
-            /*
-             * Dictation and Science require a folder.
-             * Math does not use folders.
-             */
-            if (
-                in_array(
-                    $gameType,
-                    ["dictation", "science"],
-                    true
-                )
-            ) {
-
-                if (!$folderId) {
-
-                    Response::error(
-                        "Folder ID is required for this game type",
-                        400
-                    );
-
-                    return;
-                }
-
-
-                /*
-                 * findById also guarantees ownership:
-                 * folder must belong to authenticated user.
-                 */
-                $folder = $this->folderModel->findById(
-                    $folderId,
-                    $user["id"]
-                );
-
-
-                if (!$folder) {
-
-                    Response::error(
-                        "Folder not found",
-                        404
-                    );
-
-                    return;
-                }
-
-
-                if ($folder["type"] !== $gameType) {
-
-                    Response::error(
-                        "Folder type does not match game type",
-                        400
-                    );
-
-                    return;
-                }
-
-            } else {
-
-                // Math result never belongs to a folder.
-                $folderId = null;
-            }
-
-
-            /*
-             * Client sends raw counts only.
-             * Backend calculates all derived values.
-             */
-            $score = $correct - $wrong;
-
-            $answered = $correct + $wrong;
-
-            $accuracy = $answered > 0
-                ? (int) round(
-                    ($correct / $answered) * 100
-                )
-                : 0;
-
-
-            [$startedAt, $finishedAt, $durationSeconds] =
-                $this->normalizeGameDates(
-                    $data["startedAt"] ?? null,
-                    $data["finishedAt"] ?? null
-                );
-
-
-            $result = $this->gameResultModel->create([
-                "id" => $this->uuid(),
-
-                "session_id" => $sessionId,
-
-                // Never trust userId from client.
-                "user_id" => $user["id"],
-
-                "folder_id" => $folderId,
-
-                "game_type" => $gameType,
-
-                "score" => $score,
-
-                "correct" => $correct,
-
-                "wrong" => $wrong,
-
-                "skipped" => $skipped,
-
-                "answered" => $answered,
-
-                "rounds" => $rounds,
-
-                "accuracy" => $accuracy,
-
-                "duration_seconds" => $durationSeconds,
-
-                "started_at" => $startedAt,
-
-                "finished_at" => $finishedAt
-            ]);
-
-
-            Response::success(
-                $result,
-                "Game result saved successfully"
-            );
-
-
-        } catch (InvalidArgumentException $e) {
-
+        $data = Request::body();
+
+        $sessionId = trim(
+            (string) ($data["sessionId"] ?? "")
+        );
+
+        $gameType = trim(
+            (string) ($data["gameType"] ?? "")
+        );
+
+        if (
+            $sessionId === "" ||
+            mb_strlen($sessionId) >
+                self::SESSION_ID_MAX_LENGTH
+        ) {
             Response::error(
-                $e->getMessage(),
+                "Invalid sessionId",
                 400
             );
 
-
-        } catch (PDOException $e) {
-
-            /*
-             * Protect against a race where the same
-             * session gets submitted twice simultaneously.
-             */
-            if ((int) $e->getCode() === 23000) {
-
-                $existingResult =
-                    $this->gameResultModel
-                        ->findBySessionIdAndUserId(
-                            $sessionId ?? "",
-                            $user["id"]
-                        );
-
-
-                if ($existingResult) {
-
-                    Response::success(
-                        $existingResult,
-                        "Game result already saved"
-                    );
-
-                    return;
-                }
-            }
-
-
-            Response::error(
-                "Could not save game result",
-                500
-            );
+            return;
         }
-    }
-
-
-    public function history($user)
-    {
-        $gameType = isset($_GET["gameType"])
-            ? trim($_GET["gameType"])
-            : null;
-
-
-        if ($gameType === "") {
-            $gameType = null;
-        }
-
 
         if (
-            $gameType !== null &&
             !in_array(
                 $gameType,
-                [
-                    "dictation",
-                    "science",
-                    "math"
-                ],
+                ["math", "science", "dictation"],
                 true
             )
         ) {
-
             Response::error(
                 "Invalid game type",
                 400
@@ -312,12 +59,231 @@ class GameResultController
             return;
         }
 
+        $correct = $this->readCounter(
+            $data,
+            "correct"
+        );
+
+        $wrong = $this->readCounter(
+            $data,
+            "wrong"
+        );
+
+        $skipped = $this->readCounter(
+            $data,
+            "skipped"
+        );
+
+        $rounds = $this->readCounter(
+            $data,
+            "rounds"
+        );
+
+        if (
+            $correct === null ||
+            $wrong === null ||
+            $skipped === null ||
+            $rounds === null
+        ) {
+            return;
+        }
+
+        if (
+            ($correct + $wrong + $skipped) >
+            $rounds
+        ) {
+            Response::error(
+                "Invalid game counters",
+                400
+            );
+
+            return;
+        }
+
+        $started = $this->parseDate(
+            $data["startedAt"] ?? null,
+            "startedAt"
+        );
+
+        if ($started === false) {
+            return;
+        }
+
+        $finished = $this->parseDate(
+            $data["finishedAt"] ?? null,
+            "finishedAt"
+        );
+
+        if ($finished === false) {
+            return;
+        }
+
+        if ($finished < $started) {
+            Response::error(
+                "finishedAt must not be before startedAt",
+                400
+            );
+
+            return;
+        }
+
+        $folderId = $data["folderId"] ?? null;
+        $folderId = $folderId === null
+            ? null
+            : trim((string) $folderId);
+
+        if ($gameType === "math") {
+            // Math has no folder contract.
+            $folderId = null;
+        } else {
+            if ($folderId === "" || $folderId === null) {
+                Response::error(
+                    "Folder is required",
+                    400
+                );
+
+                return;
+            }
+
+            $folder = $this->folderModel->findAccessibleById(
+                $folderId,
+                $user["id"],
+                $user["grade"] ?? null
+            );
+
+            if (!$folder) {
+                Response::error(
+                    "Folder not found",
+                    404
+                );
+
+                return;
+            }
+
+            if ($folder["type"] !== $gameType) {
+                Response::error(
+                    "Folder type does not match game type",
+                    400
+                );
+
+                return;
+            }
+        }
+
+        $existing =
+            $this->gameResultModel->findByUserAndSession(
+                $user["id"],
+                $sessionId
+            );
+
+        if ($existing) {
+            Response::error(
+                "Game result already exists",
+                409
+            );
+
+            return;
+        }
+
+        // Server-owned derived fields. Client userId/score/accuracy/etc are ignored.
+        $answered = $correct + $wrong;
+        $score = $correct - $wrong;
+
+        $accuracy = $answered > 0
+            ? (int) round(
+                ($correct / $answered) * 100
+            )
+            : 0;
+
+        $durationSeconds =
+            $finished->getTimestamp() -
+            $started->getTimestamp();
+
+        if ($durationSeconds > 21600) {
+            Response::error(
+                "Game duration is too long",
+                400
+            );
+
+            return;
+        }
+
+        try {
+            $result = $this->gameResultModel->create([
+                "id" => $this->uuid(),
+                "user_id" => $user["id"],
+                "folder_id" => $folderId,
+                "session_id" => $sessionId,
+                "game_type" => $gameType,
+                "score" => $score,
+                "correct" => $correct,
+                "wrong" => $wrong,
+                "skipped" => $skipped,
+                "answered" => $answered,
+                "rounds" => $rounds,
+                "accuracy" => $accuracy,
+                "duration_seconds" =>
+                    $durationSeconds,
+                "started_at" =>
+                    $started->format("Y-m-d H:i:s"),
+                "finished_at" =>
+                    $finished->format("Y-m-d H:i:s")
+            ]);
+        } catch (PDOException $e) {
+            if ((string) $e->getCode() === "23000") {
+                Response::error(
+                    "Game result already exists",
+                    409
+                );
+
+                return;
+            }
+
+            throw $e;
+        }
+
+        Response::success(
+            $this->formatResult($result),
+            "Game result saved successfully"
+        );
+    }
+
+
+    public function history($user)
+    {
+        $gameType = isset($_GET["gameType"])
+            ? trim((string) $_GET["gameType"])
+            : null;
+
+        if ($gameType === "") {
+            $gameType = null;
+        }
+
+        if (
+            $gameType !== null &&
+            !in_array(
+                $gameType,
+                ["math", "science", "dictation"],
+                true
+            )
+        ) {
+            Response::error(
+                "Invalid game type",
+                400
+            );
+
+            return;
+        }
 
         $results = $this->gameResultModel->getByUserId(
             $user["id"],
             $gameType
         );
 
+        $results = array_map(
+            [$this, "formatResult"],
+            $results
+        );
 
         Response::success(
             $results,
@@ -326,87 +292,130 @@ class GameResultController
     }
 
 
-    private function nonNegativeInteger($value, $field)
+    private function readCounter($data, $field)
     {
-        if (
-            $value === null ||
-            filter_var(
-                $value,
-                FILTER_VALIDATE_INT,
-                [
-                    "options" => [
-                        "min_range" => 0
-                    ]
-                ]
-            ) === false
-        ) {
-
-            throw new InvalidArgumentException(
-                $field . " must be a non-negative integer"
+        if (!array_key_exists($field, $data)) {
+            Response::error(
+                $field . " is required",
+                400
             );
+
+            return null;
         }
 
+        $value = $data[$field];
 
-        return (int) $value;
+        if (
+            filter_var(
+                $value,
+                FILTER_VALIDATE_INT
+            ) === false
+        ) {
+            Response::error(
+                "Invalid " . $field,
+                400
+            );
+
+            return null;
+        }
+
+        $value = (int) $value;
+
+        if (
+            $value < 0 ||
+            $value > self::MAX_COUNTER
+        ) {
+            Response::error(
+                "Invalid " . $field,
+                400
+            );
+
+            return null;
+        }
+
+        return $value;
     }
 
 
-    private function normalizeGameDates(
-        $startedAt,
-        $finishedAt
-    ) {
-
-        if (!$startedAt || !$finishedAt) {
-
-            throw new InvalidArgumentException(
-                "StartedAt and finishedAt are required"
+    private function parseDate($value, $field)
+    {
+        if (!is_string($value)) {
+            Response::error(
+                $field . " is required",
+                400
             );
+
+            return false;
         }
 
+        $value = trim($value);
+
+        if (
+            $value === "" ||
+            mb_strlen($value) > 64
+        ) {
+            Response::error(
+                "Invalid " . $field,
+                400
+            );
+
+            return false;
+        }
+
+        if (
+            !preg_match(
+                '/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+\-]\d{2}:\d{2})$/',
+                $value
+            )
+        ) {
+            Response::error(
+                "Invalid " . $field,
+                400
+            );
+
+            return false;
+        }
 
         try {
-
-            $start = new DateTimeImmutable(
-                $startedAt
-            );
-
-            $finish = new DateTimeImmutable(
-                $finishedAt
-            );
-
+            return new DateTimeImmutable($value);
         } catch (Exception $e) {
-
-            throw new InvalidArgumentException(
-                "Invalid game date format"
+            Response::error(
+                "Invalid " . $field,
+                400
             );
+
+            return false;
         }
+    }
 
 
-        if ($finish < $start) {
-
-            throw new InvalidArgumentException(
-                "FinishedAt cannot be before startedAt"
-            );
+    private function formatResult($row)
+    {
+        if (!is_array($row)) {
+            return $row;
         }
-
-
-        $utc = new DateTimeZone("UTC");
-
-
-        $start = $start->setTimezone($utc);
-        $finish = $finish->setTimezone($utc);
-
-
-        $durationSeconds =
-            $finish->getTimestamp()
-            -
-            $start->getTimestamp();
-
 
         return [
-            $start->format("Y-m-d H:i:s"),
-            $finish->format("Y-m-d H:i:s"),
-            $durationSeconds
+            "id" => $row["id"],
+            "sessionId" => $row["session_id"],
+            "gameType" => $row["game_type"],
+            "userId" => $row["user_id"],
+            "folderId" => $row["folder_id"],
+            "folderTitle" =>
+                $row["folder_title"] ?? null,
+            "score" => (int) $row["score"],
+            "correct" => (int) $row["correct"],
+            "wrong" => (int) $row["wrong"],
+            "skipped" => (int) $row["skipped"],
+            "answered" => (int) $row["answered"],
+            "rounds" => (int) $row["rounds"],
+            "accuracy" => (int) $row["accuracy"],
+            "durationSeconds" =>
+                (int) $row["duration_seconds"],
+            "startedAt" => $row["started_at"],
+            "finishedAt" => $row["finished_at"],
+            "createdAt" =>
+                $row["created_at"] ?? null
         ];
     }
 
@@ -422,7 +431,6 @@ class GameResultController
         $data[8] = chr(
             ord($data[8]) & 0x3f | 0x80
         );
-
 
         return vsprintf(
             "%s%s-%s-%s-%s-%s%s%s",

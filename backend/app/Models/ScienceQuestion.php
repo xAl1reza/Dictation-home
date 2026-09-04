@@ -19,27 +19,18 @@ class ScienceQuestion
                 folder_id,
                 question,
                 answer,
-                created_at,
-                updated_at
+                created_at
              FROM science_questions
              WHERE folder_id = :folder_id
-             ORDER BY created_at ASC"
+             ORDER BY created_at DESC"
         );
-
 
         $query->execute([
             "folder_id" => $folderId
         ]);
 
-
-        $rows = $query->fetchAll(
+        return $query->fetchAll(
             PDO::FETCH_ASSOC
-        );
-
-
-        return array_map(
-            [$this, "formatQuestion"],
-            $rows
         );
     }
 
@@ -52,27 +43,19 @@ class ScienceQuestion
                 folder_id,
                 question,
                 answer,
-                created_at,
-                updated_at
+                created_at
              FROM science_questions
              WHERE id = :id
              LIMIT 1"
         );
 
-
         $query->execute([
             "id" => $id
         ]);
 
-
-        $row = $query->fetch(
+        return $query->fetch(
             PDO::FETCH_ASSOC
-        );
-
-
-        return $row
-            ? $this->formatQuestion($row)
-            : null;
+        ) ?: null;
     }
 
 
@@ -95,14 +78,12 @@ class ScienceQuestion
             )"
         );
 
-
         $query->execute([
             "id" => $data["id"],
             "folder_id" => $data["folder_id"],
             "question" => $data["question"],
             "answer" => $data["answer"]
         ]);
-
 
         return $this->findById(
             $data["id"]
@@ -112,50 +93,35 @@ class ScienceQuestion
 
     public function update(
         $id,
+        $folderId,
         $question,
         $answer
     ) {
-
         $query = $this->db->prepare(
             "UPDATE science_questions
              SET
                 question = :question,
                 answer = :answer
-             WHERE id = :id"
+             WHERE id = :id
+             AND folder_id = :folder_id"
         );
-
 
         $query->execute([
             "id" => $id,
+            "folder_id" => $folderId,
             "question" => $question,
             "answer" => $answer
         ]);
-
 
         return $this->findById($id);
     }
 
 
-    public function delete($id)
-    {
-        $query = $this->db->prepare(
-            "DELETE FROM science_questions
-             WHERE id = :id"
-        );
-
-
-        return $query->execute([
-            "id" => $id
-        ]);
-    }
-
-
-    public function questionExistsInFolder(
+    public function existsInFolder(
         $folderId,
         $question,
         $exceptId = null
     ) {
-
         $sql = "
             SELECT id
             FROM science_questions
@@ -164,42 +130,36 @@ class ScienceQuestion
                 LOWER(TRIM(:question))
         ";
 
-
         $params = [
             "folder_id" => $folderId,
             "question" => $question
         ];
 
-
         if ($exceptId !== null) {
-
             $sql .= " AND id != :except_id";
-
             $params["except_id"] = $exceptId;
         }
 
-
         $sql .= " LIMIT 1";
 
-
         $query = $this->db->prepare($sql);
-
         $query->execute($params);
-
 
         return (bool) $query->fetchColumn();
     }
 
 
-    private function formatQuestion($row)
+    public function delete($id, $folderId)
     {
-        return [
-            "id" => $row["id"],
-            "folderId" => $row["folder_id"],
-            "question" => $row["question"],
-            "answer" => $row["answer"],
-            "createdAt" => $row["created_at"],
-            "updatedAt" => $row["updated_at"]
-        ];
+        $query = $this->db->prepare(
+            "DELETE FROM science_questions
+             WHERE id = :id
+             AND folder_id = :folder_id"
+        );
+
+        return $query->execute([
+            "id" => $id,
+            "folder_id" => $folderId
+        ]);
     }
 }

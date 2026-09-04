@@ -225,7 +225,28 @@
         hasError = true
       }
 
-      if (hasError) return
+      if (hasError) {
+        let message = 'اطلاعات سؤال را کامل کن.'
+
+        if (!folderId) {
+          message = 'یک پوشه علوم انتخاب کن.'
+          document.getElementById('science-folder-trigger')?.focus()
+        } else if (!question) {
+          message = 'متن سؤال را وارد کن.'
+          questionInput.focus()
+        } else if (!answer) {
+          message = 'پاسخ سؤال را وارد کن.'
+          answerInput.focus()
+        }
+
+        window.showToast?.({
+          type: 'error',
+          title: 'اطلاعات سؤال را بررسی کن',
+          message,
+        })
+
+        return
+      }
 
       try {
         if (submitButton) {
@@ -267,7 +288,15 @@
           SCIENCE_QUESTION_DUPLICATE: 'این سؤال قبلاً در همین پوشه ثبت شده است.',
         }
 
-        const message = errors[error.message] || 'افزودن سؤال انجام نشد.'
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'افزودن سؤال انجام نشد. دوباره تلاش کن.'
+        )
+
+        const message =
+          errors[error.message] ||
+          resolved?.message ||
+          'افزودن سؤال انجام نشد.'
 
         if (
           error.message === 'SCIENCE_FOLDER_REQUIRED' ||
@@ -567,6 +596,11 @@
       }
     } catch (error) {
       console.error('Failed to load science question view:', error)
+
+      window.apiErrors?.showToast(error, {
+        title: 'دریافت پوشه‌های علوم انجام نشد',
+        fallbackMessage: 'پوشه‌های علوم از سرور دریافت نشدند.',
+      })
 
       container.innerHTML = `
         <div class="rounded-lg border border-secondary/15 bg-secondary/5 px-6 py-10 text-center">

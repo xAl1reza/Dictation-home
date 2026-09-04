@@ -548,10 +548,9 @@
         requestAnimationFrame(() => titleInput.focus())
       } catch (error) {
         console.error('Failed to open folder manager:', error)
-        window.showToast?.({
-          type: 'error',
+        window.apiErrors?.showToast(error, {
           title: 'پوشه باز نشد',
-          message: 'اطلاعات پوشه دریافت نشد.',
+          fallbackMessage: 'اطلاعات پوشه از سرور دریافت نشد.',
         })
       }
     }
@@ -589,8 +588,15 @@
       const title = titleInput.value.trim()
 
       if (!title) {
-        showTitleError('نام پوشه را وارد کن.')
+        const message = 'نام پوشه را وارد کن.'
+        showTitleError(message)
         titleInput.focus()
+
+        window.showToast?.({
+          type: 'error',
+          title: 'نام پوشه تغییر نکرد',
+          message,
+        })
         return
       }
 
@@ -624,7 +630,14 @@
           FOLDER_LOCKED: 'این پوشه قابل ویرایش نیست.',
         }
 
-        const message = errors[error.message] || 'ویرایش نام پوشه انجام نشد.'
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'ویرایش نام پوشه انجام نشد. دوباره تلاش کن.'
+        )
+        const message =
+          errors[error.message] ||
+          resolved?.message ||
+          'ویرایش نام پوشه انجام نشد.'
         showTitleError(message)
 
         window.showToast?.({
@@ -723,10 +736,9 @@
             message: 'کلمه از پوشه حذف شد.',
           })
         } catch (error) {
-          window.showToast?.({
-            type: 'error',
+          window.apiErrors?.showToast(error, {
             title: 'حذف کلمه انجام نشد',
-            message: 'حذف کلمه انجام نشد.',
+            fallbackMessage: 'حذف کلمه انجام نشد. دوباره تلاش کن.',
           })
 
           if (deleteWordButton.isConnected) {
@@ -753,10 +765,9 @@
             message: 'سؤال علوم از پوشه حذف شد.',
           })
         } catch (error) {
-          window.showToast?.({
-            type: 'error',
+          window.apiErrors?.showToast(error, {
             title: 'حذف سؤال انجام نشد',
-            message: 'حذف سؤال علوم انجام نشد.',
+            fallbackMessage: 'حذف سؤال علوم انجام نشد. دوباره تلاش کن.',
           })
 
           if (deleteScienceButton.isConnected) {
@@ -838,7 +849,14 @@
           SCIENCE_QUESTION_DUPLICATE: 'این سؤال قبلاً در همین پوشه وجود دارد.',
         }
 
-        const message = errors[error.message] || 'ذخیره تغییرات انجام نشد.'
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'ذخیره تغییرات انجام نشد. دوباره تلاش کن.'
+        )
+        const message =
+          errors[error.message] ||
+          resolved?.message ||
+          'ذخیره تغییرات انجام نشد.'
         errorElement.textContent = message
         errorElement.classList.remove('hidden')
 
@@ -890,10 +908,9 @@
         activeFolder = null
         await renderFoldersView()
       } catch (error) {
-        window.showToast?.({
-          type: 'error',
+        window.apiErrors?.showToast(error, {
           title: 'حذف پوشه انجام نشد',
-          message: 'حذف پوشه انجام نشد.',
+          fallbackMessage: 'حذف پوشه انجام نشد. دوباره تلاش کن.',
         })
       } finally {
         if (deleteConfirmSubmit.isConnected) {

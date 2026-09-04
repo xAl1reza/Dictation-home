@@ -1,8 +1,8 @@
 /*
- * Frontend-owned error dictionary.
+ * Frontend-owned API error dictionary.
  *
- * Raw backend errors are used only for classification and are never
- * shown directly to the user.
+ * Backend messages/codes are used only for classification.
+ * Raw server errors are never rendered directly to the user.
  */
 
 ;(() => {
@@ -14,14 +14,6 @@
 
     API_INVALID_RESPONSE: {
       message: 'پاسخ سرویس قابل پردازش نیست. دوباره تلاش کن.',
-    },
-
-    API_TOKEN_STORAGE_FAILED: {
-      message: 'ذخیره نشست ورود در مرورگر انجام نشد.',
-    },
-
-    AUTH_TOKEN_MISSING: {
-      message: 'برای ادامه دوباره وارد حساب کاربری شو.',
     },
 
     Unauthorized: {
@@ -172,6 +164,134 @@
       field: 'avatar',
       message: 'فرمت عکس باید JPG، PNG یا WebP باشد.',
     },
+
+    FOLDER_ID_REQUIRED: {
+      message: 'پوشه انتخاب‌شده معتبر نیست.',
+    },
+    FOLDER_TITLE_REQUIRED: {
+      field: 'title',
+      message: 'نام پوشه را وارد کن.',
+    },
+    FOLDER_TITLE_TOO_LONG: {
+      field: 'title',
+      message: 'نام پوشه خیلی طولانی است.',
+    },
+    FOLDER_TITLE_DUPLICATE: {
+      field: 'title',
+      message: 'پوشه‌ای با همین نام و همین نوع از قبل وجود دارد.',
+    },
+    FOLDER_TYPE_INVALID: {
+      message: 'نوع پوشه معتبر نیست.',
+    },
+    FOLDER_NOT_FOUND: {
+      message: 'پوشه موردنظر پیدا نشد.',
+    },
+    FOLDER_LOCKED: {
+      message: 'این پوشه قابل ویرایش نیست.',
+    },
+
+    WORD_ID_REQUIRED: {
+      message: 'کلمه انتخاب‌شده معتبر نیست.',
+    },
+    WORD_FOLDER_REQUIRED: {
+      field: 'folderId',
+      message: 'یک پوشه دیکته انتخاب کن.',
+    },
+    WORD_VALUE_REQUIRED: {
+      field: 'value',
+      message: 'کلمه یا عبارت را وارد کن.',
+    },
+    WORD_VALUE_TOO_LONG: {
+      field: 'value',
+      message: 'کلمه یا عبارت خیلی طولانی است.',
+    },
+    WORD_FOLDER_NOT_FOUND: {
+      field: 'folderId',
+      message: 'پوشه انتخاب‌شده پیدا نشد.',
+    },
+    WORD_FOLDER_LOCKED: {
+      field: 'folderId',
+      message: 'امکان افزودن کلمه به این پوشه وجود ندارد.',
+    },
+    WORD_FOLDER_TYPE_INVALID: {
+      field: 'folderId',
+      message: 'فقط پوشه‌های دیکته برای کلمات قابل استفاده هستند.',
+    },
+    WORD_DUPLICATE: {
+      field: 'value',
+      message: 'این کلمه قبلاً در همین پوشه وجود دارد.',
+    },
+    WORD_NOT_FOUND: {
+      message: 'کلمه موردنظر پیدا نشد.',
+    },
+
+    SCIENCE_FOLDER_REQUIRED: {
+      field: 'folderId',
+      message: 'یک پوشه علوم انتخاب کن.',
+    },
+    SCIENCE_FOLDER_NOT_FOUND: {
+      field: 'folderId',
+      message: 'پوشه انتخاب‌شده پیدا نشد.',
+    },
+    SCIENCE_FOLDER_LOCKED: {
+      field: 'folderId',
+      message: 'این پوشه قابل ویرایش نیست.',
+    },
+    SCIENCE_FOLDER_TYPE_INVALID: {
+      field: 'folderId',
+      message: 'فقط پوشه‌های علوم برای سؤال‌ها قابل استفاده هستند.',
+    },
+    SCIENCE_QUESTION_ID_REQUIRED: {
+      message: 'سؤال انتخاب‌شده معتبر نیست.',
+    },
+    SCIENCE_QUESTION_REQUIRED: {
+      field: 'question',
+      message: 'متن سؤال را وارد کن.',
+    },
+    SCIENCE_QUESTION_TOO_LONG: {
+      field: 'question',
+      message: 'متن سؤال خیلی طولانی است.',
+    },
+    SCIENCE_ANSWER_REQUIRED: {
+      field: 'answer',
+      message: 'پاسخ سؤال را وارد کن.',
+    },
+    SCIENCE_ANSWER_TOO_LONG: {
+      field: 'answer',
+      message: 'پاسخ سؤال خیلی طولانی است.',
+    },
+    SCIENCE_QUESTION_DUPLICATE: {
+      field: 'question',
+      message: 'این سؤال قبلاً در همین پوشه ثبت شده است.',
+    },
+    SCIENCE_QUESTION_NOT_FOUND: {
+      message: 'سؤال موردنظر پیدا نشد.',
+    },
+
+    GAME_RESULT_REQUIRED: {
+      message: 'اطلاعات نتیجه بازی کامل نیست.',
+    },
+    GAME_RESULT_NOT_FINISHED: {
+      message: 'بازی هنوز به پایان نرسیده است.',
+    },
+    GAME_RESULT_SESSION_ID_REQUIRED: {
+      message: 'شناسه مسابقه معتبر نیست.',
+    },
+    GAME_RESULT_GAME_TYPE_INVALID: {
+      message: 'نوع بازی معتبر نیست.',
+    },
+    GAME_RESULT_USER_ID_REQUIRED: {
+      message: 'کاربر مسابقه مشخص نیست.',
+    },
+    GAME_RESULT_PARTICIPANT_NOT_FOUND: {
+      message: 'نتیجه بازیکن واردشده پیدا نشد.',
+    },
+    GAME_RESULT_FOLDER_NOT_FOUND: {
+      message: 'پوشه مربوط به این مسابقه پیدا نشد.',
+    },
+    GAME_RESULT_DUPLICATE: {
+      message: 'نتیجه این مسابقه قبلاً ذخیره شده است.',
+    },
   })
 
   const STATUS_FALLBACK = Object.freeze({
@@ -189,6 +309,22 @@
 
   const getCode = (error) => {
     return String(error?.code || error?.message || '').trim()
+  }
+
+  const remap = (error, codeMap = {}) => {
+    const sourceCode = getCode(error)
+    const mappedCode = codeMap[sourceCode]
+
+    if (!mappedCode || mappedCode === sourceCode) {
+      return error
+    }
+
+    const mappedError = new Error(mappedCode)
+    mappedError.code = mappedCode
+    mappedError.status = Number(error?.status || 0)
+    mappedError.cause = error
+
+    return mappedError
   }
 
   const resolve = (
@@ -243,6 +379,8 @@
   }
 
   window.apiErrors = Object.freeze({
+    getCode,
+    remap,
     resolve,
     showToast,
   })

@@ -2,6 +2,9 @@
 
 class ScienceQuestionController
 {
+    private const QUESTION_MAX_LENGTH = 220;
+    private const ANSWER_MAX_LENGTH = 600;
+
     private $scienceQuestionModel;
     private $folderModel;
 
@@ -16,29 +19,28 @@ class ScienceQuestionController
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | List Questions
-    |--------------------------------------------------------------------------
-    */
-
     public function index($user, $folderId)
     {
-        $folder = $this->getOwnedScienceFolder(
+        // Reading is allowed from personal science folders and
+        // the matching-grade system science folder.
+        $folder = $this->getAccessibleScienceFolder(
             $user,
             $folderId
         );
-
 
         if (!$folder) {
             return;
         }
 
-
         $questions =
-            $this->scienceQuestionModel
-                ->getByFolderId($folderId);
+            $this->scienceQuestionModel->getByFolderId(
+                $folderId
+            );
 
+        $questions = array_map(
+            [$this, "formatQuestion"],
+            $questions
+        );
 
         Response::success(
             $questions,
@@ -47,92 +49,41 @@ class ScienceQuestionController
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Create Question
-    |--------------------------------------------------------------------------
-    */
-
     public function store($user, $folderId)
     {
+        // System folders are never writable by users.
         $folder = $this->getOwnedScienceFolder(
             $user,
             $folderId
         );
 
-
         if (!$folder) {
             return;
         }
 
-
         $data = Request::body();
 
-
-        $question = trim(
+        $question = $this->normalizeText(
             $data["question"] ?? ""
         );
 
-        $answer = trim(
+        $answer = $this->normalizeText(
             $data["answer"] ?? ""
         );
 
-
-        if ($question === "") {
-
-            Response::error(
-                "Question is required",
-                400
-            );
-
+        if (!$this->validateFields(
+            $question,
+            $answer
+        )) {
             return;
         }
 
-
-        if ($answer === "") {
-
-            Response::error(
-                "Answer is required",
-                400
-            );
-
-            return;
-        }
-
-
-        if (mb_strlen($question) > 220) {
-
-            Response::error(
-                "Question must not exceed 220 characters",
-                400
-            );
-
-            return;
-        }
-
-
-        if (mb_strlen($answer) > 600) {
-
-            Response::error(
-                "Answer must not exceed 600 characters",
-                400
-            );
-
-            return;
-        }
-
-
-        /*
-         * Duplicate question inside same folder
-         */
         if (
-            $this->scienceQuestionModel
-                ->questionExistsInFolder(
-                    $folderId,
-                    $question
-                )
+            $this->scienceQuestionModel->existsInFolder(
+                $folderId,
+                $question
+            )
         ) {
-
             Response::error(
                 "Question already exists in this folder",
                 409
@@ -141,113 +92,70 @@ class ScienceQuestionController
             return;
         }
 
-
         $created =
-            $this->scienceQuestionModel
-                ->create([
-                    "id" => $this->uuid(),
-                    "folder_id" => $folderId,
-                    "question" => $question,
-                    "answer" => $answer
-                ]);
-
+            $this->scienceQuestionModel->create([
+                "id" => $this->uuid(),
+                "folder_id" => $folderId,
+                "question" => $question,
+                "answer" => $answer
+            ]);
 
         Response::success(
-            $created,
+            $this->formatQuestion($created),
             "Science question created successfully"
         );
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Update Question
-    |--------------------------------------------------------------------------
-    */
-
     public function update($user, $id)
     {
-        $existing =
-            $this->getOwnedQuestion(
-                $user,
+        $record =
+            $this->scienceQuestionModel->findById(
                 $id
             );
 
+        if (!$record) {
+            Response::error(
+                "Science question not found",
+                404
+            );
 
-        if (!$existing) {
             return;
         }
 
+        $folder = $this->getOwnedScienceFolder(
+            $user,
+            $record["folder_id"]
+        );
+
+        if (!$folder) {
+            return;
+        }
 
         $data = Request::body();
 
-
-        $question = trim(
+        $question = $this->normalizeText(
             $data["question"] ?? ""
         );
 
-        $answer = trim(
+        $answer = $this->normalizeText(
             $data["answer"] ?? ""
         );
 
-
-        if ($question === "") {
-
-            Response::error(
-                "Question is required",
-                400
-            );
-
+        if (!$this->validateFields(
+            $question,
+            $answer
+        )) {
             return;
         }
 
-
-        if ($answer === "") {
-
-            Response::error(
-                "Answer is required",
-                400
-            );
-
-            return;
-        }
-
-
-        if (mb_strlen($question) > 220) {
-
-            Response::error(
-                "Question must not exceed 220 characters",
-                400
-            );
-
-            return;
-        }
-
-
-        if (mb_strlen($answer) > 600) {
-
-            Response::error(
-                "Answer must not exceed 600 characters",
-                400
-            );
-
-            return;
-        }
-
-
-        /*
-         * Prevent duplicate question when editing.
-         * Current question ID is excluded.
-         */
         if (
-            $this->scienceQuestionModel
-                ->questionExistsInFolder(
-                    $existing["folderId"],
-                    $question,
-                    $id
-                )
+            $this->scienceQuestionModel->existsInFolder(
+                $record["folder_id"],
+                $question,
+                $id
+            )
         ) {
-
             Response::error(
                 "Question already exists in this folder",
                 409
@@ -256,46 +164,50 @@ class ScienceQuestionController
             return;
         }
 
-
         $updated =
-            $this->scienceQuestionModel
-                ->update(
-                    $id,
-                    $question,
-                    $answer
-                );
-
+            $this->scienceQuestionModel->update(
+                $id,
+                $record["folder_id"],
+                $question,
+                $answer
+            );
 
         Response::success(
-            $updated,
+            $this->formatQuestion($updated),
             "Science question updated successfully"
         );
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Delete Question
-    |--------------------------------------------------------------------------
-    */
-
     public function destroy($user, $id)
     {
-        $existing =
-            $this->getOwnedQuestion(
-                $user,
+        $record =
+            $this->scienceQuestionModel->findById(
                 $id
             );
 
+        if (!$record) {
+            Response::error(
+                "Science question not found",
+                404
+            );
 
-        if (!$existing) {
             return;
         }
 
+        $folder = $this->getOwnedScienceFolder(
+            $user,
+            $record["folder_id"]
+        );
 
-        $this->scienceQuestionModel
-            ->delete($id);
+        if (!$folder) {
+            return;
+        }
 
+        $this->scienceQuestionModel->delete(
+            $id,
+            $record["folder_id"]
+        );
 
         Response::success(
             [],
@@ -304,32 +216,17 @@ class ScienceQuestionController
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Ownership + Folder Type
-    |--------------------------------------------------------------------------
-    */
-
-    private function getOwnedScienceFolder(
+    private function getAccessibleScienceFolder(
         $user,
         $folderId
     ) {
+        $folder = $this->folderModel->findAccessibleById(
+            $folderId,
+            $user["id"],
+            $user["grade"] ?? null
+        );
 
-        $folder =
-            $this->folderModel
-                ->findById(
-                    $folderId,
-                    $user["id"]
-                );
-
-
-        /*
-         * findById checks both:
-         * folder exists
-         * folder belongs to authenticated user
-         */
         if (!$folder) {
-
             Response::error(
                 "Folder not found",
                 404
@@ -338,9 +235,7 @@ class ScienceQuestionController
             return null;
         }
 
-
         if ($folder["type"] !== "science") {
-
             Response::error(
                 "Science questions are only allowed in science folders",
                 400
@@ -349,81 +244,124 @@ class ScienceQuestionController
             return null;
         }
 
-
         return $folder;
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Question Ownership
-    |--------------------------------------------------------------------------
-    */
-
-    private function getOwnedQuestion(
+    private function getOwnedScienceFolder(
         $user,
-        $id
+        $folderId
     ) {
-
-        $question =
-            $this->scienceQuestionModel
-                ->findById($id);
-
-
-        if (!$question) {
-
-            Response::error(
-                "Science question not found",
-                404
-            );
-
-            return null;
-        }
-
-
-        /*
-         * Verify that question's folder belongs
-         * to authenticated user.
-         */
-        $folder =
-            $this->folderModel
-                ->findById(
-                    $question["folderId"],
-                    $user["id"]
-                );
-
+        $folder = $this->folderModel->findById(
+            $folderId,
+            $user["id"]
+        );
 
         if (!$folder) {
-
             Response::error(
-                "Science question not found",
+                "Folder not found",
                 404
             );
 
             return null;
         }
 
-
         if ($folder["type"] !== "science") {
-
             Response::error(
-                "Invalid science question folder",
+                "Science questions are only allowed in science folders",
                 400
             );
 
             return null;
         }
 
-
-        return $question;
+        return $folder;
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | UUID
-    |--------------------------------------------------------------------------
-    */
+    private function normalizeText($value)
+    {
+        $value = trim(
+            (string) $value
+        );
+
+        return preg_replace(
+            '/[ \t]+/u',
+            ' ',
+            $value
+        );
+    }
+
+
+    private function validateFields(
+        $question,
+        $answer
+    ) {
+        if ($question === "") {
+            Response::error(
+                "Question is required",
+                400
+            );
+
+            return false;
+        }
+
+        if (
+            mb_strlen($question) >
+            self::QUESTION_MAX_LENGTH
+        ) {
+            Response::error(
+                "Question must not exceed 220 characters",
+                400
+            );
+
+            return false;
+        }
+
+        if ($answer === "") {
+            Response::error(
+                "Answer is required",
+                400
+            );
+
+            return false;
+        }
+
+        if (
+            mb_strlen($answer) >
+            self::ANSWER_MAX_LENGTH
+        ) {
+            Response::error(
+                "Answer must not exceed 600 characters",
+                400
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private function formatQuestion($record)
+    {
+        if (!is_array($record)) {
+            return $record;
+        }
+
+        return [
+            "id" => $record["id"],
+            "folderId" =>
+                $record["folder_id"],
+            "question" =>
+                $record["question"],
+            "answer" =>
+                $record["answer"],
+            "createdAt" =>
+                $record["created_at"] ?? null
+        ];
+    }
+
 
     private function uuid()
     {
@@ -436,7 +374,6 @@ class ScienceQuestionController
         $data[8] = chr(
             ord($data[8]) & 0x3f | 0x80
         );
-
 
         return vsprintf(
             "%s%s-%s-%s-%s-%s%s%s",

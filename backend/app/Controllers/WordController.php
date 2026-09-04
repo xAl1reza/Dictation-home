@@ -17,27 +17,24 @@ class WordController
 
     public function index($user, $folderId)
     {
-        $folder = $this->getOwnedDictationFolder(
+        // Reading is allowed from a personal folder or the matching-grade system folder.
+        $folder = $this->getAccessibleDictationFolder(
             $user,
             $folderId
         );
-
 
         if (!$folder) {
             return;
         }
 
-
         $words = $this->wordModel->getByFolderId(
             $folderId
         );
-
 
         $words = array_map(
             [$this, "formatWord"],
             $words
         );
-
 
         Response::success(
             $words,
@@ -48,16 +45,15 @@ class WordController
 
     public function store($user, $folderId)
     {
+        // Mutations remain personal-folder only.
         $folder = $this->getOwnedDictationFolder(
             $user,
             $folderId
         );
 
-
         if (!$folder) {
             return;
         }
-
 
         $data = Request::body();
 
@@ -65,11 +61,9 @@ class WordController
             $data["value"] ?? ""
         );
 
-
         if (!$this->validateValue($value)) {
             return;
         }
-
 
         if (
             $this->wordModel->existsInFolder(
@@ -77,7 +71,6 @@ class WordController
                 $value
             )
         ) {
-
             Response::error(
                 "Word already exists in this folder",
                 409
@@ -86,18 +79,12 @@ class WordController
             return;
         }
 
-
         $word = $this->wordModel->create([
             "id" => $this->uuid(),
             "folder_id" => $folderId,
-
-            // Database column is still named "word".
             "word" => $value,
-
-            // Legacy DB field; frontend does not currently use it.
             "description" => null
         ]);
-
 
         Response::success(
             $this->formatWord($word),
@@ -112,9 +99,7 @@ class WordController
             $id
         );
 
-
         if (!$word) {
-
             Response::error(
                 "Word not found",
                 404
@@ -123,20 +108,14 @@ class WordController
             return;
         }
 
-
-        /*
-         * Ownership is verified through the word's folder.
-         */
         $folder = $this->getOwnedDictationFolder(
             $user,
             $word["folder_id"]
         );
 
-
         if (!$folder) {
             return;
         }
-
 
         $data = Request::body();
 
@@ -144,11 +123,9 @@ class WordController
             $data["value"] ?? ""
         );
 
-
         if (!$this->validateValue($value)) {
             return;
         }
-
 
         if (
             $this->wordModel->existsInFolder(
@@ -157,7 +134,6 @@ class WordController
                 $id
             )
         ) {
-
             Response::error(
                 "Word already exists in this folder",
                 409
@@ -166,14 +142,12 @@ class WordController
             return;
         }
 
-
         $updatedWord =
             $this->wordModel->updateValue(
                 $id,
                 $word["folder_id"],
                 $value
             );
-
 
         Response::success(
             $this->formatWord(
@@ -190,9 +164,7 @@ class WordController
             $id
         );
 
-
         if (!$word) {
-
             Response::error(
                 "Word not found",
                 404
@@ -201,27 +173,19 @@ class WordController
             return;
         }
 
-
-        /*
-         * A user may delete a word only when its
-         * dictation folder belongs to that user.
-         */
         $folder = $this->getOwnedDictationFolder(
             $user,
             $word["folder_id"]
         );
 
-
         if (!$folder) {
             return;
         }
-
 
         $this->wordModel->delete(
             $id,
             $word["folder_id"]
         );
-
 
         Response::success(
             [],
@@ -230,23 +194,17 @@ class WordController
     }
 
 
-    private function getOwnedDictationFolder(
+    private function getAccessibleDictationFolder(
         $user,
         $folderId
     ) {
-
-        $folder = $this->folderModel->findById(
+        $folder = $this->folderModel->findAccessibleById(
             $folderId,
-            $user["id"]
+            $user["id"],
+            $user["grade"] ?? null
         );
 
-
         if (!$folder) {
-
-            /*
-             * Return the same 404 for a missing folder
-             * and another user's folder.
-             */
             Response::error(
                 "Folder not found",
                 404
@@ -255,9 +213,7 @@ class WordController
             return null;
         }
 
-
         if ($folder["type"] !== "dictation") {
-
             Response::error(
                 "Words are only allowed in dictation folders",
                 400
@@ -266,6 +222,37 @@ class WordController
             return null;
         }
 
+        return $folder;
+    }
+
+
+    private function getOwnedDictationFolder(
+        $user,
+        $folderId
+    ) {
+        $folder = $this->folderModel->findById(
+            $folderId,
+            $user["id"]
+        );
+
+        if (!$folder) {
+            // Covers missing, another user's folder, and system folders.
+            Response::error(
+                "Folder not found",
+                404
+            );
+
+            return null;
+        }
+
+        if ($folder["type"] !== "dictation") {
+            Response::error(
+                "Words are only allowed in dictation folders",
+                400
+            );
+
+            return null;
+        }
 
         return $folder;
     }
@@ -276,7 +263,6 @@ class WordController
         $value = trim(
             (string) $value
         );
-
 
         return preg_replace(
             '/\s+/u',
@@ -289,7 +275,6 @@ class WordController
     private function validateValue($value)
     {
         if ($value === "") {
-
             Response::error(
                 "Value is required",
                 400
@@ -298,12 +283,10 @@ class WordController
             return false;
         }
 
-
         if (
             mb_strlen($value) >
             self::WORD_MAX_LENGTH
         ) {
-
             Response::error(
                 "Value must not exceed 80 characters",
                 400
@@ -311,7 +294,6 @@ class WordController
 
             return false;
         }
-
 
         return true;
     }
@@ -323,16 +305,12 @@ class WordController
             return $word;
         }
 
-
         return [
             "id" => $word["id"],
-
             "folderId" =>
                 $word["folder_id"],
-
             "value" =>
                 $word["word"],
-
             "createdAt" =>
                 $word["created_at"] ?? null
         ];
@@ -350,7 +328,6 @@ class WordController
         $data[8] = chr(
             ord($data[8]) & 0x3f | 0x80
         );
-
 
         return vsprintf(
             "%s%s-%s-%s-%s-%s%s%s",

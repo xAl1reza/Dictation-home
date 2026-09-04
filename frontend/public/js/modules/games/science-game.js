@@ -1034,6 +1034,11 @@
       resultSaved = true;
     } catch (error) {
       console.error("Failed to save science result:", error);
+
+      window.apiErrors?.showToast(error, {
+        title: "نتیجه علوم ذخیره نشد",
+        fallbackMessage: "نتیجه مسابقه روی سرور ذخیره نشد. دوباره تلاش کن.",
+      });
     }
 
     const player = result.participants[0];

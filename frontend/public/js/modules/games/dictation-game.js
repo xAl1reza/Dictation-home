@@ -1146,6 +1146,11 @@
       resultSaved = true
     } catch (error) {
       console.error('Failed to save dictation result:', error)
+
+      window.apiErrors?.showToast(error, {
+        title: 'نتیجه دیکته ذخیره نشد',
+        fallbackMessage: 'نتیجه مسابقه روی سرور ذخیره نشد. دوباره تلاش کن.',
+      })
     }
 
     const stage = getStage()

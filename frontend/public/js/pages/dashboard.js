@@ -43,11 +43,7 @@
     }
   }
 
-  const redirectToLogin = (reason = 'AUTH_REQUIRED') => {
-    window.apiClient?.warn(
-      `[API:DASHBOARD] redirecting to login | reason=${reason}`
-    )
-
+  const redirectToLogin = () => {
     window.location.replace('./auth.html#login')
   }
 
@@ -55,7 +51,7 @@
     const currentUser = user || (await window.userService.getCurrentUser())
 
     if (!currentUser?.id) {
-      redirectToLogin('NO_VERIFIED_USER')
+      redirectToLogin()
       return null
     }
 
@@ -87,20 +83,7 @@
         } catch (error) {
           console.error('Failed to logout:', error)
 
-          const resolved = window.apiErrors?.resolve(
-            error,
-            'خروج از حساب روی سرور کامل نشد، اما نشست این مرورگر بسته شد.'
-          )
-
-          window.showToast?.({
-            type: 'warning',
-            title: 'خروج از حساب',
-            message:
-              resolved?.message ||
-              'خروج از حساب روی سرور کامل نشد، اما نشست این مرورگر بسته شد.',
-          })
-
-          window.location.replace('./auth.html#login')
+          button.disabled = false
         }
       })
     })
@@ -108,13 +91,18 @@
 
   const initDashboard = async () => {
     try {
-      window.apiClient?.log(
-        '[API:DASHBOARD] init | verifying HttpOnly session through /me'
-      )
+      const currentUser = await window.userService.getCurrentUser()
 
-      const scoreData = await refreshDashboardScoreData()
+      if (!currentUser?.id) {
+        redirectToLogin()
+        return
+      }
 
-      if (!scoreData) return
+      /*
+       * Render the dashboard view independently from score loading.
+       * A stats/API issue must never leave the folders area blank.
+       */
+      updateDashboardUser(currentUser, 0)
 
       updateDashboardActiveLink()
 
@@ -125,34 +113,23 @@
       initDashboardLogout()
 
       await renderDashboardView()
+
+      try {
+        await refreshDashboardScoreData(currentUser)
+      } catch (error) {
+        console.error('Failed to refresh dashboard score summary:', error)
+      }
     } catch (error) {
       console.error('Failed to initialize dashboard:', error)
-
-      const resolved = window.apiErrors?.resolve(
-        error,
-        'اطلاعات داشبورد از سرور دریافت نشد.'
-      )
-
-      window.showToast?.({
-        type: 'error',
-        title: 'بارگذاری داشبورد',
-        message:
-          resolved?.message || 'اطلاعات داشبورد از سرور دریافت نشد.',
-      })
     }
   }
 
-  window.addEventListener('pageshow', async (event) => {
+  window.addEventListener('pageshow', (event) => {
     if (!event.persisted) return
 
-    try {
-      await refreshDashboardScoreData()
-    } catch (error) {
-      console.error(
-        'Failed to refresh dashboard score summary:',
-        error
-      )
-    }
+    refreshDashboardScoreData().catch((error) => {
+      console.error('Failed to refresh dashboard score summary:', error)
+    })
   })
 
   initDashboard()

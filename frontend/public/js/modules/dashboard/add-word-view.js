@@ -265,6 +265,20 @@
       }
 
       if (hasError) {
+        window.showToast?.({
+          type: 'error',
+          title: 'اطلاعات کلمه را بررسی کن',
+          message: !folderId
+            ? 'یک پوشه دیکته انتخاب کن.'
+            : 'کلمه یا عبارت را وارد کن.',
+        })
+
+        if (!folderId) {
+          document.getElementById('word-folder-trigger')?.focus()
+        } else {
+          wordInput.focus()
+        }
+
         return
       }
 
@@ -317,7 +331,15 @@
           WORD_DUPLICATE: 'این کلمه قبلاً در همین پوشه اضافه شده است.',
         }
 
-        const message = errors[error.message] || 'افزودن کلمه انجام نشد.'
+        const resolved = window.apiErrors?.resolve(
+          error,
+          'افزودن کلمه انجام نشد. دوباره تلاش کن.'
+        )
+
+        const message =
+          errors[error.message] ||
+          resolved?.message ||
+          'افزودن کلمه انجام نشد.'
 
         if (
           error.message === 'WORD_FOLDER_REQUIRED' ||
@@ -721,6 +743,11 @@
       initAddWordForm()
     } catch (error) {
       console.error('Failed to load add word view:', error)
+
+      window.apiErrors?.showToast(error, {
+        title: 'دریافت پوشه‌ها انجام نشد',
+        fallbackMessage: 'پوشه‌های دیکته از سرور دریافت نشدند.',
+      })
 
       container.innerHTML = `
       <div

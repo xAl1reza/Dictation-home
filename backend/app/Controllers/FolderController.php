@@ -17,13 +17,15 @@ class FolderController
             ? trim($_GET["type"])
             : null;
 
-
         if (
             $type !== null &&
             $type !== "" &&
-            !in_array($type, ["dictation", "science"], true)
+            !in_array(
+                $type,
+                ["dictation", "science"],
+                true
+            )
         ) {
-
             Response::error(
                 "Invalid folder type",
                 400
@@ -32,17 +34,15 @@ class FolderController
             return;
         }
 
-
         if ($type === "") {
             $type = null;
         }
 
-
         $folders = $this->folderModel->getByUserId(
             $user["id"],
+            $user["grade"] ?? null,
             $type
         );
-
 
         Response::success(
             $folders,
@@ -54,19 +54,17 @@ class FolderController
     public function store($user)
     {
         try {
-
             $data = Request::body();
 
+            $title = trim(
+                (string) ($data["title"] ?? "")
+            );
 
-            $title = trim($data["title"] ?? "");
-            $type = trim($data["type"] ?? "");
+            $type = trim(
+                (string) ($data["type"] ?? "")
+            );
 
-
-            if (
-                $title === "" ||
-                $type === ""
-            ) {
-
+            if ($title === "" || $type === "") {
                 Response::error(
                     "Title and type are required",
                     400
@@ -75,29 +73,7 @@ class FolderController
                 return;
             }
 
-
-            if (
-                !in_array(
-                    $type,
-                    [
-                        "dictation",
-                        "science"
-                    ],
-                    true
-                )
-            ) {
-
-                Response::error(
-                    "Invalid folder type",
-                    400
-                );
-
-                return;
-            }
-
-
             if (mb_strlen($title) > 100) {
-
                 Response::error(
                     "Title must not exceed 100 characters",
                     400
@@ -106,6 +82,20 @@ class FolderController
                 return;
             }
 
+            if (
+                !in_array(
+                    $type,
+                    ["dictation", "science"],
+                    true
+                )
+            ) {
+                Response::error(
+                    "Invalid folder type",
+                    400
+                );
+
+                return;
+            }
 
             $folder = $this->folderModel->create([
                 "id" => $this->uuid(),
@@ -114,34 +104,28 @@ class FolderController
                 "type" => $type
             ]);
 
-
             Response::success(
                 $folder,
                 "Folder created successfully"
             );
-
-
         } catch (Exception $e) {
-
             Response::error(
-                $e->getMessage(),
+                "Folder could not be created",
                 400
             );
-
         }
     }
 
 
     public function update($user, $id)
     {
+        // Strict ownership deliberately excludes system folders.
         $folder = $this->folderModel->findById(
             $id,
             $user["id"]
         );
 
-
         if (!$folder) {
-
             Response::error(
                 "Folder not found",
                 404
@@ -150,17 +134,13 @@ class FolderController
             return;
         }
 
-
         $data = Request::body();
 
-
         $title = trim(
-            $data["title"] ?? ""
+            (string) ($data["title"] ?? "")
         );
 
-
         if ($title === "") {
-
             Response::error(
                 "Title is required",
                 400
@@ -169,9 +149,7 @@ class FolderController
             return;
         }
 
-
         if (mb_strlen($title) > 100) {
-
             Response::error(
                 "Title must not exceed 100 characters",
                 400
@@ -180,14 +158,12 @@ class FolderController
             return;
         }
 
-
         $updatedFolder =
             $this->folderModel->updateTitle(
                 $id,
                 $user["id"],
                 $title
             );
-
 
         Response::success(
             [
@@ -202,14 +178,13 @@ class FolderController
 
     public function destroy($user, $id)
     {
+        // Strict ownership deliberately excludes system folders.
         $folder = $this->folderModel->findById(
             $id,
             $user["id"]
         );
 
-
         if (!$folder) {
-
             Response::error(
                 "Folder not found",
                 404
@@ -218,12 +193,10 @@ class FolderController
             return;
         }
 
-
         $this->folderModel->delete(
             $id,
             $user["id"]
         );
-
 
         Response::success(
             [],
@@ -234,16 +207,22 @@ class FolderController
 
     private function uuid()
     {
-        return sprintf(
-            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 65535),
-            mt_rand(0, 65535),
-            mt_rand(0, 65535),
-            mt_rand(16384, 20479),
-            mt_rand(32768, 49151),
-            mt_rand(0, 65535),
-            mt_rand(0, 65535),
-            mt_rand(0, 65535)
+        $data = random_bytes(16);
+
+        $data[6] = chr(
+            ord($data[6]) & 0x0f | 0x40
+        );
+
+        $data[8] = chr(
+            ord($data[8]) & 0x3f | 0x80
+        );
+
+        return vsprintf(
+            "%s%s-%s-%s-%s-%s%s%s",
+            str_split(
+                bin2hex($data),
+                4
+            )
         );
     }
 }

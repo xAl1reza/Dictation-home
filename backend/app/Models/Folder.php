@@ -11,13 +11,25 @@ class Folder
     }
 
 
-    public function getByUserId($userId, $type = null)
-    {
+    /**
+     * Return:
+     * - all personal folders owned by the user
+     * - the two system folders matching the user's grade
+     */
+    public function getByUserId(
+        $userId,
+        $grade,
+        $type = null
+    ) {
+        $grade = $this->normalizeGrade($grade);
+
         $sql = "
             SELECT
                 f.id,
+                f.user_id,
                 f.title,
                 f.type,
+                f.grade,
                 f.created_at AS createdAt,
                 f.updated_at AS updatedAt,
 
@@ -35,61 +47,50 @@ class Folder
 
             FROM folders f
 
-            WHERE f.user_id = :user_id
+            WHERE
+                f.user_id = :user_id
         ";
-
 
         $params = [
             "user_id" => $userId
         ];
 
+        if ($grade !== null) {
+            $sql .= "
+                OR (
+                    f.user_id IS NULL
+                    AND f.grade = :grade
+                )
+            ";
+
+            $params["grade"] = $grade;
+        }
+
+        $sql = "SELECT * FROM (" . $sql . ") visible_folders WHERE 1 = 1";
 
         if ($type !== null) {
-
-            $sql .= " AND f.type = :type";
-
+            $sql .= " AND visible_folders.type = :type";
             $params["type"] = $type;
         }
 
-
-        $sql .= " ORDER BY f.created_at DESC";
-
+        $sql .= "
+            ORDER BY
+                CASE
+                    WHEN visible_folders.user_id IS NULL THEN 0
+                    ELSE 1
+                END ASC,
+                visible_folders.createdAt DESC
+        ";
 
         $query = $this->db->prepare($sql);
-
         $query->execute($params);
 
-
-        $folders =
-            $query->fetchAll(
-                PDO::FETCH_ASSOC
-            );
-
+        $folders = $query->fetchAll(
+            PDO::FETCH_ASSOC
+        );
 
         return array_map(
-            function ($folder) {
-
-                return [
-                    "id" => $folder["id"],
-                    "title" => $folder["title"],
-                    "type" => $folder["type"],
-
-                    "ownerType" => "user",
-                    "locked" => false,
-
-                    "wordCount" =>
-                        (int) $folder["wordCount"],
-
-                    "questionCount" =>
-                        (int) $folder["questionCount"],
-
-                    "createdAt" =>
-                        $folder["createdAt"],
-
-                    "updatedAt" =>
-                        $folder["updatedAt"]
-                ];
-            },
+            [$this, "formatFolder"],
             $folders
         );
     }
@@ -103,17 +104,18 @@ class Folder
                 id,
                 user_id,
                 title,
-                type
+                type,
+                grade
             )
             VALUES
             (
                 :id,
                 :user_id,
                 :title,
-                :type
+                :type,
+                NULL
             )"
         );
-
 
         $query->execute([
             "id" => $data["id"],
@@ -122,21 +124,23 @@ class Folder
             "type" => $data["type"]
         ]);
 
-
         return [
             "id" => $data["id"],
             "title" => $data["title"],
             "type" => $data["type"],
-
+            "grade" => null,
             "ownerType" => "user",
             "locked" => false,
-
             "wordCount" => 0,
             "questionCount" => 0
         ];
     }
 
 
+    /**
+     * Strict personal ownership lookup.
+     * Use this for every mutation.
+     */
     public function findById($id, $userId)
     {
         $query = $this->db->prepare(
@@ -147,21 +151,70 @@ class Folder
              LIMIT 1"
         );
 
-
         $query->execute([
             "id" => $id,
             "user_id" => $userId
         ]);
 
-
         return $query->fetch(
             PDO::FETCH_ASSOC
-        );
+        ) ?: null;
     }
 
 
-    public function updateTitle($id, $userId, $title)
-    {
+    /**
+     * Read/play access lookup.
+     * A user may access:
+     * - their own folder, or
+     * - a system folder for exactly their grade.
+     */
+    public function findAccessibleById(
+        $id,
+        $userId,
+        $grade
+    ) {
+        $grade = $this->normalizeGrade($grade);
+
+        $sql = "
+            SELECT *
+            FROM folders
+            WHERE id = :id
+            AND (
+                user_id = :user_id
+        ";
+
+        $params = [
+            "id" => $id,
+            "user_id" => $userId
+        ];
+
+        if ($grade !== null) {
+            $sql .= "
+                OR (
+                    user_id IS NULL
+                    AND grade = :grade
+                )
+            ";
+
+            $params["grade"] = $grade;
+        }
+
+        $sql .= ") LIMIT 1";
+
+        $query = $this->db->prepare($sql);
+        $query->execute($params);
+
+        return $query->fetch(
+            PDO::FETCH_ASSOC
+        ) ?: null;
+    }
+
+
+    public function updateTitle(
+        $id,
+        $userId,
+        $title
+    ) {
         $query = $this->db->prepare(
             "UPDATE folders
              SET title = :title
@@ -169,13 +222,11 @@ class Folder
              AND user_id = :user_id"
         );
 
-
         $query->execute([
             "id" => $id,
             "user_id" => $userId,
             "title" => $title
         ]);
-
 
         return $this->findById(
             $id,
@@ -192,10 +243,56 @@ class Folder
              AND user_id = :user_id"
         );
 
-
         return $query->execute([
             "id" => $id,
             "user_id" => $userId
         ]);
+    }
+
+
+    private function formatFolder($folder)
+    {
+        $isSystem = $folder["user_id"] === null;
+
+        return [
+            "id" => $folder["id"],
+            "title" => $folder["title"],
+            "type" => $folder["type"],
+            "grade" => $folder["grade"] === null
+                ? null
+                : (int) $folder["grade"],
+
+            "ownerType" => $isSystem
+                ? "system"
+                : "user",
+
+            "locked" => $isSystem,
+
+            "wordCount" =>
+                (int) $folder["wordCount"],
+
+            "questionCount" =>
+                (int) $folder["questionCount"],
+
+            "createdAt" =>
+                $folder["createdAt"] ?? null,
+
+            "updatedAt" =>
+                $folder["updatedAt"] ?? null
+        ];
+    }
+
+
+    private function normalizeGrade($grade)
+    {
+        if (!is_numeric($grade)) {
+            return null;
+        }
+
+        $grade = (int) $grade;
+
+        return ($grade >= 1 && $grade <= 6)
+            ? $grade
+            : null;
     }
 }

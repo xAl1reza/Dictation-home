@@ -1,8 +1,8 @@
 /*
- * Folder service.
+ * Folder service backed by the real API.
  *
- * Handles folder-related domain logic.
- * Legacy folders without `type` are treated as dictation folders.
+ * No folder/domain data is read from browser mock storage.
+ * All server calls use async/await through apiClient.
  */
 
 ;(() => {
@@ -13,10 +13,16 @@
     SCIENCE: 'science',
   })
 
+  const SERVER_ERROR_MAP = Object.freeze({
+    'Title and type are required': 'FOLDER_TITLE_REQUIRED',
+    'Title is required': 'FOLDER_TITLE_REQUIRED',
+    'Title must not exceed 100 characters': 'FOLDER_TITLE_TOO_LONG',
+    'Invalid folder type': 'FOLDER_TYPE_INVALID',
+    'Folder not found': 'FOLDER_NOT_FOUND',
+  })
+
   const normalizeFolderTitle = (title = '') => {
-    return String(title)
-      .trim()
-      .replace(/\s+/g, ' ')
+    return String(title).trim().replace(/\s+/g, ' ')
   }
 
   const normalizeFolderTitleForCompare = (title = '') => {
@@ -37,43 +43,52 @@
     }
   }
 
-  const createFolderId = () => {
-    if (window.crypto?.randomUUID) {
-      return `folder-${window.crypto.randomUUID()}`
-    }
-
-    return `folder-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  const remapApiError = (error) => {
+    return window.apiErrors?.remap(error, SERVER_ERROR_MAP) || error
   }
 
-  const getFolders = async () => {
-    const data = await window.appDataProvider.getState()
+  const normalizeFolder = (folder) => {
+    if (!folder || typeof folder !== 'object') {
+      return null
+    }
 
-    const folders = Array.isArray(data.folders) ? data.folders : []
-    const words = Array.isArray(data.words) ? data.words : []
-    const scienceQuestions = Array.isArray(data.scienceQuestions)
-      ? data.scienceQuestions
-      : []
+    const type = normalizeFolderType(folder.type)
+    const wordCount = Math.max(0, Number(folder.wordCount || 0))
+    const questionCount = Math.max(0, Number(folder.questionCount || 0))
 
-    return folders.map((folder) => {
-      const type = normalizeFolderType(folder.type)
+    return {
+      ...folder,
+      type,
+      ownerType: folder.ownerType || 'user',
+      locked: Boolean(folder.locked),
+      wordCount,
+      questionCount,
+      itemCount: type === FOLDER_TYPE.SCIENCE ? questionCount : wordCount,
+    }
+  }
 
-      const wordCount = words.filter(
-        (word) => word.folderId === folder.id,
-      ).length
+  const getFolders = async (type = null) => {
+    if (type) {
+      assertFolderType(type)
+    }
 
-      const questionCount = scienceQuestions.filter(
-        (question) => question.folderId === folder.id,
-      ).length
+    try {
+      const data = await window.apiClient.get('/folders', {
+        query: type ? { type } : null,
+      })
 
-      return {
-        ...folder,
-        type,
-        wordCount,
-        questionCount,
-        itemCount:
-          type === FOLDER_TYPE.SCIENCE ? questionCount : wordCount,
-      }
-    })
+      const folders = Array.isArray(data)
+        ? data.map(normalizeFolder).filter(Boolean)
+        : []
+
+      window.apiClient.log(
+        `[API:FOLDERS] loaded from backend: ${folders.length}`
+      )
+
+      return folders
+    } catch (error) {
+      throw remapApiError(error)
+    }
   }
 
   const getFolderById = async (folderId) => {
@@ -87,9 +102,7 @@
   const getFoldersByType = async (type) => {
     assertFolderType(type)
 
-    const folders = await getFolders()
-
-    return folders.filter((folder) => folder.type === type)
+    return await getFolders(type)
   }
 
   const getUserFolders = async (type = null) => {
@@ -97,13 +110,10 @@
       assertFolderType(type)
     }
 
-    const folders = await getFolders()
+    const folders = await getFolders(type)
 
     return folders.filter(
-      (folder) =>
-        folder.ownerType === 'user' &&
-        !folder.locked &&
-        (!type || folder.type === type),
+      (folder) => folder.ownerType === 'user' && !folder.locked
     )
   }
 
@@ -112,11 +122,9 @@
       assertFolderType(type)
     }
 
-    const folders = await getFolders()
+    const folders = await getFolders(type)
 
-    return folders.filter(
-      (folder) => !folder.locked && (!type || folder.type === type),
-    )
+    return folders.filter((folder) => !folder.locked)
   }
 
   const createFolder = async ({ title, type = FOLDER_TYPE.DICTATION }) => {
@@ -134,42 +142,31 @@
       throw new Error('FOLDER_TITLE_TOO_LONG')
     }
 
-    const folders = await getFolders()
+    const folders = await getFolders(normalizedType)
 
     const duplicateFolder = folders.some(
       (folder) =>
-        folder.type === normalizedType &&
         normalizeFolderTitleForCompare(folder.title) ===
-          normalizeFolderTitleForCompare(normalizedTitle),
+        normalizeFolderTitleForCompare(normalizedTitle)
     )
 
     if (duplicateFolder) {
       throw new Error('FOLDER_TITLE_DUPLICATE')
     }
 
-    const folder = {
-      id: createFolderId(),
-      title: normalizedTitle,
-      type: normalizedType,
-      ownerType: 'user',
-      locked: false,
-      createdAt: new Date().toISOString(),
-    }
+    try {
+      const data = await window.apiClient.post('/folders', {
+        title: normalizedTitle,
+        type: normalizedType,
+      })
 
-    await window.appDataProvider.updateState((state) => {
-      if (!Array.isArray(state.folders)) {
-        state.folders = []
-      }
+      const folder = normalizeFolder(data)
 
-      state.folders.push(folder)
-      return state
-    })
+      window.apiClient.log('[API:FOLDERS] created on backend')
 
-    return {
-      ...folder,
-      wordCount: 0,
-      questionCount: 0,
-      itemCount: 0,
+      return folder
+    } catch (error) {
+      throw remapApiError(error)
     }
   }
 
@@ -188,48 +185,47 @@
       throw new Error('FOLDER_TITLE_TOO_LONG')
     }
 
-    let updatedFolder = null
+    const folders = await getFolders()
+    const currentFolder = folders.find((folder) => folder.id === folderId)
 
-    await window.appDataProvider.updateState((state) => {
-      if (!Array.isArray(state.folders)) {
-        state.folders = []
-      }
+    if (!currentFolder) {
+      throw new Error('FOLDER_NOT_FOUND')
+    }
 
-      const folder = state.folders.find((item) => item.id === folderId)
+    if (currentFolder.locked) {
+      throw new Error('FOLDER_LOCKED')
+    }
 
-      if (!folder) {
-        throw new Error('FOLDER_NOT_FOUND')
-      }
+    const duplicateFolder = folders.some(
+      (folder) =>
+        folder.id !== folderId &&
+        folder.type === currentFolder.type &&
+        normalizeFolderTitleForCompare(folder.title) ===
+          normalizeFolderTitleForCompare(normalizedTitle)
+    )
 
-      if (folder.locked) {
-        throw new Error('FOLDER_LOCKED')
-      }
+    if (duplicateFolder) {
+      throw new Error('FOLDER_TITLE_DUPLICATE')
+    }
 
-      const folderType = normalizeFolderType(folder.type)
-
-      const duplicateFolder = state.folders.some(
-        (item) =>
-          item.id !== folderId &&
-          normalizeFolderType(item.type) === folderType &&
-          normalizeFolderTitleForCompare(item.title) ===
-            normalizeFolderTitleForCompare(normalizedTitle),
+    try {
+      const data = await window.apiClient.patch(
+        `/folders/${encodeURIComponent(folderId)}`,
+        { title: normalizedTitle }
       )
 
-      if (duplicateFolder) {
-        throw new Error('FOLDER_TITLE_DUPLICATE')
-      }
+      const folder = normalizeFolder({
+        ...currentFolder,
+        ...data,
+        title: data?.title || normalizedTitle,
+      })
 
-      folder.title = normalizedTitle
-      folder.type = folderType
-      folder.updatedAt = new Date().toISOString()
+      window.apiClient.log('[API:FOLDERS] updated on backend')
 
-      updatedFolder = { ...folder }
-      return state
-    })
-
-    const refreshedFolder = await getFolderById(folderId)
-
-    return refreshedFolder || updatedFolder
+      return folder
+    } catch (error) {
+      throw remapApiError(error)
+    }
   }
 
   const deleteFolder = async (folderId) => {
@@ -237,65 +233,30 @@
       throw new Error('FOLDER_ID_REQUIRED')
     }
 
-    let deletedFolder = null
-    let deletedWordCount = 0
-    let deletedQuestionCount = 0
+    const folder = await getFolderById(folderId)
 
-    await window.appDataProvider.updateState((state) => {
-      if (!Array.isArray(state.folders)) {
-        state.folders = []
-      }
+    if (!folder) {
+      throw new Error('FOLDER_NOT_FOUND')
+    }
 
-      if (!Array.isArray(state.words)) {
-        state.words = []
-      }
+    if (folder.locked) {
+      throw new Error('FOLDER_LOCKED')
+    }
 
-      if (!Array.isArray(state.scienceQuestions)) {
-        state.scienceQuestions = []
-      }
-
-      const folderIndex = state.folders.findIndex(
-        (folder) => folder.id === folderId,
+    try {
+      await window.apiClient.delete(
+        `/folders/${encodeURIComponent(folderId)}`
       )
 
-      if (folderIndex < 0) {
-        throw new Error('FOLDER_NOT_FOUND')
+      window.apiClient.log('[API:FOLDERS] deleted on backend')
+
+      return {
+        folder,
+        deletedWordCount: folder.wordCount,
+        deletedQuestionCount: folder.questionCount,
       }
-
-      const folder = state.folders[folderIndex]
-
-      if (folder.locked) {
-        throw new Error('FOLDER_LOCKED')
-      }
-
-      deletedFolder = {
-        ...folder,
-        type: normalizeFolderType(folder.type),
-      }
-
-      deletedWordCount = state.words.filter(
-        (word) => word.folderId === folderId,
-      ).length
-
-      deletedQuestionCount = state.scienceQuestions.filter(
-        (question) => question.folderId === folderId,
-      ).length
-
-      state.folders.splice(folderIndex, 1)
-
-      state.words = state.words.filter((word) => word.folderId !== folderId)
-
-      state.scienceQuestions = state.scienceQuestions.filter(
-        (question) => question.folderId !== folderId,
-      )
-
-      return state
-    })
-
-    return {
-      folder: deletedFolder,
-      deletedWordCount,
-      deletedQuestionCount,
+    } catch (error) {
+      throw remapApiError(error)
     }
   }
 
