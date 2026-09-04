@@ -1,839 +1,1443 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html dir="rtl" lang="fa">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>دیکته خونه | آموزش دیکته و تمرین‌های درسی کودکان</title>
-<meta content="دیکته خونه پلتفرمی آموزشی برای تمرین دیکته، تقویت مهارت‌های نوشتاری و یادگیری دروس پایه با ویدیوها و تمرین‌های هدفمند برای دانش‌آموزان است." name="description"/>
-<meta content="index, follow, max-image-preview:large" name="robots"/>
-<meta content="fa_IR" property="og:locale"/>
-<meta content="website" property="og:type"/>
-<meta content="دیکته خونه | آموزش دیکته و تمرین‌های درسی کودکان" property="og:title"/>
-<meta content="تمرین دیکته، تقویت مهارت‌های نوشتاری و یادگیری دروس پایه با محتوای آموزشی هدفمند برای دانش‌آموزان." property="og:description"/>
-<meta content="دیکته خونه" property="og:site_name"/>
-<meta content="#f6f4ff" media="(prefers-color-scheme: light)" name="theme-color"/>
-<meta content="#09090f" media="(prefers-color-scheme: dark)" name="theme-color"/>
-<link href="./styles/library/aos.css" rel="stylesheet"/>
-<link href="./styles/library/swiper.css" rel="stylesheet"/>
-<link href="./styles/style.css" rel="stylesheet"/>
-</head>
-<body class="bg-bg dark:bg-bg-dark">
-<a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:bg-primary focus:text-white focus:rounded-full focus:px-5 focus:py-3 focus:font-Peyda-medium" href="#main-content">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>دیکته خونه | آموزش دیکته و تمرین‌های درسی کودکان</title>
+    <meta
+      content="دیکته خونه پلتفرمی آموزشی برای تمرین دیکته، تقویت مهارت‌های نوشتاری و یادگیری دروس پایه با ویدیوها و تمرین‌های هدفمند برای دانش‌آموزان است."
+      name="description"
+    />
+    <meta content="index, follow, max-image-preview:large" name="robots" />
+    <meta content="fa_IR" property="og:locale" />
+    <meta content="website" property="og:type" />
+    <meta
+      content="دیکته خونه | آموزش دیکته و تمرین‌های درسی کودکان"
+      property="og:title"
+    />
+    <meta
+      content="تمرین دیکته، تقویت مهارت‌های نوشتاری و یادگیری دروس پایه با محتوای آموزشی هدفمند برای دانش‌آموزان."
+      property="og:description"
+    />
+    <meta content="دیکته خونه" property="og:site_name" />
+    <meta
+      content="#f6f4ff"
+      media="(prefers-color-scheme: light)"
+      name="theme-color"
+    />
+    <meta
+      content="#09090f"
+      media="(prefers-color-scheme: dark)"
+      name="theme-color"
+    />
+    <link href="./styles/library/aos.css" rel="stylesheet" />
+    <link href="./styles/library/swiper.css" rel="stylesheet" />
+    <link href="./styles/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-bg dark:bg-bg-dark">
+    <a
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:bg-primary focus:text-white focus:rounded-full focus:px-5 focus:py-3 focus:font-Peyda-medium"
+      href="#main-content"
+    >
       پرش به محتوای اصلی
     </a>
-<!-- SVG icon sprite -->
-<svg aria-hidden="true" class="hidden" focusable="false">
-<symbol class="size-5" id="icon-sun" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-<path d="M24.90625 3.96875C24.863281 3.976563 24.820313 3.988281 24.78125 4C24.316406 4.105469 23.988281 4.523438 24 5L24 11C23.996094 11.359375 24.183594 11.695313 24.496094 11.878906C24.808594 12.058594 25.191406 12.058594 25.503906 11.878906C25.816406 11.695313 26.003906 11.359375 26 11L26 5C26.011719 4.710938 25.894531 4.433594 25.6875 4.238281C25.476563 4.039063 25.191406 3.941406 24.90625 3.96875 Z M 10.65625 9.84375C10.28125 9.910156 9.980469 10.183594 9.875 10.546875C9.769531 10.914063 9.878906 11.304688 10.15625 11.5625L14.40625 15.8125C14.648438 16.109375 15.035156 16.246094 15.410156 16.160156C15.78125 16.074219 16.074219 15.78125 16.160156 15.410156C16.246094 15.035156 16.109375 14.648438 15.8125 14.40625L11.5625 10.15625C11.355469 9.933594 11.054688 9.820313 10.75 9.84375C10.71875 9.84375 10.6875 9.84375 10.65625 9.84375 Z M 39.03125 9.84375C38.804688 9.875 38.59375 9.988281 38.4375 10.15625L34.1875 14.40625C33.890625 14.648438 33.753906 15.035156 33.839844 15.410156C33.925781 15.78125 34.21875 16.074219 34.589844 16.160156C34.964844 16.246094 35.351563 16.109375 35.59375 15.8125L39.84375 11.5625C40.15625 11.265625 40.246094 10.800781 40.0625 10.410156C39.875 10.015625 39.460938 9.789063 39.03125 9.84375 Z M 24.90625 15C24.875 15.007813 24.84375 15.019531 24.8125 15.03125C24.75 15.035156 24.6875 15.046875 24.625 15.0625C24.613281 15.074219 24.605469 15.082031 24.59375 15.09375C19.289063 15.320313 15 19.640625 15 25C15 30.503906 19.496094 35 25 35C30.503906 35 35 30.503906 35 25C35 19.660156 30.746094 15.355469 25.46875 15.09375C25.433594 15.09375 25.410156 15.0625 25.375 15.0625C25.273438 15.023438 25.167969 15.003906 25.0625 15C25.042969 15 25.019531 15 25 15C24.96875 15 24.9375 15 24.90625 15 Z M 24.9375 17C24.957031 17 24.980469 17 25 17C25.03125 17 25.0625 17 25.09375 17C29.46875 17.050781 33 20.613281 33 25C33 29.421875 29.421875 33 25 33C20.582031 33 17 29.421875 17 25C17 20.601563 20.546875 17.035156 24.9375 17 Z M 4.71875 24C4.167969 24.078125 3.78125 24.589844 3.859375 25.140625C3.9375 25.691406 4.449219 26.078125 5 26L11 26C11.359375 26.003906 11.695313 25.816406 11.878906 25.503906C12.058594 25.191406 12.058594 24.808594 11.878906 24.496094C11.695313 24.183594 11.359375 23.996094 11 24L5 24C4.96875 24 4.9375 24 4.90625 24C4.875 24 4.84375 24 4.8125 24C4.78125 24 4.75 24 4.71875 24 Z M 38.71875 24C38.167969 24.078125 37.78125 24.589844 37.859375 25.140625C37.9375 25.691406 38.449219 26.078125 39 26L45 26C45.359375 26.003906 45.695313 25.816406 45.878906 25.503906C46.058594 25.191406 46.058594 24.808594 45.878906 24.496094C45.695313 24.183594 45.359375 23.996094 45 24L39 24C38.96875 24 38.9375 24 38.90625 24C38.875 24 38.84375 24 38.8125 24C38.78125 24 38.75 24 38.71875 24 Z M 15 33.875C14.773438 33.90625 14.5625 34.019531 14.40625 34.1875L10.15625 38.4375C9.859375 38.679688 9.722656 39.066406 9.808594 39.441406C9.894531 39.8125 10.1875 40.105469 10.558594 40.191406C10.933594 40.277344 11.320313 40.140625 11.5625 39.84375L15.8125 35.59375C16.109375 35.308594 16.199219 34.867188 16.039063 34.488281C15.882813 34.109375 15.503906 33.867188 15.09375 33.875C15.0625 33.875 15.03125 33.875 15 33.875 Z M 34.6875 33.875C34.3125 33.941406 34.011719 34.214844 33.90625 34.578125C33.800781 34.945313 33.910156 35.335938 34.1875 35.59375L38.4375 39.84375C38.679688 40.140625 39.066406 40.277344 39.441406 40.191406C39.8125 40.105469 40.105469 39.8125 40.191406 39.441406C40.277344 39.066406 40.140625 38.679688 39.84375 38.4375L35.59375 34.1875C35.40625 33.988281 35.148438 33.878906 34.875 33.875C34.84375 33.875 34.8125 33.875 34.78125 33.875C34.75 33.875 34.71875 33.875 34.6875 33.875 Z M 24.90625 37.96875C24.863281 37.976563 24.820313 37.988281 24.78125 38C24.316406 38.105469 23.988281 38.523438 24 39L24 45C23.996094 45.359375 24.183594 45.695313 24.496094 45.878906C24.808594 46.058594 25.191406 46.058594 25.503906 45.878906C25.816406 45.695313 26.003906 45.359375 26 45L26 39C26.011719 38.710938 25.894531 38.433594 25.6875 38.238281C25.476563 38.039063 25.191406 37.941406 24.90625 37.96875Z"></path>
-</symbol>
-<symbol class="size-5" id="icon-moon" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.941406 2C25.464844 2.027344 25.074219 2.386719 25.007813 2.859375C24.941406 3.332031 25.21875 3.785156 25.671875 3.945313C32.292969 6.261719 37 12.566406 37 20C37 29.402344 29.402344 37 20 37C12.566406 37 6.261719 32.292969 3.945313 25.671875C3.78125 25.203125 3.296875 24.925781 2.8125 25.015625C2.324219 25.109375 1.980469 25.546875 2 26.042969C2.515625 38.28125 12.640625 48 25 48C37.691406 48 48 37.691406 48 25C48 12.640625 38.28125 2.515625 26.042969 2C26.007813 2 25.972656 2 25.941406 2 Z M 31.84375 5.203125C40.074219 8.039063 46 15.78125 46 25C46 36.609375 36.609375 46 25 46C15.78125 46 8.039063 40.074219 5.203125 31.84375C8.691406 36.183594 14 39 20 39C30.480469 39 39 30.480469 39 20C39 14 36.183594 8.691406 31.84375 5.203125Z"></path>
-</symbol>
-<symbol id="icon-star" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12,17.877L18.831,22l-1.813-7.77l6.035-5.228l-7.947-0.674L12,1L8.894,8.328L0.947,9.002l6.035,5.228L5.169,22L12,17.877z" fill="#FBBF24"></path>
-</symbol>
-<symbol id="icon-chevron" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-<path d="M32.136719 3.0625C31.875 3.0625 31.628906 3.167969 31.441406 3.351563L10.359375 24.265625C9.964844 24.65625 9.960938 25.289063 10.351563 25.679688L31.265625 46.765625C31.65625 47.15625 32.289063 47.160156 32.679688 46.769531L38.703125 40.796875C39.097656 40.40625 39.101563 39.773438 38.710938 39.378906L24.476563 25.03125L38.828125 10.796875C39.21875 10.40625 39.222656 9.773438 38.832031 9.382813L32.859375 3.359375C32.667969 3.164063 32.40625 3.058594 32.136719 3.0625 Z M 32.140625 5.476563L36.707031 10.078125L22.359375 24.3125C21.964844 24.703125 21.960938 25.335938 22.351563 25.730469L36.585938 40.078125L31.980469 44.644531L12.476563 24.980469Z" fill="currentColor"></path>
-</symbol>
-<symbol class="size-5" id="play-icon" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.396484 4.1113281C9.1042001 4.2020187 7 6.0721788 7 8.5917969L7 39.408203C7 42.767694 10.742758 44.971891 13.681641 43.34375L41.490234 27.935547C44.513674 26.260259 44.513674 21.739741 41.490234 20.064453L13.681641 4.65625C12.94692 4.2492148 12.160579 4.0810979 11.396484 4.1113281 z"></path>
-</symbol>
-</svg>
-<!-- Desktop header -->
-<header class="hidden lg:block sticky top-3 z-50 pt-3">
-<div class="page-container">
-<div class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-6 py-2.5">
-<a class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light" href="./index.html">
-            دیکته خونه
+    <!-- SVG icon sprite -->
+    <svg aria-hidden="true" class="hidden" focusable="false">
+      <symbol
+        class="size-5"
+        id="icon-sun"
+        viewbox="0 0 50 50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M24.90625 3.96875C24.863281 3.976563 24.820313 3.988281 24.78125 4C24.316406 4.105469 23.988281 4.523438 24 5L24 11C23.996094 11.359375 24.183594 11.695313 24.496094 11.878906C24.808594 12.058594 25.191406 12.058594 25.503906 11.878906C25.816406 11.695313 26.003906 11.359375 26 11L26 5C26.011719 4.710938 25.894531 4.433594 25.6875 4.238281C25.476563 4.039063 25.191406 3.941406 24.90625 3.96875 Z M 10.65625 9.84375C10.28125 9.910156 9.980469 10.183594 9.875 10.546875C9.769531 10.914063 9.878906 11.304688 10.15625 11.5625L14.40625 15.8125C14.648438 16.109375 15.035156 16.246094 15.410156 16.160156C15.78125 16.074219 16.074219 15.78125 16.160156 15.410156C16.246094 15.035156 16.109375 14.648438 15.8125 14.40625L11.5625 10.15625C11.355469 9.933594 11.054688 9.820313 10.75 9.84375C10.71875 9.84375 10.6875 9.84375 10.65625 9.84375 Z M 39.03125 9.84375C38.804688 9.875 38.59375 9.988281 38.4375 10.15625L34.1875 14.40625C33.890625 14.648438 33.753906 15.035156 33.839844 15.410156C33.925781 15.78125 34.21875 16.074219 34.589844 16.160156C34.964844 16.246094 35.351563 16.109375 35.59375 15.8125L39.84375 11.5625C40.15625 11.265625 40.246094 10.800781 40.0625 10.410156C39.875 10.015625 39.460938 9.789063 39.03125 9.84375 Z M 24.90625 15C24.875 15.007813 24.84375 15.019531 24.8125 15.03125C24.75 15.035156 24.6875 15.046875 24.625 15.0625C24.613281 15.074219 24.605469 15.082031 24.59375 15.09375C19.289063 15.320313 15 19.640625 15 25C15 30.503906 19.496094 35 25 35C30.503906 35 35 30.503906 35 25C35 19.660156 30.746094 15.355469 25.46875 15.09375C25.433594 15.09375 25.410156 15.0625 25.375 15.0625C25.273438 15.023438 25.167969 15.003906 25.0625 15C25.042969 15 25.019531 15 25 15C24.96875 15 24.9375 15 24.90625 15 Z M 24.9375 17C24.957031 17 24.980469 17 25 17C25.03125 17 25.0625 17 25.09375 17C29.46875 17.050781 33 20.613281 33 25C33 29.421875 29.421875 33 25 33C20.582031 33 17 29.421875 17 25C17 20.601563 20.546875 17.035156 24.9375 17 Z M 4.71875 24C4.167969 24.078125 3.78125 24.589844 3.859375 25.140625C3.9375 25.691406 4.449219 26.078125 5 26L11 26C11.359375 26.003906 11.695313 25.816406 11.878906 25.503906C12.058594 25.191406 12.058594 24.808594 11.878906 24.496094C11.695313 24.183594 11.359375 23.996094 11 24L5 24C4.96875 24 4.9375 24 4.90625 24C4.875 24 4.84375 24 4.8125 24C4.78125 24 4.75 24 4.71875 24 Z M 38.71875 24C38.167969 24.078125 37.78125 24.589844 37.859375 25.140625C37.9375 25.691406 38.449219 26.078125 39 26L45 26C45.359375 26.003906 45.695313 25.816406 45.878906 25.503906C46.058594 25.191406 46.058594 24.808594 45.878906 24.496094C45.695313 24.183594 45.359375 23.996094 45 24L39 24C38.96875 24 38.9375 24 38.90625 24C38.875 24 38.84375 24 38.8125 24C38.78125 24 38.75 24 38.71875 24 Z M 15 33.875C14.773438 33.90625 14.5625 34.019531 14.40625 34.1875L10.15625 38.4375C9.859375 38.679688 9.722656 39.066406 9.808594 39.441406C9.894531 39.8125 10.1875 40.105469 10.558594 40.191406C10.933594 40.277344 11.320313 40.140625 11.5625 39.84375L15.8125 35.59375C16.109375 35.308594 16.199219 34.867188 16.039063 34.488281C15.882813 34.109375 15.503906 33.867188 15.09375 33.875C15.0625 33.875 15.03125 33.875 15 33.875 Z M 34.6875 33.875C34.3125 33.941406 34.011719 34.214844 33.90625 34.578125C33.800781 34.945313 33.910156 35.335938 34.1875 35.59375L38.4375 39.84375C38.679688 40.140625 39.066406 40.277344 39.441406 40.191406C39.8125 40.105469 40.105469 39.8125 40.191406 39.441406C40.277344 39.066406 40.140625 38.679688 39.84375 38.4375L35.59375 34.1875C35.40625 33.988281 35.148438 33.878906 34.875 33.875C34.84375 33.875 34.8125 33.875 34.78125 33.875C34.75 33.875 34.71875 33.875 34.6875 33.875 Z M 24.90625 37.96875C24.863281 37.976563 24.820313 37.988281 24.78125 38C24.316406 38.105469 23.988281 38.523438 24 39L24 45C23.996094 45.359375 24.183594 45.695313 24.496094 45.878906C24.808594 46.058594 25.191406 46.058594 25.503906 45.878906C25.816406 45.695313 26.003906 45.359375 26 45L26 39C26.011719 38.710938 25.894531 38.433594 25.6875 38.238281C25.476563 38.039063 25.191406 37.941406 24.90625 37.96875Z"
+        ></path>
+      </symbol>
+      <symbol
+        class="size-5"
+        id="icon-moon"
+        viewbox="0 0 50 50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M25.941406 2C25.464844 2.027344 25.074219 2.386719 25.007813 2.859375C24.941406 3.332031 25.21875 3.785156 25.671875 3.945313C32.292969 6.261719 37 12.566406 37 20C37 29.402344 29.402344 37 20 37C12.566406 37 6.261719 32.292969 3.945313 25.671875C3.78125 25.203125 3.296875 24.925781 2.8125 25.015625C2.324219 25.109375 1.980469 25.546875 2 26.042969C2.515625 38.28125 12.640625 48 25 48C37.691406 48 48 37.691406 48 25C48 12.640625 38.28125 2.515625 26.042969 2C26.007813 2 25.972656 2 25.941406 2 Z M 31.84375 5.203125C40.074219 8.039063 46 15.78125 46 25C46 36.609375 36.609375 46 25 46C15.78125 46 8.039063 40.074219 5.203125 31.84375C8.691406 36.183594 14 39 20 39C30.480469 39 39 30.480469 39 20C39 14 36.183594 8.691406 31.84375 5.203125Z"
+        ></path>
+      </symbol>
+      <symbol
+        id="icon-star"
+        viewbox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12,17.877L18.831,22l-1.813-7.77l6.035-5.228l-7.947-0.674L12,1L8.894,8.328L0.947,9.002l6.035,5.228L5.169,22L12,17.877z"
+          fill="#FBBF24"
+        ></path>
+      </symbol>
+      <symbol
+        id="icon-chevron"
+        viewbox="0 0 50 50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M32.136719 3.0625C31.875 3.0625 31.628906 3.167969 31.441406 3.351563L10.359375 24.265625C9.964844 24.65625 9.960938 25.289063 10.351563 25.679688L31.265625 46.765625C31.65625 47.15625 32.289063 47.160156 32.679688 46.769531L38.703125 40.796875C39.097656 40.40625 39.101563 39.773438 38.710938 39.378906L24.476563 25.03125L38.828125 10.796875C39.21875 10.40625 39.222656 9.773438 38.832031 9.382813L32.859375 3.359375C32.667969 3.164063 32.40625 3.058594 32.136719 3.0625 Z M 32.140625 5.476563L36.707031 10.078125L22.359375 24.3125C21.964844 24.703125 21.960938 25.335938 22.351563 25.730469L36.585938 40.078125L31.980469 44.644531L12.476563 24.980469Z"
+          fill="currentColor"
+        ></path>
+      </symbol>
+      <symbol
+        class="size-5"
+        id="play-icon"
+        viewbox="0 0 48 48"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.396484 4.1113281C9.1042001 4.2020187 7 6.0721788 7 8.5917969L7 39.408203C7 42.767694 10.742758 44.971891 13.681641 43.34375L41.490234 27.935547C44.513674 26.260259 44.513674 21.739741 41.490234 20.064453L13.681641 4.65625C12.94692 4.2492148 12.160579 4.0810979 11.396484 4.1113281 z"
+        ></path>
+      </symbol>
+    </svg>
+    <!-- Desktop header -->
+    <header class="hidden lg:block sticky top-3 z-50 pt-3">
+      <div class="page-container">
+        <div
+          class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-6 py-2.5"
+        >
+          <a
+            class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light"
+            href="./index.html"
+          >
+            <img
+  class="block dark:hidden w-[40px] lg:w-[50px] h-auto"
+  src="./images/Logos/Logo.png"
+  alt="دیکته خونه"
+/>
+<img
+  class="hidden dark:block w-[40px] lg:w-[50px] h-auto"
+  src="./images/Logos/Logo-dark.png"
+  alt="دیکته خونه"
+/>
           </a>
-<nav aria-label="منوی اصلی">
-<ul class="flex items-center gap-2">
-<li>
-<a aria-current="page" class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light transition-colors" href="./index.html">
+          <nav aria-label="منوی اصلی">
+            <ul class="flex items-center gap-2">
+              <li>
+                <a
+                  aria-current="page"
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light transition-colors"
+                  href="./index.html"
+                >
                   خانه
                 </a>
-</li>
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./aboutus.html">
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./aboutus.html"
+                >
                   درباره ما
                 </a>
-</li>
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./news.html">
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./news.html"
+                >
                   اخبار
                 </a>
-</li>
-<li>
-<a class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300" href="./contactus.html">
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center justify-center rounded-full px-4 py-2 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface-strong dark:hover:bg-surface-dark-strong hover:text-primary dark:hover:text-primary-light transition-all duration-300"
+                  href="./contactus.html"
+                >
                   تماس با ما
                 </a>
-</li>
-</ul>
-</nav>
-<div class="flex items-center gap-3">
-<div class="flex items-center justify-center size-11 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark transition-all duration-300 hover:border-primary/30 dark:hover:border-primary-light/30">
-<svg class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95" id="sunIcon">
-<use href="#icon-sun"></use>
-</svg>
-<svg class="size-5 fill-textColor cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95" id="moonIcon">
-<use href="#icon-moon"></use>
-</svg>
-</div>
-<a class="inline-flex items-center justify-center bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="./dashboard.html">
+              </li>
+            </ul>
+          </nav>
+          <div class="flex items-center gap-3">
+            <div
+              class="flex items-center justify-center size-11 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark transition-all duration-300 hover:border-primary/30 dark:hover:border-primary-light/30"
+            >
+              <svg
+                class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
+                id="sunIcon"
+              >
+                <use href="#icon-sun"></use>
+              </svg>
+              <svg
+                class="size-5 fill-textColor cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
+                id="moonIcon"
+              >
+                <use href="#icon-moon"></use>
+              </svg>
+            </div>
+            <a
+              class="inline-flex items-center justify-center bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              href="./dashboard.html"
+            >
               شروع یادگیری
             </a>
-</div>
-</div>
-</div>
-</header>
-<!-- Mobile header -->
-<header class="lg:hidden sticky top-3 z-50 pt-3">
-<div class="page-container">
-<div class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-4 py-2.5">
-<a class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark" href="./index.html">
-            دیکته خونه
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Mobile header -->
+    <header class="lg:hidden sticky top-3 z-50 pt-3">
+      <div class="page-container">
+        <div
+          class="flex items-center justify-between bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-md px-4 py-2.5"
+        >
+          <a
+            class="font-Peyda-bold text-base text-textColor dark:text-textColor-dark"
+            href="./index.html"
+          >
+            <img
+  class="block dark:hidden w-[40px] lg:w-[50px] h-auto"
+  src="./images/Logos/Logo.png"
+  alt="دیکته خونه"
+/>
+<img
+  class="hidden dark:block w-[40px] lg:w-[50px] h-auto"
+  src="./images/Logos/Logo-dark.png"
+  alt="دیکته خونه"
+/>
           </a>
-<div class="flex items-center gap-2">
-<div class="flex items-center justify-center size-10 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark">
-<svg class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 active:scale-95" id="sunIcon--mobile">
-<use href="#icon-sun"></use>
-</svg>
-<svg class="size-5 fill-textColor cursor-pointer transition-all duration-300 active:scale-95" id="moonIcon--mobile">
-<use href="#icon-moon"></use>
-</svg>
-</div>
-<button aria-controls="mobile-menu" aria-expanded="false" aria-label="باز کردن منو" class="flex items-center justify-center size-10 text-textColor dark:text-textColor-dark bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark rounded-full transition-all duration-300 hover:text-primary dark:hover:text-primary-light active:scale-95" id="menu-btn" type="button">
-<svg fill="none" height="20" id="icon-open" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-<svg class="hidden" fill="none" height="20" id="icon-close" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
-</div>
-<div class="overflow-hidden max-h-0 mt-2 bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/70 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark rounded-md px-3 transition-all duration-300 ease-in-out" id="mobile-menu">
-<div class="py-3">
-<nav aria-label="منوی موبایل">
-<ul class="flex flex-col gap-1">
-<li>
-<a aria-current="page" class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light" href="./index.html">
+          <div class="flex items-center gap-2">
+            <div
+              class="flex items-center justify-center size-10 rounded-full bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark"
+            >
+              <svg
+                class="size-5 hidden fill-textColor-dark cursor-pointer transition-all duration-300 active:scale-95"
+                id="sunIcon--mobile"
+              >
+                <use href="#icon-sun"></use>
+              </svg>
+              <svg
+                class="size-5 fill-textColor cursor-pointer transition-all duration-300 active:scale-95"
+                id="moonIcon--mobile"
+              >
+                <use href="#icon-moon"></use>
+              </svg>
+            </div>
+            <button
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              aria-label="باز کردن منو"
+              class="flex items-center justify-center size-10 text-textColor dark:text-textColor-dark bg-surface-strong dark:bg-surface-dark-strong border border-white/70 dark:border-border-dark rounded-full transition-all duration-300 hover:text-primary dark:hover:text-primary-light active:scale-95"
+              id="menu-btn"
+              type="button"
+            >
+              <svg
+                fill="none"
+                height="20"
+                id="icon-open"
+                stroke="currentColor"
+                stroke-width="2"
+                viewbox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+              <svg
+                class="hidden"
+                fill="none"
+                height="20"
+                id="icon-close"
+                stroke="currentColor"
+                stroke-width="2"
+                viewbox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 12"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="overflow-hidden max-h-0 mt-2 bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/70 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark rounded-md px-3 transition-all duration-300 ease-in-out"
+          id="mobile-menu"
+        >
+          <div class="py-3">
+            <nav aria-label="منوی موبایل">
+              <ul class="flex flex-col gap-1">
+                <li>
+                  <a
+                    aria-current="page"
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary-light"
+                    href="./index.html"
+                  >
                     خانه
                   </a>
-</li>
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./aboutus.html">
+                </li>
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./aboutus.html"
+                  >
                     درباره ما
                   </a>
-</li>
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./news.html">
+                </li>
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./news.html"
+                  >
                     اخبار
                   </a>
-</li>
-<li>
-<a class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors" href="./contactus.html">
+                </li>
+                <li>
+                  <a
+                    class="flex items-center w-full rounded-sm px-4 py-3 font-Dana-medium text-sm text-textColor dark:text-textColor-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-light transition-colors"
+                    href="./contactus.html"
+                  >
                     تماس با ما
                   </a>
-</li>
-</ul>
-</nav>
-<div class="border-t border-white/60 dark:border-border-dark-soft mt-3 pt-3">
-<a class="flex items-center justify-center w-full bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="./dashboard.html">
+                </li>
+              </ul>
+            </nav>
+            <div
+              class="border-t border-white/60 dark:border-border-dark-soft mt-3 pt-3"
+            >
+              <a
+                class="flex items-center justify-center w-full bg-primary text-white font-Peyda-medium text-sm rounded-full px-7 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                href="./dashboard.html"
+              >
                 شروع یادگیری
               </a>
-</div>
-</div>
-</div>
-</div>
-</header>
-<!-- Main content -->
-<main id="main-content">
-<!-- Hero -->
-<section aria-labelledby="hero-title" class="py-10 md:py-16" id="home">
-<div class="page-container">
-<div class="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-2 lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-6 lg:items-center">
-<div class="min-w-0 flex flex-col gap-6 lg:col-start-1 lg:row-start-1">
-<div class="flex items-center gap-2" data-aos="fade-down">
-<span class="relative inline-flex items-center justify-center size-3 shrink-0">
-<span class="absolute inline-flex size-full rounded-full bg-primary opacity-75 animate-ping"></span>
-<span class="relative size-1.5 rounded-full bg-primary"></span>
-</span>
-<span class="font-Dana-medium text-sm text-primary bg-primary/5 dark:bg-primary/10 rounded-full px-5 py-3">
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main content -->
+    <main id="main-content">
+      <!-- Hero -->
+      <section aria-labelledby="hero-title" class="py-10 md:py-16" id="home">
+        <div class="page-container">
+          <div
+            class="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-2 lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-6 lg:items-center"
+          >
+            <div
+              class="min-w-0 flex flex-col gap-6 lg:col-start-1 lg:row-start-1"
+            >
+              <div class="flex items-center gap-2" data-aos="fade-down">
+                <span
+                  class="relative inline-flex items-center justify-center size-3 shrink-0"
+                >
+                  <span
+                    class="absolute inline-flex size-full rounded-full bg-primary opacity-75 animate-ping"
+                  ></span>
+                  <span
+                    class="relative size-1.5 rounded-full bg-primary"
+                  ></span>
+                </span>
+                <span
+                  class="font-Dana-medium text-sm text-primary bg-primary/5 dark:bg-primary/10 rounded-full px-5 py-3"
+                >
                   پلتفرم مدرن آموزش دیکته
                 </span>
-</div>
-<h1 class="w-full" data-aos="fade-up" data-aos-delay="100" id="hero-title">
+              </div>
+              <h1
+                class="w-full"
+                data-aos="fade-up"
+                data-aos-delay="100"
+                id="hero-title"
+              >
                 یادگیری دیکته
-                <br/>
+                <br />
 
                 به روشی
 
-                <span class="text-primary dark:text-primary-light text-[clamp(32px,4vw,48px)] font-Peyda-bold">
+                <span
+                  class="text-primary dark:text-primary-light text-[clamp(32px,4vw,48px)] font-Peyda-bold"
+                >
                   مدرن
                 </span>
 
                 و
-                <br/>
+                <br />
 
                 جذاب
               </h1>
-<p class="max-w-xl" data-aos="fade-up" data-aos-delay="200">
+              <p class="max-w-xl" data-aos="fade-up" data-aos-delay="200">
                 دیکته خونه محیطی مدرن و آموزشی برای تقویت مهارت‌های نوشتاری،
                 دیکته، ریاضی و تمرین‌های درسی کودکان است.
               </p>
-<div class="flex flex-wrap items-center gap-3 sm:gap-4" data-aos="zoom-in" data-aos-delay="300">
-<a class="inline-flex items-center justify-center bg-primary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-primary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="./dashboard.html">
+              <div
+                class="flex flex-wrap items-center gap-3 sm:gap-4"
+                data-aos="zoom-in"
+                data-aos-delay="300"
+              >
+                <a
+                  class="inline-flex items-center justify-center bg-primary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-primary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  href="./dashboard.html"
+                >
                   شروع یادگیری
                 </a>
-<a class="inline-flex items-center justify-center text-textColor dark:text-textColor-dark font-Peyda-medium border border-white/70 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft backdrop-blur-sm rounded-full px-7 py-3 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary dark:hover:text-primary-light hover:border-primary dark:hover:border-primary-light hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="./auth.html">
+                <a
+                  class="inline-flex items-center justify-center text-textColor dark:text-textColor-dark font-Peyda-medium border border-white/70 dark:border-border-dark-soft bg-surface-soft dark:bg-surface-dark-soft backdrop-blur-sm rounded-full px-7 py-3 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary dark:hover:text-primary-light hover:border-primary dark:hover:border-primary-light hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  href="./auth.html"
+                >
                   مشاهده ویدیو
                 </a>
-</div>
-</div>
-<div class="hero-visual relative min-w-0 w-full flex items-center justify-center min-h-[390px] sm:min-h-[440px] lg:min-h-[470px] lg:col-start-2 lg:row-start-1 lg:row-span-2" data-aos="zoom-in" data-aos-duration="900">
-<div aria-hidden="true" class="pointer-events-none absolute inset-x-[22%] top-[18%] h-48 rounded-full bg-primary/10 dark:bg-primary/7 blur-3xl sm:hidden"></div>
-<div aria-hidden="true" class="pointer-events-none absolute hidden sm:block top-[7%] left-[12%] size-60 rounded-full bg-primary/12 dark:bg-primary/8 blur-3xl"></div>
-<div aria-hidden="true" class="pointer-events-none absolute hidden sm:block bottom-[7%] right-[12%] size-44 rounded-full bg-secondary/7 dark:bg-secondary/5 blur-3xl"></div>
-<div class="relative w-[92%] max-w-[390px] sm:w-[88%] sm:max-w-[410px] lg:w-[86%] lg:max-w-[420px]">
-<div aria-hidden="true" class="absolute hidden sm:block -inset-x-4 top-6 bottom-4 translate-x-3 rounded-lg bg-primary/[0.045] dark:bg-primary/[0.04] border border-primary/10"></div>
-<div class="relative z-10 bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-lg p-2 sm:p-2.5">
-<div class="relative overflow-hidden rounded-md bg-bg-secondary dark:bg-bg-dark-secondary aspect-[4/3.8] sm:aspect-[4/4.15] lg:aspect-[4/4.35]">
-<img alt="مهدی احمدی، سازنده دیکته خونه" class="w-full h-full object-cover object-top" decoding="async" fetchpriority="high" src="./images/mahdi-ahmadi.png"/>
-<div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-textColor/50 via-textColor/5 to-transparent pointer-events-none"></div>
-<div class="absolute right-3 bottom-3 sm:right-4 sm:bottom-4">
-<div class="flex flex-col gap-0.5 bg-white/75 dark:bg-surface-dark-strong backdrop-blur-md border border-white/70 dark:border-border-dark rounded-sm px-3 py-2 sm:px-4 sm:py-2.5 shadow-glass dark:shadow-glass-dark">
-<span class="font-Peyda-medium text-xs sm:text-sm text-textColor dark:text-textColor-dark">
+              </div>
+            </div>
+            <div
+              class="hero-visual relative min-w-0 w-full flex items-center justify-center min-h-[390px] sm:min-h-[440px] lg:min-h-[470px] lg:col-start-2 lg:row-start-1 lg:row-span-2"
+              data-aos="zoom-in"
+              data-aos-duration="900"
+            >
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-x-[22%] top-[18%] h-48 rounded-full bg-primary/10 dark:bg-primary/7 blur-3xl sm:hidden"
+              ></div>
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute hidden sm:block top-[7%] left-[12%] size-60 rounded-full bg-primary/12 dark:bg-primary/8 blur-3xl"
+              ></div>
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute hidden sm:block bottom-[7%] right-[12%] size-44 rounded-full bg-secondary/7 dark:bg-secondary/5 blur-3xl"
+              ></div>
+              <div
+                class="relative w-[92%] max-w-[390px] sm:w-[88%] sm:max-w-[410px] lg:w-[86%] lg:max-w-[420px]"
+              >
+                <div
+                  aria-hidden="true"
+                  class="absolute hidden sm:block -inset-x-4 top-6 bottom-4 translate-x-3 rounded-lg bg-primary/[0.045] dark:bg-primary/[0.04] border border-primary/10"
+                ></div>
+                <div
+                  class="relative z-10 bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-lg p-2 sm:p-2.5"
+                >
+                  <div
+                    class="relative overflow-hidden rounded-md bg-bg-secondary dark:bg-bg-dark-secondary aspect-[4/3.8] sm:aspect-[4/4.15] lg:aspect-[4/4.35]"
+                  >
+                    <img
+                      alt="مهدی احمدی، سازنده دیکته خونه"
+                      class="w-full h-full object-cover object-top"
+                      decoding="async"
+                      fetchpriority="high"
+                      src="./images/mahdi-ahmadi.png"
+                    />
+                    <div
+                      aria-hidden="true"
+                      class="absolute inset-0 bg-gradient-to-t from-textColor/50 via-textColor/5 to-transparent pointer-events-none"
+                    ></div>
+                    <div
+                      class="absolute right-3 bottom-3 sm:right-4 sm:bottom-4"
+                    >
+                      <div
+                        class="flex flex-col gap-0.5 bg-white/75 dark:bg-surface-dark-strong backdrop-blur-md border border-white/70 dark:border-border-dark rounded-sm px-3 py-2 sm:px-4 sm:py-2.5 shadow-glass dark:shadow-glass-dark"
+                      >
+                        <span
+                          class="font-Peyda-medium text-xs sm:text-sm text-textColor dark:text-textColor-dark"
+                        >
                           مهدی احمدی
                         </span>
-<small class="text-[11px] sm:text-xs text-mutedColor dark:text-mutedColor-dark">
+                        <small
+                          class="text-[11px] sm:text-xs text-mutedColor dark:text-mutedColor-dark"
+                        >
                           سازنده دیکته خونه
                         </small>
-</div>
-</div>
-</div>
-</div>
-<div class="hero-signal-card absolute z-20 top-4 right-3 sm:top-[15%] sm:-right-2 lg:top-[16%] lg:-right-9 flex items-center gap-2 sm:gap-3 bg-surface-strong/95 dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-glass dark:shadow-glass-dark rounded-md px-3 py-2 sm:px-4 sm:py-3" data-aos="fade-left" data-aos-delay="250">
-<div class="flex items-center justify-center size-8 sm:size-9 rounded-full bg-primary/10 dark:bg-primary/15">
-<div aria-hidden="true" class="flex items-center gap-[2px] h-5">
-<span class="w-[2px] h-2 rounded-full bg-primary/50"></span>
-<span class="w-[2px] h-3.5 rounded-full bg-primary/70"></span>
-<span class="w-[2px] h-5 rounded-full bg-primary"></span>
-<span class="w-[2px] h-3.5 rounded-full bg-primary/70"></span>
-<span class="w-[2px] h-2 rounded-full bg-primary/50"></span>
-</div>
-</div>
-<div class="flex flex-col gap-0.5">
-<span class="font-Peyda-medium text-xs sm:text-sm text-textColor dark:text-textColor-dark">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="hero-signal-card absolute z-20 top-4 right-3 sm:top-[15%] sm:-right-2 lg:top-[16%] lg:-right-9 flex items-center gap-2 sm:gap-3 bg-surface-strong/95 dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-glass dark:shadow-glass-dark rounded-md px-3 py-2 sm:px-4 sm:py-3"
+                  data-aos="fade-left"
+                  data-aos-delay="250"
+                >
+                  <div
+                    class="flex items-center justify-center size-8 sm:size-9 rounded-full bg-primary/10 dark:bg-primary/15"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="flex items-center gap-[2px] h-5"
+                    >
+                      <span
+                        class="w-[2px] h-2 rounded-full bg-primary/50"
+                      ></span>
+                      <span
+                        class="w-[2px] h-3.5 rounded-full bg-primary/70"
+                      ></span>
+                      <span class="w-[2px] h-5 rounded-full bg-primary"></span>
+                      <span
+                        class="w-[2px] h-3.5 rounded-full bg-primary/70"
+                      ></span>
+                      <span
+                        class="w-[2px] h-2 rounded-full bg-primary/50"
+                      ></span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-0.5">
+                    <span
+                      class="font-Peyda-medium text-xs sm:text-sm text-textColor dark:text-textColor-dark"
+                    >
                       گوش کن
                     </span>
-<small class="hidden sm:block text-mutedColor dark:text-mutedColor-dark">
+                    <small
+                      class="hidden sm:block text-mutedColor dark:text-mutedColor-dark"
+                    >
                       دیکته را بشنو
                     </small>
-</div>
-</div>
-<div class="hero-signal-card absolute z-20 bottom-4 left-3 sm:bottom-[14%] sm:-left-2 lg:-left-8 flex items-center gap-2 sm:gap-3 bg-surface-strong/95 dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-glass dark:shadow-glass-dark rounded-md px-3 py-2 sm:px-4 sm:py-3" data-aos="fade-right" data-aos-delay="350">
-<div class="flex items-center justify-center size-8 sm:size-9 rounded-full bg-primary/10 dark:bg-primary/15 text-primary dark:text-primary-light">
-<svg aria-hidden="true" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" stroke-linecap="round" stroke-linejoin="round"></path>
-<path d="M19.5 7.125L16.875 4.5M6.75 20.25h10.5" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</div>
-<div class="flex flex-col gap-0.5">
-<span class="font-Peyda-medium text-xs sm:text-sm text-textColor dark:text-textColor-dark">
+                  </div>
+                </div>
+                <div
+                  class="hero-signal-card absolute z-20 bottom-4 left-3 sm:bottom-[14%] sm:-left-2 lg:-left-8 flex items-center gap-2 sm:gap-3 bg-surface-strong/95 dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-glass dark:shadow-glass-dark rounded-md px-3 py-2 sm:px-4 sm:py-3"
+                  data-aos="fade-right"
+                  data-aos-delay="350"
+                >
+                  <div
+                    class="flex items-center justify-center size-8 sm:size-9 rounded-full bg-primary/10 dark:bg-primary/15 text-primary dark:text-primary-light"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="size-4"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      viewbox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                      <path
+                        d="M19.5 7.125L16.875 4.5M6.75 20.25h10.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div class="flex flex-col gap-0.5">
+                    <span
+                      class="font-Peyda-medium text-xs sm:text-sm text-textColor dark:text-textColor-dark"
+                    >
                       بنویس
                     </span>
-<small class="hidden sm:block text-mutedColor dark:text-mutedColor-dark">
+                    <small
+                      class="hidden sm:block text-mutedColor dark:text-mutedColor-dark"
+                    >
                       تمرین کن و پیشرفت کن
                     </small>
-</div>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between sm:justify-start gap-4 sm:gap-8 pt-2 lg:col-start-1 lg:row-start-2" data-aos="fade-up" data-aos-delay="400">
-<div class="flex flex-col gap-1 min-w-0">
-<span class="counter block font-Peyda-medium text-[clamp(20px,2.5vw,24px)] leading-snug text-primary dark:text-primary-light" data-suffix="" data-target="6">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between sm:justify-start gap-4 sm:gap-8 pt-2 lg:col-start-1 lg:row-start-2"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <div class="flex flex-col gap-1 min-w-0">
+                <span
+                  class="counter block font-Peyda-medium text-[clamp(20px,2.5vw,24px)] leading-snug text-primary dark:text-primary-light"
+                  data-suffix=""
+                  data-target="6"
+                >
                   0
                 </span>
-<small class="whitespace-nowrap"> پایه تحصیلی </small>
-</div>
-<div aria-hidden="true" class="h-10 w-px bg-textColor/10 dark:bg-white/10 sm:hidden"></div>
-<div class="flex flex-col gap-1 min-w-0">
-<span class="counter block font-Peyda-medium text-[clamp(20px,2.5vw,24px)] leading-snug text-primary dark:text-primary-light" data-suffix="+" data-target="500">
+                <small class="whitespace-nowrap"> پایه تحصیلی </small>
+              </div>
+              <div
+                aria-hidden="true"
+                class="h-10 w-px bg-textColor/10 dark:bg-white/10 sm:hidden"
+              ></div>
+              <div class="flex flex-col gap-1 min-w-0">
+                <span
+                  class="counter block font-Peyda-medium text-[clamp(20px,2.5vw,24px)] leading-snug text-primary dark:text-primary-light"
+                  data-suffix="+"
+                  data-target="500"
+                >
                   0
                 </span>
-<small class="whitespace-nowrap"> تمرین آموزشی </small>
-</div>
-<div aria-hidden="true" class="h-10 w-px bg-textColor/10 dark:bg-white/10 sm:hidden"></div>
-<div class="flex flex-col gap-1 min-w-0">
-<span class="counter block font-Peyda-medium text-[clamp(20px,2.5vw,24px)] leading-snug text-primary dark:text-primary-light" data-format="k" data-suffix="+" data-target="2000">
+                <small class="whitespace-nowrap"> تمرین آموزشی </small>
+              </div>
+              <div
+                aria-hidden="true"
+                class="h-10 w-px bg-textColor/10 dark:bg-white/10 sm:hidden"
+              ></div>
+              <div class="flex flex-col gap-1 min-w-0">
+                <span
+                  class="counter block font-Peyda-medium text-[clamp(20px,2.5vw,24px)] leading-snug text-primary dark:text-primary-light"
+                  data-format="k"
+                  data-suffix="+"
+                  data-target="2000"
+                >
                   0
                 </span>
-<small class="whitespace-nowrap"> دانش‌آموز فعال </small>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Educational videos -->
-<section aria-labelledby="videos-title" class="py-10 md:py-16" id="videos">
-<div class="page-container">
-<div class="text-center mb-12" data-aos="fade-up">
-<span class="font-Peyda-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block" data-aos="fade-down">
+                <small class="whitespace-nowrap"> دانش‌آموز فعال </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Educational videos -->
+      <section
+        aria-labelledby="videos-title"
+        class="py-10 md:py-16"
+        id="videos"
+      >
+        <div class="page-container">
+          <div class="text-center mb-12" data-aos="fade-up">
+            <span
+              class="font-Peyda-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
+              data-aos="fade-down"
+            >
               ویدیوهای آموزشی
             </span>
-<h2 class="text-textColor dark:text-textColor-dark mb-4" data-aos="fade-up" data-aos-delay="100" id="videos-title">
+            <h2
+              class="text-textColor dark:text-textColor-dark mb-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              id="videos-title"
+            >
               آموزش‌های حرفه‌ای و تعاملی
             </h2>
-<p class="text-body text-mutedColor dark:text-mutedColor-dark max-w-lg mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p
+              class="text-body text-mutedColor dark:text-mutedColor-dark max-w-lg mx-auto"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
               ویدیوهای آموزشی دیکته‌خونه با طراحی مدرن و هدفمند برای یادگیری
               بهتر دانش‌آموزان.
             </p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div data-aos="fade-up" data-aos-delay="100">
-<article class="video-box bg-surface backdrop-blur-md border border-white/65 dark:border-border-dark rounded-lg shadow-card dark:shadow-card-dark overflow-hidden dark:bg-surface-dark hover:-translate-y-1 transition-transform duration-200 cursor-pointer">
-<div class="video-card relative w-full aspect-video overflow-hidden">
-<video class="video-player w-full h-full object-cover" playsinline="" poster="./images/video-banner2.jpg" preload="metadata" src="./videos/1.mp4"></video>
-<div class="video-overlay absolute inset-0"></div>
-<button aria-label="پخش ویدیوی تمرین‌های تعاملی" class="play-btn" type="button">
-<span class="play-ring"></span>
-<svg class="size-7 fill-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95">
-<use href="#play-icon"></use>
-</svg>
-<svg class="pause-icon hidden" fill="currentColor" viewbox="0 0 24 24">
-<path d="M7 5h4v14H7zm6 0h4v14h-4z"></path>
-</svg>
-</button>
-</div>
-<div class="p-6">
-<h3 class="text-textColor dark:text-textColor-dark mb-2">
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div data-aos="fade-up" data-aos-delay="100">
+              <article
+                class="video-box bg-surface backdrop-blur-md border border-white/65 dark:border-border-dark rounded-lg shadow-card dark:shadow-card-dark overflow-hidden dark:bg-surface-dark hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
+              >
+                <div
+                  class="video-card relative w-full aspect-video overflow-hidden"
+                >
+                  <video
+                    class="video-player w-full h-full object-cover"
+                    playsinline=""
+                    poster="./images/video-banner2.jpg"
+                    preload="metadata"
+                    src="./videos/1.mp4"
+                  ></video>
+                  <div class="video-overlay absolute inset-0"></div>
+                  <button
+                    aria-label="پخش ویدیوی تمرین‌های تعاملی"
+                    class="play-btn"
+                    type="button"
+                  >
+                    <span class="play-ring"></span>
+                    <svg
+                      class="size-7 fill-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95"
+                    >
+                      <use href="#play-icon"></use>
+                    </svg>
+                    <svg
+                      class="pause-icon hidden"
+                      fill="currentColor"
+                      viewbox="0 0 24 24"
+                    >
+                      <path d="M7 5h4v14H7zm6 0h4v14h-4z"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="p-6">
+                  <h3 class="text-textColor dark:text-textColor-dark mb-2">
                     تمرین‌های تعاملی
                   </h3>
-<p class="text-sm text-mutedColor dark:text-mutedColor-dark">
+                  <p class="text-sm text-mutedColor dark:text-mutedColor-dark">
                     تمرین‌های هدفمند برای تقویت سرعت و دقت در نوشتار کودکان.
                   </p>
-</div>
-</article>
-</div>
-<div data-aos="fade-up" data-aos-delay="250">
-<article class="video-box bg-surface backdrop-blur-md border border-white/65 dark:border-border-dark rounded-lg shadow-card dark:shadow-card-dark overflow-hidden dark:bg-surface-dark hover:-translate-y-1 transition-transform duration-200 cursor-pointer">
-<div class="video-card relative w-full aspect-video overflow-hidden">
-<video class="video-player w-full h-full object-cover" playsinline="" poster="./images/video-banner.jpg" preload="metadata" src="./videos/1.mp4"></video>
-<div class="video-overlay absolute inset-0"></div>
-<button aria-label="پخش ویدیوی آموزش دیکته پایه اول" class="play-btn" type="button">
-<span class="play-ring"></span>
-<svg class="size-7 fill-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95">
-<use href="#play-icon"></use>
-</svg>
-<svg class="pause-icon hidden" fill="currentColor" viewbox="0 0 24 24">
-<path d="M7 5h4v14H7zm6 0h4v14h-4z"></path>
-</svg>
-</button>
-</div>
-<div class="p-6">
-<h3 class="text-textColor dark:text-textColor-dark mb-2">
+                </div>
+              </article>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="250">
+              <article
+                class="video-box bg-surface backdrop-blur-md border border-white/65 dark:border-border-dark rounded-lg shadow-card dark:shadow-card-dark overflow-hidden dark:bg-surface-dark hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
+              >
+                <div
+                  class="video-card relative w-full aspect-video overflow-hidden"
+                >
+                  <video
+                    class="video-player w-full h-full object-cover"
+                    playsinline=""
+                    poster="./images/video-banner.jpg"
+                    preload="metadata"
+                    src="./videos/1.mp4"
+                  ></video>
+                  <div class="video-overlay absolute inset-0"></div>
+                  <button
+                    aria-label="پخش ویدیوی آموزش دیکته پایه اول"
+                    class="play-btn"
+                    type="button"
+                  >
+                    <span class="play-ring"></span>
+                    <svg
+                      class="size-7 fill-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:opacity-80 active:scale-95"
+                    >
+                      <use href="#play-icon"></use>
+                    </svg>
+                    <svg
+                      class="pause-icon hidden"
+                      fill="currentColor"
+                      viewbox="0 0 24 24"
+                    >
+                      <path d="M7 5h4v14H7zm6 0h4v14h-4z"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="p-6">
+                  <h3 class="text-textColor dark:text-textColor-dark mb-2">
                     آموزش دیکته پایه اول
                   </h3>
-<p class="text-sm text-mutedColor dark:text-mutedColor-dark">
+                  <p class="text-sm text-mutedColor dark:text-mutedColor-dark">
                     آموزش کامل و اصولی برای تقویت مهارت دیکته‌نویسی دانش‌آموزان.
                   </p>
-</div>
-</article>
-</div>
-</div>
-</div>
-</section>
-<!-- Testimonials -->
-<section aria-labelledby="testimonials-title" class="py-10 md:py-16" id="testimonials">
-<div class="page-container">
-<div class="text-center mb-12" data-aos="fade-up">
-<span class="font-Peyda-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block" data-aos="fade-down">
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Testimonials -->
+      <section
+        aria-labelledby="testimonials-title"
+        class="py-10 md:py-16"
+        id="testimonials"
+      >
+        <div class="page-container">
+          <div class="text-center mb-12" data-aos="fade-up">
+            <span
+              class="font-Peyda-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
+              data-aos="fade-down"
+            >
               نظرات والدین
             </span>
-<h2 class="text-textColor dark:text-textColor-dark mb-4" data-aos="fade-up" data-aos-delay="100" id="testimonials-title">
+            <h2
+              class="text-textColor dark:text-textColor-dark mb-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              id="testimonials-title"
+            >
               تجربه خانواده‌ها از دیکته‌خونه
             </h2>
-<p class="text-body text-mutedColor dark:text-mutedColor-dark max-w-lg mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p
+              class="text-body text-mutedColor dark:text-mutedColor-dark max-w-lg mx-auto"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
               نظرات واقعی والدین درباره پیشرفت فرزندانشان در دیکته و نگارش.
             </p>
-</div>
-<div class="relative">
-<div class="flex items-center gap-3 mb-6 justify-end">
-<button aria-label="نظر قبلی" class="cursor-pointer testimonial-prev z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" type="button">
-<svg class="size-5 rotate-180">
-<use href="#icon-chevron"></use>
-</svg>
-</button>
-<button aria-label="نظر بعدی" class="cursor-pointer testimonial-next z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" type="button">
-<svg class="size-5">
-<use href="#icon-chevron"></use>
-</svg>
-</button>
-</div>
-<div class="swiper testimonialSwiper overflow-hidden" data-aos="fade-up" data-aos-delay="350">
-<div class="swiper-wrapper py-3 px-0">
-<div class="swiper-slide px-2">
-<div class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full">
-<div class="flex items-center gap-3 mb-6">
-<div class="size-12 rounded-full bg-primary"></div>
-<div class="flex flex-col gap-1">
-<p class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark">
+          </div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-6 justify-end">
+              <button
+                aria-label="نظر قبلی"
+                class="cursor-pointer testimonial-prev z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                type="button"
+              >
+                <svg class="size-5 rotate-180">
+                  <use href="#icon-chevron"></use>
+                </svg>
+              </button>
+              <button
+                aria-label="نظر بعدی"
+                class="cursor-pointer testimonial-next z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                type="button"
+              >
+                <svg class="size-5">
+                  <use href="#icon-chevron"></use>
+                </svg>
+              </button>
+            </div>
+            <div
+              class="swiper testimonialSwiper overflow-hidden"
+              data-aos="fade-up"
+              data-aos-delay="350"
+            >
+              <div class="swiper-wrapper py-3 px-0">
+                <div class="swiper-slide px-2">
+                  <div
+                    class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full"
+                  >
+                    <div class="flex items-center gap-3 mb-6">
+                      <div class="size-12 rounded-full bg-primary"></div>
+                      <div class="flex flex-col gap-1">
+                        <p
+                          class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark"
+                        >
                           مریم احمدی
                         </p>
-<small>مادر دانش‌آموز پایه اول</small>
-</div>
-</div>
-<blockquote class="h-12">
-<p class="text-textColor dark:text-textColor-dark">
+                        <small>مادر دانش‌آموز پایه اول</small>
+                      </div>
+                    </div>
+                    <blockquote class="h-12">
+                      <p class="text-textColor dark:text-textColor-dark">
                         پیشرفت فرزندم در دیکته‌نویسی بی‌نظیر بود.
                       </p>
-</blockquote>
-<div aria-label="امتیاز ۵ از ۵" class="flex gap-1 text-accent mt-4 text-lg">
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-</div>
-</div>
-</div>
-<div class="swiper-slide px-2">
-<div class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full">
-<div class="flex items-center gap-3 mb-6">
-<div class="size-12 rounded-full bg-primary"></div>
-<div class="flex flex-col gap-1">
-<p class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark">
+                    </blockquote>
+                    <div
+                      aria-label="امتیاز ۵ از ۵"
+                      class="flex gap-1 text-accent mt-4 text-lg"
+                    >
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide px-2">
+                  <div
+                    class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full"
+                  >
+                    <div class="flex items-center gap-3 mb-6">
+                      <div class="size-12 rounded-full bg-primary"></div>
+                      <div class="flex flex-col gap-1">
+                        <p
+                          class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark"
+                        >
                           علی محمدی
                         </p>
-<small>پدر دانش‌آموز پایه دوم</small>
-</div>
-</div>
-<blockquote class="h-12">
-<p class="text-textColor dark:text-textColor-dark">
+                        <small>پدر دانش‌آموز پایه دوم</small>
+                      </div>
+                    </div>
+                    <blockquote class="h-12">
+                      <p class="text-textColor dark:text-textColor-dark">
                         روش آموزش بسیار حرفه‌ای و جذاب بود.
                       </p>
-</blockquote>
-<div aria-label="امتیاز ۵ از ۵" class="flex gap-1 text-accent mt-4 text-lg">
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-</div>
-</div>
-</div>
-<div class="swiper-slide px-2">
-<div class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full">
-<div class="flex items-center gap-3 mb-6">
-<div class="size-12 rounded-full bg-primary"></div>
-<div class="flex flex-col gap-1">
-<p class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark">
+                    </blockquote>
+                    <div
+                      aria-label="امتیاز ۵ از ۵"
+                      class="flex gap-1 text-accent mt-4 text-lg"
+                    >
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide px-2">
+                  <div
+                    class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full"
+                  >
+                    <div class="flex items-center gap-3 mb-6">
+                      <div class="size-12 rounded-full bg-primary"></div>
+                      <div class="flex flex-col gap-1">
+                        <p
+                          class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark"
+                        >
                           زهرا کریمی
                         </p>
-<small>مادر دانش‌آموز پایه سوم</small>
-</div>
-</div>
-<blockquote class="h-12">
-<p class="text-textColor dark:text-textColor-dark">
+                        <small>مادر دانش‌آموز پایه سوم</small>
+                      </div>
+                    </div>
+                    <blockquote class="h-12">
+                      <p class="text-textColor dark:text-textColor-dark">
                         اعتماد به نفس فرزندم در نوشتن چند برابر شده.
                       </p>
-</blockquote>
-<div aria-label="امتیاز ۵ از ۵" class="flex gap-1 text-accent mt-4 text-lg">
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-</div>
-</div>
-</div>
-<div class="swiper-slide px-2">
-<div class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full">
-<div class="flex items-center gap-3 mb-6">
-<div class="size-12 rounded-full bg-primary"></div>
-<div class="flex flex-col gap-1">
-<p class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark">
+                    </blockquote>
+                    <div
+                      aria-label="امتیاز ۵ از ۵"
+                      class="flex gap-1 text-accent mt-4 text-lg"
+                    >
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide px-2">
+                  <div
+                    class="bg-surface-soft dark:bg-surface-dark-soft shadow-sm shadow-black/15 dark:shadow-glass-dark backdrop-blur-md dark:border dark:border-border-dark-soft p-6 rounded-md h-full"
+                  >
+                    <div class="flex items-center gap-3 mb-6">
+                      <div class="size-12 rounded-full bg-primary"></div>
+                      <div class="flex flex-col gap-1">
+                        <p
+                          class="font-Peyda-medium text-base text-textColor dark:text-textColor-dark"
+                        >
                           سارا رضایی
                         </p>
-<small>مادر دانش‌آموز پایه چهارم</small>
-</div>
-</div>
-<blockquote class="h-12">
-<p class="text-textColor dark:text-textColor-dark">
+                        <small>مادر دانش‌آموز پایه چهارم</small>
+                      </div>
+                    </div>
+                    <blockquote class="h-12">
+                      <p class="text-textColor dark:text-textColor-dark">
                         تمرین‌ها هدفمند و نتیجه‌بخش بودند.
                       </p>
-</blockquote>
-<div aria-label="امتیاز ۵ از ۵" class="flex gap-1 text-accent mt-4 text-lg">
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-<svg aria-hidden="true" class="size-4">
-<use href="#icon-star"></use>
-</svg>
-</div>
-</div>
-</div>
-</div>
-<div class="testimonial-pagination flex items-center justify-center mt-8"></div>
-</div>
-</div>
-</div>
-</section>
-<!-- Learning subjects -->
-<section aria-labelledby="subjects-title" class="py-10 md:py-16" id="subjects">
-<div class="page-container">
-<div class="text-center mb-12" data-aos="fade-up">
-<span class="font-Peyda-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block" data-aos="fade-down">
+                    </blockquote>
+                    <div
+                      aria-label="امتیاز ۵ از ۵"
+                      class="flex gap-1 text-accent mt-4 text-lg"
+                    >
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                      <svg aria-hidden="true" class="size-4">
+                        <use href="#icon-star"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="testimonial-pagination flex items-center justify-center mt-8"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Learning subjects -->
+      <section
+        aria-labelledby="subjects-title"
+        class="py-10 md:py-16"
+        id="subjects"
+      >
+        <div class="page-container">
+          <div class="text-center mb-12" data-aos="fade-up">
+            <span
+              class="font-Peyda-bold text-xs tracking-[0.18em] uppercase text-primary mb-2 block"
+              data-aos="fade-down"
+            >
               امکانات دیگر
             </span>
-<h2 class="text-textColor dark:text-textColor-dark mb-4" data-aos="fade-up" data-aos-delay="100" id="subjects-title">
+            <h2
+              class="text-textColor dark:text-textColor-dark mb-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              id="subjects-title"
+            >
               امکانات دیکته خونه
             </h2>
-<p class="text-body text-mutedColor dark:text-mutedColor-dark max-w-lg mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p
+              class="text-body text-mutedColor dark:text-mutedColor-dark max-w-lg mx-auto"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
               دیکته‌خونه فقط برای تمرین دیکته نیست؛ اینجا می‌تونی درس‌ها و
               مهارت‌های دیگه رو هم تمرین کنی و یادگیریت رو تقویت کنی.
             </p>
-</div>
-<div class="relative">
-<!-- Navigation -->
-<div class="flex items-center gap-3 mb-6 justify-end">
-<button aria-label="امکان قبلی" class="cursor-pointer subject-prev z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" type="button">
-<svg class="size-5 rotate-180">
-<use href="#icon-chevron"></use>
-</svg>
-</button>
-<button aria-label="امکان بعدی" class="cursor-pointer subject-next z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" type="button">
-<svg class="size-5">
-<use href="#icon-chevron"></use>
-</svg>
-</button>
-</div>
-<!-- Swiper -->
-<div class="swiper subjectSwiper overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-<div class="swiper-wrapper py-3 px-0">
-<!-- Science -->
-<div class="swiper-slide px-2 h-auto">
-<div aria-label="مشاهده اطلاعات بیشتر درس علوم" class="subject-flip cursor-pointer h-full" tabindex="0">
-<div class="subject-flip__inner">
-<div class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark">
-<img alt="آموزش علوم برای کودکان" class="subject-card-image subject-card-image--1" decoding="async" loading="lazy" src="./images/science.jpg"/>
-<div class="subject-card-overlay"></div>
-<div class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4">
-<span class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm">
+          </div>
+          <div class="relative">
+            <!-- Navigation -->
+            <div class="flex items-center gap-3 mb-6 justify-end">
+              <button
+                aria-label="امکان قبلی"
+                class="cursor-pointer subject-prev z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                type="button"
+              >
+                <svg class="size-5 rotate-180">
+                  <use href="#icon-chevron"></use>
+                </svg>
+              </button>
+              <button
+                aria-label="امکان بعدی"
+                class="cursor-pointer subject-next z-20 size-12 rounded-full bg-surface-strong dark:bg-surface-dark-strong flex items-center justify-center text-primary border border-transparent dark:border-border-dark-strong dark:shadow-glass-dark transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                type="button"
+              >
+                <svg class="size-5">
+                  <use href="#icon-chevron"></use>
+                </svg>
+              </button>
+            </div>
+            <!-- Swiper -->
+            <div
+              class="swiper subjectSwiper overflow-hidden"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
+              <div class="swiper-wrapper py-3 px-0">
+                <!-- Science -->
+                <div class="swiper-slide px-2 h-auto">
+                  <div
+                    aria-label="مشاهده اطلاعات بیشتر درس علوم"
+                    class="subject-flip cursor-pointer h-full"
+                    tabindex="0"
+                  >
+                    <div class="subject-flip__inner">
+                      <div
+                        class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark"
+                      >
+                        <img
+                          alt="آموزش علوم برای کودکان"
+                          class="subject-card-image subject-card-image--1"
+                          decoding="async"
+                          loading="lazy"
+                          src="./images/science.jpg"
+                        />
+                        <div class="subject-card-overlay"></div>
+                        <div
+                          class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4"
+                        >
+                          <span
+                            class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm"
+                          >
                             علوم
                           </span>
-<div class="space-y-2">
-<h3 class="!text-white">علوم</h3>
-<small class="!text-white/85">
+                          <div class="space-y-2">
+                            <h3 class="!text-white">علوم</h3>
+                            <small class="!text-white/85">
                               یادگیری مفاهیم علمی با آزمایش‌ها، تصاویر آموزشی و
                               تمرین‌های جذاب.
                             </small>
-</div>
-</div>
-</div>
-<div class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6">
-<div class="flex flex-col items-center gap-3">
-<span class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm">
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6"
+                      >
+                        <div class="flex flex-col items-center gap-3">
+                          <span
+                            class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm"
+                          >
                             علوم
                           </span>
-<span class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark">
+                          <span
+                            class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark"
+                          >
                             علوم
                           </span>
-<p class="max-w-[18rem] text-center">
+                          <p class="max-w-[18rem] text-center">
                             تمرین‌های تصویری و هدفمند برای درک بهتر مفاهیم علمی
                             و یادگیری جذاب‌تر کودکان.
                           </p>
-</div>
-<a class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30" href="./auth.html">
+                        </div>
+                        <a
+                          class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                          href="./auth.html"
+                        >
                           مشاهده بیشتر
                         </a>
-</div>
-</div>
-</div>
-</div>
-<!-- Math -->
-<div class="swiper-slide px-2 h-auto">
-<div aria-label="مشاهده اطلاعات بیشتر درس ریاضی" class="subject-flip cursor-pointer h-full" tabindex="0">
-<div class="subject-flip__inner">
-<div class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark">
-<img alt="آموزش ریاضی برای کودکان" class="subject-card-image" decoding="async" loading="lazy" src="./images/math.jpg"/>
-<div class="subject-card-overlay"></div>
-<div class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4">
-<span class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Math -->
+                <div class="swiper-slide px-2 h-auto">
+                  <div
+                    aria-label="مشاهده اطلاعات بیشتر درس ریاضی"
+                    class="subject-flip cursor-pointer h-full"
+                    tabindex="0"
+                  >
+                    <div class="subject-flip__inner">
+                      <div
+                        class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark"
+                      >
+                        <img
+                          alt="آموزش ریاضی برای کودکان"
+                          class="subject-card-image"
+                          decoding="async"
+                          loading="lazy"
+                          src="./images/math.jpg"
+                        />
+                        <div class="subject-card-overlay"></div>
+                        <div
+                          class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4"
+                        >
+                          <span
+                            class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm"
+                          >
                             ریاضی
                           </span>
-<div class="space-y-2">
-<h3 class="!text-white">ریاضی</h3>
-<small class="!text-white/85">
+                          <div class="space-y-2">
+                            <h3 class="!text-white">ریاضی</h3>
+                            <small class="!text-white/85">
                               تقویت مهارت حل مسئله و یادگیری مفاهیم ریاضی با
                               تمرین‌های هدفمند.
                             </small>
-</div>
-</div>
-</div>
-<div class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6">
-<div class="flex flex-col items-center gap-3">
-<span class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm">
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6"
+                      >
+                        <div class="flex flex-col items-center gap-3">
+                          <span
+                            class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm"
+                          >
                             ریاضی
                           </span>
-<span class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark">
+                          <span
+                            class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark"
+                          >
                             ریاضی
                           </span>
-<p class="max-w-[18rem] text-center">
+                          <p class="max-w-[18rem] text-center">
                             آموزش مفهومی و تمرین‌های کاربردی برای تقویت محاسبه،
                             منطق و حل مسئله در کودکان.
                           </p>
-</div>
-<a class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30" href="./auth.html">
+                        </div>
+                        <a
+                          class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                          href="./auth.html"
+                        >
                           مشاهده بیشتر
                         </a>
-</div>
-</div>
-</div>
-</div>
-<!-- Literature -->
-<div class="swiper-slide px-2 h-auto">
-<div aria-label="مشاهده اطلاعات بیشتر درس ادبیات فارسی" class="subject-flip cursor-pointer h-full" tabindex="0">
-<div class="subject-flip__inner">
-<div class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark">
-<img alt="آموزش ادبیات فارسی برای کودکان" class="subject-card-image" decoding="async" loading="lazy" src="./images/literature.jpg"/>
-<div class="subject-card-overlay"></div>
-<div class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4">
-<span class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Literature -->
+                <div class="swiper-slide px-2 h-auto">
+                  <div
+                    aria-label="مشاهده اطلاعات بیشتر درس ادبیات فارسی"
+                    class="subject-flip cursor-pointer h-full"
+                    tabindex="0"
+                  >
+                    <div class="subject-flip__inner">
+                      <div
+                        class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark"
+                      >
+                        <img
+                          alt="آموزش ادبیات فارسی برای کودکان"
+                          class="subject-card-image"
+                          decoding="async"
+                          loading="lazy"
+                          src="./images/literature.jpg"
+                        />
+                        <div class="subject-card-overlay"></div>
+                        <div
+                          class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4"
+                        >
+                          <span
+                            class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm"
+                          >
                             ادبیات فارسی
                           </span>
-<div class="space-y-2">
-<h3 class="!text-white">ادبیات فارسی</h3>
-<small class="!text-white/85">
+                          <div class="space-y-2">
+                            <h3 class="!text-white">ادبیات فارسی</h3>
+                            <small class="!text-white/85">
                               تقویت مهارت خواندن، نوشتن و درک متون فارسی با
                               آموزش‌های کاربردی.
                             </small>
-</div>
-</div>
-</div>
-<div class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6">
-<div class="flex flex-col items-center gap-3">
-<span class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm">
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6"
+                      >
+                        <div class="flex flex-col items-center gap-3">
+                          <span
+                            class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm"
+                          >
                             ادبیات فارسی
                           </span>
-<span class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark">
+                          <span
+                            class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark"
+                          >
                             ادبیات فارسی
                           </span>
-<p class="max-w-[18rem] text-center">
+                          <p class="max-w-[18rem] text-center">
                             تمرین‌های متنوع برای تقویت خواندن، نوشتن، واژه‌آموزی
                             و درک بهتر متون فارسی.
                           </p>
-</div>
-<a class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30" href="./auth.html">
+                        </div>
+                        <a
+                          class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                          href="./auth.html"
+                        >
                           مشاهده بیشتر
                         </a>
-</div>
-</div>
-</div>
-</div>
-<!-- Robotics -->
-<div class="swiper-slide px-2 h-auto">
-<div aria-label="مشاهده اطلاعات بیشتر رباتیک" class="subject-flip cursor-pointer h-full" tabindex="0">
-<div class="subject-flip__inner">
-<div class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark">
-<img alt="آموزش رباتیک برای کودکان" class="subject-card-image" decoding="async" loading="lazy" src="./images/robotics.jpg"/>
-<div class="subject-card-overlay"></div>
-<div class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4">
-<span class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Robotics -->
+                <div class="swiper-slide px-2 h-auto">
+                  <div
+                    aria-label="مشاهده اطلاعات بیشتر رباتیک"
+                    class="subject-flip cursor-pointer h-full"
+                    tabindex="0"
+                  >
+                    <div class="subject-flip__inner">
+                      <div
+                        class="subject-flip__face border border-white/60 dark:border-border-dark-soft shadow-glass dark:shadow-glass-dark"
+                      >
+                        <img
+                          alt="آموزش رباتیک برای کودکان"
+                          class="subject-card-image"
+                          decoding="async"
+                          loading="lazy"
+                          src="./images/robotics.jpg"
+                        />
+                        <div class="subject-card-overlay"></div>
+                        <div
+                          class="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-4"
+                        >
+                          <span
+                            class="subject-card-chip inline-flex w-fit items-center justify-center bg-surface-strong dark:bg-surface-dark-soft backdrop-blur-md border border-white/75 dark:border-border-dark-soft rounded-full px-5 py-2 text-primary dark:text-primary-light font-Peyda-medium text-sm"
+                          >
                             رباتیک
                           </span>
-<div class="space-y-2">
-<h3 class="!text-white">رباتیک</h3>
-<small class="!text-white/85">
+                          <div class="space-y-2">
+                            <h3 class="!text-white">رباتیک</h3>
+                            <small class="!text-white/85">
                               آشنایی با رباتیک، منطق، خلاقیت و حل مسئله با
                               فعالیت‌های جذاب و کاربردی.
                             </small>
-</div>
-</div>
-</div>
-<div class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6">
-<div class="flex flex-col items-center gap-3">
-<span class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm">
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="subject-flip__face subject-flip__back bg-surface-strong dark:bg-surface-dark-strong backdrop-blur-md border border-white/75 dark:border-border-dark-strong shadow-floating dark:shadow-floating-dark p-6 flex flex-col items-center justify-center text-center gap-6"
+                      >
+                        <div class="flex flex-col items-center gap-3">
+                          <span
+                            class="inline-flex items-center justify-center bg-secondary/10 text-secondary rounded-full px-5 py-2 font-Peyda-medium text-sm"
+                          >
                             رباتیک
                           </span>
-<span class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark">
+                          <span
+                            class="font-Peyda-medium text-[clamp(17px,2vw,20px)] text-textColor dark:text-textColor-dark"
+                          >
                             رباتیک
                           </span>
-<p class="max-w-[18rem] text-center">
+                          <p class="max-w-[18rem] text-center">
                             تمرین‌هایی برای پرورش خلاقیت، تفکر منطقی و آشنایی
                             کودکان با مفاهیم پایه رباتیک.
                           </p>
-</div>
-<a class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30" href="./auth.html">
+                        </div>
+                        <a
+                          class="inline-flex items-center justify-center bg-secondary text-white rounded-full px-7 py-3 font-Peyda-medium text-sm border border-secondary transition-all duration-300 ease-in-out hover:bg-transparent hover:text-secondary hover:border-secondary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                          href="./auth.html"
+                        >
                           مشاهده بیشتر
                         </a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Pagination
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Pagination
              testimonial-pagination را عمداً گذاشتم
              تا دقیقاً استایل اسلایدر نظرات را بگیرد -->
-<div class="subject-pagination testimonial-pagination flex items-center justify-center mt-8"></div>
-</div>
-</div>
-</div>
-</section>
-<!-- Final CTA -->
-<section aria-labelledby="cta-title" class="py-10 md:py-16" id="start">
-<div class="page-container">
-<div class="flex flex-col justify-center items-center p-8 text-center bg-[linear-gradient(135deg,#7c3aed_0%,#a855f7_35%,#d946ef_65%,#fb7185_100%)] rounded-lg" data-aos="fade-up" data-aos-delay="200">
-<h2 class="text-textColor-dark mb-4" id="cta-title">
+              <div
+                class="subject-pagination testimonial-pagination flex items-center justify-center mt-8"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Final CTA -->
+      <section aria-labelledby="cta-title" class="py-10 md:py-16" id="start">
+        <div class="page-container">
+          <div
+            class="flex flex-col justify-center items-center p-8 text-center bg-[linear-gradient(135deg,#7c3aed_0%,#a855f7_35%,#d946ef_65%,#fb7185_100%)] rounded-lg"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <h2 class="text-textColor-dark mb-4" id="cta-title">
               آماده‌ای یادگیری را شروع کنی؟
             </h2>
-<p class="text-textColor-dark mb-8">
+            <p class="text-textColor-dark mb-8">
               همین حالا تمرین‌های آموزشی را شروع کن
             </p>
-<a class="inline-flex items-center justify-center bg-white text-textColor font-Peyda-medium text-sm border border-white backdrop-blur-sm rounded-full px-7 py-3 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-white hover:border-white hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/30" data-aos="zoom-in" data-aos-delay="300" href="#videos">
+            <a
+              class="inline-flex items-center justify-center bg-white text-textColor font-Peyda-medium text-sm border border-white backdrop-blur-sm rounded-full px-7 py-3 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-white hover:border-white hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/30"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              href="#videos"
+            >
               مشاهده ویدیو
             </a>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="mt-12 md:mt-16 pb-6" id="footer">
-<div class="page-container">
-<div class="relative overflow-hidden bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-lg">
-<div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-16 size-56 rounded-full bg-primary/10 dark:bg-primary/7 blur-3xl"></div>
-<div aria-hidden="true" class="pointer-events-none absolute -bottom-24 left-[18%] size-48 rounded-full bg-secondary/6 dark:bg-secondary/4 blur-3xl"></div>
-<div class="relative z-10 grid grid-cols-1 gap-10 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:py-12">
-<div class="lg:col-span-5">
-<div class="flex flex-col items-start gap-5 max-w-md">
-<a class="font-Peyda-bold text-xl text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light" href="./index.html">
-                  دیکته خونه
-                </a>
-<p class="text-sm text-mutedColor dark:text-mutedColor-dark leading-7">
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer class="mt-12 md:mt-16 pb-6" id="footer">
+      <div class="page-container">
+        <div
+          class="relative overflow-hidden bg-surface dark:bg-surface-dark backdrop-blur-md border border-white/70 dark:border-border-dark shadow-card dark:shadow-card-dark rounded-lg"
+        >
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute -top-20 -right-16 size-56 rounded-full bg-primary/10 dark:bg-primary/7 blur-3xl"
+          ></div>
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute -bottom-24 left-[18%] size-48 rounded-full bg-secondary/6 dark:bg-secondary/4 blur-3xl"
+          ></div>
+          <div
+            class="relative z-10 grid grid-cols-1 gap-10 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:py-12"
+          >
+            <div class="lg:col-span-5">
+              <div class="flex flex-col items-start gap-5 max-w-md">
+                <a
+                  class="font-Peyda-bold text-xl text-textColor dark:text-textColor-dark transition-colors hover:text-primary dark:hover:text-primary-light"
+                  href="./index.html"
+                >
+            <img
+  class="block dark:hidden w-[40px] lg:w-[50px] h-auto"
+  src="./images/Logos/Logo.png"
+  alt="دیکته خونه"
+/>
+<img
+  class="hidden dark:block w-[40px] lg:w-[50px] h-auto"
+  src="./images/Logos/Logo-dark.png"
+  alt="دیکته خونه"
+/>
+          </a>
+                <p
+                  class="text-sm text-mutedColor dark:text-mutedColor-dark leading-7"
+                >
                   بستری مدرن برای تمرین دیکته، تقویت مهارت‌های نوشتاری و یادگیری
                   بهتر دروس پایه.
                 </p>
-<a class="inline-flex items-center justify-center bg-primary text-white font-Peyda-medium text-sm rounded-full px-6 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30" href="./dashboard.html">
+                <a
+                  class="inline-flex items-center justify-center bg-primary text-white font-Peyda-medium text-sm rounded-full px-6 py-3 border border-primary shadow-btn transition-all duration-300 ease-in-out hover:bg-transparent hover:text-primary hover:border-primary hover:-translate-y-1 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  href="./dashboard.html"
+                >
                   شروع یادگیری
                 </a>
-</div>
-</div>
-<div class="lg:col-span-3">
-<div class="flex flex-col gap-5">
-<p class="font-Peyda-medium text-sm text-textColor dark:text-textColor-dark">
+              </div>
+            </div>
+            <div class="lg:col-span-3">
+              <div class="flex flex-col gap-5">
+                <p
+                  class="font-Peyda-medium text-sm text-textColor dark:text-textColor-dark"
+                >
                   دسترسی سریع
                 </p>
-<nav aria-label="لینک‌های فوتر">
-<ul class="flex flex-col gap-1">
-<li>
-<a class="footer-link" href="./index.html"> خانه </a>
-</li>
-<li>
-<a class="footer-link" href="./aboutus.html">
+                <nav aria-label="لینک‌های فوتر">
+                  <ul class="flex flex-col gap-1">
+                    <li>
+                      <a class="footer-link" href="./index.html"> خانه </a>
+                    </li>
+                    <li>
+                      <a class="footer-link" href="./aboutus.html">
                         درباره ما
                       </a>
-</li>
-<li>
-<a class="footer-link" href="./news.html"> اخبار </a>
-</li>
-<li>
-<a class="footer-link" href="./contactus.html">
+                    </li>
+                    <li>
+                      <a class="footer-link" href="./news.html"> اخبار </a>
+                    </li>
+                    <li>
+                      <a class="footer-link" href="./contactus.html">
                         تماس با ما
                       </a>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-<div class="lg:col-span-4">
-<div class="flex flex-col gap-5">
-<p class="font-Peyda-medium text-sm text-textColor dark:text-textColor-dark">
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="lg:col-span-4">
+              <div class="flex flex-col gap-5">
+                <p
+                  class="font-Peyda-medium text-sm text-textColor dark:text-textColor-dark"
+                >
                   لینک‌های مفید
                 </p>
-<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-1">
-<li>
-<a class="footer-link" href="#videos"> آموزش دیکته </a>
-</li>
-<li>
-<a class="footer-link" href="#subjects">
+                <ul
+                  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-1"
+                >
+                  <li>
+                    <a class="footer-link" href="#videos"> آموزش دیکته </a>
+                  </li>
+                  <li>
+                    <a class="footer-link" href="#subjects">
                       تمرین‌های آموزشی
                     </a>
-</li>
-<li>
-<span aria-disabled="true" class="footer-link">سوالات متداول</span>
-</li>
-<li>
-<span aria-disabled="true" class="footer-link">قوانین و حریم خصوصی</span>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="relative z-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-white/60 dark:border-border-dark-soft px-6 py-5 sm:px-8 lg:px-10">
-<span class="font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark">
+                  </li>
+                  <li>
+                    <span aria-disabled="true" class="footer-link"
+                      >سوالات متداول</span
+                    >
+                  </li>
+                  <li>
+                    <span aria-disabled="true" class="footer-link"
+                      >قوانین و حریم خصوصی</span
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="relative z-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-white/60 dark:border-border-dark-soft px-6 py-5 sm:px-8 lg:px-10"
+          >
+            <span
+              class="font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+            >
               © <span id="year"></span>
               تمامی حقوق برای دیکته خونه محفوظ است.
             </span>
-<span class="font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark">
+            <span
+              class="font-Dana-regular text-xs text-mutedColor dark:text-mutedColor-dark"
+            >
               یادگیری ساده‌تر، تمرین هوشمندتر
             </span>
-</div>
-</div>
-</div>
-</footer>
-<script src="./js/library/aos.js"></script>
-<script src="./js/core/header.js"></script>
-<script src="./js/core/themetoggle.js"></script>
-<script src="./js/core/videoplayer.js"></script>
-<script src="./js/library/swiper.js"></script>
-<script src="./js/core/counter.js"></script>
-<script src="./js/core/slider.js"></script>
-<script>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="./js/library/aos.js"></script>
+    <script src="./js/core/header.js"></script>
+    <script src="./js/core/themetoggle.js"></script>
+    <script src="./js/core/videoplayer.js"></script>
+    <script src="./js/library/swiper.js"></script>
+    <script src="./js/core/counter.js"></script>
+    <script src="./js/core/slider.js"></script>
+    <script>
       document.getElementById('year').textContent = new Date().getFullYear()
     </script>
-<script>
+    <script>
       AOS.init()
     </script>
-</body>
+  </body>
 </html>
