@@ -16,15 +16,13 @@
     window.location.hostname
   )
 
-  const localApiBaseUrl =
-    `http://${window.location.hostname}/dictation-home/backend/public/api/v1`
+  const localApiBaseUrl = `http://${window.location.hostname}/dictation-home/backend/public/api/v1`
 
   const API_BASE_URL = String(
-    window.APP_API_BASE_URL ||
-      (isLocalHost ? localApiBaseUrl : '/api/v1')
+    window.APP_API_BASE_URL || (isLocalHost ? localApiBaseUrl : '/api/v1')
   ).replace(/\/+$/, '')
 
-  const API_DEBUG = window.APP_API_DEBUG !== false
+  const API_DEBUG = false
 
   class ApiError extends Error {
     constructor({
@@ -68,14 +66,10 @@
       if (localStorage.getItem(LEGACY_TOKEN_STORAGE_KEY)) {
         localStorage.removeItem(LEGACY_TOKEN_STORAGE_KEY)
 
-        log(
-          '[API:AUTH] legacy localStorage bearer token removed'
-        )
+        log('[API:AUTH] legacy localStorage bearer token removed')
       }
     } catch (error) {
-      warn(
-        '[API:AUTH] legacy token cleanup could not access localStorage'
-      )
+      warn('[API:AUTH] legacy token cleanup could not access localStorage')
     }
   }
 
@@ -88,11 +82,7 @@
 
     if (query && typeof query === 'object') {
       Object.entries(query).forEach(([key, value]) => {
-        if (
-          value === undefined ||
-          value === null ||
-          value === ''
-        ) {
+        if (value === undefined || value === null || value === '') {
           return
         }
 
@@ -103,19 +93,10 @@
     return url.toString()
   }
 
-  const parsePayload = async (
-    response,
-    method,
-    path
-  ) => {
-    const contentType =
-      response.headers.get('content-type') || ''
+  const parsePayload = async (response, method, path) => {
+    const contentType = response.headers.get('content-type') || ''
 
-    if (
-      !contentType
-        .toLowerCase()
-        .includes('application/json')
-    ) {
+    if (!contentType.toLowerCase().includes('application/json')) {
       throw new ApiError({
         code: 'API_INVALID_RESPONSE',
         status: response.status,
@@ -150,11 +131,9 @@
       signal,
     } = {}
   ) => {
-    const normalizedMethod =
-      String(method || 'GET').toUpperCase()
+    const normalizedMethod = String(method || 'GET').toUpperCase()
 
-    const requestHeaders =
-      new Headers(headers)
+    const requestHeaders = new Headers(headers)
 
     let requestBody = body
 
@@ -164,10 +143,7 @@
       !(body instanceof FormData) &&
       typeof body === 'object'
     ) {
-      requestHeaders.set(
-        'Content-Type',
-        'application/json'
-      )
+      requestHeaders.set('Content-Type', 'application/json')
 
       requestBody = JSON.stringify(body)
     }
@@ -180,36 +156,30 @@
     let response
 
     try {
-      response = await fetch(
-        buildUrl(path, query),
-        {
-          method: normalizedMethod,
-          headers: requestHeaders,
+      response = await fetch(buildUrl(path, query), {
+        method: normalizedMethod,
+        headers: requestHeaders,
 
-          /*
-           * Required for cross-origin development such as:
-           * frontend: http://127.0.0.1:5578
-           * backend:  http://127.0.0.1
-           *
-           * It also allows the browser to accept Set-Cookie
-           * from the login response.
-           */
-          credentials: 'include',
+        /*
+         * Required for cross-origin development such as:
+         * frontend: http://127.0.0.1:5578
+         * backend:  http://127.0.0.1
+         *
+         * It also allows the browser to accept Set-Cookie
+         * from the login response.
+         */
+        credentials: 'include',
 
-          body:
-            normalizedMethod === 'GET' ||
-            normalizedMethod === 'HEAD'
-              ? undefined
-              : requestBody,
+        body:
+          normalizedMethod === 'GET' || normalizedMethod === 'HEAD'
+            ? undefined
+            : requestBody,
 
-          signal,
-          cache: 'no-store',
-        }
-      )
+        signal,
+        cache: 'no-store',
+      })
     } catch (error) {
-      warn(
-        `[API] ✕ NETWORK ${normalizedMethod} ${path}`
-      )
+      warn(`[API] ✕ NETWORK ${normalizedMethod} ${path}`)
 
       throw new ApiError({
         code: 'API_NETWORK_ERROR',
@@ -220,23 +190,12 @@
       })
     }
 
-    const payload = await parsePayload(
-      response,
-      normalizedMethod,
-      path
-    )
+    const payload = await parsePayload(response, normalizedMethod, path)
 
-    log(
-      `[API] ← ${response.status} ` +
-        `${normalizedMethod} ${path}`
-    )
+    log(`[API] ← ${response.status} ` + `${normalizedMethod} ${path}`)
 
-    if (
-      !response.ok ||
-      payload?.success !== true
-    ) {
-      const serverMessage =
-        String(payload?.message || '').trim()
+    if (!response.ok || payload?.success !== true) {
+      const serverMessage = String(payload?.message || '').trim()
 
       warn(
         `[API] request failed: ` +
@@ -245,27 +204,19 @@
           ` | code=${serverMessage || 'UNKNOWN'}`
       )
 
-      if (
-        auth &&
-        response.status === 401
-      ) {
+      if (auth && response.status === 401) {
         window.dispatchEvent(
-          new CustomEvent(
-            'app:auth-expired',
-            {
-              detail: {
-                path,
-                status: response.status,
-              },
-            }
-          )
+          new CustomEvent('app:auth-expired', {
+            detail: {
+              path,
+              status: response.status,
+            },
+          })
         )
       }
 
       throw new ApiError({
-        code:
-          serverMessage ||
-          `HTTP_${response.status}`,
+        code: serverMessage || `HTTP_${response.status}`,
         status: response.status,
         serverMessage,
         errors: payload?.errors,
@@ -277,79 +228,49 @@
     return payload?.data
   }
 
-  const get = async (
-    path,
-    options = {}
-  ) => {
-    const data = await request(
-      path,
-      {
-        ...options,
-        method: 'GET',
-      }
-    )
+  const get = async (path, options = {}) => {
+    const data = await request(path, {
+      ...options,
+      method: 'GET',
+    })
 
     return data
   }
 
-  const post = async (
-    path,
-    body,
-    options = {}
-  ) => {
-    const data = await request(
-      path,
-      {
-        ...options,
-        method: 'POST',
-        body,
-      }
-    )
+  const post = async (path, body, options = {}) => {
+    const data = await request(path, {
+      ...options,
+      method: 'POST',
+      body,
+    })
 
     return data
   }
 
-  const patch = async (
-    path,
-    body,
-    options = {}
-  ) => {
-    const data = await request(
-      path,
-      {
-        ...options,
-        method: 'PATCH',
-        body,
-      }
-    )
+  const patch = async (path, body, options = {}) => {
+    const data = await request(path, {
+      ...options,
+      method: 'PATCH',
+      body,
+    })
 
     return data
   }
 
-  const remove = async (
-    path,
-    options = {}
-  ) => {
-    const data = await request(
-      path,
-      {
-        ...options,
-        method: 'DELETE',
-      }
-    )
+  const remove = async (path, options = {}) => {
+    const data = await request(path, {
+      ...options,
+      method: 'DELETE',
+    })
 
     return data
   }
 
   removeLegacyBearerToken()
 
-  log(
-    `[API] client ready: ${API_BASE_URL}`
-  )
+  log(`[API] client ready: ${API_BASE_URL}`)
 
-  log(
-    '[API:AUTH] HttpOnly cookie session mode enabled'
-  )
+  log('[API:AUTH] HttpOnly cookie session mode enabled')
 
   window.apiClient = Object.freeze({
     ApiError,

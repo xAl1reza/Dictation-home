@@ -62,9 +62,17 @@
     if (!avatar) return
 
     if (user.avatar) {
+      const avatarUrl =
+        window.profileService?.getAvatarUrl(
+          user.avatar
+        ) ||
+        `${window.apiClient.API_BASE_URL}/profile/avatar?v=${encodeURIComponent(
+          String(user.avatar)
+        )}`
+
       avatar.innerHTML = `
       <img
-        src="${escapeDashboardHtml(user.avatar)}"
+        src="${escapeDashboardHtml(avatarUrl)}"
         alt=""
         class="h-full w-full object-cover"
       />

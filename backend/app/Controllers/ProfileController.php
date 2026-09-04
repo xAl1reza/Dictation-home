@@ -13,7 +13,6 @@ class ProfileController
     public function update($user)
     {
         try {
-
             $data = Request::body();
 
             $updatedUser =
@@ -27,17 +26,11 @@ class ProfileController
                 $updatedUser,
                 "Profile updated successfully"
             );
-
         } catch (Exception $e) {
-
             $code = $e->getMessage();
 
             if ($code === "PROFILE_USER_NOT_FOUND") {
-                Response::error(
-                    $code,
-                    404
-                );
-
+                Response::error($code, 404);
                 return;
             }
 
@@ -55,11 +48,7 @@ class ProfileController
                 ],
                 true
             )) {
-                Response::error(
-                    $code,
-                    422
-                );
-
+                Response::error($code, 422);
                 return;
             }
 
@@ -70,7 +59,6 @@ class ProfileController
     public function changePassword($user)
     {
         try {
-
             $data = Request::body();
 
             $this->profileService
@@ -83,17 +71,11 @@ class ProfileController
                 [],
                 "Password changed successfully"
             );
-
         } catch (Exception $e) {
-
             $code = $e->getMessage();
 
             if ($code === "PROFILE_USER_NOT_FOUND") {
-                Response::error(
-                    $code,
-                    404
-                );
-
+                Response::error($code, 404);
                 return;
             }
 
@@ -106,11 +88,7 @@ class ProfileController
                 ],
                 true
             )) {
-                Response::error(
-                    $code,
-                    422
-                );
-
+                Response::error($code, 422);
                 return;
             }
 
@@ -121,7 +99,6 @@ class ProfileController
     public function uploadAvatar($user)
     {
         try {
-
             $updatedUser =
                 $this->profileService
                     ->uploadAvatar(
@@ -133,17 +110,11 @@ class ProfileController
                 $updatedUser,
                 "Avatar updated successfully"
             );
-
         } catch (Exception $e) {
-
             $code = $e->getMessage();
 
             if ($code === "PROFILE_USER_NOT_FOUND") {
-                Response::error(
-                    $code,
-                    404
-                );
-
+                Response::error($code, 404);
                 return;
             }
 
@@ -157,18 +128,62 @@ class ProfileController
                 ],
                 true
             )) {
-                Response::error(
-                    $code,
-                    422
-                );
-
+                Response::error($code, 422);
                 return;
             }
 
-            /*
-             * Save/MIME subsystem failures and unexpected exceptions
-             * are handled by the global 500 handler.
-             */
+            throw $e;
+        }
+    }
+
+    public function avatar($user)
+    {
+        try {
+            $avatar =
+                $this->profileService
+                    ->getAvatarFile($user);
+
+            header(
+                "Content-Type: " .
+                $avatar["mime"]
+            );
+
+            header(
+                "Content-Length: " .
+                (string)$avatar["size"]
+            );
+
+            header(
+                "Cache-Control: private, no-store, max-age=0"
+            );
+
+            header(
+                "Pragma: no-cache"
+            );
+
+            readfile(
+                $avatar["path"]
+            );
+
+            exit;
+        } catch (Exception $e) {
+            $code = $e->getMessage();
+
+            if (in_array(
+                $code,
+                [
+                    "PROFILE_USER_NOT_FOUND",
+                    "PROFILE_AVATAR_NOT_FOUND"
+                ],
+                true
+            )) {
+                Response::error(
+                    "PROFILE_AVATAR_NOT_FOUND",
+                    404
+                );
+                return;
+            }
+
             throw $e;
         }
     }
@@ -176,7 +191,6 @@ class ProfileController
     public function deleteAvatar($user)
     {
         try {
-
             $updatedUser =
                 $this->profileService
                     ->deleteAvatar($user);
@@ -185,9 +199,7 @@ class ProfileController
                 $updatedUser,
                 "Avatar deleted successfully"
             );
-
         } catch (Exception $e) {
-
             if (
                 $e->getMessage() ===
                 "PROFILE_USER_NOT_FOUND"
@@ -196,7 +208,6 @@ class ProfileController
                     "PROFILE_USER_NOT_FOUND",
                     404
                 );
-
                 return;
             }
 

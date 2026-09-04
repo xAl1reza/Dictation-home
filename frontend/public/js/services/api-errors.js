@@ -144,6 +144,31 @@
       message: 'پایه تحصیلی انتخاب‌شده معتبر نیست.',
     },
 
+
+    PROFILE_NO_FIELDS: {
+      message: 'تغییری برای ذخیره وجود ندارد.',
+    },
+
+    PROFILE_CURRENT_PASSWORD_REQUIRED: {
+      field: 'currentPassword',
+      message: 'رمز عبور فعلی را وارد کن.',
+    },
+
+    PROFILE_AVATAR_REQUIRED: {
+      field: 'avatar',
+      message: 'یک تصویر برای پروفایل انتخاب کن.',
+    },
+
+    PROFILE_AVATAR_UPLOAD_INVALID: {
+      field: 'avatar',
+      message: 'آپلود تصویر کامل نشد. دوباره تلاش کن.',
+    },
+
+    PROFILE_AVATAR_NOT_FOUND: {
+      field: 'avatar',
+      message: 'تصویر پروفایل پیدا نشد.',
+    },
+
     PROFILE_CURRENT_PASSWORD_INVALID: {
       field: 'currentPassword',
       message: 'رمز عبور فعلی درست نیست.',

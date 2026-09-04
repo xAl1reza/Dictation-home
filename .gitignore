@@ -1,2 +1,25 @@
+# Dependencies
 node_modules/
-public/styles/style.css
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# User uploaded files
+backend/storage/uploads/avatars/*
+!backend/storage/uploads/avatars/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/

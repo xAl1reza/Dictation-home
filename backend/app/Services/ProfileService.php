@@ -53,12 +53,6 @@ class ProfileService
             throw new Exception("PROFILE_NO_FIELDS");
         }
 
-        /*
-         * PATCH is partial.
-         * Fields not sent by the client keep their current value.
-         * id / userId / nationalCode / password / avatar are intentionally
-         * not part of the editable whitelist.
-         */
         $firstName = array_key_exists("firstName", $data)
             ? $this->normalizeText($data["firstName"])
             : $current["first_name"];
@@ -278,8 +272,7 @@ class ProfileService
             self::AVATAR_MIME_MAP[$mime];
 
         $uploadDirectory =
-            dirname(__DIR__, 2) .
-            "/storage/uploads/avatars";
+            $this->avatarStorageDirectory();
 
         if (
             !is_dir($uploadDirectory) &&
@@ -314,6 +307,11 @@ class ProfileService
             );
         }
 
+        /*
+         * Keep only a logical relative reference in DB.
+         * The physical file stays outside public/ and is served
+         * through the authenticated GET /profile/avatar endpoint.
+         */
         $relativePath =
             "uploads/avatars/" .
             $filename;
@@ -331,17 +329,13 @@ class ProfileService
         }
 
         try {
-
             $updated =
                 $this->userModel->updateAvatar(
                     $user["id"],
                     $relativePath
                 );
-
         } catch (Throwable $exception) {
-
             @unlink($absolutePath);
-
             throw $exception;
         }
 
@@ -378,6 +372,94 @@ class ProfileService
         return $this->formatUser($updated);
     }
 
+    public function getAvatarFile($user)
+    {
+        $current =
+            $this->userModel->findById(
+                $user["id"]
+            );
+
+        if (!$current) {
+            throw new Exception(
+                "PROFILE_USER_NOT_FOUND"
+            );
+        }
+
+        $avatar =
+            $current["avatar"] ?? null;
+
+        if (
+            !is_string($avatar) ||
+            !str_starts_with(
+                $avatar,
+                "uploads/avatars/"
+            )
+        ) {
+            throw new Exception(
+                "PROFILE_AVATAR_NOT_FOUND"
+            );
+        }
+
+        $filename = basename($avatar);
+
+        if ($filename === "") {
+            throw new Exception(
+                "PROFILE_AVATAR_NOT_FOUND"
+            );
+        }
+
+        $path =
+            $this->avatarStorageDirectory() .
+            DIRECTORY_SEPARATOR .
+            $filename;
+
+        if (!is_file($path)) {
+            throw new Exception(
+                "PROFILE_AVATAR_NOT_FOUND"
+            );
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+
+        if (!$finfo) {
+            throw new Exception(
+                "PROFILE_AVATAR_MIME_CHECK_FAILED"
+            );
+        }
+
+        $mime = finfo_file(
+            $finfo,
+            $path
+        );
+
+        finfo_close($finfo);
+
+        if (
+            !$mime ||
+            !array_key_exists(
+                $mime,
+                self::AVATAR_MIME_MAP
+            )
+        ) {
+            throw new Exception(
+                "PROFILE_AVATAR_STORAGE_INVALID"
+            );
+        }
+
+        return [
+            "path" => $path,
+            "mime" => $mime,
+            "size" => filesize($path)
+        ];
+    }
+
+    private function avatarStorageDirectory()
+    {
+        return
+            dirname(__DIR__, 2) .
+            "/storage/uploads/avatars";
+    }
+
     private function deleteStoredAvatarFile($avatar)
     {
         if (
@@ -397,8 +479,8 @@ class ProfileService
         }
 
         $path =
-            dirname(__DIR__, 2) .
-            "/storage/uploads/avatars/" .
+            $this->avatarStorageDirectory() .
+            DIRECTORY_SEPARATOR .
             $filename;
 
         if (is_file($path)) {
@@ -477,10 +559,8 @@ class ProfileService
                 $user["first_name"],
             "lastName" =>
                 $user["last_name"],
-
-            // Existing frontend contract:
-            "name" => $user["first_name"],
-
+            "name" =>
+                $user["first_name"],
             "motherPhone" =>
                 $user["mother_phone"],
             "fatherPhone" =>

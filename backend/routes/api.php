@@ -121,6 +121,22 @@ Router::patch("/api/v1/profile/password", function () {
 });
 
 
+Router::get("/api/v1/profile/avatar", function () {
+
+    $db = Database::connect();
+
+    $auth = new AuthMiddleware($db);
+
+    $user = $auth->handle();
+
+
+    $controller = new ProfileController($db);
+
+    $controller->avatar($user);
+
+});
+
+
 Router::post("/api/v1/profile/avatar", function () {
 
     $db = Database::connect();

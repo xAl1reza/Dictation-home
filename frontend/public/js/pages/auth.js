@@ -201,7 +201,11 @@
 
   const showFormErrorFeedback = (
     form,
-    { title = 'اطلاعات فرم را بررسی کن', message = '', focusFirst = true } = {}
+    {
+      title = 'اطلاعات فرم را بررسی کن',
+      message = '',
+      focusFirst = true,
+    } = {}
   ) => {
     const firstError = Array.from(
       form.querySelectorAll('[data-error-for]')
@@ -354,7 +358,11 @@
       avatarInput.value = ''
       const form = document.getElementById('register-form')
 
-      setFieldError(form, 'avatar', 'فرمت عکس باید JPG، PNG یا WebP باشد.')
+      setFieldError(
+        form,
+        'avatar',
+        'فرمت عکس باید JPG، PNG یا WebP باشد.'
+      )
 
       showFormErrorFeedback(form, {
         title: 'عکس پروفایل معتبر نیست',
@@ -369,7 +377,11 @@
       avatarInput.value = ''
       const form = document.getElementById('register-form')
 
-      setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
+      setFieldError(
+        form,
+        'avatar',
+        'حجم عکس باید حداکثر ۲ مگابایت باشد.'
+      )
 
       showFormErrorFeedback(form, {
         title: 'حجم عکس زیاد است',
@@ -477,7 +489,8 @@
           window.showToast?.({
             type: 'error',
             title: 'ورود انجام نشد',
-            message: resolved?.message || 'ورود انجام نشد. دوباره تلاش کن.',
+            message:
+              resolved?.message || 'ورود انجام نشد. دوباره تلاش کن.',
           })
         }
       } finally {
@@ -609,8 +622,8 @@
         window.showToast?.({
           type: 'success',
           title: 'حساب ساخته شد',
-          message: result?.avatarPending
-            ? 'ثبت‌نام انجام شد؛ اطلاعات حساب ذخیره شد. عکس پروفایل فعلاً ذخیره نشده است.'
+          message: result?.avatarUploadFailed
+            ? 'ثبت‌نام با موفقیت انجام شد؛ فقط ذخیره تصویر پروفایل انجام نشد و بعداً می‌تونی از پروفایل دوباره امتحان کنی.'
             : 'ثبت‌نام با موفقیت انجام شد.',
         })
 
@@ -632,7 +645,8 @@
           window.showToast?.({
             type: 'error',
             title: 'ثبت‌نام انجام نشد',
-            message: resolved?.message || 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
+            message:
+              resolved?.message || 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
           })
         }
       } finally {
@@ -640,7 +654,34 @@
       }
     })
 
-  setAuthMode(location.hash === '#register' ? 'register' : 'login', {
-    updateHash: false,
-  })
+  const initAuthPage = async () => {
+    try {
+      const currentUser =
+        await window.authService.getCurrentUser()
+
+      if (currentUser?.id) {
+        window.apiClient?.log(
+          '[API:AUTH] active HttpOnly session found; redirecting to dashboard'
+        )
+
+        redirectToDashboard()
+        return
+      }
+    } catch (error) {
+      window.apiClient?.warn(
+        '[API:AUTH] session check failed; showing auth page'
+      )
+    }
+
+    setAuthMode(
+      location.hash === '#register'
+        ? 'register'
+        : 'login',
+      {
+        updateHash: false,
+      }
+    )
+  }
+
+  void initAuthPage()
 })()

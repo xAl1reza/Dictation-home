@@ -397,15 +397,45 @@
           payload.password,
       })
 
-    return {
-      user:
-        loggedInUser ||
-        registeredUser,
+    let finalUser =
+      loggedInUser ||
+      registeredUser
 
-      avatarPending:
-        Boolean(
-          avatarFile
-        ),
+    let avatarUploadFailed = false
+
+    if (avatarFile) {
+      const formData = new FormData()
+      formData.append(
+        'avatar',
+        avatarFile
+      )
+
+      try {
+        const avatarUser =
+          await window.apiClient.post(
+            '/profile/avatar',
+            formData
+          )
+
+        if (avatarUser?.id) {
+          finalUser = avatarUser
+        }
+
+        window.apiClient.log(
+          '[API:AUTH] registration avatar uploaded to backend'
+        )
+      } catch (error) {
+        avatarUploadFailed = true
+
+        window.apiClient.warn(
+          '[API:AUTH] account created but avatar upload failed'
+        )
+      }
+    }
+
+    return {
+      user: finalUser,
+      avatarUploadFailed,
     }
   }
 

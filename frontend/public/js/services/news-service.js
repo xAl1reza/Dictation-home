@@ -1,100 +1,337 @@
 /*
- * News data service.
+ * News service backed by the public backend API.
  *
- * All pages access news data through this service.
- * The current source is a local JSON file and can later
- * be replaced with an API without changing page components.
+ * Local JSON news data is no longer used.
+ * All API requests use async/await.
  */
 
-const NEWS_DATA_URL = './data/news-data.json'
+;(() => {
+  let newsCache = null
+  const detailCache = new Map()
+  const relatedCache = new Map()
 
-let newsCache = null
-
-/**
- * Loads all news items.
- * Data is cached after the first request.
- */
-const fetchNewsData = async () => {
-  if (newsCache) {
-    return newsCache
+  const toPersianDigits = (value) => {
+    return String(value || '').replace(
+      /\d/g,
+      (digit) => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)]
+    )
   }
 
-  const response = await fetch(NEWS_DATA_URL)
+  const formatPublishedDate = (item = {}) => {
+    const directDate = String(
+      item.date || ''
+    ).trim()
 
-  if (!response.ok) {
-    throw new Error(`Failed to load news data: ${response.status}`)
+    if (directDate) {
+      return toPersianDigits(directDate)
+    }
+
+    const publishedAt = String(
+      item.publishedAt ??
+      item.published_at ??
+      ''
+    ).trim()
+
+    if (!publishedAt) {
+      return ''
+    }
+
+    /*
+     * MySQL DATETIME may arrive as:
+     * 2026-08-11 08:30:00
+     *
+     * Normalize it for browser Date parsing.
+     */
+    const normalizedDateTime =
+      /^\d{4}-\d{2}-\d{2}\s/.test(publishedAt)
+        ? publishedAt.replace(' ', 'T')
+        : publishedAt
+
+    const parsedDate =
+      new Date(normalizedDateTime)
+
+    if (
+      Number.isNaN(
+        parsedDate.getTime()
+      )
+    ) {
+      return ''
+    }
+
+    try {
+      const parts =
+        new Intl.DateTimeFormat(
+          'fa-IR-u-ca-persian',
+          {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }
+        ).formatToParts(parsedDate)
+
+      const values =
+        Object.fromEntries(
+          parts.map(
+            (part) => [
+              part.type,
+              part.value,
+            ]
+          )
+        )
+
+      if (
+        values.year &&
+        values.month &&
+        values.day
+      ) {
+        return (
+          `${values.year}/` +
+          `${values.month}/` +
+          `${values.day}`
+        )
+      }
+    } catch (error) {
+      // Fall through to a simple Persian-localized date.
+    }
+
+    return parsedDate.toLocaleDateString(
+      'fa-IR'
+    )
   }
 
-  const data = await response.json()
+  const normalizeNewsItem = (item) => {
+    if (
+      !item ||
+      typeof item !== 'object'
+    ) {
+      return item
+    }
 
-  if (!Array.isArray(data)) {
-    throw new Error('Invalid news data format.')
+    return {
+      ...item,
+
+      imageAlt:
+        item.imageAlt ??
+        item.image_alt ??
+        '',
+
+      categorySlug:
+        item.categorySlug ??
+        item.category_slug ??
+        '',
+
+      publishedAt:
+        item.publishedAt ??
+        item.published_at ??
+        null,
+
+      /*
+       * Content cards and news detail components expect item.date.
+       * If backend only returns publishedAt, derive the Persian date here.
+       */
+      date:
+        formatPublishedDate(item),
+    }
   }
 
-  newsCache = data
+  const normalizeNewsList = (items) => {
+    return Array.isArray(items)
+      ? items.map(normalizeNewsItem)
+      : []
+  }
 
-  return newsCache
-}
+  const getNews = async (filters = null) => {
+    const hasFilters =
+      filters &&
+      typeof filters === 'object' &&
+      Object.values(filters).some(
+        (value) =>
+          value !== undefined &&
+          value !== null &&
+          value !== ''
+      )
 
-/**
- * Returns all news items.
- */
-const getNews = async () => {
-  return fetchNewsData()
-}
+    if (!hasFilters && newsCache) {
+      return newsCache
+    }
 
-/**
- * Returns one news item by slug.
- */
-const getNewsBySlug = async (slug) => {
-  if (!slug) return null
+    const news =
+      await window.apiClient.get(
+        '/news',
+        {
+          auth: false,
+          query:
+            hasFilters
+              ? filters
+              : null,
+        }
+      )
 
-  const news = await fetchNewsData()
+    const normalized =
+      normalizeNewsList(news)
 
-  return news.find((item) => item.slug === slug) || null
-}
+    if (!hasFilters) {
+      newsCache = normalized
+    }
 
-/**
- * Returns one news item by numeric ID.
- */
-const getNewsById = async (id) => {
-  if (!id) return null
+    window.apiClient.log(
+      `[API:NEWS] loaded from backend: ${normalized.length}`
+    )
 
-  const news = await fetchNewsData()
+    return normalized
+  }
 
-  return news.find((item) => item.id === Number(id)) || null
-}
+  const getNewsBySlug = async (slug) => {
+    const normalizedSlug =
+      String(
+        slug || ''
+      ).trim()
 
-/**
- * Returns related news items.
- *
- * Priority:
- * 1. Same category
- * 2. Other latest items
- *
- * Current article is always excluded.
- */
-const getRelatedNews = async (currentNews, limit = 3) => {
-  if (!currentNews) return []
+    if (!normalizedSlug) {
+      return null
+    }
 
-  const news = await fetchNewsData()
+    if (
+      detailCache.has(
+        normalizedSlug
+      )
+    ) {
+      return detailCache.get(
+        normalizedSlug
+      )
+    }
 
-  const availableNews = news.filter((item) => item.slug !== currentNews.slug)
+    try {
+      const item =
+        await window.apiClient.get(
+          `/news/${encodeURIComponent(normalizedSlug)}`,
+          {
+            auth: false,
+          }
+        )
 
-  const sameCategory = availableNews.filter(
-    (item) => item.category === currentNews.category
-  )
+      const normalizedItem =
+        item
+          ? normalizeNewsItem(item)
+          : null
 
-  const otherCategories = availableNews.filter(
-    (item) => item.category !== currentNews.category
-  )
+      detailCache.set(
+        normalizedSlug,
+        normalizedItem
+      )
 
-  return [...sameCategory, ...otherCategories].slice(0, limit)
-}
+      window.apiClient.log(
+        '[API:NEWS] detail loaded from backend'
+      )
 
-window.newsService = {
-  getNews,
-  getNewsBySlug,
-  getNewsById,
-  getRelatedNews,
-}
+      return normalizedItem
+    } catch (error) {
+      if (
+        Number(
+          error?.status || 0
+        ) === 404
+      ) {
+        return null
+      }
+
+      throw error
+    }
+  }
+
+  const getNewsById = async (id) => {
+    const numericId =
+      Number(id)
+
+    if (
+      !Number.isFinite(
+        numericId
+      )
+    ) {
+      return null
+    }
+
+    const news =
+      await getNews()
+
+    return (
+      news.find(
+        (item) =>
+          Number(
+            item?.id
+          ) === numericId
+      ) || null
+    )
+  }
+
+  const getRelatedNews = async (
+    currentNews,
+    limit = 3
+  ) => {
+    const slug =
+      String(
+        currentNews?.slug || ''
+      ).trim()
+
+    if (!slug) {
+      return []
+    }
+
+    const safeLimit =
+      Math.max(
+        1,
+        Math.min(
+          12,
+          Number(limit) || 3
+        )
+      )
+
+    const cacheKey =
+      `${slug}:${safeLimit}`
+
+    if (
+      relatedCache.has(
+        cacheKey
+      )
+    ) {
+      return relatedCache.get(
+        cacheKey
+      )
+    }
+
+    const related =
+      await window.apiClient.get(
+        `/news/${encodeURIComponent(slug)}/related`,
+        {
+          auth: false,
+          query: {
+            limit:
+              safeLimit,
+          },
+        }
+      )
+
+    const normalized =
+      normalizeNewsList(
+        related
+      )
+
+    relatedCache.set(
+      cacheKey,
+      normalized
+    )
+
+    window.apiClient.log(
+      `[API:NEWS] related loaded from backend: ${normalized.length}`
+    )
+
+    return normalized
+  }
+
+  window.newsService =
+    Object.freeze({
+      getNews,
+      getNewsBySlug,
+      getNewsById,
+      getRelatedNews,
+    })
+})()
