@@ -2549,11 +2549,6 @@ jdp-container .jdp-btn-today:hover {
     min-width: 0 !important;
     max-width: calc(100% - 16px) !important;
 
-    left: 8px !important;
-    right: 8px !important;
-    bottom: 8px !important;
-    top: auto !important;
-
     padding: 14px !important;
 
     border-radius: var(--radius-md) !important;
