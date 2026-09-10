@@ -37,6 +37,8 @@ class AuthMiddleware
                     u.father_phone,
                     u.birth_date,
                     u.school_name,
+                    u.province_code,
+                    u.city_id,
                     u.grade,
                     u.avatar
                  FROM auth_tokens t
@@ -112,6 +114,16 @@ class AuthMiddleware
                 $user[
                     "school_name"
                 ],
+
+            "provinceCode" =>
+                $user[
+                    "province_code"
+                ] ?? null,
+
+            "cityId" =>
+                isset($user["city_id"])
+                    ? (int)$user["city_id"]
+                    : null,
 
             "grade" =>
                 (int)$user[

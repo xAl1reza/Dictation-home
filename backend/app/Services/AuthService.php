@@ -4,6 +4,7 @@ class AuthService
 {
     private $db;
     private $userModel;
+    private $locationModel;
 
     private const PASSWORD_PATTERN = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/';
     private const NATIONAL_CODE_PATTERN = '/^[0-9]{10}$/';
@@ -16,6 +17,7 @@ class AuthService
     {
         $this->db = $db;
         $this->userModel = new User($db);
+        $this->locationModel = new Location($db);
     }
 
     public function register($data)
@@ -41,6 +43,8 @@ class AuthService
                 PASSWORD_DEFAULT
             ),
             "school_name" => $normalized["school_name"],
+            "province_code" => $normalized["province_code"],
+            "city_id" => $normalized["city_id"],
             "grade" => $normalized["grade"],
             "avatar" => $data["avatar"] ?? null
         ]);
@@ -337,6 +341,19 @@ class AuthService
         $birthDate = trim((string)($data["birthDate"] ?? ""));
         $password = (string)($data["password"] ?? "");
         $schoolName = $this->normalizeText($data["schoolName"] ?? "");
+
+        $provinceCode = strtoupper(
+            trim((string)($data["provinceCode"] ?? ""))
+        );
+
+        $cityIdValue = $this->normalizeDigits(
+            trim((string)($data["cityId"] ?? ""))
+        );
+
+        $cityId = ctype_digit($cityIdValue)
+            ? (int)$cityIdValue
+            : 0;
+
         $grade = (int)($data["grade"] ?? 0);
 
         if (!preg_match(self::NATIONAL_CODE_PATTERN, $nationalCode)) {
@@ -375,6 +392,26 @@ class AuthService
             throw new Exception("AUTH_SCHOOL_INVALID");
         }
 
+        if (
+            !preg_match('/^IR-\d{2}$/', $provinceCode) ||
+            !$this->locationModel->provinceExists($provinceCode)
+        ) {
+            throw new Exception("AUTH_PROVINCE_INVALID");
+        }
+
+        if ($cityId <= 0) {
+            throw new Exception("AUTH_CITY_INVALID");
+        }
+
+        if (
+            !$this->locationModel->cityBelongsToProvince(
+                $cityId,
+                $provinceCode
+            )
+        ) {
+            throw new Exception("AUTH_CITY_PROVINCE_MISMATCH");
+        }
+
         if ($grade < 1 || $grade > 6) {
             throw new Exception("AUTH_GRADE_INVALID");
         }
@@ -388,6 +425,8 @@ class AuthService
             "birth_date" => $birthDate,
             "password" => $password,
             "school_name" => $schoolName,
+            "province_code" => $provinceCode,
+            "city_id" => $cityId,
             "grade" => $grade
         ];
     }
@@ -481,6 +520,8 @@ class AuthService
             "fatherPhone" => $user["father_phone"],
             "birthDate" => $user["birth_date"],
             "schoolName" => $user["school_name"],
+            "provinceCode" => $user["province_code"] ?? null,
+            "cityId" => isset($user["city_id"]) ? (int)$user["city_id"] : null,
             "grade" => (int)$user["grade"],
             "avatar" => $user["avatar"] ?? null
         ];

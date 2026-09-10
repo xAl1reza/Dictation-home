@@ -637,6 +637,107 @@
                     ></span>
                   </div>
                 </div>
+
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label" for="register-province-trigger"
+                      >استان <span class="form-required">*</span></label
+                    >
+                    <div class="relative" id="register-province-dropdown">
+                      <input
+                        id="register-province"
+                        name="provinceCode"
+                        type="hidden"
+                        value=""
+                      />
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        class="form-control form-select-trigger"
+                        id="register-province-trigger"
+                        type="button"
+                      >
+                        <span id="register-province-label">در حال دریافت استان‌ها...</span>
+                        <svg
+                          aria-hidden="true"
+                          class="size-4 shrink-0 transition-transform duration-200"
+                          fill="none"
+                          id="register-province-chevron"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          viewbox="0 0 24 24"
+                        >
+                          <path
+                            d="m8 10 4 4 4-4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </button>
+                      <div
+                        aria-label="استان"
+                        class="form-dropdown-menu hidden"
+                        id="register-province-menu"
+                        role="listbox"
+                      ></div>
+                    </div>
+                    <span
+                      class="form-error hidden"
+                      data-error-for="provinceCode"
+                      role="alert"
+                    ></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="register-city-trigger"
+                      >شهر <span class="form-required">*</span></label
+                    >
+                    <div class="relative" id="register-city-dropdown">
+                      <input
+                        id="register-city"
+                        name="cityId"
+                        type="hidden"
+                        value=""
+                      />
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        class="form-control form-select-trigger disabled:cursor-not-allowed disabled:opacity-60"
+                        disabled
+                        id="register-city-trigger"
+                        type="button"
+                      >
+                        <span id="register-city-label">ابتدا استان را انتخاب کن</span>
+                        <svg
+                          aria-hidden="true"
+                          class="size-4 shrink-0 transition-transform duration-200"
+                          fill="none"
+                          id="register-city-chevron"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          viewbox="0 0 24 24"
+                        >
+                          <path
+                            d="m8 10 4 4 4-4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </button>
+                      <div
+                        aria-label="شهر"
+                        class="form-dropdown-menu hidden"
+                        id="register-city-menu"
+                        role="listbox"
+                      ></div>
+                    </div>
+                    <span
+                      class="form-error hidden"
+                      data-error-for="cityId"
+                      role="alert"
+                    ></span>
+                  </div>
+                </div>
                 <div class="grid gap-5 sm:grid-cols-2">
                   <div class="form-group">
                     <label class="form-label" for="register-mother-phone"
@@ -999,6 +1100,7 @@
     <script src="./js/core/themetoggle.js"></script>
     <script src="./js/components/toast.js"></script>
     <script src="./js/services/api-client.js"></script>
+    <script src="./js/services/location-service.js"></script>
     <script src="./js/services/api-errors.js"></script>
     <script src="./js/services/auth-service.js"></script>
     <script src="./js/library/jalalidatepicker.min.js"></script>

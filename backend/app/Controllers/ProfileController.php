@@ -44,7 +44,10 @@ class ProfileController
                     "PROFILE_FATHER_PHONE_INVALID",
                     "PROFILE_BIRTH_DATE_INVALID",
                     "PROFILE_SCHOOL_INVALID",
-                    "PROFILE_GRADE_INVALID"
+                    "PROFILE_GRADE_INVALID",
+                    "PROFILE_PROVINCE_INVALID",
+                    "PROFILE_CITY_INVALID",
+                    "PROFILE_CITY_PROVINCE_MISMATCH"
                 ],
                 true
             )) {

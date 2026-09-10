@@ -130,6 +130,8 @@
     birthDate,
     password,
     schoolName,
+    provinceCode,
+    cityId,
     grade,
     avatarFile,
   }) => {
@@ -167,6 +169,16 @@
       normalizeText(
         schoolName
       )
+
+    const cleanProvinceCode =
+      String(
+        provinceCode || ''
+      ).trim().toUpperCase()
+
+    const cleanCityId =
+      normalizeDigits(
+        cityId
+      ).trim()
 
     const cleanGrade =
       String(
@@ -246,6 +258,21 @@
       )
     }
 
+    if (!/^IR-\d{2}$/.test(cleanProvinceCode)) {
+      throw new Error(
+        'AUTH_PROVINCE_INVALID'
+      )
+    }
+
+    if (
+      !/^\d+$/.test(cleanCityId) ||
+      Number(cleanCityId) <= 0
+    ) {
+      throw new Error(
+        'AUTH_CITY_INVALID'
+      )
+    }
+
     if (
       ![
         '1',
@@ -293,6 +320,12 @@
 
       schoolName:
         cleanSchoolName,
+
+      provinceCode:
+        cleanProvinceCode,
+
+      cityId:
+        Number(cleanCityId),
 
       grade:
         Number(
@@ -353,6 +386,8 @@
     birthDate,
     password,
     schoolName,
+    provinceCode,
+    cityId,
     grade,
     avatarFile = null,
   }) => {
@@ -366,6 +401,8 @@
         birthDate,
         password,
         schoolName,
+        provinceCode,
+        cityId,
         grade,
         avatarFile,
       })

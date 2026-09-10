@@ -99,6 +99,21 @@
       message: 'پایه تحصیلی انتخاب‌شده معتبر نیست.',
     },
 
+    AUTH_PROVINCE_INVALID: {
+      field: 'provinceCode',
+      message: 'استان انتخاب‌شده معتبر نیست.',
+    },
+
+    AUTH_CITY_INVALID: {
+      field: 'cityId',
+      message: 'شهر را انتخاب کن.',
+    },
+
+    AUTH_CITY_PROVINCE_MISMATCH: {
+      field: 'cityId',
+      message: 'شهر انتخاب‌شده متعلق به این استان نیست.',
+    },
+
     AUTH_AVATAR_TOO_LARGE: {
       field: 'avatar',
       message: 'حجم عکس باید حداکثر ۲ مگابایت باشد.',
@@ -142,6 +157,21 @@
     PROFILE_GRADE_INVALID: {
       field: 'grade',
       message: 'پایه تحصیلی انتخاب‌شده معتبر نیست.',
+    },
+
+    PROFILE_PROVINCE_INVALID: {
+      field: 'provinceCode',
+      message: 'استان انتخاب‌شده معتبر نیست.',
+    },
+
+    PROFILE_CITY_INVALID: {
+      field: 'cityId',
+      message: 'شهر را انتخاب کن.',
+    },
+
+    PROFILE_CITY_PROVINCE_MISMATCH: {
+      field: 'cityId',
+      message: 'شهر انتخاب‌شده متعلق به این استان نیست.',
     },
 
 

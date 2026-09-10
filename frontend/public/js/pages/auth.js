@@ -48,6 +48,18 @@
   const gradeMenu = document.getElementById('register-grade-menu')
   const gradeChevron = document.getElementById('register-grade-chevron')
 
+  const provinceInput = document.getElementById('register-province')
+  const provinceTrigger = document.getElementById('register-province-trigger')
+  const provinceLabel = document.getElementById('register-province-label')
+  const provinceMenu = document.getElementById('register-province-menu')
+  const provinceChevron = document.getElementById('register-province-chevron')
+
+  const cityInput = document.getElementById('register-city')
+  const cityTrigger = document.getElementById('register-city-trigger')
+  const cityLabel = document.getElementById('register-city-label')
+  const cityMenu = document.getElementById('register-city-menu')
+  const cityChevron = document.getElementById('register-city-chevron')
+
   const avatarInput = document.getElementById('register-avatar')
   const avatarPreview = document.getElementById('register-avatar-preview')
   const avatarInitial = document.getElementById('register-avatar-initial')
@@ -238,6 +250,14 @@
       field = gradeTrigger || field
     }
 
+    if (fieldName === 'provinceCode') {
+      field = provinceTrigger || field
+    }
+
+    if (fieldName === 'cityId') {
+      field = cityTrigger || field
+    }
+
     if (!field) {
       firstError.scrollIntoView({
         behavior: prefersReducedMotion ? 'auto' : 'smooth',
@@ -315,15 +335,184 @@
     closeGradeMenu()
   })
 
+  const closeProvinceMenu = () => {
+    provinceMenu?.classList.add('hidden')
+    provinceTrigger?.setAttribute('aria-expanded', 'false')
+    provinceChevron?.classList.remove('rotate-180')
+  }
+
+  const closeCityMenu = () => {
+    cityMenu?.classList.add('hidden')
+    cityTrigger?.setAttribute('aria-expanded', 'false')
+    cityChevron?.classList.remove('rotate-180')
+  }
+
+  const closeLocationMenus = () => {
+    closeProvinceMenu()
+    closeCityMenu()
+  }
+
+  const renderLocationOptions = (menu, items, valueKey, dataKey) => {
+    if (!menu) return
+
+    menu.replaceChildren()
+
+    items.forEach((item) => {
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'form-option'
+      button.setAttribute('role', 'option')
+      button.setAttribute('aria-selected', 'false')
+      button.dataset[dataKey] = String(item[valueKey])
+      button.textContent = String(item.name || '')
+      menu.appendChild(button)
+    })
+  }
+
+  const resetCity = (label = 'ابتدا استان را انتخاب کن') => {
+    if (cityInput) cityInput.value = ''
+    if (cityLabel) cityLabel.textContent = label
+    if (cityMenu) cityMenu.replaceChildren()
+    if (cityTrigger) cityTrigger.disabled = true
+    closeCityMenu()
+  }
+
+  const loadCities = async (provinceCode) => {
+    resetCity('در حال دریافت شهرها...')
+
+    try {
+      const cities = await window.locationService.getCities(provinceCode)
+
+      renderLocationOptions(cityMenu, cities, 'id', 'cityId')
+
+      if (cityLabel) {
+        cityLabel.textContent = cities.length ? 'انتخاب شهر' : 'شهری یافت نشد'
+      }
+
+      if (cityTrigger) {
+        cityTrigger.disabled = cities.length === 0
+      }
+    } catch (error) {
+      resetCity('دریافت شهرها ناموفق بود')
+
+      window.showToast?.({
+        type: 'error',
+        title: 'دریافت شهرها انجام نشد',
+        message: 'ارتباط با سرویس استان و شهر برقرار نشد. دوباره تلاش کن.',
+      })
+    }
+  }
+
+  const loadProvinces = async () => {
+    if (!provinceTrigger || !provinceMenu || !window.locationService) return
+
+    provinceTrigger.disabled = true
+
+    try {
+      const provinces = await window.locationService.getProvinces()
+
+      renderLocationOptions(
+        provinceMenu,
+        provinces,
+        'provinceCode',
+        'provinceCode'
+      )
+
+      provinceLabel.textContent = provinces.length
+        ? 'انتخاب استان'
+        : 'استانی یافت نشد'
+
+      provinceTrigger.disabled = provinces.length === 0
+    } catch (error) {
+      provinceLabel.textContent = 'دریافت استان‌ها ناموفق بود'
+      provinceTrigger.disabled = true
+
+      window.showToast?.({
+        type: 'error',
+        title: 'دریافت استان‌ها انجام نشد',
+        message: 'ارتباط با سرویس استان و شهر برقرار نشد. صفحه را دوباره بارگذاری کن.',
+      })
+    }
+  }
+
+  provinceTrigger?.addEventListener('click', () => {
+    if (provinceTrigger.disabled) return
+
+    const isOpen = provinceTrigger.getAttribute('aria-expanded') === 'true'
+    closeCityMenu()
+
+    provinceMenu?.classList.toggle('hidden', isOpen)
+    provinceTrigger.setAttribute('aria-expanded', String(!isOpen))
+    provinceChevron?.classList.toggle('rotate-180', !isOpen)
+  })
+
+  provinceMenu?.addEventListener('click', async (event) => {
+    const option = event.target.closest('[data-province-code]')
+    if (!option) return
+
+    const provinceCode = String(option.dataset.provinceCode || '')
+
+    provinceInput.value = provinceCode
+    provinceLabel.textContent = option.textContent.trim()
+
+    provinceMenu.querySelectorAll('[data-province-code]').forEach((item) => {
+      item.setAttribute('aria-selected', String(item === option))
+    })
+
+    clearFieldError(document.getElementById('register-form'), 'provinceCode')
+    clearFieldError(document.getElementById('register-form'), 'cityId')
+    closeProvinceMenu()
+
+    await loadCities(provinceCode)
+  })
+
+  cityTrigger?.addEventListener('click', () => {
+    if (cityTrigger.disabled) return
+
+    const isOpen = cityTrigger.getAttribute('aria-expanded') === 'true'
+    closeProvinceMenu()
+
+    cityMenu?.classList.toggle('hidden', isOpen)
+    cityTrigger.setAttribute('aria-expanded', String(!isOpen))
+    cityChevron?.classList.toggle('rotate-180', !isOpen)
+  })
+
+  cityMenu?.addEventListener('click', (event) => {
+    const option = event.target.closest('[data-city-id]')
+    if (!option) return
+
+    cityInput.value = String(option.dataset.cityId || '')
+    cityLabel.textContent = option.textContent.trim()
+
+    cityMenu.querySelectorAll('[data-city-id]').forEach((item) => {
+      item.setAttribute('aria-selected', String(item === option))
+    })
+
+    clearFieldError(document.getElementById('register-form'), 'cityId')
+    closeCityMenu()
+  })
+
+  loadProvinces()
+
+
   document.addEventListener('click', (event) => {
     if (!event.target.closest('#register-grade-dropdown')) {
       closeGradeMenu()
+    }
+
+    if (!event.target.closest('#register-province-dropdown')) {
+      closeProvinceMenu()
+    }
+
+    if (!event.target.closest('#register-city-dropdown')) {
+      closeCityMenu()
     }
   })
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeGradeMenu()
+      closeLocationMenus()
     }
   })
 
@@ -514,6 +703,8 @@
       const firstName = String(formData.get('firstName') || '').trim()
       const lastName = String(formData.get('lastName') || '').trim()
       const schoolName = String(formData.get('schoolName') || '').trim()
+      const provinceCode = String(formData.get('provinceCode') || '').trim()
+      const cityId = String(formData.get('cityId') || '').trim()
       const grade = String(formData.get('grade') || '').trim()
       const motherPhone = normalizeDigits(
         String(formData.get('motherPhone') || '').trim()
@@ -545,6 +736,16 @@
 
       if (schoolName.length < 2) {
         setFieldError(form, 'schoolName', 'نام مدرسه را وارد کن.')
+        valid = false
+      }
+
+      if (!/^IR-\d{2}$/.test(provinceCode)) {
+        setFieldError(form, 'provinceCode', 'استان را انتخاب کن.')
+        valid = false
+      }
+
+      if (!/^\d+$/.test(cityId) || Number(cityId) <= 0) {
+        setFieldError(form, 'cityId', 'شهر را انتخاب کن.')
         valid = false
       }
 
@@ -611,6 +812,8 @@
           birthDate,
           password,
           schoolName,
+          provinceCode,
+          cityId,
           grade,
           avatarFile,
         })

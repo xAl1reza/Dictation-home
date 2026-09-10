@@ -516,6 +516,36 @@ Router::get("/api/v1/news/{slug}", function ($slug) {
 });
 
 
+
+
+/*
+|--------------------------------------------------------------------------
+| Location Public Routes
+|--------------------------------------------------------------------------
+*/
+
+Router::get("/api/v1/locations/provinces", function () {
+
+    $db = Database::connect();
+
+    $controller = new LocationController($db);
+
+    $controller->provinces();
+
+});
+
+
+Router::get("/api/v1/locations/provinces/{provinceCode}/cities", function ($provinceCode) {
+
+    $db = Database::connect();
+
+    $controller = new LocationController($db);
+
+    $controller->cities($provinceCode);
+
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Iran Map Public Routes

@@ -112,6 +112,18 @@
     'profile-grade-chevron'
   )
 
+  const provinceInput = document.getElementById('profile-province')
+  const provinceTrigger = document.getElementById('profile-province-trigger')
+  const provinceLabel = document.getElementById('profile-province-label')
+  const provinceMenu = document.getElementById('profile-province-menu')
+  const provinceChevron = document.getElementById('profile-province-chevron')
+
+  const cityInput = document.getElementById('profile-city')
+  const cityTrigger = document.getElementById('profile-city-trigger')
+  const cityLabel = document.getElementById('profile-city-label')
+  const cityMenu = document.getElementById('profile-city-menu')
+  const cityChevron = document.getElementById('profile-city-chevron')
+
   const avatarInput = document.getElementById(
     'profile-avatar-input'
   )
@@ -224,9 +236,13 @@
     const target =
       field === 'grade'
         ? gradeTrigger
-        : form?.querySelector(
-            `[name="${field}"]`
-          )
+        : field === 'provinceCode'
+          ? provinceTrigger
+          : field === 'cityId'
+            ? cityTrigger
+            : form?.querySelector(
+                `[name="${field}"]`
+              )
 
     target?.scrollIntoView({
       behavior: 'smooth',
@@ -303,6 +319,129 @@
     gradeChevron?.classList.remove(
       'rotate-180'
     )
+  }
+
+  const closeProvinceMenu = () => {
+    provinceMenu?.classList.add('hidden')
+    provinceTrigger?.setAttribute('aria-expanded', 'false')
+    provinceChevron?.classList.remove('rotate-180')
+  }
+
+  const closeCityMenu = () => {
+    cityMenu?.classList.add('hidden')
+    cityTrigger?.setAttribute('aria-expanded', 'false')
+    cityChevron?.classList.remove('rotate-180')
+  }
+
+  const renderLocationOptions = (menu, items, valueKey, dataKey) => {
+    if (!menu) return
+    menu.replaceChildren()
+
+    items.forEach((item) => {
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'form-option'
+      button.setAttribute('role', 'option')
+      button.setAttribute('aria-selected', 'false')
+      button.dataset[dataKey] = String(item[valueKey])
+      button.textContent = String(item.name || '')
+      menu.appendChild(button)
+    })
+  }
+
+  const resetCity = (label = 'ابتدا استان را انتخاب کن') => {
+    if (cityInput) cityInput.value = ''
+    if (cityLabel) cityLabel.textContent = label
+    if (cityMenu) cityMenu.replaceChildren()
+    if (cityTrigger) cityTrigger.disabled = true
+    closeCityMenu()
+  }
+
+  const loadCities = async (provinceCode, selectedCityId = null) => {
+    resetCity('در حال دریافت شهرها...')
+
+    const cities = await window.locationService.getCities(provinceCode)
+    renderLocationOptions(cityMenu, cities, 'id', 'cityId')
+
+    if (!cities.length) {
+      cityLabel.textContent = 'شهری یافت نشد'
+      return
+    }
+
+    cityTrigger.disabled = false
+    const selected = cities.find((city) => String(city.id) === String(selectedCityId || ''))
+
+    if (selected) {
+      cityInput.value = String(selected.id)
+      cityLabel.textContent = selected.name
+      cityMenu.querySelectorAll('[data-city-id]').forEach((item) => {
+        item.setAttribute('aria-selected', String(item.dataset.cityId === String(selected.id)))
+      })
+    } else {
+      cityLabel.textContent = 'انتخاب شهر'
+    }
+  }
+
+  const initLocations = async (user) => {
+    if (!window.locationService) {
+      if (provinceLabel) {
+        provinceLabel.textContent = 'سرویس استان‌ها بارگذاری نشد'
+      }
+
+      if (provinceTrigger) {
+        provinceTrigger.disabled = true
+      }
+
+      resetCity('سرویس شهرها بارگذاری نشد')
+
+      console.error(
+        '[PROFILE] location-service.js is not loaded or window.locationService is unavailable.'
+      )
+
+      return
+    }
+
+    provinceTrigger.disabled = true
+
+    try {
+      const provinces = await window.locationService.getProvinces()
+      renderLocationOptions(provinceMenu, provinces, 'provinceCode', 'provinceCode')
+
+      if (!provinces.length) {
+        provinceLabel.textContent = 'استانی یافت نشد'
+        return
+      }
+
+      provinceTrigger.disabled = false
+      const selectedProvinceCode = String(user?.provinceCode || '')
+      const selectedProvince = provinces.find(
+        (province) => province.provinceCode === selectedProvinceCode
+      )
+
+      if (selectedProvince) {
+        provinceInput.value = selectedProvince.provinceCode
+        provinceLabel.textContent = selectedProvince.name
+        provinceMenu.querySelectorAll('[data-province-code]').forEach((item) => {
+          item.setAttribute(
+            'aria-selected',
+            String(item.dataset.provinceCode === selectedProvince.provinceCode)
+          )
+        })
+        await loadCities(selectedProvince.provinceCode, user?.cityId)
+      } else {
+        provinceLabel.textContent = 'انتخاب استان'
+        resetCity()
+      }
+    } catch (error) {
+      provinceLabel.textContent = 'دریافت استان‌ها ناموفق بود'
+      provinceTrigger.disabled = true
+      resetCity('دریافت شهرها ناموفق بود')
+      window.showToast?.({
+        type: 'error',
+        title: 'دریافت استان و شهر انجام نشد',
+        message: 'صفحه را دوباره بارگذاری کن.',
+      })
+    }
   }
 
   const renderAvatar = (
@@ -478,6 +617,12 @@
     const grade =
       gradeInput.value.trim()
 
+    const provinceCode =
+      provinceInput?.value.trim() || ''
+
+    const cityId =
+      cityInput?.value.trim() || ''
+
     clearAllProfileErrors()
 
     const invalid = (
@@ -514,6 +659,20 @@
       invalid(
         'grade',
         'پایه تحصیلی را انتخاب کن.'
+      )
+    }
+
+    if (!provinceCode) {
+      invalid(
+        'provinceCode',
+        'استان را انتخاب کن.'
+      )
+    }
+
+    if (!cityId) {
+      invalid(
+        'cityId',
+        'شهر را انتخاب کن.'
       )
     }
 
@@ -562,12 +721,21 @@
         fatherPhone,
         birthDate,
         schoolName,
+        provinceCode,
+        cityId: Number(cityId),
         grade: Number(grade),
       },
     }
   }
 
   const init = async () => {
+    /*
+     * Load locations independently from profile data.
+     * This prevents the province selector from being stuck on
+     * "در حال دریافت استان‌ها..." if profile loading is slow.
+     */
+    const locationsPromise = initLocations(null)
+
     try {
       const user =
         await window.profileService
@@ -582,6 +750,17 @@
 
       populateUser(user)
       initDatePicker()
+
+      await locationsPromise
+
+      /*
+       * Existing users may already have a saved province/city.
+       * Re-apply their saved selection after the province list is ready.
+       * Old users with NULL location simply keep the empty selectors.
+       */
+      if (user?.provinceCode) {
+        await initLocations(user)
+      }
     } catch (error) {
       if (
         Number(error?.status || 0) ===
@@ -720,15 +899,73 @@
     }
   )
 
+  provinceTrigger?.addEventListener('click', () => {
+    if (provinceTrigger.disabled) return
+    const isOpen = provinceTrigger.getAttribute('aria-expanded') === 'true'
+    closeCityMenu()
+    provinceMenu?.classList.toggle('hidden', isOpen)
+    provinceTrigger.setAttribute('aria-expanded', String(!isOpen))
+    provinceChevron?.classList.toggle('rotate-180', !isOpen)
+  })
+
+  provinceMenu?.addEventListener('click', async (event) => {
+    const option = event.target.closest('[data-province-code]')
+    if (!option) return
+
+    const provinceCode = String(option.dataset.provinceCode || '')
+    provinceInput.value = provinceCode
+    provinceLabel.textContent = option.textContent.trim()
+    provinceMenu.querySelectorAll('[data-province-code]').forEach((item) => {
+      item.setAttribute('aria-selected', String(item === option))
+    })
+    clearFieldError('provinceCode')
+    clearFieldError('cityId')
+    closeProvinceMenu()
+
+    try {
+      await loadCities(provinceCode)
+    } catch (error) {
+      resetCity('دریافت شهرها ناموفق بود')
+      window.showToast?.({
+        type: 'error',
+        title: 'دریافت شهرها انجام نشد',
+        message: 'دوباره تلاش کن.',
+      })
+    }
+  })
+
+  cityTrigger?.addEventListener('click', () => {
+    if (cityTrigger.disabled) return
+    const isOpen = cityTrigger.getAttribute('aria-expanded') === 'true'
+    closeProvinceMenu()
+    cityMenu?.classList.toggle('hidden', isOpen)
+    cityTrigger.setAttribute('aria-expanded', String(!isOpen))
+    cityChevron?.classList.toggle('rotate-180', !isOpen)
+  })
+
+  cityMenu?.addEventListener('click', (event) => {
+    const option = event.target.closest('[data-city-id]')
+    if (!option) return
+    cityInput.value = String(option.dataset.cityId || '')
+    cityLabel.textContent = option.textContent.trim()
+    cityMenu.querySelectorAll('[data-city-id]').forEach((item) => {
+      item.setAttribute('aria-selected', String(item === option))
+    })
+    clearFieldError('cityId')
+    closeCityMenu()
+  })
+
   document.addEventListener(
     'click',
     (event) => {
-      if (
-        !event.target.closest(
-          '#profile-grade-dropdown'
-        )
-      ) {
+      if (!event.target.closest('#profile-grade-dropdown')) {
         closeGradeMenu()
+      }
+      if (!event.target.closest('#profile-province-dropdown')) {
+        closeProvinceMenu()
+      }
+      if (!event.target.closest('#profile-city-dropdown')) {
+        closeCityMenu()
       }
     }
   )
@@ -738,6 +975,8 @@
     (event) => {
       if (event.key === 'Escape') {
         closeGradeMenu()
+        closeProvinceMenu()
+        closeCityMenu()
       }
     }
   )

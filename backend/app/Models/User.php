@@ -37,6 +37,8 @@ class User
                 father_phone,
                 birth_date,
                 school_name,
+                province_code,
+                city_id,
                 grade,
                 avatar
              FROM users
@@ -64,6 +66,8 @@ class User
                 birth_date,
                 password,
                 school_name,
+                province_code,
+                city_id,
                 grade,
                 avatar
              FROM users
@@ -91,6 +95,8 @@ class User
                 birth_date,
                 password,
                 school_name,
+                province_code,
+                city_id,
                 grade,
                 avatar
             ) VALUES (
@@ -103,6 +109,8 @@ class User
                 :birth_date,
                 :password,
                 :school_name,
+                :province_code,
+                :city_id,
                 :grade,
                 :avatar
             )"
@@ -118,6 +126,8 @@ class User
             "birth_date" => $data["birth_date"],
             "password" => $data["password"],
             "school_name" => $data["school_name"],
+            "province_code" => $data["province_code"],
+            "city_id" => $data["city_id"],
             "grade" => $data["grade"],
             "avatar" => $data["avatar"] ?? null
         ]);
@@ -136,6 +146,8 @@ class User
                 father_phone = :father_phone,
                 birth_date = :birth_date,
                 school_name = :school_name,
+                province_code = :province_code,
+                city_id = :city_id,
                 grade = :grade
              WHERE id = :id"
         );
@@ -148,6 +160,8 @@ class User
             "father_phone" => $data["father_phone"],
             "birth_date" => $data["birth_date"],
             "school_name" => $data["school_name"],
+            "province_code" => $data["province_code"],
+            "city_id" => $data["city_id"],
             "grade" => $data["grade"]
         ]);
 

@@ -14,10 +14,12 @@ class ProfileService
     ];
 
     private $userModel;
+    private $locationModel;
 
     public function __construct($db)
     {
         $this->userModel = new User($db);
+        $this->locationModel = new Location($db);
     }
 
     public function updateProfile($user, $data)
@@ -37,6 +39,8 @@ class ProfileService
             "fatherPhone",
             "birthDate",
             "schoolName",
+            "provinceCode",
+            "cityId",
             "grade"
         ];
 
@@ -87,6 +91,18 @@ class ProfileService
             )
             : (string)$current["grade"];
 
+        $provinceCode = array_key_exists("provinceCode", $data)
+            ? strtoupper(trim((string)$data["provinceCode"]))
+            : ($current["province_code"] ?? null);
+
+        $cityIdValue = array_key_exists("cityId", $data)
+            ? $this->normalizeDigits(trim((string)$data["cityId"]))
+            : (isset($current["city_id"]) ? (string)$current["city_id"] : "");
+
+        $cityId = ctype_digit($cityIdValue)
+            ? (int)$cityIdValue
+            : null;
+
         if (
             mb_strlen($firstName) < 2 ||
             mb_strlen($firstName) > 50
@@ -128,6 +144,33 @@ class ProfileService
             throw new Exception("PROFILE_GRADE_INVALID");
         }
 
+        $locationSubmitted =
+            array_key_exists("provinceCode", $data) ||
+            array_key_exists("cityId", $data);
+
+        if ($locationSubmitted) {
+            if (
+                !is_string($provinceCode) ||
+                !preg_match('/^IR-\d{2}$/', $provinceCode) ||
+                !$this->locationModel->provinceExists($provinceCode)
+            ) {
+                throw new Exception("PROFILE_PROVINCE_INVALID");
+            }
+
+            if (!$cityId || $cityId <= 0) {
+                throw new Exception("PROFILE_CITY_INVALID");
+            }
+
+            if (
+                !$this->locationModel->cityBelongsToProvince(
+                    $cityId,
+                    $provinceCode
+                )
+            ) {
+                throw new Exception("PROFILE_CITY_PROVINCE_MISMATCH");
+            }
+        }
+
         $updated = $this->userModel->updateProfile(
             $user["id"],
             [
@@ -137,6 +180,8 @@ class ProfileService
                 "father_phone" => $fatherPhone,
                 "birth_date" => $birthDate,
                 "school_name" => $schoolName,
+                "province_code" => $provinceCode,
+                "city_id" => $cityId,
                 "grade" => (int)$gradeValue
             ]
         );
@@ -569,6 +614,12 @@ class ProfileService
                 $user["birth_date"],
             "schoolName" =>
                 $user["school_name"],
+            "provinceCode" =>
+                $user["province_code"] ?? null,
+            "cityId" =>
+                isset($user["city_id"])
+                    ? (int)$user["city_id"]
+                    : null,
             "grade" =>
                 (int)$user["grade"],
             "avatar" =>

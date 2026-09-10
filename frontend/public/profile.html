@@ -195,6 +195,36 @@
                 </div>
               </div>
 
+
+
+                <div class="mt-5 grid gap-5 sm:grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label" for="profile-province-trigger">استان <span class="form-required">*</span></label>
+                    <div class="relative" id="profile-province-dropdown">
+                      <input id="profile-province" name="provinceCode" type="hidden" value="" />
+                      <button aria-expanded="false" aria-haspopup="listbox" class="form-control form-select-trigger disabled:cursor-not-allowed disabled:opacity-60" disabled id="profile-province-trigger" type="button">
+                        <span id="profile-province-label">در حال دریافت استان‌ها...</span>
+                        <svg aria-hidden="true" class="size-4 shrink-0 transition-transform duration-200" fill="none" id="profile-province-chevron"><use href="#icon-chevron-down"></use></svg>
+                      </button>
+                      <div aria-label="استان" class="form-dropdown-menu hidden" id="profile-province-menu" role="listbox"></div>
+                    </div>
+                    <span class="form-error hidden" data-error-for="provinceCode" role="alert"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="profile-city-trigger">شهر <span class="form-required">*</span></label>
+                    <div class="relative" id="profile-city-dropdown">
+                      <input id="profile-city" name="cityId" type="hidden" value="" />
+                      <button aria-expanded="false" aria-haspopup="listbox" class="form-control form-select-trigger disabled:cursor-not-allowed disabled:opacity-60" disabled id="profile-city-trigger" type="button">
+                        <span id="profile-city-label">ابتدا استان را انتخاب کن</span>
+                        <svg aria-hidden="true" class="size-4 shrink-0 transition-transform duration-200" fill="none" id="profile-city-chevron"><use href="#icon-chevron-down"></use></svg>
+                      </button>
+                      <div aria-label="شهر" class="form-dropdown-menu hidden" id="profile-city-menu" role="listbox"></div>
+                    </div>
+                    <span class="form-error hidden" data-error-for="cityId" role="alert"></span>
+                  </div>
+                </div>
+
               <div class="mt-7 border-t border-textColor/5 pt-7 dark:border-border-dark-soft">
                 <h4>اطلاعات تماس والدین</h4>
                 <div class="mt-5 grid gap-5 sm:grid-cols-2">
@@ -265,6 +295,7 @@
     <script src="./js/services/api-errors.js"></script>
     <script src="./js/services/auth-service.js"></script>
     <script src="./js/services/user-service.js"></script>
+    <script src="./js/services/location-service.js"></script>
     <script src="./js/services/profile-service.js"></script>
     <script src="./js/library/jalalidatepicker.min.js"></script>
     <script src="./js/pages/profile.js"></script>
