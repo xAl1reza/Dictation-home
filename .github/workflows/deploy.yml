@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
   workflow_dispatch:
 
 concurrency:
@@ -17,33 +18,111 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install lftp
         run: |
           sudo apt-get update
           sudo apt-get install -y lftp
 
-      - name: Verify frontend CSS
+      - name: Detect changed files
+        id: changes
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
         run: |
-          test -f frontend/public/styles/style.css
-          ls -lh frontend/public/styles/style.css
+          set -euo pipefail
 
-      - name: Prepare frontend
-        shell: python
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            BASE_SHA="$(git rev-parse HEAD^ 2>/dev/null || true)"
+          else
+            BASE_SHA="$BEFORE_SHA"
+          fi
+
+          if [ -z "$BASE_SHA" ] ||
+             [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] ||
+             ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            BASE_SHA="$(git hash-object -t tree /dev/null)"
+          fi
+
+          git diff \
+            --name-only \
+            --diff-filter=ACMRT \
+            "$BASE_SHA" \
+            "$CURRENT_SHA" \
+            > /tmp/changed-files.txt
+
+          echo "Changed files:"
+          sed -n '1,200p' /tmp/changed-files.txt
+
+          if grep -q '^frontend/public/' /tmp/changed-files.txt; then
+            echo "frontend=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "frontend=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if grep -Eq '^backend/(app/|routes/|public/index\.php$)' /tmp/changed-files.txt; then
+            echo "api=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "api=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare changed frontend files
+        if: steps.changes.outputs.frontend == 'true'
+        shell: bash
         env:
           ASSET_VERSION: ${{ github.sha }}
         run: |
+          set -euo pipefail
+
+          rm -rf .deploy/frontend
+          mkdir -p .deploy/frontend
+
+          ASSET_CHANGED=false
+
+          while IFS= read -r FILE; do
+            case "$FILE" in
+              frontend/public/*)
+                RELATIVE_PATH="${FILE#frontend/public/}"
+
+                mkdir -p \
+                  ".deploy/frontend/$(dirname "$RELATIVE_PATH")"
+
+                cp \
+                  "$FILE" \
+                  ".deploy/frontend/$RELATIVE_PATH"
+
+                case "$FILE" in
+                  *.css|*.js)
+                    ASSET_CHANGED=true
+                    ;;
+                esac
+                ;;
+            esac
+          done < /tmp/changed-files.txt
+
+          if [ "$ASSET_CHANGED" = "true" ]; then
+            while IFS= read -r HTML_FILE; do
+              RELATIVE_PATH="${HTML_FILE#frontend/public/}"
+
+              mkdir -p \
+                ".deploy/frontend/$(dirname "$RELATIVE_PATH")"
+
+              cp \
+                "$HTML_FILE" \
+                ".deploy/frontend/$RELATIVE_PATH"
+            done < <(find frontend/public -type f -name "*.html")
+          fi
+
+          python <<'PY'
           from pathlib import Path
-          import shutil, re, os
+          import os
+          import re
 
-          src = Path("frontend/public")
-          dst = Path(".deploy/frontend")
-
-          if dst.exists():
-              shutil.rmtree(dst)
-
-          shutil.copytree(src, dst)
-
+          deploy_path = Path(".deploy/frontend")
           version = os.environ["ASSET_VERSION"][:8]
 
           pattern = re.compile(
@@ -53,52 +132,111 @@ jobs:
               re.I
           )
 
-          for html in dst.rglob("*.html"):
-              text = html.read_text(encoding="utf-8")
+          for html_file in deploy_path.rglob("*.html"):
+              content = html_file.read_text(encoding="utf-8")
 
               def replace(match):
                   url = match.group("url")
-                  if url.startswith("http"):
+
+                  if url.startswith(("http://", "https://", "//")):
                       return match.group(0)
 
-                  url = url.split("?")[0]
-                  return match.group("prefix") + url + "?v=" + version + match.group("suffix")
+                  clean_url = url.split("?")[0].split("#")[0]
 
-              html.write_text(pattern.sub(replace, text), encoding="utf-8")
+                  return (
+                      match.group("prefix")
+                      + clean_url
+                      + "?v="
+                      + version
+                      + match.group("suffix")
+                  )
 
-      - name: Show frontend files
+              html_file.write_text(
+                  pattern.sub(replace, content),
+                  encoding="utf-8"
+              )
+          PY
+
+      - name: Prepare changed API files
+        if: steps.changes.outputs.api == 'true'
+        shell: bash
         run: |
-          ls -lh .deploy/frontend/styles/
+          set -euo pipefail
 
-      - name: Prepare API
-        run: |
           rm -rf .deploy/api
-          mkdir -p .deploy/api/public_html
-          cp -R backend/app .deploy/api/
-          cp -R backend/routes .deploy/api/
-          cp backend/public/index.php .deploy/api/public_html/
-          cp backend/public/.htaccess .deploy/api/public_html/
+          mkdir -p .deploy/api
 
-      - name: Deploy frontend
+          while IFS= read -r FILE; do
+            case "$FILE" in
+              backend/app/*|backend/routes/*)
+                RELATIVE_PATH="${FILE#backend/}"
+
+                mkdir -p \
+                  ".deploy/api/$(dirname "$RELATIVE_PATH")"
+
+                cp \
+                  "$FILE" \
+                  ".deploy/api/$RELATIVE_PATH"
+                ;;
+
+              backend/public/index.php)
+                mkdir -p .deploy/api/public_html
+
+                cp \
+                  backend/public/index.php \
+                  .deploy/api/public_html/index.php
+                ;;
+
+              backend/public/.htaccess)
+                echo "Protected server file skipped: $FILE"
+                ;;
+            esac
+          done < /tmp/changed-files.txt
+
+      - name: Deploy changed frontend files
+        if: steps.changes.outputs.frontend == 'true'
         env:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          lftp -u "${{ secrets.FTP_USERNAME }},${FTP_PASSWORD}" -p "${{ secrets.FTP_PORT }}" "${{ secrets.FTP_SERVER }}" <<'EOF'
+          lftp \
+            -u "${{ secrets.FTP_USERNAME }},${FTP_PASSWORD}" \
+            -p "${{ secrets.FTP_PORT }}" \
+            "${{ secrets.FTP_SERVER }}" <<'EOF'
+
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ssl:verify-certificate true
-          mirror -R --verbose --parallel=4 --only-newer .deploy/frontend/ /diktehkhooneh.ir/public_html/
+
+          mirror \
+            -R \
+            --verbose \
+            --parallel=4 \
+            .deploy/frontend/ \
+            /diktehkhooneh.ir/public_html/
+
           bye
           EOF
 
-      - name: Deploy API
+      - name: Deploy changed API files
+        if: steps.changes.outputs.api == 'true'
         env:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          lftp -u "${{ secrets.FTP_USERNAME }},${FTP_PASSWORD}" -p "${{ secrets.FTP_PORT }}" "${{ secrets.FTP_SERVER }}" <<'EOF'
+          lftp \
+            -u "${{ secrets.FTP_USERNAME }},${FTP_PASSWORD}" \
+            -p "${{ secrets.FTP_PORT }}" \
+            "${{ secrets.FTP_SERVER }}" <<'EOF'
+
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ssl:verify-certificate true
-          mirror -R --verbose --parallel=4 .deploy/api/ /api.diktehkhooneh.ir/
+
+          mirror \
+            -R \
+            --verbose \
+            --parallel=4 \
+            .deploy/api/ \
+            /api.diktehkhooneh.ir/
+
           bye
           EOF
