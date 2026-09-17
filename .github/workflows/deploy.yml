@@ -1,0 +1,104 @@
+name: Deploy Dikteh Khooneh
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Verify frontend CSS
+        run: |
+          test -f frontend/public/styles/style.css
+          ls -lh frontend/public/styles/style.css
+
+      - name: Prepare frontend
+        shell: python
+        env:
+          ASSET_VERSION: ${{ github.sha }}
+        run: |
+          from pathlib import Path
+          import shutil, re, os
+
+          src = Path("frontend/public")
+          dst = Path(".deploy/frontend")
+
+          if dst.exists():
+              shutil.rmtree(dst)
+
+          shutil.copytree(src, dst)
+
+          version = os.environ["ASSET_VERSION"][:8]
+
+          pattern = re.compile(
+              r'(?P<prefix>\b(?:href|src)\s*=\s*["\'])'
+              r'(?P<url>[^"\']+\.(?:css|js)(?:[?#][^"\']*)?)'
+              r'(?P<suffix>["\'])',
+              re.I
+          )
+
+          for html in dst.rglob("*.html"):
+              text = html.read_text(encoding="utf-8")
+
+              def replace(match):
+                  url = match.group("url")
+                  if url.startswith("http"):
+                      return match.group(0)
+
+                  url = url.split("?")[0]
+                  return match.group("prefix") + url + "?v=" + version + match.group("suffix")
+
+              html.write_text(pattern.sub(replace, text), encoding="utf-8")
+
+      - name: Show frontend files
+        run: |
+          ls -lh .deploy/frontend/styles/
+
+      - name: Prepare API
+        run: |
+          rm -rf .deploy/api
+          mkdir -p .deploy/api/public_html
+          cp -R backend/app .deploy/api/
+          cp -R backend/routes .deploy/api/
+          cp backend/public/index.php .deploy/api/public_html/
+          cp backend/public/.htaccess .deploy/api/public_html/
+
+      - name: Deploy frontend
+        env:
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }},${FTP_PASSWORD}" -p "${{ secrets.FTP_PORT }}" "${{ secrets.FTP_SERVER }}" <<'EOF'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate true
+          mirror -R --verbose --parallel=4 --only-newer .deploy/frontend/ /diktehkhooneh.ir/public_html/
+          bye
+          EOF
+
+      - name: Deploy API
+        env:
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }},${FTP_PASSWORD}" -p "${{ secrets.FTP_PORT }}" "${{ secrets.FTP_SERVER }}" <<'EOF'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate true
+          mirror -R --verbose --parallel=4 .deploy/api/ /api.diktehkhooneh.ir/
+          bye
+          EOF
