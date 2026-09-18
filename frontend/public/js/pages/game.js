@@ -55,6 +55,21 @@
         user.id,
       );
 
+      const verifyAccess = async () => {
+        try {
+          const subscription = await window.subscriptionService.getStatus();
+          if (subscription.permissions[type] === true) return true;
+        } catch (error) {
+          console.error('Could not verify game access:', error);
+        }
+        window.location.replace('./dashboard.html');
+        return false;
+      };
+      if (!(await verifyAccess())) return;
+      window.setInterval(() => { if (!document.hidden) void verifyAccess(); }, 60000);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) void verifyAccess(); });
+      window.addEventListener('pageshow', (event) => { if (event.persisted) void verifyAccess(); });
+
       window.GameShell.init({
         type,
         gameModule,

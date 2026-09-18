@@ -7,6 +7,9 @@
 
 ;(() => {
   const ERROR_MAP = Object.freeze({
+    SUBSCRIPTION_REQUIRED: {
+      message: 'برای ادامه استفاده از این قابلیت، اشتراک تهیه کن.',
+    },
     API_NETWORK_ERROR: {
       message:
         'ارتباط با سرور برقرار نشد. اتصال اینترنت یا سرویس را بررسی کن و دوباره تلاش کن.',

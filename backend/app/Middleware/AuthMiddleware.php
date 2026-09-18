@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Services/SubscriptionService.php';
 
 class AuthMiddleware
 {
@@ -11,6 +12,9 @@ class AuthMiddleware
 
     public function handle()
     {
+        // Authenticated responses and entitlement-dependent content must not be cached.
+        header('Cache-Control: no-store, private');
+
         /*
          * Primary auth source is the HttpOnly cookie.
          * AuthCookie also keeps a temporary Bearer fallback

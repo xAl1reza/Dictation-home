@@ -7,10 +7,12 @@ class GameResultController
 
     private $gameResultModel;
     private $folderModel;
+    private $subscription;
 
 
     public function __construct($db)
     {
+        $this->subscription = new SubscriptionService($db);
         $this->gameResultModel =
             new GameResult($db);
 
@@ -58,6 +60,9 @@ class GameResultController
 
             return;
         }
+
+        // Recheck at submission time; client start/end dates never grant access.
+        $this->subscription->requireAny($user['id'], [$gameType]);
 
         $correct = $this->readCounter(
             $data,

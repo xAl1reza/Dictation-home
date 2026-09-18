@@ -202,6 +202,8 @@ Router::post("/api/v1/folders", function () {
 
     $user = $auth->handle();
 
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
+
 
     $controller = new FolderController($db);
 
@@ -217,6 +219,8 @@ Router::patch("/api/v1/folders/{id}", function ($id) {
     $auth = new AuthMiddleware($db);
 
     $user = $auth->handle();
+
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
 
 
     $controller = new FolderController($db);
@@ -236,6 +240,8 @@ Router::delete("/api/v1/folders/{id}", function ($id) {
     $auth = new AuthMiddleware($db);
 
     $user = $auth->handle();
+
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
 
 
     $controller = new FolderController($db);
@@ -263,6 +269,8 @@ Router::get("/api/v1/folders/{folderId}/words", function ($folderId) {
 
     $user = $auth->handle();
 
+    (new SubscriptionService($db))->requireAny($user['id'], ['dictation', 'content_manage']);
+
 
     $controller = new WordController($db);
 
@@ -281,6 +289,8 @@ Router::post("/api/v1/folders/{folderId}/words", function ($folderId) {
     $auth = new AuthMiddleware($db);
 
     $user = $auth->handle();
+
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
 
 
     $controller = new WordController($db);
@@ -301,6 +311,8 @@ Router::patch("/api/v1/words/{id}", function ($id) {
 
     $user = $auth->handle();
 
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
+
 
     $controller = new WordController($db);
 
@@ -319,6 +331,8 @@ Router::delete("/api/v1/words/{id}", function ($id) {
     $auth = new AuthMiddleware($db);
 
     $user = $auth->handle();
+
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
 
 
     $controller = new WordController($db);
@@ -408,6 +422,8 @@ Router::get("/api/v1/folders/{folderId}/science-questions", function ($folderId)
 
     $user = $auth->handle();
 
+    (new SubscriptionService($db))->requireAny($user['id'], ['science', 'content_manage']);
+
 
     $controller = new ScienceQuestionController($db);
 
@@ -426,6 +442,8 @@ Router::post("/api/v1/folders/{folderId}/science-questions", function ($folderId
     $auth = new AuthMiddleware($db);
 
     $user = $auth->handle();
+
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
 
 
     $controller = new ScienceQuestionController($db);
@@ -446,6 +464,8 @@ Router::patch("/api/v1/science-questions/{id}", function ($id) {
 
     $user = $auth->handle();
 
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
+
 
     $controller = new ScienceQuestionController($db);
 
@@ -464,6 +484,8 @@ Router::delete("/api/v1/science-questions/{id}", function ($id) {
     $auth = new AuthMiddleware($db);
 
     $user = $auth->handle();
+
+    (new SubscriptionService($db))->requireAny($user['id'], ['content_manage']);
 
 
     $controller = new ScienceQuestionController($db);
@@ -576,4 +598,12 @@ Router::get("/api/v1/iran-map/provinces/{provinceCode}/schools", function ($prov
         $provinceCode
     );
 
+});
+
+
+Router::get("/api/v1/subscription", function () {
+    $db = Database::connect();
+    $user = (new AuthMiddleware($db))->handle();
+    header('Cache-Control: no-store, private');
+    Response::success((new SubscriptionService($db))->status($user['id']));
 });

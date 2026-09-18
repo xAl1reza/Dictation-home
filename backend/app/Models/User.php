@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Services/SubscriptionService.php';
 
 class User
 {
@@ -116,22 +117,30 @@ class User
             )"
         );
 
-        $query->execute([
-            "id" => $data["id"],
-            "national_code" => $data["national_code"],
-            "first_name" => $data["first_name"],
-            "last_name" => $data["last_name"],
-            "mother_phone" => $data["mother_phone"],
-            "father_phone" => $data["father_phone"],
-            "birth_date" => $data["birth_date"],
-            "password" => $data["password"],
-            "school_name" => $data["school_name"],
-            "province_code" => $data["province_code"],
-            "city_id" => $data["city_id"],
-            "grade" => $data["grade"],
-            "avatar" => $data["avatar"] ?? null
-        ]);
+        $this->db->beginTransaction();
+        try {
+            $query->execute([
+                "id" => $data["id"],
+                "national_code" => $data["national_code"],
+                "first_name" => $data["first_name"],
+                "last_name" => $data["last_name"],
+                "mother_phone" => $data["mother_phone"],
+                "father_phone" => $data["father_phone"],
+                "birth_date" => $data["birth_date"],
+                "password" => $data["password"],
+                "school_name" => $data["school_name"],
+                "province_code" => $data["province_code"],
+                "city_id" => $data["city_id"],
+                "grade" => $data["grade"],
+                "avatar" => $data["avatar"] ?? null
+            ]);
 
+            (new SubscriptionService($this->db))->createTrial($data['id']);
+            $this->db->commit();
+        } catch (Throwable $error) {
+            if ($this->db->inTransaction()) { $this->db->rollBack(); }
+            throw $error;
+        }
         return $this->findById($data["id"]);
     }
 

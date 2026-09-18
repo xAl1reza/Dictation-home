@@ -3,10 +3,12 @@
 class FolderController
 {
     private $folderModel;
+    private $subscription;
 
 
     public function __construct($db)
     {
+        $this->subscription = new SubscriptionService($db);
         $this->folderModel = new Folder($db);
     }
 
@@ -43,6 +45,11 @@ class FolderController
             $user["grade"] ?? null,
             $type
         );
+
+        $permissions = $this->subscription->status($user['id'])['permissions'];
+        $folders = array_values(array_filter($folders, function ($folder) use ($permissions) {
+            return $permissions['content_manage'] || ($permissions[$folder['type']] ?? false);
+        }));
 
         Response::success(
             $folders,

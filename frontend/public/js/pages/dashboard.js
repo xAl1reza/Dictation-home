@@ -29,6 +29,18 @@
   const renderDashboardView = async () => {
     const currentView = getCurrentDashboardView()
 
+    if (['add-word', 'add-science-question'].includes(currentView) &&
+        !window.DashboardSubscription.can('content_manage')) {
+      const container = document.getElementById('dashboard-view')
+      container.replaceChildren()
+      const message = document.createElement('p')
+      message.className = 'ui-meta'
+      message.textContent = 'برای مدیریت محتوا، اشتراک فعال لازم است.'
+      container.append(message)
+      window.DashboardSubscription.showRequired()
+      return
+    }
+
     switch (currentView) {
       case 'folders':
         await renderFoldersView()
@@ -45,6 +57,7 @@
       default:
         await renderFoldersView()
     }
+    window.DashboardSubscription.updateLocks()
   }
 
   const redirectToLogin = () => {
@@ -90,6 +103,9 @@
     }
 
     window.setTimeout(() => {
+      if (!window.DashboardSubscription.getStatus() ||
+          window.DashboardSubscription.getStatus().purchaseRequired ||
+          window.AppModal.getActive()) return
       const opened = window.AppModal.open(CHANNEL_MODAL_ID)
 
       if (opened) {
@@ -165,7 +181,19 @@
 
       initDashboardLogout(currentUser.id)
 
+      await window.DashboardSubscription.init()
+
       await renderDashboardView()
+
+      let previousPermissions = JSON.stringify(window.DashboardSubscription.getStatus()?.permissions)
+      window.addEventListener('app:subscription-updated', () => {
+        const nextPermissions = JSON.stringify(window.DashboardSubscription.getStatus()?.permissions)
+        if (nextPermissions === previousPermissions) return
+        previousPermissions = nextPermissions
+        renderDashboardView().catch((error) => {
+          console.error('Failed to update dashboard access:', error)
+        })
+      })
 
       scheduleChannelModal(currentUser)
 
