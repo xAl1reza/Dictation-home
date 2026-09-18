@@ -213,11 +213,7 @@
 
   const showFormErrorFeedback = (
     form,
-    {
-      title = 'اطلاعات فرم را بررسی کن',
-      message = '',
-      focusFirst = true,
-    } = {}
+    { title = 'اطلاعات فرم را بررسی کن', message = '', focusFirst = true } = {}
   ) => {
     const firstError = Array.from(
       form.querySelectorAll('[data-error-for]')
@@ -430,7 +426,8 @@
       window.showToast?.({
         type: 'error',
         title: 'دریافت استان‌ها انجام نشد',
-        message: 'ارتباط با سرویس استان و شهر برقرار نشد. صفحه را دوباره بارگذاری کن.',
+        message:
+          'ارتباط با سرویس استان و شهر برقرار نشد. صفحه را دوباره بارگذاری کن.',
       })
     }
   }
@@ -494,7 +491,6 @@
 
   loadProvinces()
 
-
   document.addEventListener('click', (event) => {
     if (!event.target.closest('#register-grade-dropdown')) {
       closeGradeMenu()
@@ -547,11 +543,7 @@
       avatarInput.value = ''
       const form = document.getElementById('register-form')
 
-      setFieldError(
-        form,
-        'avatar',
-        'فرمت عکس باید JPG، PNG یا WebP باشد.'
-      )
+      setFieldError(form, 'avatar', 'فرمت عکس باید JPG، PNG یا WebP باشد.')
 
       showFormErrorFeedback(form, {
         title: 'عکس پروفایل معتبر نیست',
@@ -566,11 +558,7 @@
       avatarInput.value = ''
       const form = document.getElementById('register-form')
 
-      setFieldError(
-        form,
-        'avatar',
-        'حجم عکس باید حداکثر ۲ مگابایت باشد.'
-      )
+      setFieldError(form, 'avatar', 'حجم عکس باید حداکثر ۲ مگابایت باشد.')
 
       showFormErrorFeedback(form, {
         title: 'حجم عکس زیاد است',
@@ -602,6 +590,20 @@
     button.classList.toggle('opacity-60', submitting)
     button.classList.toggle('pointer-events-none', submitting)
     button.setAttribute('aria-busy', String(submitting))
+  }
+
+  const CHANNEL_MODAL_STORAGE_PREFIX = 'dikteh-khooneh:bale-channel-modal-shown'
+
+  const prepareChannelModalForLogin = (userId) => {
+    if (!userId) return
+
+    try {
+      sessionStorage.removeItem(
+        `${CHANNEL_MODAL_STORAGE_PREFIX}:${String(userId)}`
+      )
+    } catch {
+      // Login must continue if browser storage is unavailable.
+    }
   }
 
   const redirectToDashboard = () => {
@@ -645,10 +647,12 @@
       setSubmitting(form, true)
 
       try {
-        await window.authService.login({
+        const user = await window.authService.login({
           nationalCode,
           password,
         })
+
+        prepareChannelModalForLogin(user?.id)
 
         window.apiClient?.log(
           '[API:AUTH] login verified; redirecting to dashboard'
@@ -678,8 +682,7 @@
           window.showToast?.({
             type: 'error',
             title: 'ورود انجام نشد',
-            message:
-              resolved?.message || 'ورود انجام نشد. دوباره تلاش کن.',
+            message: resolved?.message || 'ورود انجام نشد. دوباره تلاش کن.',
           })
         }
       } finally {
@@ -818,6 +821,8 @@
           avatarFile,
         })
 
+        prepareChannelModalForLogin(result?.user?.id)
+
         window.apiClient?.log(
           '[API:AUTH] registration + login verified; redirecting to dashboard'
         )
@@ -848,8 +853,7 @@
           window.showToast?.({
             type: 'error',
             title: 'ثبت‌نام انجام نشد',
-            message:
-              resolved?.message || 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
+            message: resolved?.message || 'ثبت‌نام انجام نشد. دوباره تلاش کن.',
           })
         }
       } finally {
@@ -859,8 +863,7 @@
 
   const initAuthPage = async () => {
     try {
-      const currentUser =
-        await window.authService.getCurrentUser()
+      const currentUser = await window.authService.getCurrentUser()
 
       if (currentUser?.id) {
         window.apiClient?.log(
@@ -876,14 +879,9 @@
       )
     }
 
-    setAuthMode(
-      location.hash === '#register'
-        ? 'register'
-        : 'login',
-      {
-        updateHash: false,
-      }
-    )
+    setAuthMode(location.hash === '#register' ? 'register' : 'login', {
+      updateHash: false,
+    })
   }
 
   void initAuthPage()

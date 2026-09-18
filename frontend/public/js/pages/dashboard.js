@@ -5,6 +5,10 @@
  */
 
 ;(() => {
+  const CHANNEL_MODAL_ID = 'bale-channel-modal'
+  const CHANNEL_MODAL_STORAGE_PREFIX = 'dikteh-khooneh:bale-channel-modal-shown'
+  const CHANNEL_MODAL_DELAY = 450
+
   const { getCurrentDashboardView, updateDashboardUser } =
     window.DashboardShared
 
@@ -47,6 +51,53 @@
     window.location.replace('./auth.html#login')
   }
 
+  const getChannelModalStorageKey = (userId) => {
+    return `${CHANNEL_MODAL_STORAGE_PREFIX}:${String(userId)}`
+  }
+
+  const hasShownChannelModal = (userId) => {
+    try {
+      return sessionStorage.getItem(getChannelModalStorageKey(userId)) === '1'
+    } catch {
+      return false
+    }
+  }
+
+  const markChannelModalAsShown = (userId) => {
+    try {
+      sessionStorage.setItem(getChannelModalStorageKey(userId), '1')
+    } catch {
+      // The modal can still work if browser storage is unavailable.
+    }
+  }
+
+  const resetChannelModalState = (userId) => {
+    try {
+      sessionStorage.removeItem(getChannelModalStorageKey(userId))
+    } catch {
+      // Logout must continue even if browser storage is unavailable.
+    }
+  }
+
+  const scheduleChannelModal = (user) => {
+    if (
+      !user?.id ||
+      !window.AppModal ||
+      !document.getElementById(CHANNEL_MODAL_ID) ||
+      hasShownChannelModal(user.id)
+    ) {
+      return
+    }
+
+    window.setTimeout(() => {
+      const opened = window.AppModal.open(CHANNEL_MODAL_ID)
+
+      if (opened) {
+        markChannelModalAsShown(user.id)
+      }
+    }, CHANNEL_MODAL_DELAY)
+  }
+
   const refreshDashboardScoreData = async (user = null) => {
     const currentUser = user || (await window.userService.getCurrentUser())
 
@@ -69,7 +120,7 @@
     }
   }
 
-  const initDashboardLogout = () => {
+  const initDashboardLogout = (userId) => {
     const logoutButtons = document.querySelectorAll('[data-dashboard-logout]')
 
     logoutButtons.forEach((button) => {
@@ -78,6 +129,8 @@
 
         try {
           await window.authService.logout()
+
+          resetChannelModalState(userId)
 
           window.location.replace('./auth.html#login')
         } catch (error) {
@@ -110,9 +163,11 @@
 
       initDashboardNavigation(renderDashboardView)
 
-      initDashboardLogout()
+      initDashboardLogout(currentUser.id)
 
       await renderDashboardView()
+
+      scheduleChannelModal(currentUser)
 
       try {
         await refreshDashboardScoreData(currentUser)
